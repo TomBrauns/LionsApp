@@ -1,14 +1,14 @@
-As a User I want to be able to navigate through the App by acceessing the Burgermenu
-As a User I want a Calender-overview of the Events to see the upcoming Events.
-AS a Customer I want to receive notification when a new Event occurs.
-AS a Customer I want to have a QR-Code for an easy access to the App.
-AS an User I would like a linking to the shop to buy some Articles.
-As a User I want to have access to different blogs in relation to the Organisation.
-As a Customer I want receits for tax review.
-AS an Organisation I want to portray the current Donation status to portray how much has been donated yet.
-As a User I want to see the relevant Events using GPS to know which type of Events are happening in my Area.
-As an Organizer I want an admin panel, to have an overview of the donation progress.
-As an Organizer I want an admin panel, to create new Events.
+Als ein Nutzer will ich in der Lage sein mithilfe von einem Burgermenu durch die App zu navigieren.
+As a User I want a Calender-overview of the Events to see the upcoming Events. Als ein Nutzer brauche ich eine Kalenderübersicht um Events in meiner Nähe zu sehen.
+Als ein Nutzer will ich Notifikationen erhalten, wenn es ein Event in meiner Nähe gibt.
+Als ein Nutzer will ich einen QR-Code einscannen können, um leicher zu den Events zu kommen.
+Als ein Nutzer will ich eine Verlinkung zu dem Shop haben, um Artikel kaufen zu können.
+Als ein Nutzer will ich Zugriff auf die Blockeinträge haben, um über die Neuheiten der Organisation informiert zu werden.
+Als ein Spender will ich einen Beleg für meine Steuererklärung.
+Als eine Organisation möchte ich den Live-Spenden Zähler abbilden, um den Spendenstatus darzustellen.
+Als ein Nutzer möchte ich relevante Events in meiner Nähe mithilfe von GPS angezeigt bekommen.
+Als ein Oranisator will ich eine Verwaltungsoberfläche, um den Spendenstatus einzusehen. 
+Als ein Oranisator will ich eine Verwaltungsoberfläche, um neue Veranstaltungen zu kreieren.
 Als ein Benutzer will ich in der Lage sein, meine sozialen Medienkontake zu verknüpfen, um meine Freunde von den aktuellen Events zu berichten. 
 Als ein Benutzer will ich in der Lage sein, mich zu registrieren, um meine personenbezogenen Daten zu speichern.
 Als ein Benutzer will ich in der Lage sein, mich anzumelden wenn ich bereits registriert bin, um auf meine Profildaten zuzugreifen.
