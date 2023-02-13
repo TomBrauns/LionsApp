@@ -13,10 +13,10 @@ Der Hauptfokus soll jedoch im unkomplizierten Sammeln von Spenden liegen.
 
 
 # Glossar
-- Projekte:
-- Event:
-- Clubs:
-- Nutzer:
-- Gast:
-- Freund:
-- Mitglied:
+- Projekt: Hilfeaktion für eine bestimmte Bedürftigkeit
+- Event: Veranstalltung um für ein bestimmtes Projekt spenden zu sammeln
+- Club: Verein wie z.B. Club Lions Kaiserslautern
+- Nutzer: Generalisierung von Gast, Freund und Mitglied. 
+- Gast: Eine Person, die eventuell ohne Registrierung bzw Anmeldung spenden möchte
+- Freund: Friend and Family, der Club Aktivitäten verfolgt und teilnimmt
+- Mitglied: Clubmitglied, der in organisatorischen Aktivitäten teilnimmt.
