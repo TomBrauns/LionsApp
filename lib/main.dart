@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import './Widgets/burgermenu.dart';
 
+import 'Widgets/datepicker.dart';
+
+
 //Hier mal ein Kommi, um den Branch zu testen
 
 void main() {
@@ -58,6 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DateTimePicker()));
+              },
+              child: const Text('Go back!'),
             ),
           ],
         ),
