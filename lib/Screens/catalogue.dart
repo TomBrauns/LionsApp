@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/widgets/burgermenu.dart';
 
-class Donations extends StatefulWidget {
-  const Donations({Key? key}) : super(key: key);
+class Catalogue extends StatefulWidget {
+  const Catalogue({Key? key}) : super(key: key);
 
   @override
-  State<Donations> createState() => _DonationsState();
+  State<Catalogue> createState() => _CatalogueState();
 }
 
-class _DonationsState extends State<Donations> {
+class _CatalogueState extends State<Catalogue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
       appBar: AppBar(
-        title: const Text("Spenden"),
+        title: const Text("Katalog"),
       ),
     );
   }

@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
-//import './Widgets/burgermenu.dart';
-
-import './Screens/calendar.dart';
-import './Screens/catalog.dart';
-import './Screens/chat.dart';
-import './Screens/contact.dart';
-import './Screens/donation.dart';
-import './Screens/imprint.dart';
-import './Screens/user.dart';
+import './Widgets/burgermenu.dart';
 
 //Hier mal ein Kommi, um den Branch zu testen
 
@@ -52,38 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text("Drawer Header"),
-            ),
-            ListTile(
-              title: const Text('Calendar'),
-              onTap: () {
-                // Push to Screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Calendar()),
-                );
-                // Update State of App
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update State of App
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const BurgerMenu(),
       appBar: AppBar(
         title: Text(widget.title),
       ),

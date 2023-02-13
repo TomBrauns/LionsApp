@@ -1,44 +1,133 @@
-//Missing References
-
 import 'package:flutter/material.dart';
+import 'package:lionsapp/main.dart';
 
-class BurgerMenu extends StatelessWidget {
+import '../Screens/calendar.dart';
+import '../Screens/catalogue.dart';
+import '../Screens/chat.dart';
+import '../Screens/contact.dart';
+import '../Screens/donation.dart';
+import '../Screens/imprint.dart';
+import '../Screens/user.dart';
+
+class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
 
   @override
+  State<BurgerMenu> createState() => _BurgerMenuState();
+}
+
+class _BurgerMenuState extends State<BurgerMenu> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text("Drawer Header"),
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
             ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Push to Screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutUs()),
-                );
-                // Update State of App
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update State of App
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
+            child: Text("Drawer Header"),
+          ),
+          ListTile(
+            title: const Text('Startseite'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const MyHomePage(title: "My Home Page")),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Benutzer'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const User()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Kalender'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Calendar()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Katalog'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Catalogue()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Spenden'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Donations()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Impressum'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Imprint()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Kontakt'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Contact()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Chat'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Chat()),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
