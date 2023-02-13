@@ -9,7 +9,7 @@ Zusätzlich soll es eine Möglichkeit zum Anmelden für Friends and Family geben
 
 Clubmitglieder, die u.A. in organisatorischen Ereignissen beteilgt sind, sollten mit einem Kalender und Chat bestattet sein, um den zeitlichen Überblick zu haben und organisatorische Fragen in Gruppen im Chat klären zu können.
 
-Der Hauptfokus soll jedoch im unkomplizierten Sammeln von Spenden liegen.
+Der Hauptfokus sollte jedoch im unkomplizierten Sammeln von Spenden liegen.
 
 
 # Glossar
