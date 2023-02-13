@@ -10,6 +10,9 @@ import './Screens/donation.dart';
 import './Screens/imprint.dart';
 import './Screens/user.dart';
 
+import 'Widgets/datepicker.dart';
+
+
 //Hier mal ein Kommi, um den Branch zu testen
 
 void main() {
@@ -97,6 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DateTimePicker()));
+              },
+              child: const Text('Go back!'),
             ),
           ],
         ),
