@@ -1,7 +1,7 @@
 # Willkommen TEAM LIONS
 
 
-**Auftrag: **
+# Unser Auftrag
 
 Wir sind damit beauftragt, eine Web Application für den Club Lions in Kaiserslautern zu entwickeln, die hauptsächlich zum Sammeln von Spenden dienen soll, in dem Gäste in Events über vorort befindlichen QR Codes einscannen und spennden können. 
 
