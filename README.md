@@ -20,3 +20,5 @@ Der Hauptfokus sollte jedoch im unkomplizierten Sammeln von Spenden liegen.
 - Gast: Eine Person, die eventuell ohne Registrierung bzw Anmeldung spenden möchte
 - Freund: Friend and Family, der Club Aktivitäten verfolgt und teilnimmt
 - Mitglied: Clubmitglied, der in organisatorischen Aktivitäten teilnimmt.
+- Admin: Clubmitglied, der Konfigurationstätigkeiten für Projekte / Katalog ausübt und Mitgliedrechte
+          vergibt. 
