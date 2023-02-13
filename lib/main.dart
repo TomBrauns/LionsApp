@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+//import './Widgets/burgermenu.dart';
+
+import './Screens/calendar.dart';
+import './Screens/catalog.dart';
+import './Screens/chat.dart';
+import './Screens/contact.dart';
+import './Screens/donation.dart';
+import './Screens/imprint.dart';
+import './Screens/user.dart';
+
 //Hier mal ein Kommi, um den Branch zu testen
 
 void main() {
@@ -53,15 +63,22 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Drawer Header"),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text('Calendar'),
               onTap: () {
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Calendar()),
+                );
                 // Update State of App
+                Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Item 2'),
               onTap: () {
                 // Update State of App
+                Navigator.pop(context);
               },
             ),
           ],
