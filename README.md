@@ -12,7 +12,7 @@ Clubmitglieder, die u.A. in organisatorischen Ereignissen beteilgt sind, sollten
 Der Hauptfokus soll jedoch im unkomplizierten Sammeln von Spenden liegen.
 
 
-#Glossar
+# Glossar
 - Projekte:
 - Event:
 - Clubs:
