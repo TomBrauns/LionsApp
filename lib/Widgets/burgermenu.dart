@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/main.dart';
 
 import '../Screens/calendar.dart';
@@ -9,7 +10,9 @@ import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
 import '../Screens/user.dart';
 
+// Test Value
 String privilege = "Member";
+//
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -135,6 +138,19 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Imprint()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('>>Quittung<< Temporär'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DonationRecieved()),
               );
             },
           ),
