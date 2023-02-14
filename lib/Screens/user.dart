@@ -11,6 +11,9 @@ class _UserState extends State<User> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Lions App"),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
