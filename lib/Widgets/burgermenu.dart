@@ -9,6 +9,8 @@ import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
 import '../Screens/user.dart';
 
+String privilege = "Member";
+
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
 
@@ -44,42 +46,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
-            title: const Text('Benutzer'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const User()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Kalender'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Calendar()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Katalog'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Catalogue()),
-              );
-            },
-          ),
-          ListTile(
             title: const Text('Spenden'),
             onTap: () {
               // Update State of App
@@ -91,18 +57,63 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
-          ListTile(
-            title: const Text('Impressum'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Imprint()),
-              );
-            },
-          ),
+          privilege == "Member" || privilege == "Friend"
+              ? ListTile(
+                  title: const Text('Benutzer'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const User()),
+                    );
+                  },
+                )
+              : Container(),
+          privilege == "Member" || privilege == "Friend"
+              ? ListTile(
+                  title: const Text('Kalender'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Calendar()),
+                    );
+                  },
+                )
+              : Container(),
+          privilege == "Member" || privilege == "Friend"
+              ? ListTile(
+                  title: const Text('Katalog'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Catalogue()),
+                    );
+                  },
+                )
+              : Container(),
+          privilege == "Member"
+              ? ListTile(
+                  title: const Text('Chat'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Chat()),
+                    );
+                  },
+                )
+              : Container(),
           ListTile(
             title: const Text('Kontakt'),
             onTap: () {
@@ -116,14 +127,14 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
-            title: const Text('Chat'),
+            title: const Text('Impressum'),
             onTap: () {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Chat()),
+                MaterialPageRoute(builder: (context) => const Imprint()),
               );
             },
           ),
