@@ -15,7 +15,18 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
 
+  String dropDownValue = 'Item 1';
 
+  //Werden aus der Datenbank gezogen
+  static const items = [
+    'Diese',
+    'Items',
+    'kommen',
+    'bald',
+    'aus',
+    'der',
+    'Datenbank'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +108,8 @@ class _CreateEvent extends State<CreateEvent> {
                         print("Kein Datum ausgewählt");
                       }
                     },
-                  )
-                )
+                  ),
+                ),
               ],
             )
           ],
