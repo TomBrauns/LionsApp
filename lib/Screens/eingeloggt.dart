@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lionsapp/Widgets/dropdownEingeloggt.dart';
 import 'package:lionsapp/widgets/burgermenu.dart';
 
 class Eingeloggt extends StatefulWidget {
@@ -56,9 +57,20 @@ class _EingeloggtState extends State<Eingeloggt> {
               child: Column(
                 children: <Widget>[
                   ElevatedButton(onPressed: null, child: const Text('Spenden')),
+                  CheckboxListTile(
+                    value: null,
+                    title: Text("title text"),
+                    onChanged: null,
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
+                  )
                 ],
               ),
             ),
+            Container(
+                child: Column(
+              children: <Widget>[DropdownButtonList()],
+            ))
           ]),
         ));
   }
