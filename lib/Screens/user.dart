@@ -1,13 +1,55 @@
 import 'package:flutter/material.dart';
 
-class User extends StatefulWidget {
+class UseForm extends StatefulWidget {
+  const UseForm({super.key});
 
+  @override
+  State<UseForm> createState() => _UseFormState();
+}
+
+class _UseFormState extends State<UseForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    const appTitle = 'User login';
+
+    return Form(
+      key: _formKey,
+      child: Column(children: <Widget>[
+        TextFormField(
+          
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Eingabe fehlt';
+            }
+            return null;
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: ElevatedButton(onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Processing Data')),
+              );
+            }
+          },
+          child: const Text('Submit'),
+          ),
+        ),
+      ]),
+    );
+  }
+}
+
+/*class User extends StatefulWidget {
+  const User({super.key});
   @override
   State<User> createState() => _UserState();
 }
 
 class _UserState extends State<User> {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -69,10 +111,6 @@ class _UserState extends State<User> {
           ],
         ),
       ),
-<<<<<<< HEAD
-=======
-
->>>>>>> 7606f285d3aa56def2eeba3823d8a9096d7231b2
     );
   }
-}
+}*/
