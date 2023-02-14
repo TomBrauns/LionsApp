@@ -9,9 +9,17 @@ class Donations extends StatefulWidget {
 }
 
 class _DonationsState extends State<Donations> {
+  static const subscriptions = [
+    "Einmalig",
+    "Monatlich",
+    "Halbjährlich",
+    "Jährlich"
+  ];
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _inputController = TextEditingController();
   bool _isReceiptChecked = false;
+  String selectedSubscription = subscriptions[0];
 
   int _getCurrentValue() {
     return int.tryParse(_inputController.value.text) ?? 0;
@@ -21,10 +29,14 @@ class _DonationsState extends State<Donations> {
     _inputController.text = (_getCurrentValue() + value).toString();
   }
 
+  void _handleSubscriptionChange(String? subscription) {
+    selectedSubscription = subscription ?? selectedSubscription;
+  }
+
   void _handleSubmit() {
     int value = _getCurrentValue();
     // TODO Submitted
-    print("Value=$value, Quittung=$_isReceiptChecked");
+    print("Value=$value, Quittung=$_isReceiptChecked, Sub=$selectedSubscription");
   }
 
   @override
@@ -57,6 +69,17 @@ class _DonationsState extends State<Donations> {
                                 value: 0.42, minHeight: 24.0),
                           ]),
                     ),
+                    DropdownButtonFormField(
+                      value: selectedSubscription,
+                      items: subscriptions
+                          .map<DropdownMenuItem<String>>(((sub) =>
+                              DropdownMenuItem(value: sub, child: Text(sub))))
+                          .toList(),
+                      onChanged: _handleSubscriptionChange,
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
+                    ),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: _inputController,
                       decoration: const InputDecoration(
