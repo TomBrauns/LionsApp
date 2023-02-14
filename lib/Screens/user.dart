@@ -69,6 +69,10 @@ class _UserState extends State<User> {
           ],
         ),
       ),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7606f285d3aa56def2eeba3823d8a9096d7231b2
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import './Widgets/burgermenu.dart';
+import '../Screens/donation.dart';
 
 import 'Widgets/datepicker.dart';
-
 
 //Hier mal ein Kommi, um den Branch zu testen
 
@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const Donations(),
     );
   }
 }
@@ -64,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DateTimePicker()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DateTimePicker()));
               },
               child: const Text('Go back!'),
             ),
