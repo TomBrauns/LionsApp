@@ -24,7 +24,7 @@ class _DonationRecievedState extends State<DonationRecieved> {
         body: Center(
             child: Column(children: <Widget>[
           Container(
-            margin: EdgeInsets.all(40),
+            margin: const EdgeInsets.all(40),
             padding: const EdgeInsets.all(40.0),
             decoration: BoxDecoration(
                 color: Color.fromARGB(156, 141, 196, 241),
@@ -33,13 +33,13 @@ class _DonationRecievedState extends State<DonationRecieved> {
                 "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName"),
           ),
           Container(
-            margin: EdgeInsets.all(25),
+            margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
-              icon: Icon(
+              icon: const Icon(
                 Icons.receipt,
                 size: 24.0,
               ),
-              label: Text('Quittung'),
+              label: const Text('Quittung'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -53,13 +53,13 @@ class _DonationRecievedState extends State<DonationRecieved> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(25),
+            margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
-              icon: Icon(
+              icon: const Icon(
                 Icons.share,
                 size: 24.0,
               ),
-              label: Text('Teilen'),
+              label: const Text('Teilen'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -78,7 +78,7 @@ class _DonationRecievedState extends State<DonationRecieved> {
                 .min, // this will take space as minimum as posible(to center)
             children: <Widget>[
               ElevatedButton(
-                child: new Text('Startseite'),
+                child: const Text('Startseite'),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
@@ -90,7 +90,7 @@ class _DonationRecievedState extends State<DonationRecieved> {
                 },
               ),
               ElevatedButton(
-                child: new Text('Eventseite'),
+                child: const Text('Eventseite'),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
