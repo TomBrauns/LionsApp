@@ -127,19 +127,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
-          ListTile(
-            title: const Text('>>Quittung<< Temporär'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DonationRecieved()),
-              );
-            },
-          ),
         ],
       ),
     );

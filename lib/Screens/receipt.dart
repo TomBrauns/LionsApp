@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/main.dart';
 
 // Test Values
@@ -84,9 +85,7 @@ class _DonationRecievedState extends State<DonationRecieved> {
                   // Push to Screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "My Home Page")),
+                    MaterialPageRoute(builder: (context) => const Donations()),
                   );
                 },
               ),
@@ -98,9 +97,7 @@ class _DonationRecievedState extends State<DonationRecieved> {
                   // Push to Screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "My Home Page")),
+                    MaterialPageRoute(builder: (context) => const Donations()),
                   );
                 },
               ),
