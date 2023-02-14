@@ -35,20 +35,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
             child: Text("Drawer Header"),
           ),
           ListTile(
-            title: const Text('Startseite'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        const MyHomePage(title: "My Home Page")),
-              );
-            },
-          ),
-          ListTile(
             title: const Text('Spenden'),
             onTap: () {
               // Update State of App
