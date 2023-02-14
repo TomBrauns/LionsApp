@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/widgets/burgermenu.dart';
 
-
-
-class Chat extends StatefulWidget {
-  const Chat({Key? key}) : super(key: key);
+class Imprint extends StatefulWidget {
+  const Imprint({Key? key}) : super(key: key);
 
   @override
-  State<Chat> createState() => _CalendarState();
+  State<Imprint> createState() => _ImprintState();
 }
 
-class _CalendarState extends State<Chat> {
+class _ImprintState extends State<Imprint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
       appBar: AppBar(
-        title: const Text("Chat"),
+        title: const Text("Impressum"),
       ),
     );
   }
