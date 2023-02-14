@@ -55,7 +55,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const User()),
+                      MaterialPageRoute(builder: (context) => User()),
                     );
                   },
                 )
