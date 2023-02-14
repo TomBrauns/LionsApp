@@ -1,4 +1,4 @@
-# Willkommen TEAM LIONS
+# Willkommen bei TEAM LIONS
 
 
 # Unser Auftrag
