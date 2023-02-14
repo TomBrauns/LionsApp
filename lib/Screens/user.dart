@@ -10,7 +10,10 @@ class _UserState extends State<User> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Lions App"),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -69,10 +72,6 @@ class _UserState extends State<User> {
           ],
         ),
       ),
-<<<<<<< HEAD
-=======
-
->>>>>>> 7606f285d3aa56def2eeba3823d8a9096d7231b2
     );
   }
 }
