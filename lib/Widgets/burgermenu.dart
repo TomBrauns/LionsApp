@@ -9,6 +9,7 @@ import '../Screens/contact.dart';
 import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
 import '../Screens/user.dart';
+import '../Screens/events.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -79,6 +80,20 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Calendar()),
+                    );
+                  },
+                )
+              : Container(),
+          privilege == "Member" || privilege == "Friend"
+              ? ListTile(
+                  title: const Text('Events'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Events()),
                     );
                   },
                 )
