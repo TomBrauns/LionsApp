@@ -23,12 +23,22 @@ class _DonationRecievedState extends State<DonationRecieved> {
         body: Center(
             child: Column(children: <Widget>[
           Container(
-              child: Text(
-                  "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName")),
+            margin: EdgeInsets.all(40),
+            padding: const EdgeInsets.all(40.0),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(156, 141, 196, 241),
+                border: Border.all(color: Colors.blueAccent)),
+            child: Text(
+                "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName"),
+          ),
           Container(
             margin: EdgeInsets.all(25),
-            child: ElevatedButton(
-              child: Text("Quittung"),
+            child: ElevatedButton.icon(
+              icon: Icon(
+                Icons.receipt,
+                size: 24.0,
+              ),
+              label: Text('Quittung'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -43,8 +53,12 @@ class _DonationRecievedState extends State<DonationRecieved> {
           ),
           Container(
             margin: EdgeInsets.all(25),
-            child: ElevatedButton(
-              child: Text("Teilen"),
+            child: ElevatedButton.icon(
+              icon: Icon(
+                Icons.share,
+                size: 24.0,
+              ),
+              label: Text('Teilen'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
