@@ -6,12 +6,7 @@ import '../Screens/donation.dart';
 
 import 'Widgets/datepicker.dart';
 
-
-
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
+void main() async {
   runApp(const MyApp());
 }
 
