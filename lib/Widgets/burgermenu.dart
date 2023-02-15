@@ -195,6 +195,21 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
+          /// Following functions are for Admins only
+          privilege == "Admin"
+              ? ListTile(
+            title: const Text('Nutzerverwaltung'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => User()),
+              );
+            },
+          )
+              : Container(),
         ],
       ),
     );
