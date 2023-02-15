@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class User extends StatefulWidget {
@@ -105,6 +106,21 @@ class _UserState extends State<User> {
                       builder: (context) => const Accessibility()),
                 );
               },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.logout,
+                size: 24.0,
+              ),
+              label: const Text('Ausloggen'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {},
             ),
           ),
         ])));
@@ -265,7 +281,6 @@ class _AccessibilityState extends State<Accessibility> {
         appBar: AppBar(
           title: const Text("Bedienungshilfe"),
         ),
-        drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
           Text("Fontgröße"),
@@ -327,6 +342,14 @@ class ProfilePicture extends StatefulWidget {
 class _ProfilePictureState extends State<ProfilePicture> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Profilbild ändern"),
+        ),
+        body: Center(
+          child: Column(
+            children: [],
+          ),
+        ));
   }
 }

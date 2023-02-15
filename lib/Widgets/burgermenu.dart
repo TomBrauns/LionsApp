@@ -27,7 +27,7 @@ class BurgerMenu extends StatefulWidget {
 
 class _BurgerMenuState extends State<BurgerMenu> {
   // Test Value
-  String privilege = "Member";
+  String privilege = "Admin";
   //
   @override
   Widget build(BuildContext context) {
