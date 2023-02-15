@@ -33,7 +33,7 @@ class _RegisterState extends State<Register> {
     'member',
   ];
   var _currentItemSelected = "friend";
-  var rool = "friend";
+  var rool = "member";
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +197,7 @@ class _RegisterState extends State<Register> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Rool : ",
+                              "Role : ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -248,7 +248,10 @@ class _RegisterState extends State<Register> {
                               height: 40,
                               onPressed: () {
                                 CircularProgressIndicator();
-                                Navigator.push(923321843822text) => LoginPage(),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
                                   ),
                                 );
                               },
