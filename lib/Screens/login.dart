@@ -13,8 +13,20 @@ class _LoginState extends State<Login> {
     return Scaffold(
         body: Center(
       child: Column(children: [
-        ElevatedButton(onPressed: null, child: Text("Name/Email")),
-        ElevatedButton(onPressed: null, child: Text("Passwort")),
+        TextField(
+          obscureText: true,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Name/Email',
+          ),
+        ),
+        TextField(
+          obscureText: true,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Passwort',
+          ),
+        ),
         ElevatedButton(onPressed: null, child: Text("Anmelden")),
         ElevatedButton(onPressed: null, child: Text("Passwort vergessen?")),
       ]),
