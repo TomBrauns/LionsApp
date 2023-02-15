@@ -4,6 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:intl/date_time_patterns.dart';
 
+//Firebase integration
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
 
@@ -158,13 +163,20 @@ class _CreateEvent extends State<CreateEvent> {
             ),
             Center(
               child:
-                ElevatedButton(
-                  // TODO Dem Button noch eine passende Funktionalität zuweisen
-                  onPressed: () {  },
+                FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  onPressed: () {
+
+                    FirebaseFirestore.instance.collection('events').add({
+                      'startDate':_startDateController.text,
+                      'endDate':_endDateController.text,
+                      'eventInfo':_eventInfoController.text,
+                      'spendenZiel':_spendenzielController.text
+                    });
+                  },
                   child:
                   Text('Event anlegen'),
                 )
-
             )
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import './Widgets/burgermenu.dart';
@@ -5,9 +6,12 @@ import '../Screens/donation.dart';
 
 import 'Widgets/datepicker.dart';
 
-//Hier mal ein Kommi, um den Branch zu testen
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
