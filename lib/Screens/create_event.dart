@@ -156,9 +156,10 @@ class _CreateEvent extends State<CreateEvent> {
             Center(
               child:
                 ElevatedButton(
+                  // TODO Dem Button noch eine passende Funktionalität zuweisen
                   onPressed: () {  },
                   child:
-                  Text('Link zur spezifischen Spende'),
+                  Text('Event anlegen'),
                 )
 
             )
