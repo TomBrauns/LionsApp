@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "923321843822",
+    "firebase_url": "https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "lionsapp-973b3",
     "storage_bucket": "lionsapp-973b3.appspot.com"
   },
@@ -31,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com",
+              "client_id": "923321843822-5nja1bbhpi2u2be2oi3vbhbei7c62rdh.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.teamlion.lionsapp"
+                "bundle_id": "com.lionclub.lionsapp"
               }
             }
           ]

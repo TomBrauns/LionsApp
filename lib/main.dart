@@ -1,15 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../Screens/donation.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  /*await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw",
           appId: "1:923321843822:android:e238895b700aaf2180e67f",
           messagingSenderId: "923321843822",
-          projectId: "lionsapp-973b3"));
+          projectId: "lionsapp-973b3"));*/
   runApp(const MyApp());
 }
 
