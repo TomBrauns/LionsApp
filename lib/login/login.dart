@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 60,
+                          height: 20,
                         ),
                         Text(
                           "Login",
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 100,
+                      height: 40,
                     ),
                     MaterialButton(
                       shape: RoundedRectangleBorder(
