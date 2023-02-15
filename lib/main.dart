@@ -1,18 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import './Widgets/burgermenu.dart';
 import '../Screens/donation.dart';
-
-import 'Widgets/datepicker.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw",
+          appId: "1:923321843822:android:e238895b700aaf2180e67f",
+          messagingSenderId: "",
+          projectId: "lionsapp-973b3"));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -21,11 +24,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),
-      home: Donations(),
+      home: const Donations(),
     );
   }
 }
