@@ -14,7 +14,8 @@ class _User_managementState extends State<User_management> {
     return Scaffold(
       drawer: const BurgerMenu(),
       appBar: AppBar(
-        title: const Text("Nutzerverwaltung"),
+        title: const Text(
+            "Nutzerverwaltung"),
       ),
     );
   }
