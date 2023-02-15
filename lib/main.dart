@@ -1,9 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import './Widgets/burgermenu.dart';
-=======
->>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
 import '../Screens/donation.dart';
 
 Future<void> main() async {
