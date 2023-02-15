@@ -18,8 +18,13 @@ class _ContactState extends State<Contact> {
       appBar: AppBar(
         title: const Text("Kontakt"),
       ),
-      body: const MBContactForm(
+      body: const Column(
+        children: [
+        MBContactForm(
         hasHeading: true, withIcons: false, destinationEmail: "XXXXX@yahoo.com"),
+        Text("Weitere Daten")
+
+      ],)
     );
   }
 }
