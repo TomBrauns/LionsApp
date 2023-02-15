@@ -19,6 +19,8 @@ class _CreateEvent extends State<CreateEvent> {
 
   TextEditingController _eventInfoController = TextEditingController();
 
+  TextEditingController _spendenzielController = TextEditingController();
+
 
 
 
@@ -42,6 +44,28 @@ class _CreateEvent extends State<CreateEvent> {
                     Text("Spendenziel"),
                     LinearProgressIndicator(value: 0.77, minHeight: 24.0),
                   ]),
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 40,
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Spendenziel festlegen: '
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 40,
+                    child: TextField(
+                      controller: _spendenzielController,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.euro),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ),
             Row(
               children: <Widget>[
@@ -110,7 +134,7 @@ class _CreateEvent extends State<CreateEvent> {
               )
 
             ),
-            Center(
+            const Center(
               child: DropdownButtonExample(),
             ),
             Center(
@@ -122,8 +146,8 @@ class _CreateEvent extends State<CreateEvent> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               reverse: true,
-              child: new TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Information eintragen',
                 ),
