@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/create_event.dart';
 import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/main.dart';
 
@@ -9,10 +10,7 @@ import '../Screens/contact.dart';
 import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
 import '../Screens/user.dart';
-
-// Test Value
-String privilege = "Member";
-//
+import '../Screens/events.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -22,17 +20,30 @@ class BurgerMenu extends StatefulWidget {
 }
 
 class _BurgerMenuState extends State<BurgerMenu> {
+  // Test Value
+  String privilege = "Member";
+  //
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 29, 89, 167),
             ),
-            child: Text("Drawer Header"),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                children: const [
+                  Text(
+                    "Lions App",
+                    textScaleFactor: 1.3,
+                  ),
+                ],
+              ),
+            ),
           ),
           ListTile(
             title: const Text('Spenden'),
@@ -76,6 +87,20 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
           privilege == "Member" || privilege == "Friend"
               ? ListTile(
+                  title: const Text('Events'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Events()),
+                    );
+                  },
+                )
+              : Container(),
+          privilege == "Member" || privilege == "Friend"
+              ? ListTile(
                   title: const Text('Katalog'),
                   onTap: () {
                     // Update State of App
@@ -102,6 +127,20 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     );
                   },
                 )
+              : Container(),
+          privilege == "Member"
+              ? ListTile(
+            title: const Text('Event erstellen'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreateEvent()),
+              );
+            },
+          )
               : Container(),
           ListTile(
             title: const Text('Kontakt'),

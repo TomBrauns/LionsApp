@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/Screens/user.dart';
 
 class Donations extends StatefulWidget {
   const Donations({Key? key}) : super(key: key);
@@ -15,6 +16,10 @@ class _DonationsState extends State<Donations> {
     "Halbjährlich",
     "Jährlich"
   ];
+
+  // Test Value
+  String privilege = "Member";
+  //
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _inputController = TextEditingController();
@@ -36,7 +41,8 @@ class _DonationsState extends State<Donations> {
   void _handleSubmit() {
     int value = _getCurrentValue();
     // TODO Submitted
-    print("Value=$value, Quittung=$_isReceiptChecked, Sub=$selectedSubscription");
+    print(
+        "Value=$value, Quittung=$_isReceiptChecked, Sub=$selectedSubscription");
   }
 
   @override
@@ -44,8 +50,22 @@ class _DonationsState extends State<Donations> {
     return Scaffold(
         drawer: const BurgerMenu(),
         appBar: AppBar(
-          title: const Text("Spenden"),
-        ),
+            title: const Text("Spenden"),
+            // User Icon in AppBar
+            actions: <Widget>[
+              privilege == "Member" || privilege == "Friend"
+                  ? IconButton(
+                      icon: Icon(Icons.person),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => User()),
+                        );
+                      })
+                  : Container(),
+              // End User Icon
+            ]),
         body: Container(
             padding: const EdgeInsets.all(16),
             child: Form(
