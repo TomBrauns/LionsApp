@@ -88,7 +88,6 @@ class _CreateEvent extends State<CreateEvent> {
                           String formattedStartDate =
                               DateFormat('dd.MM.yyyy').format(pickedDate);
                           print(formattedStartDate);
-
                           setState(() {
                             _startDateController.text = formattedStartDate;
                           });
