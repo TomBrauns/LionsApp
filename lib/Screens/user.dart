@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import '../Widgets/burgermenu.dart';
+=======
+import 'package:lionsapp/Widgets/burgermenu.dart';
+>>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
 
-class User extends StatelessWidget {
+class User extends StatefulWidget {
   const User({super.key});
 
+<<<<<<< HEAD
   static const String _title = 'Kontakt';
+=======
+  @override
+  State<User> createState() => _UserState();
+}
+>>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
 
+class _UserState extends State<User> {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
       title: _title,
       home: Scaffold(
@@ -16,6 +28,105 @@ class User extends StatelessWidget {
         body: const UserForm(),
       ),
     );
+=======
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Benutzer"),
+        ),
+        drawer: const BurgerMenu(),
+        body: Center(
+            child: Column(children: <Widget>[
+          Container(
+              child: Column(children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.account_circle),
+              tooltip: 'Profilbild ändern',
+              iconSize: 70,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfilePicture()),
+                );
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 10),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfilePicture()),
+                );
+              },
+              child: const Text('Profilbild ändern'),
+            )
+          ])),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.badge,
+                size: 24.0,
+              ),
+              label: const Text('Nutzerdaten ändern'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const UserForm()),
+                );
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.card_membership,
+                size: 24.0,
+              ),
+              label: const Text('Abos Verwalten'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Subs()),
+                );
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.accessibility_new,
+                size: 24.0,
+              ),
+              label: const Text('Bedienungshilfe'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Accessibility()),
+                );
+              },
+            ),
+          ),
+        ])));
+>>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
   }
 }
 
@@ -27,10 +138,9 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Center(
         child: Container(
       margin: const EdgeInsets.all(67),
@@ -144,5 +254,208 @@ class _UserFormState extends State<UserForm> {
                 ],
               ))),
     ));
+=======
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Nutzerdaten"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: 'Namen',
+                hintText: 'Vor und Nachnamen eingeben',
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.blue,
+                  size: 25,
+                )),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Geben Sie Ihre Namen ein';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: 'E-Mail',
+                hintText: 'Email eingeben',
+                icon: Icon(
+                  Icons.email,
+                  color: Colors.blue,
+                  size: 25,
+                )),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Geben Sie Ihre Email Adresse ein';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: 'Passwort',
+                hintText: 'Passwort',
+                icon: Icon(
+                  Icons.email,
+                  color: Colors.blue,
+                  size: 25,
+                )),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Geben Sie ein Passwort';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: 'Passwort',
+                hintText: 'Passwort',
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.blue,
+                  size: 25,
+                )),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Geben Sie ein Passwort';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: 'Passwort Bestätigen',
+                hintText: 'Passwort',
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.blue,
+                  size: 25,
+                )),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Passwort bestätigen';
+              }
+              return null;
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Validate will return true if the form is valid, or false if
+                // the form is invalid.
+                //if (_formKey.currentState!.validate()) {
+                // Process data.
+                //}
+              },
+              child: const Text('Bestätigen'),
+            ),
+          ),
+        ],
+      ),
+    );
+>>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
+  }
+}
+
+class Subs extends StatefulWidget {
+  const Subs({super.key});
+
+  @override
+  State<Subs> createState() => _SubsState();
+}
+
+class _SubsState extends State<Subs> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
+class Accessibility extends StatefulWidget {
+  const Accessibility({super.key});
+
+  @override
+  State<Accessibility> createState() => _AccessibilityState();
+}
+
+class _AccessibilityState extends State<Accessibility> {
+  String dropdownValue = list.first;
+  double _currentSliderValue = 3;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Bedienungshilfe"),
+        ),
+        drawer: const BurgerMenu(),
+        body: Center(
+            child: Column(children: <Widget>[
+          Text("Fontgröße"),
+          Slider(
+              value: _currentSliderValue,
+              max: 5,
+              divisions: 1,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                });
+              }),
+          Text("Farbenblindheitsmodus"),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+            underline: Container(
+              height: 2,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+          Container(
+            margin: EdgeInsets.all(25),
+            child: ElevatedButton(
+              child: Text("Bestätigen"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ])));
+  }
+}
+
+class ProfilePicture extends StatefulWidget {
+  const ProfilePicture({super.key});
+
+  @override
+  State<ProfilePicture> createState() => _ProfilePictureState();
+}
+
+class _ProfilePictureState extends State<ProfilePicture> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

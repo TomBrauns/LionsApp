@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/create_event.dart';
+import 'package:lionsapp/Screens/paymethode.dart';
 import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/main.dart';
 
@@ -11,6 +12,11 @@ import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
 import '../Screens/user.dart';
 import '../Screens/events.dart';
+import '../Screens/user_management.dart';
+import '../Screens/contact_mailbox.dart';
+
+import '../login/login.dart';
+import '../login/register.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -57,7 +63,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
-          privilege == "Member" || privilege == "Friend"
+        privilege == "Admin" || privilege == "Member" || privilege == "Friend"
               ? ListTile(
                   title: const Text('Benutzer'),
                   onTap: () {
@@ -71,7 +77,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Member" || privilege == "Friend"
+          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
               ? ListTile(
                   title: const Text('Kalender'),
                   onTap: () {
@@ -85,7 +91,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Member" || privilege == "Friend"
+          privilege == "Friend"
               ? ListTile(
                   title: const Text('Events'),
                   onTap: () {
@@ -99,7 +105,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Member" || privilege == "Friend"
+          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
               ? ListTile(
                   title: const Text('Katalog'),
                   onTap: () {
@@ -114,7 +120,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Member"
+          privilege == "Admin" || privilege == "Member"
               ? ListTile(
                   title: const Text('Chat'),
                   onTap: () {
@@ -128,19 +134,20 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Member"
+          privilege == "Admin" || privilege == "Member"
               ? ListTile(
-            title: const Text('Event erstellen'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreateEvent()),
-              );
-            },
-          )
+                  title: const Text('Event erstellen'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateEvent()),
+                    );
+                  },
+                )
               : Container(),
           ListTile(
             title: const Text('Kontakt'),
@@ -166,6 +173,60 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
+          ListTile(
+            title: const Text('Registrierung'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Register()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Login'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+          /// Following functions are for Admins only
+          privilege == "Admin"
+              ? ListTile(
+            title: const Text('Nutzerverwaltung'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => User_management()),
+              );
+            },
+          )
+              : Container(),
+          privilege == "Admin"
+              ? ListTile(
+            title: const Text('Kontaktpostfach'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (
+                    context) => ContactMailbox()),
+              );
+            },
+          )
+              : Container(),
         ],
       ),
     );

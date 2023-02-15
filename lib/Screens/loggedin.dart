@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/Widgets.dart';
 import 'package:lionsapp/Widgets/dropdownEingeloggt.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Eingeloggt extends StatefulWidget {
   const Eingeloggt({Key? key}) : super(key: key);

@@ -1,24 +1,35 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import './Widgets/burgermenu.dart';
+=======
+>>>>>>> 056ec0bb19d0ac057c60ef8e298081f61d4e3391
 import '../Screens/donation.dart';
 
-import 'Widgets/datepicker.dart';
-
-//Hier mal ein Kommi, um den Branch zu testen
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw",
+          appId: "1:923321843822:android:e238895b700aaf2180e67f",
+          messagingSenderId: "923321843822",
+          projectId: "lionsapp-973b3"));
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lions App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[900],
       ),
       home: const Donations(),
     );

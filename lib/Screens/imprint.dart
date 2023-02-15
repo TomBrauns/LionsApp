@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Imprint extends StatefulWidget {
   const Imprint({Key? key}) : super(key: key);
