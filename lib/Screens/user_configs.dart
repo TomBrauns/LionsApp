@@ -348,7 +348,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
         ),
         body: Center(
           child: Column(
-            children: [],
+            children: [Container(), Container(), Container()],
           ),
         ));
   }
