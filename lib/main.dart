@@ -6,26 +6,26 @@ import '../Screens/donation.dart';
 
 import 'Widgets/datepicker.dart';
 
-Future<void> main() async {
+
+
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: 'Lions App',
       theme: ThemeData(
-        primaryColor: Colors.blue[900],
+        primarySwatch: Colors.blue,
       ),
-      home: Donations(),
+      home: const Donations(),
     );
   }
 }

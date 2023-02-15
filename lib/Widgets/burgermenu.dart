@@ -13,9 +13,6 @@ import '../Screens/imprint.dart';
 import '../Screens/user.dart';
 import '../Screens/events.dart';
 
-import '../login/login.dart';
-import '../login/register.dart';
-
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
 
@@ -168,30 +165,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Imprint()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Registrierung'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Register()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Login'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
           ),
