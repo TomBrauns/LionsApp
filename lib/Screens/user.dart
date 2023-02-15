@@ -241,6 +241,8 @@ class _SubsState extends State<Subs> {
   }
 }
 
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
 
@@ -249,9 +251,63 @@ class Accessibility extends StatefulWidget {
 }
 
 class _AccessibilityState extends State<Accessibility> {
+  String dropdownValue = list.first;
+  double _currentSliderValue = 3;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Bedienungshilfe"),
+        ),
+        drawer: const BurgerMenu(),
+        body: Center(
+            child: Column(children: <Widget>[
+          Text("Fontgröße"),
+          Slider(
+              value: _currentSliderValue,
+              max: 5,
+              divisions: 1,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                });
+              }),
+          Text("Farbenblindheitsmodus"),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+            underline: Container(
+              height: 2,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+          Container(
+            margin: EdgeInsets.all(25),
+            child: ElevatedButton(
+              child: Text("Bestätigen"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ])));
   }
 }
 
