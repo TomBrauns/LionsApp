@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/main.dart';
 
 // Test Values
+// ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
+// ignore: non_constant_identifier_names
 var DonationAmount = 1;
 //
 
@@ -124,14 +125,14 @@ class _ReceiptState extends State<Receipt> {
         body: Center(
             child: Column(children: <Widget>[
           Container(
-            margin: EdgeInsets.all(40),
+            margin: const EdgeInsets.all(40),
             height: 50,
             child: ElevatedButton.icon(
-              icon: Icon(
+              icon: const Icon(
                 Icons.download,
                 size: 24.0,
               ),
-              label: Text('PDF herunterladen'),
+              label: const Text('PDF herunterladen'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -140,14 +141,14 @@ class _ReceiptState extends State<Receipt> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(40),
+            margin: const EdgeInsets.all(40),
             height: 50,
             child: ElevatedButton.icon(
-              icon: Icon(
+              icon: const Icon(
                 Icons.email,
                 size: 24.0,
               ),
-              label: Text('Email senden'),
+              label: const Text('Email senden'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -161,14 +162,14 @@ class _ReceiptState extends State<Receipt> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(40),
+            margin: const EdgeInsets.all(40),
             height: 50,
             child: ElevatedButton.icon(
-              icon: Icon(
+              icon: const Icon(
                 Icons.cloud_upload,
                 size: 24.0,
               ),
-              label: Text('Cloud hochladen'),
+              label: const Text('Cloud hochladen'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
                 elevation: 0,
@@ -204,21 +205,21 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
                   children: <Widget>[
                     TextField(
                       controller: myController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'eMail',
                       ),
                       obscureText: false,
                       onSubmitted: (value) {},
                     ),
                     Container(
-                      margin: EdgeInsets.all(25),
+                      margin: const EdgeInsets.all(25),
                       child: ElevatedButton(
-                        child: Text("Bestätigen"),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
                           elevation: 0,
                         ),
                         onPressed: () {},
+                        child: const Text("Bestätigen"),
                       ),
                     ),
                   ],
