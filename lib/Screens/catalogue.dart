@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import '';
 
 class Catalogue extends StatefulWidget {
   const Catalogue({Key? key}) : super(key: key);
@@ -18,14 +19,14 @@ class Category {
 class _CatalogueState extends State<Catalogue> {
   // TODO fetch this
   static const categories = [
-    Category("Sehkrafterhaltung", "projects/vision.png"),
-    Category("Kinderkrebshilfe", "projects/childhoodcancer.png"),
-    Category("Umweltschutz", "projects/environment.png"),
-    Category("Humanitäre Hilfe", "projects/humanitarian.png"),
-    Category("Hungerhilfe", "projects/hunger.png"),
-    Category("Diabeteshilfe", "projects/diabetes.png"),
-    Category("Katastrophenhilfe", "projects/disaster.png"),
-    Category("Jugendförderung", "projects/youth.png")
+    Category("Sehkrafterhaltung", "assets/projects/vision.png"),
+    Category("Kinderkrebshilfe", "assets/projects/childhoodcancer.png"),
+    Category("Umweltschutz", "assets/projects/environment.png"),
+    Category("Humanitäre Hilfe", "assets/projects/humanitarian.png"),
+    Category("Hungerhilfe", "assets/projects/hunger.png"),
+    Category("Diabeteshilfe", "assets/projects/diabetes.png"),
+    Category("Katastrophenhilfe", "assets/projects/disaster.png"),
+    Category("Jugendförderung", "assets/projects/youth.png")
   ];
 
   void _handleAddProject() {
