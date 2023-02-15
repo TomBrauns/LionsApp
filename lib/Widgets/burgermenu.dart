@@ -10,7 +10,7 @@ import '../Screens/chat.dart';
 import '../Screens/contact.dart';
 import '../Screens/donation.dart';
 import '../Screens/imprint.dart';
-import '../Screens/user.dart';
+import '../Screens/user_configs.dart';
 import '../Screens/events.dart';
 import '../Screens/user_management.dart';
 import '../Screens/contact_mailbox.dart';
@@ -63,7 +63,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
-        privilege == "Admin" || privilege == "Member" || privilege == "Friend"
+          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
               ? ListTile(
                   title: const Text('Benutzer'),
                   onTap: () {
@@ -197,35 +197,36 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
+
           /// Following functions are for Admins only
           privilege == "Admin"
               ? ListTile(
-            title: const Text('Nutzerverwaltung'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => User_management()),
-              );
-            },
-          )
+                  title: const Text('Nutzerverwaltung'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => User_management()),
+                    );
+                  },
+                )
               : Container(),
           privilege == "Admin"
               ? ListTile(
-            title: const Text('Kontaktpostfach'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (
-                    context) => ContactMailbox()),
-              );
-            },
-          )
+                  title: const Text('Kontaktpostfach'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ContactMailbox()),
+                    );
+                  },
+                )
               : Container(),
         ],
       ),

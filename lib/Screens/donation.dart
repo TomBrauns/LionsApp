@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Screens/user.dart';
+import 'package:lionsapp/Screens/user_configs.dart';
 
 class Donations extends StatefulWidget {
   const Donations({Key? key}) : super(key: key);
