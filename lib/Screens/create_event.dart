@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:intl/date_time_patterns.dart';
 
+const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
+
+
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
 
@@ -14,18 +17,10 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
 
-  String dropDownValue = 'Item 1';
+  TextEditingController _eventInfoController = TextEditingController();
 
-  //Werden aus der Datenbank gezogen
-  static const items = [
-    'Diese',
-    'Items',
-    'kommen',
-    'bald',
-    'aus',
-    'der',
-    'Datenbank'
-  ];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +101,86 @@ class _CreateEvent extends State<CreateEvent> {
                   ),
                 ),
               ],
+
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.all(30.0),
+                child: Text("Projekt, für welches Geld gesammelt wird:"),
+              )
+
+            ),
+            Center(
+              child: DropdownButtonExample(),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.all(30.0),
+                  child: Text("Informationen zum Event:")
+              )
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              child: new TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Information eintragen',
+                ),
+                controller: _eventInfoController,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+              )
+            ),
+            Center(
+              child:
+                ElevatedButton(
+                  onPressed: () {  },
+                  child:
+                  Text('Link zur spezifischen Spende'),
+                )
+
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample>{
+
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context){
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value){
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
