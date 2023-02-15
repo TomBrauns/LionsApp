@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class User_management extends StatefulWidget {
   const User_management({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class _User_managementState extends State<User_management> {
     return Scaffold(
       drawer: const BurgerMenu(),
       appBar: AppBar(
-        title: const Text("User Management"),
+        title: const Text("Nutzerverwaltung"),
       ),
     );
   }
