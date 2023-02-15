@@ -91,7 +91,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Friend"
+          privilege == "Friend" || privilege == "Member"
               ? ListTile(
                   title: const Text('Events'),
                   onTap: () {
