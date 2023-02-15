@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Contact extends StatefulWidget {
   const Contact({Key? key}) : super(key: key);

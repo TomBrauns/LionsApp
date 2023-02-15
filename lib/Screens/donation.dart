@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Screens/user.dart';
 
 class Donations extends StatefulWidget {
