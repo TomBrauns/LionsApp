@@ -32,9 +32,10 @@ class _RegisterState extends State<Register> {
   var options = [
     'friend',
     'member',
+    'admin',
   ];
   var _currentItemSelected = "friend";
-  var rool = "member";
+  var rool = "friend";
 
   @override
   Widget build(BuildContext context) {
