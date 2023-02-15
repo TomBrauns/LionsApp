@@ -30,5 +30,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:923321843822:ios:d14efb69a86721d980e67f</string>
+	<key>DATABASE_URL</key>
+	<string>https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>
