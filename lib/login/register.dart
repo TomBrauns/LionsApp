@@ -29,11 +29,11 @@ class _RegisterState extends State<Register> {
   bool _isObscure2 = true;
   File? file;
   var options = [
-    'friend',
-    'member',
+    'Student',
+    'Teacher',
   ];
-  var _currentItemSelected = "friend";
-  var rool = "member";
+  var _currentItemSelected = "Student";
+  var rool = "Student";
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +197,7 @@ class _RegisterState extends State<Register> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Role : ",
+                              "Rool : ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
