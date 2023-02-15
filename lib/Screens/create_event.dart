@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -49,17 +50,19 @@ class _CreateEvent extends State<CreateEvent> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 40,
                     padding: EdgeInsets.all(10),
-                    child: Text(
+                    child: const Text(
                       'Spendenziel festlegen: '
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 40,
                     child: TextField(
+                      inputFormatters: [CurrencyTextInputFormatter(
+                        locale: 'eu',
+                        symbol: '€'
+                      )],
+                      keyboardType: TextInputType.number,
                       controller: _spendenzielController,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.euro),
-                      ),
                     ),
                   ),
                 ],
