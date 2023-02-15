@@ -22,8 +22,6 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _spendenzielController = TextEditingController();
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
