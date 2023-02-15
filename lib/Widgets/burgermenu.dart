@@ -72,7 +72,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => User()),
+                      MaterialPageRoute(builder: (context) => const User()),
                     );
                   },
                 )
@@ -209,7 +209,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => User_management()),
+                          builder: (context) => const UserManagement()),
                     );
                   },
                 )
@@ -223,7 +223,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ContactMailbox()),
+                      MaterialPageRoute(
+                          builder: (context) => const ContactMailbox()),
                     );
                   },
                 )
