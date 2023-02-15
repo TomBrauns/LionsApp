@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/create_event.dart';
+import 'package:lionsapp/Screens/paymethode.dart';
 import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/main.dart';
 
@@ -130,17 +131,18 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
           privilege == "Member"
               ? ListTile(
-            title: const Text('Event erstellen'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreateEvent()),
-              );
-            },
-          )
+                  title: const Text('Event erstellen'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateEvent()),
+                    );
+                  },
+                )
               : Container(),
           ListTile(
             title: const Text('Kontakt'),

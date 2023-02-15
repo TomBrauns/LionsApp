@@ -226,6 +226,7 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
   }
 }
 
+//Social Media missing
 class ShareDonation extends StatefulWidget {
   const ShareDonation({super.key});
 
@@ -241,5 +242,103 @@ class _ShareDonationState extends State<ShareDonation> {
         title: const Text("Teile deine Spende"),
       ),
     );
+  }
+}
+
+class Receiptdata extends StatefulWidget {
+  const Receiptdata({super.key});
+
+  @override
+  State<Receiptdata> createState() => _ReceiptdataState();
+}
+
+class _ReceiptdataState extends State<Receiptdata> {
+  final myController = TextEditingController();
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Quittung"),
+        ),
+        body: Center(
+            child: SizedBox(
+                width: 250,
+                height: 500,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                    ),
+                    TextField(
+                      controller: myController,
+                      decoration: InputDecoration(
+                        labelText: 'Vor-/Nachname',
+                      ),
+                      obscureText: false,
+                      onSubmitted: (value) {},
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                    ),
+                    TextField(
+                      controller: myController,
+                      decoration: InputDecoration(
+                        labelText: 'Postleitzahl u. Ort',
+                      ),
+                      obscureText: false,
+                      onSubmitted: (value) {},
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                    ),
+                    TextField(
+                      controller: myController,
+                      decoration: InputDecoration(
+                        labelText: 'Straße u. Hausnummer',
+                      ),
+                      obscureText: false,
+                      onSubmitted: (value) {},
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                    ),
+                    Container(
+                        child: Row(children: <Widget>[
+                      Checkbox(
+                        value: isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isChecked = value!;
+                          });
+                        },
+                      ),
+                      const Text(
+                        "Daten speichern?",
+                      ),
+                    ])),
+                    Container(
+                      margin: EdgeInsets.all(25),
+                      child: ElevatedButton(
+                        child: Text("Weiter"),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          //
+                          // Submit missing
+                          //
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DonationRecieved()));
+                        },
+                      ),
+                    ),
+                  ],
+                ))));
   }
 }
