@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Project extends StatefulWidget {
   const Project({Key? key}) : super(key: key);
@@ -21,6 +20,10 @@ class _ProjectState extends State<Project> {
   final TextStyle _headlineStyle =
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
   final TextStyle _textStyle = const TextStyle(fontSize: 16);
+
+  void _handleDonation() {
+    // TODO implement
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,17 @@ class _ProjectState extends State<Project> {
                   const SizedBox(height: 16),
                   Text("Unsere Unterstützung", style: _headlineStyle),
                   const SizedBox(height: 4),
-                  Text(_support, style: _textStyle)
+                  Text(_support, style: _textStyle),
+                  const SizedBox(height: 32),
+                  Center(
+                      child: ElevatedButton(
+                    onPressed: _handleDonation,
+                    child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 6.0, horizontal: 4.0),
+                        child: Text("Spenden", style: TextStyle(fontSize: 22))),
+                  )),
+                  const SizedBox(height: 32),
                 ],
               ))
         ])));
