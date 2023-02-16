@@ -5,6 +5,7 @@ import 'friend.dart';
 import 'member.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
