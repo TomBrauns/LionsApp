@@ -16,25 +16,26 @@ class _RegisterState extends State<Register> {
 
   bool showProgress = false;
   bool visible = false;
+  bool isChecked = false;
 
   final _formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
 
-  final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController confirmpassController =
-      new TextEditingController();
-  final TextEditingController name = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController mobile = new TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmpassController = TextEditingController();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobile = TextEditingController();
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
   var options = [
     'friend',
     'member',
+    'admin',
   ];
   var _currentItemSelected = "friend";
-  var rool = "member";
+  var rool = "friend";
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
@@ -62,7 +64,7 @@ class _RegisterState extends State<Register> {
                           height: 80,
                         ),
                         Text(
-                          "Register Now",
+                          "Registrierung",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -74,6 +76,30 @@ class _RegisterState extends State<Register> {
                         ),
                         SizedBox(
                           height: 50,
+                        ),
+                        TextFormField(
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Vor- und Nachname',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(20),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: new BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          keyboardType: TextInputType.text,
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         TextFormField(
                           controller: emailController,
@@ -196,11 +222,26 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
+                        const SizedBox(height: 24),
+                        Row(children: [
+                          Checkbox(
+                            value: isChecked,
+                            onChanged: (checked) => setState(() {
+                              isChecked = checked ?? false;
+                            }),
+                          ),
+                          const Text(
+                            "AGB's akzeptieren",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          )
+                        ]),
+                        /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Role : ",
+                            const Text(
+                              "Rolle : ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -235,7 +276,7 @@ class _RegisterState extends State<Register> {
                               value: _currentItemSelected,
                             ),
                           ],
-                        ),
+                        ), */
                         SizedBox(
                           height: 20,
                         ),

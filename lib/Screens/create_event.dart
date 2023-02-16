@@ -8,7 +8,6 @@ import 'package:intl/date_time_patterns.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
 
@@ -26,6 +25,9 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _eventInfoController = TextEditingController();
 
   TextEditingController _spendenzielController = TextEditingController();
+
+  TextEditingController _addressController = TextEditingController();
+
 
 
   @override
@@ -140,7 +142,27 @@ class _CreateEvent extends State<CreateEvent> {
 
             ),
             const Center(
+
+
+            ),
+            const Center(
               child: DropdownButtonExample(),
+            ),
+            const Center(
+              child: Text('Ort:'),
+
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.all(30),
+                child: TextField(
+                  controller: _addressController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Ort eingeben'
+                  ),
+                ),
+              ),
             ),
             Center(
               child: Container(
@@ -167,17 +189,73 @@ class _CreateEvent extends State<CreateEvent> {
                   backgroundColor: Colors.green,
                   onPressed: () {
 
+                    FirebaseFirestore db = FirebaseFirestore.instance;
+
                     FirebaseFirestore.instance.collection('events').add({
                       'startDate':_startDateController.text,
                       'endDate':_endDateController.text,
                       'eventInfo':_eventInfoController.text,
-                      'spendenZiel':_spendenzielController.text
+                      'spendenZiel':_spendenzielController.text,
+                      'ort':_addressController.text
                     });
-                  },
+
+                    final cities = db.collection("cities");
+
+                    final data1 = <String, dynamic>{
+                      "name": "San Francisco",
+                      "state": "CA",
+                      "country": "USA",
+                      "capital": false,
+                      "population": 860000,
+                      "regions": ["west_coast", "norcal"]
+                    };
+                    cities.doc("SF").set(data1);
+
+                    final data2 = <String, dynamic>{
+                      "name": "Los Angeles",
+                      "state": "CA",
+                      "country": "USA",
+                      "capital": false,
+                      "population": 3900000,
+                      "regions": ["west_coast", "socal"],
+                    };
+                    cities.doc("LA").set(data2);
+
+                    final data3 = <String, dynamic>{
+                      "name": "Washington D.C.",
+                      "state": null,
+                      "country": "USA",
+                      "capital": true,
+                      "population": 680000,
+                      "regions": ["east_coast"]
+                    };
+                    cities.doc("DC").set(data3);
+
+                    final data4 = <String, dynamic>{
+                      "name": "Tokyo",
+                      "state": null,
+                      "country": "Japan",
+                      "capital": true,
+                      "population": 9000000,
+                      "regions": ["kanto", "honshu"]
+                    };
+                    cities.doc("TOK").set(data4);
+
+                    final data5 = <String, dynamic>{
+                      "name": "Beijing",
+                      "state": null,
+                      "country": "China",
+                      "capital": true,
+                      "population": 21500000,
+                      "regions": ["jingjinji", "hebei"],
+                    };
+                    cities.doc("BJ").set(data5);
+
+                   },
                   child:
                   Text('Event anlegen'),
-                )
-            )
+                ),
+            ),
           ],
         ),
       ),
@@ -191,6 +269,7 @@ class DropdownButtonExample extends StatefulWidget {
   @override
   State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
 }
+
 
 class _DropdownButtonExampleState extends State<DropdownButtonExample>{
 
