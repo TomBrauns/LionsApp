@@ -120,7 +120,14 @@ class _UserState extends State<User> {
                 primary: Colors.blue,
                 elevation: 0,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LogOut()),
+                );
+
+              },
             ),
           ),
         ])));
@@ -345,6 +352,28 @@ class _ProfilePictureState extends State<ProfilePicture> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profilbild ändern"),
+        ),
+        body: Center(
+          child: Column(
+            children: [Container(), Container(), Container()],
+          ),
+        ));
+  }
+}
+
+class LogOut extends StatefulWidget {
+  const LogOut({super.key});
+
+  @override
+  State<LogOut> createState() => _LogOutState();
+}
+
+class _LogOutState extends State<LogOut> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Ausgeloggt"),
         ),
         body: Center(
           child: Column(
