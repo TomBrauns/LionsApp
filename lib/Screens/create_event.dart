@@ -204,7 +204,7 @@ class _CreateEvent extends State<CreateEvent> {
                     final data1 = <String, dynamic>{
                       "name": "San Francisco",
                       "state": "CA",
-                      "country": "USA",
+                      "country": "USSA",
                       "capital": false,
                       "population": 860000,
                       "regions": ["west_coast", "norcal"]
@@ -241,7 +241,7 @@ class _CreateEvent extends State<CreateEvent> {
                     };
                     cities.doc("TOK").set(data4);
 
-                    final data5 = <String, dynamic>{
+                    final data10 = <String, dynamic>{
                       "name": "Beijing",
                       "state": null,
                       "country": "China",
@@ -249,7 +249,7 @@ class _CreateEvent extends State<CreateEvent> {
                       "population": 21500000,
                       "regions": ["jingjinji", "hebei"],
                     };
-                    cities.doc("BJ").set(data5);
+                    cities.doc("BJ").set(data10);
 
                    },
                   child:
