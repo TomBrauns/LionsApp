@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/login/login.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -376,9 +376,30 @@ class _LogOutState extends State<LogOut> {
           title: const Text("Ausgeloggt"),
         ),
         body: Center(
-          child: Column(
-            children: [Container(), Container(), Container()],
+          child:
+            Container(
+              margin: const EdgeInsets.all(25),
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.keyboard_return,
+                  size: 24.0,
+                ),
+                // TODO Add a nice text sayimg how sorry we are that they logged out.
+                label: const Text('Zurück zum Start'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+              ),
+            ),
+
           ),
-        ));
+        );
   }
 }
