@@ -237,7 +237,7 @@ class _RegisterState extends State<Register> {
                             ),
                           )
                         ]),
-                        Row(
+                        /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
@@ -276,7 +276,7 @@ class _RegisterState extends State<Register> {
                               value: _currentItemSelected,
                             ),
                           ],
-                        ),
+                        ), */
                         SizedBox(
                           height: 20,
                         ),
