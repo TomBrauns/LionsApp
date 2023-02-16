@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class _CalendarState extends State<Chat> {
       appBar: AppBar(
         title: const Text("Chat"),
       ),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }

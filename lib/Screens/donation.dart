@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Donations extends StatefulWidget {
   const Donations({Key? key}) : super(key: key);
@@ -66,6 +67,7 @@ class _DonationsState extends State<Donations> {
                   : Container(),
               // End User Icon
             ]),
+        bottomNavigationBar: const BottomNavigation(),
         body: Container(
             padding: const EdgeInsets.all(16),
             child: Form(

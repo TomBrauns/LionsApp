@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/login/login.dart';
 
@@ -16,6 +17,7 @@ class _UserState extends State<User> {
         appBar: AppBar(
           title: const Text("Benutzer"),
         ),
+        bottomNavigationBar: const BottomNavigation(),
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
@@ -400,6 +402,6 @@ class _LogOutState extends State<LogOut> {
             ),
 
           ),
-        );
+        ));
   }
 }
