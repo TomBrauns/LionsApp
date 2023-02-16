@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
 
-class AuthCode extends StatefulWidget {
-  const AuthCode({Key? key}) : super(key: key);
-
+class AuthCodeScreen extends StatefulWidget {
   @override
-  State<AuthCode> createState() => _AuthCodeState();
+  _AuthCodeScreenState createState() => _AuthCodeScreenState();
 }
 
-class _AuthCodeState extends State<AuthCode> {
+class _AuthCodeScreenState extends State<AuthCodeScreen> {
+  final TextEditingController _authCodeController = TextEditingController();
+
+  void _submitForm() {
+    // TODO: Implement functionality to verify the entered auth code
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(children: [
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'AuthCode',
-          ),
+      appBar: AppBar(
+        title: Text('Auth Code eingeben'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Bitte geben Sie den Authentifizierungscode ein, den Sie erhalten haben:',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _authCodeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Auth Code',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitForm,
+              child: Text('Bestätigen'),
+            ),
+          ],
         ),
-        ElevatedButton(onPressed: null, child: Text("Bestätigen")),
-      ]),
-    ));
+      ),
+    );
   }
 }
