@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'category.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Catalogue extends StatefulWidget {
@@ -84,10 +83,10 @@ class _CatalogueState extends State<Catalogue> {
                 ),
                 ListView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: documentWidgets,
                 ),
-                Divider(indent: 68),
+                const Divider(indent: 68),
               ],
             );
           }).toList();
@@ -97,36 +96,6 @@ class _CatalogueState extends State<Catalogue> {
           );
         }
       ),
-
-      /*ListView(
-        children: Category.all
-            .map((c) => Column(children: [
-                  ListTile(
-                      leading: Image.asset(c.path, width: 32, height: 32),
-                      title: Text(c.name)),
-                  ListTile(
-                    onTap: _handleProjectClicked,
-                    leading: const SizedBox(),
-                    title: const Text("Beispielprojekt 1"),
-                    subtitle: const Text(
-                        "Das ist ein Projekt für das Spenden gesammelt werden können"),
-                  ),
-                  ListTile(
-                    onTap: _handleProjectClicked,
-                    leading: const SizedBox(),
-                    title: const Text("Beispielprojekt 2"),
-                    subtitle: const Text(
-                        "Noch ein tolles Projekt mit einer etwas längeren Beschreibung, um das Layout für ein größeres Item in der Liste zu sehen. Diese Beschreibung ist schon sehr lange."),
-                  ),
-                  ListTile(
-                    onTap: _handleProjectClicked,
-                    leading: const SizedBox(),
-                    title: const Text("Beispielprojekt 3"),
-                    subtitle: const Text("Hier eine Beschreibung"),
-                  ),
-                  const Divider(indent: 68)
-                ]))
-            .toList(),*/
       floatingActionButton: FloatingActionButton(
         onPressed: _handleAddProject,
         child: const Icon(Icons.add),

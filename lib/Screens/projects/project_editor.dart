@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Widgets/burgermenu.dart';
-
 import 'category.dart';
 
 class ProjectEditor extends StatefulWidget {
@@ -27,18 +25,16 @@ class _ProjectEditorState extends State<ProjectEditor> {
     final name = _nameInputController.value.text;
     final background = _backgroundInputController.value.text;
     final support = _supportInputController.value.text;
-    print("category=$selectedCategory, name=$name, background=$background, support=$support");
-
-    if(_nameInputController.text.isEmpty || _backgroundInputController.text.isEmpty || _supportInputController.text.isEmpty){
+    if (name.isEmpty || background.isEmpty || support.isEmpty) {
       return;
-    }else{
+    } else {
       FirebaseFirestore db = FirebaseFirestore.instance;
 
       FirebaseFirestore.instance.collection('projects').add({
-        'name': _nameInputController.text,
-        'background': _backgroundInputController.text,
-        'support': _supportInputController.text,
-        'category':selectedCategory
+        'name': name,
+        'background': background,
+        'support': support,
+        'category': selectedCategory
       });
 
       Navigator.pop(context);
@@ -61,9 +57,17 @@ class _ProjectEditorState extends State<ProjectEditor> {
                     DropdownButtonFormField(
                       value: selectedCategory,
                       items: Category.all
-                          .map<DropdownMenuItem<String>>(((c) =>
-                              DropdownMenuItem(
-                                  value: c.name, child: Text(c.name))))
+                          .map<DropdownMenuItem<String>>(
+                              ((c) => DropdownMenuItem(
+                                  value: c.name,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(c.path,
+                                          width: 24, height: 24),
+                                      const SizedBox(width: 8),
+                                      Text(c.name)
+                                    ],
+                                  ))))
                           .toList(),
                       onChanged: _handleCategoryChange,
                       decoration:
