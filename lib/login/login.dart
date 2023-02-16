@@ -6,6 +6,8 @@ import 'member.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lionsapp/login/google/authentication.dart';
+import 'package:lionsapp/login/google/google_sign_in_button.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -179,7 +181,23 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white,
                             ))),
                         //TEST
-
+                        FutureBuilder(
+                          future: Authentication.initializeFirebase(
+                              context: context),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Text('Error initializing Firebase');
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return GoogleSignInButton();
+                            }
+                            return CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.orange,
+                              ),
+                            );
+                          },
+                        ),
                         //TEST
                         MaterialButton(
                           shape: RoundedRectangleBorder(
