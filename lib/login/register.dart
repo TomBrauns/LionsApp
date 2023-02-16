@@ -229,7 +229,7 @@ class _RegisterState extends State<Register> {
                               isChecked = checked ?? false;
                             }),
                           ),
-                          const Text("Ich möchte eine Quittung erhalten.")
+                          const Text("Ich möchte eine Quittung erhalten.", style: TextStyle(color : Colors.white)),
                         ]),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
