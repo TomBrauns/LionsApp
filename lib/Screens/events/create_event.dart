@@ -28,6 +28,8 @@ class _CreateEvent extends State<CreateEvent> {
 
   TextEditingController _addressController = TextEditingController();
 
+  bool _createChat = false;
+
 
 
   @override
@@ -165,6 +167,26 @@ class _CreateEvent extends State<CreateEvent> {
               ),
             ),
             Center(
+              child: Row(
+                  children: <Widget>[
+                    Container(
+                        child: Text("Chat erstellen?")
+                    ),
+                    Container(
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          value: _createChat,
+                          onChanged: (bool? value){
+                            setState(() {
+                              _createChat = value!;
+                            });
+                          },
+                        )
+                    )
+                  ]
+              ),
+            ),
+            Center(
               child: Container(
                 padding: EdgeInsets.all(30.0),
                   child: Text("Informationen zum Event:")
@@ -185,8 +207,7 @@ class _CreateEvent extends State<CreateEvent> {
             ),
             Center(
               child:
-                FloatingActionButton(
-                  backgroundColor: Colors.green,
+                ElevatedButton(
                   onPressed: () {
 
                     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -250,7 +271,6 @@ class _CreateEvent extends State<CreateEvent> {
                       "regions": ["jingjinji", "hebei"],
                     };
                     cities.doc("BJ").set(data10);
-
                    },
                   child:
                   Text('Event anlegen'),
