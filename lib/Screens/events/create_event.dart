@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
+String _dropdownValue = list.first;
+
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -219,6 +221,7 @@ class _CreateEvent extends State<CreateEvent> {
                       'spendenZiel':_spendenzielController.text,
                       'ort':_addressController.text,
                       'chat':_createChat,
+                      'projekt':_dropdownValue
                     });
                    },
                   child:
@@ -242,12 +245,11 @@ class DropdownButtonExample extends StatefulWidget {
 
 class _DropdownButtonExampleState extends State<DropdownButtonExample>{
 
-  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context){
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: _dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       style: const TextStyle(color: Colors.deepPurple),
@@ -257,7 +259,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample>{
       ),
       onChanged: (String? value){
         setState(() {
-          dropdownValue = value!;
+          _dropdownValue = value!;
         });
       },
       items: list.map<DropdownMenuItem<String>>((String value) {
