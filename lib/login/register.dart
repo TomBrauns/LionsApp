@@ -29,9 +29,6 @@ class _RegisterState extends State<Register> {
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
-  var options = [
-    'friend',
-  ];
   var rool = "friend";
 
   @override
