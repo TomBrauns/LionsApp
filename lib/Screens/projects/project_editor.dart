@@ -29,20 +29,27 @@ class _ProjectEditorState extends State<ProjectEditor> {
     final support = _supportInputController.value.text;
     print("category=$selectedCategory, name=$name, background=$background, support=$support");
 
-    FirebaseFirestore db = FirebaseFirestore.instance;
+    if(_nameInputController.text.isEmpty || _backgroundInputController.text.isEmpty || _supportInputController.text.isEmpty){
+      return;
+    }else{
+      FirebaseFirestore db = FirebaseFirestore.instance;
 
-    FirebaseFirestore.instance.collection('projects').add({
-      'name': _nameInputController.text,
-      'background': _backgroundInputController.text,
-      'support': _supportInputController.text,
-      'category':selectedCategory
-    });
+      FirebaseFirestore.instance.collection('projects').add({
+        'name': _nameInputController.text,
+        'background': _backgroundInputController.text,
+        'support': _supportInputController.text,
+        'category':selectedCategory
+      });
+
+      Navigator.pop(context);
+    }
+
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const BurgerMenu(),
         appBar: AppBar(
           title: const Text("Projekt anlegen"),
         ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
@@ -35,7 +36,69 @@ class _CatalogueState extends State<Catalogue> {
         title: const Text("Katalog"),
       ),
       bottomNavigationBar: const BottomNavigation(),
-      body: ListView(
+      body:
+      StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('projects').orderBy('category').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final Map<String, List<DocumentSnapshot>> groupedData = {};
+          snapshot.data!.docs.forEach((DocumentSnapshot document) {
+            final String category = document.get('category') ?? 'Other';
+            if (groupedData.containsKey(category)) {
+              groupedData[category]!.add(document);
+            } else {
+              groupedData[category] = [document];
+            }
+          });
+
+          final List<Widget> categoryWidgets = groupedData.entries.map((MapEntry<String, List<DocumentSnapshot>> entry) {
+
+            final String category = entry.key;
+            final List<DocumentSnapshot> documents = entry.value;
+            final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
+              return ListTile(
+                leading: const SizedBox(),
+                title: Text(document.get('name')),
+                subtitle: Text(document.get('support')),
+                onTap:
+                  _handleProjectClicked,
+              );
+            }).toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
+                  title: Text(category),
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: documentWidgets,
+                ),
+                Divider(indent: 68),
+              ],
+            );
+          }).toList();
+
+          return ListView(
+            children: categoryWidgets,
+          );
+        }
+      ),
+
+      /*ListView(
         children: Category.all
             .map((c) => Column(children: [
                   ListTile(
@@ -63,8 +126,7 @@ class _CatalogueState extends State<Catalogue> {
                   ),
                   const Divider(indent: 68)
                 ]))
-            .toList(),
-      ),
+            .toList(),*/
       floatingActionButton: FloatingActionButton(
         onPressed: _handleAddProject,
         child: const Icon(Icons.add),

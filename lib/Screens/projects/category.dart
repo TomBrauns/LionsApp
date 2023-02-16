@@ -4,13 +4,13 @@ class Category {
   const Category(this.name, this.path);
 
   static const all = [
-    Category("Sehkrafterhaltung", "assets/projects/vision.png"),
-    Category("Kinderkrebshilfe", "assets/projects/childhoodcancer.png"),
-    Category("Umweltschutz", "assets/projects/environment.png"),
-    Category("Humanitäre Hilfe", "assets/projects/humanitarian.png"),
-    Category("Hungerhilfe", "assets/projects/hunger.png"),
-    Category("Diabeteshilfe", "assets/projects/diabetes.png"),
-    Category("Katastrophenhilfe", "assets/projects/disaster.png"),
-    Category("Jugendförderung", "assets/projects/youth.png")
+    Category("Sehkrafterhaltung", "assets/projects/Sehkrafterhaltung.png"),
+    Category("Kinderkrebshilfe", "assets/projects/Kinderkrebshilfe.png"),
+    Category("Umweltschutz", "assets/projects/Umweltschutz.png"),
+    Category("Humanitäre Hilfe", "assets/projects/Humanitäre Hilfe.png"),
+    Category("Hungerhilfe", "assets/projects/Hungerhilfe.png"),
+    Category("Diabeteshilfe", "assets/projects/Diabeteshilfe.png"),
+    Category("Katastrophenhilfe", "assets/projects/Katastrophenhilfe.png"),
+    Category("Jugendförderung", "assets/projects/Jugendförderung.png")
   ];
 }
