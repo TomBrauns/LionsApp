@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/calendar.dart';
-import 'package:lionsapp/Screens/catalogue.dart';
+import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
