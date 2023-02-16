@@ -6,79 +6,142 @@ import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 
-// Overview for Members
-
-class MenuItem {
-  const MenuItem(this.iconData, this.text);
-  final IconData iconData;
-  final String text;
-}
-
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
+  const BottomNavigation({super.key});
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  //static const List<Widget> _widgetOptions = <Widget>[
-  //  User(),
-  //  Donations(),
-  //  Chat(),
-  //  Calendar(),
-  //  Catalogue(),
-  //];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      // Update State of App
-      //Navigator.pop(context);
-      // Push to Screen
-      //Navigator.push(
-      //  context,
-      //  MaterialPageRoute(builder: (context) => _widgetOptions[_selectedIndex]),
-      //);
-    });
+  String ActionButton = "";
+  void bottomappbar_index(int _chosenindex) {
+    switch (_chosenindex) {
+      case 1:
+        String ActionButton = "User";
+        break;
+      case 2:
+        String ActionButton = "Donation";
+        break;
+      case 3:
+        String ActionButton = "Chat";
+        break;
+      case 4:
+        String ActionButton = "Calendar";
+        break;
+      case 5:
+        String ActionButton = "Catalogue";
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.badge),
-          label: 'Benutzer',
-          backgroundColor: Colors.red,
+    return BottomAppBar(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        IconButton(
+          onPressed: () {
+            bottomappbar_index(1);
+            // Update State of App
+            Navigator.pop(context);
+            // Push to Screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const User()),
+            );
+          },
+          icon: const Icon(Icons.badge),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.card_giftcard),
-          label: 'Spenden',
-          backgroundColor: Colors.green,
+        IconButton(
+          onPressed: () {
+            bottomappbar_index(2);
+            // Update State of App
+            Navigator.pop(context);
+            // Push to Screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Donations()),
+            );
+          },
+          icon: const Icon(Icons.card_giftcard),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
-          label: 'Chat',
-          backgroundColor: Colors.purple,
+        IconButton(
+          onPressed: () {
+            bottomappbar_index(3);
+            // Update State of App
+            Navigator.pop(context);
+            // Push to Screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Chat()),
+            );
+          },
+          icon: const Icon(Icons.chat),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.event),
-          label: 'Kalender',
-          backgroundColor: Colors.pink,
+        IconButton(
+          onPressed: () {
+            bottomappbar_index(4);
+            // Update State of App
+            Navigator.pop(context);
+            // Push to Screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Calendar()),
+            );
+          },
+          icon: const Icon(Icons.event),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.book),
-          label: 'Katalog',
-          backgroundColor: Colors.deepOrange,
+        IconButton(
+          onPressed: () {
+            bottomappbar_index(5);
+            // Update State of App
+            Navigator.pop(context);
+            // Push to Screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Catalogue()),
+            );
+          },
+          icon: const Icon(Icons.book),
         ),
+        // ActionButton == "User"
+        //     ? FloatingActionButton(
+        //         onPressed: () {},
+        //         backgroundColor: Colors.green,
+        //         child: const Icon(Icons.navigation),
+        //       )
+        //     : Container(),
+        // ActionButton == "Donations"
+        //     ? FloatingActionButton(
+        //         onPressed: () {},
+        //         backgroundColor: Colors.green,
+        //         child: const Icon(Icons.navigation),
+        //       )
+        //     : Container(),
+        // ActionButton == "Chat"
+        //     ? FloatingActionButton(
+        //         onPressed: () {},
+        //         backgroundColor: Colors.green,
+        //         child: const Icon(Icons.navigation),
+        //       )
+        //     : Container(),
+        // ActionButton == "Calendar"
+        //     ? FloatingActionButton(
+        //         onPressed: () {},
+        //         backgroundColor: Colors.green,
+        //         child: const Icon(Icons.navigation),
+        //       )
+        //     : Container(),
+        // ActionButton == "Catalogue"
+        //     ? FloatingActionButton(
+        //         onPressed: () {},
+        //         backgroundColor: Colors.green,
+        //         child: const Icon(Icons.navigation),
+        //       )
+        //     : Container(),
       ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
-      onTap: _onItemTapped,
-    );
+    ));
   }
 }
