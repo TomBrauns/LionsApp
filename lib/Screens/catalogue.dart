@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import '';
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Catalogue extends StatefulWidget {
   const Catalogue({Key? key}) : super(key: key);
@@ -47,6 +47,7 @@ class _CatalogueState extends State<Catalogue> {
       appBar: AppBar(
         title: const Text("Katalog"),
       ),
+      bottomNavigationBar: const BottomNavigation(),
       body: ListView(
         children: categories
             .map((c) => Column(children: [

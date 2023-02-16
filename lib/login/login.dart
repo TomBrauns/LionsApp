@@ -5,6 +5,7 @@ import 'friend.dart';
 import 'member.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -173,6 +174,9 @@ class _LoginPageState extends State<LoginPage> {
                                 child: CircularProgressIndicator(
                               color: Colors.white,
                             ))),
+                        //TEST
+
+                        //TEST
                         MaterialButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
