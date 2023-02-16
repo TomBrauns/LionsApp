@@ -18,9 +18,145 @@ class Donations extends StatefulWidget {
 
 class _DonationsState extends State<Donations> {
 
+  var _documentStream;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.documentId != null) {
+      _documentStream = FirebaseFirestore.instance.collection('projects').doc(
+          widget.documentId).snapshots();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        drawer: const BurgerMenu(),
+        appBar: AppBar(
+            title: const Text("Spenden"),
+            // User Icon in AppBar
+            actions: <Widget>[
+              privilege == "Member" || privilege == "Friend"
+                  ? IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => User()),
+                    );
+                  })
+                  : Container(),
+              // End User Icon
+            ]),
+        bottomNavigationBar: const BottomNavigation(),
+      body: StreamBuilder<DocumentSnapshot>(
+              stream: _documentStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+
+                //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
 
+                String _donationTitle = snapshot.data?.get('name') ?? "";
 
+
+                return Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: double.infinity,
+                                child: Text(_donationTitle,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 24))),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 32),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text("Spendenziel: 10.000€"),
+                                    LinearProgressIndicator(
+                                        value: 0.42, minHeight: 24.0),
+                                  ]),
+                            ),
+                            DropdownButtonFormField(
+                              value: selectedSubscription,
+                              items: subscriptions
+                                  .map<DropdownMenuItem<String>>(((sub) =>
+                                  DropdownMenuItem(value: sub, child: Text(sub))))
+                                  .toList(),
+                              onChanged: _handleSubscriptionChange,
+                              decoration:
+                              const InputDecoration(border: OutlineInputBorder()),
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: _inputController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Betrag",
+                                  suffix: Text("€")),
+                            ),
+                            Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [5, 10, 25, 50, 100]
+                                        .map((int amount) =>
+                                        FilledButton(
+                                            onPressed: () => _handleAdd(amount),
+                                            child: Text("+ $amount€")))
+                                        .toList())),
+                            const SizedBox(height: 24),
+                            Row(children: [
+                              Checkbox(
+                                value: _isReceiptChecked,
+                                onChanged: (checked) =>
+                                    setState(() {
+                                      _isReceiptChecked = checked ?? false;
+                                    }),
+                              ),
+                              const Text("Ich möchte eine Quittung erhalten.")
+                            ]),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: _handleSubmit,
+                                    child: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: const Text("Spenden",
+                                            style: TextStyle(fontSize: 18))))),
+                            Expanded(child: Container()),
+                            const Text("Gesponsort von: Rewe"),
+                            SizedBox(
+                                width: double.infinity,
+                                height: 128,
+                                child: Container(
+                                  decoration: const BoxDecoration(color: Colors.grey),
+                                ))
+                          ],
+                        )
+                    )
+                );
+
+                //return Text('Document data: $data');
+              }
+          )
+    );
+  }
 
 
   static const subscriptions = [
@@ -56,10 +192,11 @@ class _DonationsState extends State<Donations> {
     print(
         "Value=$value, Quittung=$_isReceiptChecked, Sub=$selectedSubscription");
   }
+}
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
-    return Scaffold(
+     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: AppBar(
@@ -159,7 +296,10 @@ class _DonationsState extends State<Donations> {
                           decoration: const BoxDecoration(color: Colors.grey),
                         ))
                   ],
-                ))));
-  }
-}
+                )
+            )
+        )
+     );*/
+
+
 
