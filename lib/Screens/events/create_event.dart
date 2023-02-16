@@ -28,6 +28,8 @@ class _CreateEvent extends State<CreateEvent> {
 
   TextEditingController _addressController = TextEditingController();
 
+  bool _createChat = false;
+
 
 
   @override
@@ -165,6 +167,26 @@ class _CreateEvent extends State<CreateEvent> {
               ),
             ),
             Center(
+              child: Row(
+                  children: <Widget>[
+                    Container(
+                        child: Text("Chat erstellen?")
+                    ),
+                    Container(
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          value: _createChat,
+                          onChanged: (bool? value){
+                            setState(() {
+                              _createChat = value!;
+                            });
+                          },
+                        )
+                    )
+                  ]
+              ),
+            ),
+            Center(
               child: Container(
                 padding: EdgeInsets.all(30.0),
                   child: Text("Informationen zum Event:")
@@ -185,8 +207,7 @@ class _CreateEvent extends State<CreateEvent> {
             ),
             Center(
               child:
-                FloatingActionButton(
-                  backgroundColor: Colors.green,
+                ElevatedButton(
                   onPressed: () {
 
                     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -196,61 +217,9 @@ class _CreateEvent extends State<CreateEvent> {
                       'endDate':_endDateController.text,
                       'eventInfo':_eventInfoController.text,
                       'spendenZiel':_spendenzielController.text,
-                      'ort':_addressController.text
+                      'ort':_addressController.text,
+                      'chat':_createChat,
                     });
-
-                    final cities = db.collection("cities");
-
-                    final data1 = <String, dynamic>{
-                      "name": "San Francisco",
-                      "state": "CA",
-                      "country": "USSA",
-                      "capital": false,
-                      "population": 860000,
-                      "regions": ["west_coast", "norcal"]
-                    };
-                    cities.doc("SF").set(data1);
-
-                    final data2 = <String, dynamic>{
-                      "name": "Los Angeles",
-                      "state": "CA",
-                      "country": "USA",
-                      "capital": false,
-                      "population": 3900000,
-                      "regions": ["west_coast", "socal"],
-                    };
-                    cities.doc("LA").set(data2);
-
-                    final data3 = <String, dynamic>{
-                      "name": "Washington D.C.",
-                      "state": null,
-                      "country": "USA",
-                      "capital": true,
-                      "population": 680000,
-                      "regions": ["east_coast"]
-                    };
-                    cities.doc("DC").set(data3);
-
-                    final data4 = <String, dynamic>{
-                      "name": "Tokyo",
-                      "state": null,
-                      "country": "Japan",
-                      "capital": true,
-                      "population": 9000000,
-                      "regions": ["kanto", "honshu"]
-                    };
-                    cities.doc("TOK").set(data4);
-
-                    final data10 = <String, dynamic>{
-                      "name": "Beijing",
-                      "state": null,
-                      "country": "China",
-                      "capital": true,
-                      "population": 21500000,
-                      "regions": ["jingjinji", "hebei"],
-                    };
-                    cities.doc("BJ").set(data10);
-
                    },
                   child:
                   Text('Event anlegen'),
