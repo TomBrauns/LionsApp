@@ -21,11 +21,7 @@ class _ContactState extends State<Contact> {
       body: const MBContactForm(
           hasHeading: true,
           withIcons: false,
-<<<<<<< HEAD
-          destinationEmail: "omersucces@yahoo.com"),
-=======
           destinationEmail: "XXXXX@yahoo.com"),
->>>>>>> 48ce195fa88f4584b16c4bbc9354a889683ed62d
     );
   }
 }
