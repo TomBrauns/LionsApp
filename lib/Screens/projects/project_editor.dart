@@ -43,8 +43,6 @@ class _ProjectEditorState extends State<ProjectEditor> {
 
       Navigator.pop(context);
     }
-
-
   }
 
   @override
