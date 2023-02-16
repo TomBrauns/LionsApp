@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               color: Color.fromARGB(255, 29, 89, 167),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.70,
+              height: MediaQuery.of(context).size.height,
               child: Center(
                 //LoginText
                 child: Container(
@@ -173,55 +173,34 @@ class _LoginPageState extends State<LoginPage> {
                                 child: CircularProgressIndicator(
                               color: Colors.white,
                             ))),
+                        MaterialButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                          ),
+                          elevation: 5.0,
+                          height: 40,
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Register(),
+                              ),
+                            );
+                          },
+                          color: Colors.blue[900],
+                          child: Text(
+                            "Register Now",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
-                        ),
-                      ),
-                      elevation: 5.0,
-                      height: 40,
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Register(),
-                          ),
-                        );
-                      },
-                      color: Colors.blue[900],
-                      child: Text(
-                        "Register Now",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    )
-                  ],
                 ),
               ),
             ),
