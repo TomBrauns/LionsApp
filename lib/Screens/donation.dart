@@ -49,6 +49,7 @@ class _DonationsState extends State<Donations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: AppBar(
             title: const Text("Spenden"),
