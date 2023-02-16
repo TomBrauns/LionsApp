@@ -8,6 +8,12 @@ import 'package:lionsapp/Screens/user_configs.dart';
 
 // Overview for Members
 
+class MenuItem {
+  const MenuItem(this.iconData, this.text);
+  final IconData iconData;
+  final String text;
+}
+
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 
@@ -16,55 +22,63 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    User(),
+    Donations(),
+    Chat(),
+    Calendar(),
+    Catalogue(),
+  ];
 
-  int _currentIndex = 0;
-  List _screens = [User(), Donations(), Chat(), Calendar(), Catalogue()];
-
-  void _updateIndex(int index) {
+  void _onItemTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      _selectedIndex = index;
+      // Update State of App
+      //Navigator.pop(context);
+      // Push to Screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => _widgetOptions[_selectedIndex]),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-        title: Text("Bottom Navigation Bar"),
-    ),
-    body: _screens[_currentIndex],
-    bottomNavigationBar: BottomNavigationBar(
-    type: BottomNavigationBarType.fixed,
-    currentIndex: _currentIndex,
-    onTap: _updateIndex,
-    backgroundColor: Colors.yellow,
-    items: const <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-    icon: Icon(Icons.person, color: CupertinoColors.systemBlue),
-    label: 'Benutzer',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.card_giftcard,
-    color: CupertinoColors.systemBlue),
-    label: 'Spenden',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.chat,
-    color: CupertinoColors.systemBlue),
-    label: 'Chats',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.calendar_month,
-    color: CupertinoColors.systemBlue),
-    label: 'Kalender',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.book_outlined,
-    color: CupertinoColors.systemBlue),
-    label: 'Katalog',
-    ),
-    ],
-    ),
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.badge),
+          label: 'Benutzer',
+          backgroundColor: Colors.red,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.card_giftcard),
+          label: 'Spenden',
+          backgroundColor: Colors.green,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat),
+          label: 'Chat',
+          backgroundColor: Colors.purple,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.event),
+          label: 'Kalender',
+          backgroundColor: Colors.pink,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.book),
+          label: 'Katalog',
+          backgroundColor: Colors.orange,
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.amber[800],
+      onTap: _onItemTapped,
     );
   }
 }

@@ -43,8 +43,11 @@ dependencies:
   cloud_firestore: ^4.3.2
   firebase_auth: ^4.2.6
   mb_contact_form: ^0.0.2
+<<<<<<< HEAD
+=======
   dropdown_search: ^5.0.5
 
+>>>>>>> 48ce195fa88f4584b16c4bbc9354a889683ed62d
 
 
 dev_dependencies:
