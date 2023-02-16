@@ -1,16 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Donations extends StatefulWidget {
-  const Donations({Key? key}) : super(key: key);
+
+  final String? documentId;
+
+  const Donations({Key? key, this.documentId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();
 }
 
 class _DonationsState extends State<Donations> {
+
+
+
+
+
+
   static const subscriptions = [
     "Einmalig",
     "Monatlich",
@@ -20,7 +32,6 @@ class _DonationsState extends State<Donations> {
 
   // Test Value
   String privilege = "Member";
-  //
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _inputController = TextEditingController();
@@ -57,14 +68,14 @@ class _DonationsState extends State<Donations> {
             actions: <Widget>[
               privilege == "Member" || privilege == "Friend"
                   ? IconButton(
-                      icon: Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => User()),
-                        );
-                      })
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => User()),
+                    );
+                  })
                   : Container(),
               // End User Icon
             ]),
@@ -76,10 +87,9 @@ class _DonationsState extends State<Donations> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                         width: double.infinity,
-                        child: Text(
-                            "Spendensammlung für die Erdbebenopfer in der Türkei",
+                        child: Text("Erdbebenhilfe in der Türkei",
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 24))),
                     Container(
@@ -96,11 +106,11 @@ class _DonationsState extends State<Donations> {
                       value: selectedSubscription,
                       items: subscriptions
                           .map<DropdownMenuItem<String>>(((sub) =>
-                              DropdownMenuItem(value: sub, child: Text(sub))))
+                          DropdownMenuItem(value: sub, child: Text(sub))))
                           .toList(),
                       onChanged: _handleSubscriptionChange,
                       decoration:
-                          const InputDecoration(border: OutlineInputBorder()),
+                      const InputDecoration(border: OutlineInputBorder()),
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
@@ -115,7 +125,8 @@ class _DonationsState extends State<Donations> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [5, 10, 25, 50, 100]
-                                .map((int amount) => FilledButton(
+                                .map((int amount) =>
+                                FilledButton(
                                     onPressed: () => _handleAdd(amount),
                                     child: Text("+ $amount€")))
                                 .toList())),
@@ -123,9 +134,10 @@ class _DonationsState extends State<Donations> {
                     Row(children: [
                       Checkbox(
                         value: _isReceiptChecked,
-                        onChanged: (checked) => setState(() {
-                          _isReceiptChecked = checked ?? false;
-                        }),
+                        onChanged: (checked) =>
+                            setState(() {
+                              _isReceiptChecked = checked ?? false;
+                            }),
                       ),
                       const Text("Ich möchte eine Quittung erhalten.")
                     ]),
@@ -150,3 +162,4 @@ class _DonationsState extends State<Donations> {
                 ))));
   }
 }
+

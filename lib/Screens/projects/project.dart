@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../donation.dart';
+
 
 final TextStyle _headlineStyle =
 const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
 final TextStyle _textStyle = const TextStyle(fontSize: 16);
 
-void _handleDonation() {
-  // TODO implement
-}
 
 class Project extends StatelessWidget{
   final String documentId;
@@ -59,9 +58,15 @@ class Project extends StatelessWidget{
                           const SizedBox(height: 4),
                           Text(_support, style: _textStyle),
                           const SizedBox(height: 32),
-                          const Center(
+                          Center(
                               child: ElevatedButton(
-                                onPressed: _handleDonation,
+                                onPressed: () {
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Donations(documentId: documentId)
+                                  ));
+                                },
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 6.0, horizontal: 4.0),
