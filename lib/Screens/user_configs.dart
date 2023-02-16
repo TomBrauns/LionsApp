@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class User extends StatefulWidget {
@@ -16,6 +16,7 @@ class _UserState extends State<User> {
         appBar: AppBar(
           title: const Text("Benutzer"),
         ),
+        bottomNavigationBar: const BottomNavigation(),
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
@@ -123,10 +124,8 @@ class _UserState extends State<User> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const LogOut()),
+                  MaterialPageRoute(builder: (context) => const LogOut()),
                 );
-
               },
             ),
           ),

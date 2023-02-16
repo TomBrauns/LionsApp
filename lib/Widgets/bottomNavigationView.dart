@@ -25,13 +25,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    User(),
-    Donations(),
-    Chat(),
-    Calendar(),
-    Catalogue(),
-  ];
+  //static const List<Widget> _widgetOptions = <Widget>[
+  //  User(),
+  //  Donations(),
+  //  Chat(),
+  //  Calendar(),
+  //  Catalogue(),
+  //];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,10 +39,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
       // Update State of App
       //Navigator.pop(context);
       // Push to Screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => _widgetOptions[_selectedIndex]),
-      );
+      //Navigator.push(
+      //  context,
+      //  MaterialPageRoute(builder: (context) => _widgetOptions[_selectedIndex]),
+      //);
     });
   }
 
@@ -73,7 +73,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         BottomNavigationBarItem(
           icon: Icon(Icons.book),
           label: 'Katalog',
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.deepOrange,
         ),
       ],
       currentIndex: _selectedIndex,

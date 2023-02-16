@@ -3,6 +3,7 @@ import 'package:lionsapp/Screens/projects/project_editor.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'category.dart';
+import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
 class Catalogue extends StatefulWidget {
   const Catalogue({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class _CatalogueState extends State<Catalogue> {
       appBar: AppBar(
         title: const Text("Katalog"),
       ),
+      bottomNavigationBar: const BottomNavigation(),
       body: ListView(
         children: Category.all
             .map((c) => Column(children: [
