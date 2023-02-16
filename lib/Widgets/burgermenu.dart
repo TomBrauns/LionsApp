@@ -28,11 +28,13 @@ class _BurgerMenuState extends State<BurgerMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        // Copy that Bar
         child: Scrollbar(
-      thickness: 10.0,
+      thickness: 5.0,
       thumbVisibility: false,
-      radius: const Radius.circular(10),
+      radius: const Radius.circular(360),
       child: ListView(
+        //
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(

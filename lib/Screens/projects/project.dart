@@ -31,35 +31,41 @@ class _ProjectState extends State<Project> {
         appBar: AppBar(
           title: Text(_title),
         ),
-        body: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset(_imgUri,
-              width: double.infinity, height: 250, fit: BoxFit.cover),
-          Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Hintergrund", style: _headlineStyle),
-                  const SizedBox(height: 4),
-                  Text(_background, style: _textStyle),
-                  const SizedBox(height: 16),
-                  Text("Unsere Unterstützung", style: _headlineStyle),
-                  const SizedBox(height: 4),
-                  Text(_support, style: _textStyle),
-                  const SizedBox(height: 32),
-                  Center(
-                      child: ElevatedButton(
-                    onPressed: _handleDonation,
-                    child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6.0, horizontal: 4.0),
-                        child: Text("Spenden", style: TextStyle(fontSize: 22))),
-                  )),
-                  const SizedBox(height: 32),
-                ],
-              ))
-        ])));
+        body: Scrollbar(
+            thickness: 5.0,
+            thumbVisibility: false,
+            radius: const Radius.circular(360),
+            child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Image.asset(_imgUri,
+                      width: double.infinity, height: 250, fit: BoxFit.cover),
+                  Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Hintergrund", style: _headlineStyle),
+                          const SizedBox(height: 4),
+                          Text(_background, style: _textStyle),
+                          const SizedBox(height: 16),
+                          Text("Unsere Unterstützung", style: _headlineStyle),
+                          const SizedBox(height: 4),
+                          Text(_support, style: _textStyle),
+                          const SizedBox(height: 32),
+                          Center(
+                              child: ElevatedButton(
+                            onPressed: _handleDonation,
+                            child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 6.0, horizontal: 4.0),
+                                child: Text("Spenden",
+                                    style: TextStyle(fontSize: 22))),
+                          )),
+                          const SizedBox(height: 32),
+                        ],
+                      ))
+                ]))));
   }
 }
