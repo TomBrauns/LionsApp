@@ -14,8 +14,7 @@ class _ContactMailboxState extends State<ContactMailbox> {
     return Scaffold(
       drawer: const BurgerMenu(),
       appBar: AppBar(
-        title: const Text(
-            "Kontakt-Postfach"),
+        title: const Text("Kontakt-Postfach"),
       ),
     );
   }
