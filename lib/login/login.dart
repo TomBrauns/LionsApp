@@ -13,12 +13,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  /* TEST */
+  bool isLoggedIN = false;
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  /* ENDE */
   bool _isObscure3 = true;
   bool visible = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {

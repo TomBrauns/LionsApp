@@ -17,30 +17,30 @@ class _PasswordForgottenScreenState extends State<PasswordForgottenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Password vergessen'),
+        title: const Text('Password vergessen'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen:',
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'E-Mail',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _submitForm,
-              child: Text('Bestätigen'),
+              child: const Text('Bestätigen'),
             ),
           ],
         ),

@@ -13,9 +13,9 @@ class _ProjectState extends State<Friend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Friend"),
+        title: const Text("I'm a Friend"),
       ),
-      body: const Text("Hier folgt die FreundeSeite"),
+      body: const Text(""),
     );
   }
 }

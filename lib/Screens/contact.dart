@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:mb_contact_form/mb_contact_form.dart';
@@ -11,6 +13,8 @@ class Contact extends StatefulWidget {
 
 class _ContactState extends State<Contact> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  get child => null;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +22,43 @@ class _ContactState extends State<Contact> {
       appBar: AppBar(
         title: const Text("Kontakt"),
       ),
-      body: const MBContactForm(
-          hasHeading: true,
-          withIcons: false,
-          destinationEmail: "XXXXX@yahoo.com"),
+      body: SingleChildScrollView(
+        padding: EdgeInsetsDirectional.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            MBContactForm(
+                hasHeading: true,
+                withIcons: false,
+                destinationEmail: "XXXXX@yahoo.com"),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+              onPressed: null,
+              child: Text(
+                "Weitere Datei zu hochladen hier reinziehen",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  color(Color white) {}
+}
+
+class Contactform extends StatefulWidget {
+  const Contactform({super.key});
+
+  @override
+  State<Contactform> createState() => _ContactformState();
+}
+
+class _ContactformState extends State<Contactform> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

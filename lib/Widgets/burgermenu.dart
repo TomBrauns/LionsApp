@@ -32,6 +32,10 @@ class _BurgerMenuState extends State<BurgerMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        child: Scrollbar(
+      thickness: 10.0,
+      thumbVisibility: false,
+      radius: const Radius.circular(10),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -51,6 +55,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ),
             ),
           ),
+
           ListTile(
             title: const Text('Spenden'),
             onTap: () {
@@ -231,6 +236,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
         ],
       ),
-    );
+    ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/login/login.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -281,6 +282,7 @@ class Accessibility extends StatefulWidget {
 class _AccessibilityState extends State<Accessibility> {
   String dropdownValue = list.first;
   double _currentSliderValue = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -371,13 +373,43 @@ class _LogOutState extends State<LogOut> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Ausgeloggt"),
-        ),
-        body: Center(
-          child: Column(
-            children: [Container(), Container(), Container()],
+      appBar: AppBar(
+        title: const Text("Ausgeloggt"),
+      ),
+      body: Center(
+          child: Column(children: [
+        Container(
+          child: Text(
+              'Schade dass du dich ausgeloggt hast'
+          'wir hoffen dich bald wieder bei den Lions begrüßen zu können.',
+
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+            )
           ),
-        ));
+        Container(
+          margin: const EdgeInsets.all(25),
+          child: ElevatedButton.icon(
+            icon: const Icon(
+              Icons.keyboard_return,
+              size: 24.0,
+            ),
+            // TODO Add a nice text sayimg how sorry we are that they logged out.
+            label: const Text('Zurück zum Start'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              elevation: 0,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+        ),
+      ])),
+    );
   }
 }

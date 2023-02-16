@@ -14,14 +14,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Name/Email',
                   border: OutlineInputBorder(),
                 ),
@@ -35,10 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   _nameOrEmail = value!;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Passwort',
                   border: OutlineInputBorder(),
                 ),
@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   _password = value!;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -63,13 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         // TODO: Add login functionality
                       }
                     },
-                    child: Text('Anmelden'),
+                    child: const Text('Anmelden'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       // TODO: Handle password forgotten functionality
                     },
-                    child: Text('Passwort vergessen?'),
+                    child: const Text('Passwort vergessen?'),
                   ),
                 ],
               ),
