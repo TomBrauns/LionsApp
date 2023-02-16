@@ -7,7 +7,6 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
