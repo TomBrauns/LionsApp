@@ -382,16 +382,13 @@ class _LogOutState extends State<LogOut> {
           margin: const EdgeInsets.all(40),
           padding: const EdgeInsets.all(40.0),
           decoration: BoxDecoration(
-              color: Colors.amber,
-              border: Border.all(color: Colors.amber),
-              borderRadius: BorderRadius.circular(10),
+            color: Colors.amber,
+            border: Border.all(color: Colors.amber),
+            borderRadius: BorderRadius.circular(10),
           ),
-
-          child:const  Text(
-              "Schade dass du dich ausgeloggt hast,"
-              "wir hoffen dich bald wieder bei den Lions begrüßen zu können."),
-
-          ),
+          child: const Text("Schade dass du dich ausgeloggt hast."
+              "Wir hoffen dich bald wieder, bei den Lions, begrüßen zu dürfen."),
+        ),
         Container(
           margin: const EdgeInsets.all(25),
           child: ElevatedButton.icon(
