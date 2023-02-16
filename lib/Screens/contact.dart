@@ -22,7 +22,7 @@ class _ContactState extends State<Contact> {
       appBar: AppBar(
         title: const Text("Kontakt"),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         padding: EdgeInsetsDirectional.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,4 +47,18 @@ class _ContactState extends State<Contact> {
   }
 
   color(Color white) {}
+}
+
+class Contactform extends StatefulWidget {
+  const Contactform({super.key});
+
+  @override
+  State<Contactform> createState() => _ContactformState();
+}
+
+class _ContactformState extends State<Contactform> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }

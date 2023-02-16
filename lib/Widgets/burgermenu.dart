@@ -229,6 +229,24 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
+          privilege == "Guest" ||
+                  privilege == "Friend" ||
+                  privilege == "Member" ||
+                  privilege == "Admin"
+              ? ListTile(
+                  title: const Text('Kontaktformular'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Contactform()),
+                    );
+                  },
+                )
+              : Container(),
         ],
       ),
     );
