@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
-import 'package:lionsapp/Screens/paymethode.dart';
-import 'package:lionsapp/Screens/receipt.dart';
-import 'package:lionsapp/main.dart';
 
-import '../Screens/calendar.dart';
-import '../Screens/projects/catalogue.dart';
-import '../Screens/chat.dart';
-import '../Screens/contact.dart';
-import '../Screens/donation.dart';
-import '../Screens/imprint.dart';
-import '../Screens/user_configs.dart';
-import '../Screens/events.dart';
-import '../Screens/user_management.dart';
-import '../Screens/contact_mailbox.dart';
-
-import '../login/login.dart';
-import '../login/register.dart';
+import 'package:lionsapp/Screens/calendar.dart';
+import 'package:lionsapp/Screens/projects/catalogue.dart';
+import 'package:lionsapp/Screens/chat.dart';
+import 'package:lionsapp/Screens/contact.dart';
+import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/imprint.dart';
+import 'package:lionsapp/Screens/user_configs.dart';
+import 'package:lionsapp/Screens/events.dart';
+import 'package:lionsapp/Screens/user_management.dart';
+import 'package:lionsapp/Screens/contact_mailbox.dart';
+import 'package:lionsapp/login/login.dart';
+import 'package:lionsapp/login/register.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
