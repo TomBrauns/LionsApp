@@ -379,14 +379,18 @@ class _LogOutState extends State<LogOut> {
       body: Center(
           child: Column(children: [
         Container(
-          child: Text(
-              'Schade dass du dich ausgeloggt hast'
-          'wir hoffen dich bald wieder bei den Lions begrüßen zu können.',
+          margin: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(40.0),
+          decoration: BoxDecoration(
+              color: Colors.amber,
+              border: Border.all(color: Colors.amber),
+              borderRadius: BorderRadius.circular(10),
+          ),
 
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-            )
+          child:const  Text(
+              "Schade dass du dich ausgeloggt hast,"
+              "wir hoffen dich bald wieder bei den Lions begrüßen zu können."),
+
           ),
         Container(
           margin: const EdgeInsets.all(25),
@@ -395,7 +399,6 @@ class _LogOutState extends State<LogOut> {
               Icons.keyboard_return,
               size: 24.0,
             ),
-            // TODO Add a nice text sayimg how sorry we are that they logged out.
             label: const Text('Zurück zum Start'),
             style: ElevatedButton.styleFrom(
               primary: Colors.blue,
