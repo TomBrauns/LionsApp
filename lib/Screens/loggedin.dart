@@ -19,14 +19,14 @@ class _LoggedInScreenState extends State<LoggedInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Logged In'),
+        title: const Text('Logged In'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Betrag',
               ),
               keyboardType: TextInputType.number,
@@ -36,38 +36,38 @@ class _LoggedInScreenState extends State<LoggedInScreen> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () => _addBetrag(5),
-                  child: Text('+5 Euro'),
+                  child: const Text('+5 Euro'),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () => _addBetrag(10),
-                  child: Text('+10 Euro'),
+                  child: const Text('+10 Euro'),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () => _addBetrag(100),
-                  child: Text('+100 Euro'),
+                  child: const Text('+100 Euro'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Spenden'),
+              child: const Text('Spenden'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CheckboxListTile(
-              title: Text('Quittung?'),
+              title: const Text('Quittung?'),
               value: false,
               onChanged: (value) {},
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             DropdownButton<String>(
               value: selectedSubscription,
               items: <String>[
@@ -86,7 +86,7 @@ class _LoggedInScreenState extends State<LoggedInScreen> {
                   selectedSubscription = value ?? 'keins';
                 });
               },
-              hint: Text('Spenden Abo'),
+              hint: const Text('Spenden Abo'),
             ),
           ],
         ),

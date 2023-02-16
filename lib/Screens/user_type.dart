@@ -8,30 +8,30 @@ class UserTypeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement the 'Gast' button's functionality
               },
-              child: Text('Gast'),
+              child: const Text('Gast'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement the 'Anmelden' button's functionality
               },
-              child: Text('Anmelden'),
+              child: const Text('Anmelden'),
             ),
-            Text(
+            const Text(
               'Noch kein Konto?',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement the 'Hier registrieren' button's functionality
               },
-              child: Text('Hier registrieren'),
+              child: const Text('Hier registrieren'),
             ),
           ],
         ),
