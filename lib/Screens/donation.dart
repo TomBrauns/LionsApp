@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
@@ -41,12 +39,12 @@ class _DonationsState extends State<Donations> {
             actions: <Widget>[
               privilege == "Member" || privilege == "Friend"
                   ? IconButton(
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => User()),
+                      MaterialPageRoute(builder: (context) => const User()),
                     );
                   })
                   : Container(),
@@ -60,13 +58,13 @@ class _DonationsState extends State<Donations> {
                   return Text('Error: ${snapshot.error}');
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
 
                 //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
 
-                String _donationTitle = snapshot.data?.get('name') ?? "";
+                String donationTitle = snapshot.data?.get('name') ?? "";
 
 
                 return Container(
@@ -78,9 +76,9 @@ class _DonationsState extends State<Donations> {
                           children: [
                             SizedBox(
                                 width: double.infinity,
-                                child: Text(_donationTitle,
+                                child: Text(donationTitle,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 24))),
+                                    style: const TextStyle(fontSize: 24))),
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(
