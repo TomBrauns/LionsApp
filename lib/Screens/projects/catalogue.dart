@@ -20,12 +20,14 @@ class _CatalogueState extends State<Catalogue> {
     );
   }
 
-  void _handleProjectClicked() {
+  /*void _handleProjectClicked() {
+
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Project()),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +63,29 @@ class _CatalogueState extends State<Catalogue> {
             }
           });
 
+
           final List<Widget> categoryWidgets = groupedData.entries.map((MapEntry<String, List<DocumentSnapshot>> entry) {
 
             final String category = entry.key;
             final List<DocumentSnapshot> documents = entry.value;
+
             final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
+              //print(document.id);
               return ListTile(
                 leading: const SizedBox(),
                 title: Text(document.get('name')),
                 subtitle: Text(document.get('support')),
-                onTap:
-                  _handleProjectClicked,
+                onTap:() {
+                  String documentId = document.id;
+                  print(documentId);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Project(documentId: documentId)));
+
+
+
+                  //_handleProjectClicked;
+
+                }
+
               );
             }).toList();
             return Column(
