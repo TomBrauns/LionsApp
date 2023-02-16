@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '923321843822',
     projectId: 'lionsapp-973b3',
     authDomain: 'lionsapp-973b3.firebaseapp.com',
+    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'lionsapp-973b3.appspot.com',
     measurementId: 'G-97Q64ZFCE8',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:923321843822:android:e238895b700aaf2180e67f',
     messagingSenderId: '923321843822',
     projectId: 'lionsapp-973b3',
+    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'lionsapp-973b3.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:923321843822:ios:d14efb69a86721d980e67f',
     messagingSenderId: '923321843822',
     projectId: 'lionsapp-973b3',
+    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'lionsapp-973b3.appspot.com',
     iosClientId: '923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com',
     iosBundleId: 'com.teamlion.lionsapp',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:923321843822:ios:d14efb69a86721d980e67f',
     messagingSenderId: '923321843822',
     projectId: 'lionsapp-973b3',
+    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'lionsapp-973b3.appspot.com',
     iosClientId: '923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com',
     iosBundleId: 'com.teamlion.lionsapp',

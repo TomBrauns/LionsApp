@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:mb_contact_form/mb_contact_form.dart';
 
 class Contact extends StatefulWidget {
@@ -18,13 +18,10 @@ class _ContactState extends State<Contact> {
       appBar: AppBar(
         title: const Text("Kontakt"),
       ),
-      body: const Column(
-        children: [
-        MBContactForm(
-        hasHeading: true, withIcons: false, destinationEmail: "XXXXX@yahoo.com"),
-        Text("Weitere Daten")
-
-      ],)
+      body: const MBContactForm(
+          hasHeading: true,
+          withIcons: false,
+          destinationEmail: "omersucces@yahoo.com"),
     );
   }
 }

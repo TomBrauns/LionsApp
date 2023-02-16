@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'friend.dart';
 import 'member.dart';
 import 'register.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,14 +22,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const BurgerMenu(),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.blue,
+              color: Color.fromARGB(255, 29, 89, 167),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.70,
               child: Center(
+                //LoginText
                 child: Container(
                   margin: EdgeInsets.all(12),
                   child: Form(
@@ -38,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Text(
                           "Login",
@@ -176,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              color: Colors.blue,
+              color: Colors.white,
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Column(
@@ -184,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     MaterialButton(
                       shape: RoundedRectangleBorder(
@@ -210,9 +214,6 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 20,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
                     ),
                     SizedBox(
                       height: 5,

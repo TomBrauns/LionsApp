@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 // import 'model.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -38,12 +39,14 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const BurgerMenu(),
+      appBar: AppBar(),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.blue,
+              color: Color.fromARGB(255, 29, 89, 167),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
