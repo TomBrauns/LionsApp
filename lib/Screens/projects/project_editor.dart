@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
@@ -24,9 +25,18 @@ class _ProjectEditorState extends State<ProjectEditor> {
 
   void _handleSubmit() {
     final name = _nameInputController.value.text;
-    final background = _nameInputController.value.text;
+    final background = _backgroundInputController.value.text;
     final support = _supportInputController.value.text;
     print("category=$selectedCategory, name=$name, background=$background, support=$support");
+
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    FirebaseFirestore.instance.collection('projects').add({
+      'name': _nameInputController.text,
+      'background': _backgroundInputController.text,
+      'support': _supportInputController.text,
+      'category':selectedCategory
+    });
   }
 
   @override
