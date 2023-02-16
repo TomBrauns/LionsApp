@@ -234,18 +234,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          ListTile(
-            title: const Text('Kontaktformular'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Contactform()),
-              );
-            },
-          ),
         ],
       ),
     ));
