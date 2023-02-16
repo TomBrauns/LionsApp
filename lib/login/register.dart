@@ -44,6 +44,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
@@ -229,13 +230,18 @@ class _RegisterState extends State<Register> {
                               isChecked = checked ?? false;
                             }),
                           ),
-                          const Text("Ich möchte eine Quittung erhalten.", style: TextStyle(color : Colors.white)),
+                          const Text(
+                            "AGB's akzeptieren",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          )
                         ]),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              "Role : ",
+                              "Rolle : ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
