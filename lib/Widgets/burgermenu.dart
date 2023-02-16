@@ -23,7 +23,7 @@ class BurgerMenu extends StatefulWidget {
 
 class _BurgerMenuState extends State<BurgerMenu> {
   // Test Value
-  String privilege = "Admin";
+  static const String privilege = "Admin";
   //
   @override
   Widget build(BuildContext context) {

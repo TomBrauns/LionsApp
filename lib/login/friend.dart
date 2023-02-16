@@ -12,6 +12,7 @@ class _ProjectState extends State<Friend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const BurgerMenu(),
       appBar: AppBar(
         title: const Text("I'm a Friend"),
       ),
