@@ -23,7 +23,7 @@ class _RegisterState extends State<Register> {
 
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpassController = TextEditingController();
-  final TextEditingController name = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobile = TextEditingController();
   bool _isObscure = true;
@@ -31,10 +31,7 @@ class _RegisterState extends State<Register> {
   File? file;
   var options = [
     'friend',
-    'member',
-    'admin',
   ];
-  var _currentItemSelected = "friend";
   var rool = "friend";
 
   @override
@@ -78,7 +75,7 @@ class _RegisterState extends State<Register> {
                           height: 50,
                         ),
                         TextFormField(
-                          controller: emailController,
+                          controller: nameController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -96,7 +93,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                           onChanged: (value) {},
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.name,
                         ),
                         SizedBox(
                           height: 20,
@@ -121,12 +118,12 @@ class _RegisterState extends State<Register> {
                           ),
                           validator: (value) {
                             if (value!.length == 0) {
-                              return "Email cannot be empty";
+                              return "Email darf nicht leer sein";
                             }
                             if (!RegExp(
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
-                              return ("Please enter a valid email");
+                              return ("Bitte gültige Email Adresse angeben");
                             } else {
                               return null;
                             }
@@ -152,7 +149,7 @@ class _RegisterState extends State<Register> {
                                 }),
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: 'Password',
+                            hintText: 'Passwort',
                             enabled: true,
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
@@ -168,10 +165,10 @@ class _RegisterState extends State<Register> {
                           validator: (value) {
                             RegExp regex = new RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
-                              return "Password cannot be empty";
+                              return "Passwort darf nicht leer sein";
                             }
                             if (!regex.hasMatch(value)) {
-                              return ("please enter valid password min. 6 character");
+                              return ("Bitte gültiges Passwort mit mind. 6 Zeichen angeben");
                             } else {
                               return null;
                             }
@@ -196,7 +193,7 @@ class _RegisterState extends State<Register> {
                                 }),
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: 'Confirm Password',
+                            hintText: 'Passwort bestätigen',
                             enabled: true,
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
@@ -212,7 +209,7 @@ class _RegisterState extends State<Register> {
                           validator: (value) {
                             if (confirmpassController.text !=
                                 passwordController.text) {
-                              return "Password did not match";
+                              return "Passwörter stimmen nicht überein";
                             } else {
                               return null;
                             }
@@ -223,24 +220,27 @@ class _RegisterState extends State<Register> {
                           height: 20,
                         ),
                         const SizedBox(height: 24),
-                        Row(children: [
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (checked) => setState(() {
-                              isChecked = checked ?? false;
-                            }),
-                          ),
-                          const Text(
-                            "AGB's akzeptieren",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          )
-                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Checkbox(
+                                value: isChecked,
+                                onChanged: (checked) => setState(() {
+                                  isChecked = checked ?? false;
+                                }),
+                              ),
+                              const Text(
+                                "AGB's akzeptieren",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ]),
+
                         /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            const Text(RRR
                               "Rolle : ",
                               style: TextStyle(
                                 fontSize: 20,
@@ -300,7 +300,7 @@ class _RegisterState extends State<Register> {
                                 );
                               },
                               child: Text(
-                                "Login",
+                                "Zurück zu Login",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -317,11 +317,14 @@ class _RegisterState extends State<Register> {
                                 setState(() {
                                   showProgress = true;
                                 });
-                                signUp(emailController.text,
-                                    passwordController.text, rool);
+                                signUp(
+                                    nameController.text,
+                                    emailController.text,
+                                    passwordController.text,
+                                    rool);
                               },
                               child: Text(
-                                "Register",
+                                "Registrieren",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -345,21 +348,25 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp(String email, String password, String rool) async {
+  void signUp(String name, String email, String password, String rool) async {
     CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(email, rool)})
+          .then((value) => {postDetailsToFirestore(name, email, rool)})
           .catchError((e) {});
     }
   }
 
-  postDetailsToFirestore(String email, String rool) async {
+  postDetailsToFirestore(String name, String email, String rool) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({'email': emailController.text, 'rool': rool});
+    ref.doc(user!.uid).set({
+      'name': nameController.text,
+      'email': emailController.text,
+      'rool': rool
+    });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginPage()));
   }

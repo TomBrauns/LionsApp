@@ -1,34 +1,60 @@
 import 'package:flutter/material.dart';
 
-class AuthCode extends StatefulWidget {
-  const AuthCode({Key? key}) : super(key: key);
-
+class NewPasswordScreen extends StatefulWidget {
   @override
-  State<AuthCode> createState() => _AuthCodeState();
+  _NewPasswordScreenState createState() => _NewPasswordScreenState();
 }
 
-class _AuthCodeState extends State<AuthCode> {
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _repeatPasswordController =
+      TextEditingController();
+
+  void _submitForm() {
+    // TODO: Implement functionality to update the user's password
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(children: [
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Neues Passwort',
-          ),
+      appBar: AppBar(
+        title: Text('Neues Passwort festlegen'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Bitte geben Sie Ihr neues Passwort ein:',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _newPasswordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Neues Passwort',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _repeatPasswordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Passwort wiederholen',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitForm,
+              child: Text('Bestätigen'),
+            ),
+          ],
         ),
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Passwort verändern',
-          ),
-        ),
-        ElevatedButton(onPressed: null, child: Text("Bestätigen")),
-      ]),
-    ));
+      ),
+    );
   }
 }

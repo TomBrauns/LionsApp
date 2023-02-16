@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
+String _dropdownValue = list.first;
+
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({Key? key}) : super(key: key);
@@ -27,6 +29,8 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _spendenzielController = TextEditingController();
 
   TextEditingController _addressController = TextEditingController();
+
+  bool _createChat = false;
 
 
 
@@ -165,6 +169,26 @@ class _CreateEvent extends State<CreateEvent> {
               ),
             ),
             Center(
+              child: Row(
+                  children: <Widget>[
+                    Container(
+                        child: Text("Chat erstellen?")
+                    ),
+                    Container(
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          value: _createChat,
+                          onChanged: (bool? value){
+                            setState(() {
+                              _createChat = value!;
+                            });
+                          },
+                        )
+                    )
+                  ]
+              ),
+            ),
+            Center(
               child: Container(
                 padding: EdgeInsets.all(30.0),
                   child: Text("Informationen zum Event:")
@@ -185,8 +209,7 @@ class _CreateEvent extends State<CreateEvent> {
             ),
             Center(
               child:
-                FloatingActionButton(
-                  backgroundColor: Colors.green,
+                ElevatedButton(
                   onPressed: () {
 
                     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -196,61 +219,10 @@ class _CreateEvent extends State<CreateEvent> {
                       'endDate':_endDateController.text,
                       'eventInfo':_eventInfoController.text,
                       'spendenZiel':_spendenzielController.text,
-                      'ort':_addressController.text
+                      'ort':_addressController.text,
+                      'chat':_createChat,
+                      'projekt':_dropdownValue
                     });
-
-                    final cities = db.collection("cities");
-
-                    final data1 = <String, dynamic>{
-                      "name": "San Francisco",
-                      "state": "CA",
-                      "country": "USA",
-                      "capital": false,
-                      "population": 860000,
-                      "regions": ["west_coast", "norcal"]
-                    };
-                    cities.doc("SF").set(data1);
-
-                    final data2 = <String, dynamic>{
-                      "name": "Los Angeles",
-                      "state": "CA",
-                      "country": "USA",
-                      "capital": false,
-                      "population": 3900000,
-                      "regions": ["west_coast", "socal"],
-                    };
-                    cities.doc("LA").set(data2);
-
-                    final data3 = <String, dynamic>{
-                      "name": "Washington D.C.",
-                      "state": null,
-                      "country": "USA",
-                      "capital": true,
-                      "population": 680000,
-                      "regions": ["east_coast"]
-                    };
-                    cities.doc("DC").set(data3);
-
-                    final data4 = <String, dynamic>{
-                      "name": "Tokyo",
-                      "state": null,
-                      "country": "Japan",
-                      "capital": true,
-                      "population": 9000000,
-                      "regions": ["kanto", "honshu"]
-                    };
-                    cities.doc("TOK").set(data4);
-
-                    final data5 = <String, dynamic>{
-                      "name": "Beijing",
-                      "state": null,
-                      "country": "China",
-                      "capital": true,
-                      "population": 21500000,
-                      "regions": ["jingjinji", "hebei"],
-                    };
-                    cities.doc("BJ").set(data5);
-
                    },
                   child:
                   Text('Event anlegen'),
@@ -273,12 +245,11 @@ class DropdownButtonExample extends StatefulWidget {
 
 class _DropdownButtonExampleState extends State<DropdownButtonExample>{
 
-  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context){
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: _dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       style: const TextStyle(color: Colors.deepPurple),
@@ -288,7 +259,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample>{
       ),
       onChanged: (String? value){
         setState(() {
-          dropdownValue = value!;
+          _dropdownValue = value!;
         });
       },
       items: list.map<DropdownMenuItem<String>>((String value) {

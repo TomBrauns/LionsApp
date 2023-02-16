@@ -16,9 +16,9 @@ class _ProjectState extends State<Member> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Member"),
+        title: const Text("I'm a Member"),
       ),
-      body: const Text("Hier folgt die MemberSite"),
+      body: const Text(""),
     );
   }
 }
