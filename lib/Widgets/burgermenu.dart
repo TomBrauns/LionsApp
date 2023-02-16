@@ -5,7 +5,7 @@ import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/main.dart';
 
 import '../Screens/calendar.dart';
-import '../Screens/catalogue.dart';
+import '../Screens/projects/catalogue.dart';
 import '../Screens/chat.dart';
 import '../Screens/contact.dart';
 import '../Screens/donation.dart';
