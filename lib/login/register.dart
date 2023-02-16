@@ -236,10 +236,11 @@ class _RegisterState extends State<Register> {
                                 ),
                               )
                             ]),
+
                         /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            const Text(RRR
                               "Rolle : ",
                               style: TextStyle(
                                 fontSize: 20,
