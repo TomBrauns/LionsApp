@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class Authentication {
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+    print("hallo");
 
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
@@ -36,7 +38,21 @@ class Authentication {
         final UserCredential userCredential =
             await auth.signInWithPopup(authProvider);
 
-        user = userCredential.user;
+        user = userCredential.user!;
+
+        String vorName = user.displayName!.split(' ')[0];
+        String nachName = user.displayName!.split(' ')[1];
+        String Email = user.email!;
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+        CollectionReference ref =
+            FirebaseFirestore.instance.collection('users');
+        ref.doc(user.uid).set({
+          'firstname': vorName,
+          'lastname': nachName,
+          'email': Email,
+          'rool': 'friend',
+        });
       } catch (e) {
         print(e);
       }
