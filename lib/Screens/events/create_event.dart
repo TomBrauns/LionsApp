@@ -42,6 +42,24 @@ class _CreateEvent extends State<CreateEvent> {
   
   bool _spendenZielErforderlich = false;
 
+  late String _selectedProject;
+  List<String> _categories = [];
+
+  @override
+  void initState(){
+    super.initState();
+    FirebaseFirestore.instance.collection('projects').get().then((querySnapshot){
+      querySnapshot.docs.forEach((doc){
+        if(!_categories.contains(doc['category'])){
+          setState(() {
+            _categories.add(doc['category']);
+          });
+        }
+      });
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

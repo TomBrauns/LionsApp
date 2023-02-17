@@ -102,7 +102,15 @@ class _DonationsState extends State<Donations> {
                                 _isReceiptChecked = checked ?? false;
                               }),
                             ),
-                            const Text("Ich möchte eine Quittung erhalten.")
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  _isReceiptChecked = !_isReceiptChecked;
+                                });
+                              },
+                                child: Text("Ich möchte eine Quittung erhalten.")
+                            )
+
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
