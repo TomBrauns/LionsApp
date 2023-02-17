@@ -168,11 +168,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Push to Screen
               Navigator.push(
                 context,
-<<<<<<< HEAD
-                //just rv const
-=======
+                
                 //just rm const unten
->>>>>>> b719aec (translate contact form)
                 MaterialPageRoute(builder: (context) => Contact()),
               );
             },
