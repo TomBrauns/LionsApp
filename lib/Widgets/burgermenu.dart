@@ -8,7 +8,7 @@ import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/imprint.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
-import 'package:lionsapp/Screens/events.dart';
+import 'package:lionsapp/Screens/events_liste.dart';
 import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Screens/contact_mailbox.dart';
 import 'package:lionsapp/login/login.dart';
