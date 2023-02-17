@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/login/login.dart';
@@ -309,7 +310,12 @@ class Subs extends StatefulWidget {
 class _SubsState extends State<Subs> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      appBar: MyAppBar(
+        title: "Abo Verwaltung",
+        privilege: "Friend",
+      ),
+    );
   }
 }
 
