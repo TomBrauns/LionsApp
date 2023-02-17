@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/calendar.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
@@ -8,8 +7,10 @@ import 'package:lionsapp/Screens/user_configs.dart';
 
 class BottomNavigation extends StatefulWidget {
   final String currentPage;
+  final String privilege;
 
-  const BottomNavigation({Key? key, required this.currentPage})
+  const BottomNavigation(
+      {Key? key, required this.currentPage, required this.privilege})
       : super(key: key);
 
   @override
@@ -21,17 +22,19 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     return BottomAppBar(
         color: Colors.blueAccent,
-        shape: CircularNotchedRectangle(), //shape of notch
+        shape: const CircularNotchedRectangle(), //shape of notch
         notchMargin: 5,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            widget.currentPage == "Catalogue"
-                ? Padding(
+            widget.currentPage == "Catalogue" && widget.privilege == "Member" ||
+                    widget.currentPage == "Catalogue" &&
+                        widget.privilege == "Admin"
+                ? const Padding(
                     padding: EdgeInsets.only(left: 90),
                   )
-                : SizedBox(),
+                : const SizedBox(),
             IconButton(
               onPressed: () {
                 // Update State of App
@@ -92,41 +95,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
               },
               icon: const Icon(Icons.book),
             ),
-            // ActionButton == "User"
-            //     ? FloatingActionButton(
-            //         onPressed: () {},
-            //         backgroundColor: Colors.green,
-            //         child: const Icon(Icons.navigation),
-            //       )
-            //     : Container(),
-            // ActionButton == "Donations"
-            //     ? FloatingActionButton(
-            //         onPressed: () {},
-            //         backgroundColor: Colors.green,
-            //         child: const Icon(Icons.navigation),
-            //       )
-            //     : Container(),
-            // ActionButton == "Chat"
-            //     ? FloatingActionButton(
-            //         onPressed: () {},
-            //         backgroundColor: Colors.green,
-            //         child: const Icon(Icons.navigation),
-            //       )
-            //     : Container(),
-            // ActionButton == "Calendar"
-            //     ? FloatingActionButton(
-            //         onPressed: () {},
-            //         backgroundColor: Colors.green,
-            //         child: const Icon(Icons.navigation),
-            //       )
-            //     : Container(),
-            // ActionButton == "Catalogue"
-            //     ? FloatingActionButton(
-            //         onPressed: () {},
-            //         backgroundColor: Colors.green,
-            //         child: const Icon(Icons.navigation),
-            //       )
-            //     : Container(),
           ],
         ));
   }

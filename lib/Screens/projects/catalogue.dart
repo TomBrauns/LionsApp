@@ -37,7 +37,10 @@ class _CatalogueState extends State<Catalogue> {
         title: const Text("Katalog"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      bottomNavigationBar: const BottomNavigation(currentPage: "Catalogue"),
+      bottomNavigationBar: const BottomNavigation(
+        currentPage: "Catalogue",
+        privilege: "Admin",
+      ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('projects')

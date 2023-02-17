@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
+import 'package:lionsapp/Widgets/appbar.dart';
 
 class Donations extends StatefulWidget {
   final String? documentId;
@@ -33,24 +34,11 @@ class _DonationsState extends State<Donations> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
-        appBar: AppBar(
-            title: const Text("Spenden"),
-            // User Icon in AppBar
-            actions: <Widget>[
-              privilege == "Member" || privilege == "Friend"
-                  ? IconButton(
-                      icon: const Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const User()),
-                        );
-                      })
-                  : Container(),
-              // End User Icon
-            ]),
-        bottomNavigationBar: const BottomNavigation(currentPage: "Donations"),
+        appBar: MyAppBar(title: "Spenden", privilege: "Admin"),
+        bottomNavigationBar: const BottomNavigation(
+          currentPage: "Donations",
+          privilege: "Admin",
+        ),
         body: StreamBuilder<DocumentSnapshot>(
             stream: _documentStream,
             builder: (context, snapshot) {
@@ -86,17 +74,6 @@ class _DonationsState extends State<Donations> {
                                   LinearProgressIndicator(
                                       value: 0.42, minHeight: 24.0),
                                 ]),
-                          ),
-                          DropdownButtonFormField(
-                            value: selectedSubscription,
-                            items: subscriptions
-                                .map<DropdownMenuItem<String>>(((sub) =>
-                                    DropdownMenuItem(
-                                        value: sub, child: Text(sub))))
-                                .toList(),
-                            onChanged: _handleSubscriptionChange,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder()),
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
@@ -152,20 +129,12 @@ class _DonationsState extends State<Donations> {
             }));
   }
 
-  static const subscriptions = [
-    "Einmalig",
-    "Monatlich",
-    "Halbjährlich",
-    "Jährlich"
-  ];
-
   // Test Value
   String privilege = "Member";
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _inputController = TextEditingController();
   bool _isReceiptChecked = false;
-  String selectedSubscription = subscriptions[0];
 
   int _getCurrentValue() {
     return int.tryParse(_inputController.value.text) ?? 0;
@@ -175,15 +144,10 @@ class _DonationsState extends State<Donations> {
     _inputController.text = (_getCurrentValue() + value).toString();
   }
 
-  void _handleSubscriptionChange(String? subscription) {
-    selectedSubscription = subscription ?? selectedSubscription;
-  }
-
   void _handleSubmit() {
     int value = _getCurrentValue();
     // TODO Submitted
-    print(
-        "Value=$value, Quittung=$_isReceiptChecked, Sub=$selectedSubscription");
+    print("Value=$value, Quittung=$_isReceiptChecked");
   }
 }
 
