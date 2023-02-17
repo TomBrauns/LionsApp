@@ -251,15 +251,15 @@ class _LoginPageState extends State<LoginPage> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    print(await FirebaseAuth.instance.signInWithCredential(credential));
 
     // Once signed in, return the UserCredential
+
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   void route() {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
