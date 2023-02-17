@@ -143,6 +143,10 @@ Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
 }
 
+Future<void> updateCredentials() async {
+  var userMail = FirebaseAuth.instance.currentUser?.email;
+}
+
 class UserForm extends StatefulWidget {
   const UserForm({super.key});
 
@@ -171,8 +175,24 @@ class _UserFormState extends State<UserForm> {
                       children: <Widget>[
                         TextFormField(
                           decoration: const InputDecoration(
-                              labelText: 'Namen',
-                              hintText: 'Vor und Nachnamen eingeben',
+                              labelText: 'Vorname',
+                              hintText: 'Vorname eingeben',
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Geben Sie Ihre Vorname ein';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'Nachname',
+                              hintText: 'Nachnamen eingeben',
                               icon: Icon(
                                 Icons.person,
                                 color: Colors.blue,
@@ -204,12 +224,9 @@ class _UserFormState extends State<UserForm> {
                             return null;
                           },
                         ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                        ),
                         TextFormField(
                           decoration: const InputDecoration(
-                              labelText: 'E-Mail',
+                              labelText: 'E-Mail bestätigen',
                               hintText: 'Email bestätigen',
                               icon: Icon(
                                 Icons.email,
@@ -241,9 +258,6 @@ class _UserFormState extends State<UserForm> {
                             }
                             return null;
                           },
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
