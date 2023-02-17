@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:intl/date_time_patterns.dart';
@@ -7,6 +10,11 @@ import 'package:intl/date_time_patterns.dart';
 //Firebase integration
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
+import 'package:path/path.dart';
+
 
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
@@ -31,7 +39,8 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _addressController = TextEditingController();
 
   bool _createChat = false;
-
+  
+  bool _spendenZielErforderlich = false;
 
 
   @override
@@ -46,39 +55,49 @@ class _CreateEvent extends State<CreateEvent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Spendenziel"),
-                    LinearProgressIndicator(value: 0.77, minHeight: 24.0),
-                  ]),
-            ),
-            Container(
-              child: Row(
+              Row(
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width / 2 - 40,
-                    padding: EdgeInsets.all(10),
-                    child: const Text(
-                      'Spendenziel festlegen: '
-                    ),
+                    child: Text("Spendenziel im Event anzeigen: "),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width / 2 - 40,
-                    child: TextField(
-                      inputFormatters: [CurrencyTextInputFormatter(
-                        locale: 'eu',
-                        symbol: '€'
-                      )],
-                      keyboardType: TextInputType.number,
-                      controller: _spendenzielController,
+                    child: Checkbox(
+                      checkColor: Colors.white,
+                      value: _spendenZielErforderlich,
+                      onChanged: (bool? value){
+                        setState(() {
+                          _spendenZielErforderlich = value!;
+                        });
+                      },
                     ),
-                  ),
-                ],
-              )
-            ),
+                  )
+                  ],
+              ),
+            if(_spendenZielErforderlich)
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 40,
+                      padding: EdgeInsets.all(10),
+                      child: const Text(
+                        'Spendenziel festlegen: '
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 40,
+                      child: TextField(
+                        inputFormatters: [CurrencyTextInputFormatter(
+                          locale: 'eu',
+                          symbol: '€'
+                        )],
+                        keyboardType: TextInputType.number,
+                        controller: _spendenzielController,
+                      ),
+                    ),
+                  ],
+                )
+              ),
             Row(
               children: <Widget>[
                 Container(
@@ -143,11 +162,6 @@ class _CreateEvent extends State<CreateEvent> {
                 padding: EdgeInsets.all(30.0),
                 child: Text("Projekt, für welches Geld gesammelt wird:"),
               )
-
-            ),
-            const Center(
-
-
             ),
             const Center(
               child: DropdownButtonExample(),
