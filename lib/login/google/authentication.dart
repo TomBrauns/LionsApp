@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../Widgets/burgermenu.dart';
+import '../friend.dart';
+import '../member.dart';
+
 class Authentication {
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
@@ -47,12 +51,45 @@ class Authentication {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
         CollectionReference ref =
             FirebaseFirestore.instance.collection('users');
-        ref.doc(user.uid).set({
-          'firstname': vorName,
-          'lastname': nachName,
-          'email': Email,
-          'rool': 'friend',
+
+        if (!(await ref.doc(user.uid).get()).exists) {
+          ref.doc(user.uid).set({
+            'firstname': vorName,
+            'lastname': nachName,
+            'email': Email,
+            'rool': 'friend',
+          });
+        }
+
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            if (documentSnapshot.get('rool') == "member") {
+              BurgerMenu.privilege = "Admin";
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Member(),
+                ),
+              );
+            } else {
+              BurgerMenu.privilege = "Friend";
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Friend(),
+                ),
+              );
+            }
+          } else {
+            print('Document does not exist on the database');
+          }
         });
+
+        ;
       } catch (e) {
         print(e);
       }
