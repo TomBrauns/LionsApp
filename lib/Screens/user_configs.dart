@@ -145,108 +145,133 @@ class _UserFormState extends State<UserForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Nutzerdaten"),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Namen',
-                hintText: 'Vor und Nachnamen eingeben',
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.blue,
-                  size: 25,
-                )),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Geben Sie Ihre Namen ein';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'E-Mail',
-                hintText: 'Email eingeben',
-                icon: Icon(
-                  Icons.email,
-                  color: Colors.blue,
-                  size: 25,
-                )),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Geben Sie Ihre Email Adresse ein';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Passwort',
-                hintText: 'Passwort',
-                icon: Icon(
-                  Icons.email,
-                  color: Colors.blue,
-                  size: 25,
-                )),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Geben Sie ein Passwort';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Passwort',
-                hintText: 'Passwort',
-                icon: Icon(
-                  Icons.lock,
-                  color: Colors.blue,
-                  size: 25,
-                )),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Geben Sie ein Passwort';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Passwort Bestätigen',
-                hintText: 'Passwort',
-                icon: Icon(
-                  Icons.lock,
-                  color: Colors.blue,
-                  size: 25,
-                )),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Passwort bestätigen';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                //if (_formKey.currentState!.validate()) {
-                // Process data.
-                //}
-              },
-              child: const Text('Bestätigen'),
-            ),
-          ),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Nutzerdaten ändern"),
+        ),
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+            child: Scrollbar(
+                thickness: 5.0,
+                thumbVisibility: false,
+                radius: const Radius.circular(360),
+                child: Center(
+                  child: SizedBox(
+                    width: 250,
+                    height: 600,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'Namen',
+                              hintText: 'Vor und Nachnamen eingeben',
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Geben Sie Ihre Namen ein';
+                            }
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'E-Mail',
+                              hintText: 'Email eingeben',
+                              icon: Icon(
+                                Icons.email,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Geben Sie Ihre Email Adresse ein';
+                            }
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'E-Mail',
+                              hintText: 'Email bestätigen',
+                              icon: Icon(
+                                Icons.email,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Geben Sie Ihre Email Adresse ein';
+                            }
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'Passwort',
+                              hintText: 'Passwort',
+                              icon: Icon(
+                                Icons.lock,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Geben Sie ein Passwort';
+                            }
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'Passwort Bestätigen',
+                              hintText: 'Passwort',
+                              icon: Icon(
+                                Icons.lock,
+                                color: Colors.blue,
+                                size: 25,
+                              )),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Passwort bestätigen';
+                            }
+                            return null;
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate will return true if the form is valid, or false if
+                              // the form is invalid.
+                              //if (_formKey.currentState!.validate()) {
+                              // Process data.
+                              //}
+                            },
+                            child: const Text('Bestätigen'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ))));
   }
 }
 
