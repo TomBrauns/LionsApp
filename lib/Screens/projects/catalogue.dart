@@ -36,7 +36,7 @@ class _CatalogueState extends State<Catalogue> {
       appBar: AppBar(
         title: const Text("Katalog"),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Catalogue",
         privilege: "Admin",

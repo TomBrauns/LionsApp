@@ -28,7 +28,7 @@ class _CalendarState extends State<Calendar> {
       appBar: AppBar(
         title: const Text("Kalender"),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Calendar",
         privilege: "Admin",

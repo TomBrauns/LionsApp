@@ -24,29 +24,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
         color: Colors.blueAccent,
         shape: const CircularNotchedRectangle(), //shape of notch
         notchMargin: 5,
+        elevation: 0,
+        height: 80,
+        clipBehavior: Clip.none,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            //Padding for Catalogue
-            widget.currentPage == "Catalogue" && widget.privilege == "Member" ||
-                    widget.currentPage == "Catalogue" &&
-                        widget.privilege == "Admin"
-                ? const Padding(
-                    padding: EdgeInsets.only(left: 90),
-                  )
-                : SizedBox(),
-            //Padding for Catalogue
-            //PAdding for Calendar
-            widget.currentPage == "Calendar" && widget.privilege == "Member" ||
-                    widget.currentPage == "Calendar" &&
-                        widget.privilege == "Admin"
-                ? const Padding(
-                    padding: EdgeInsets.only(left: 90),
-                  )
-                : SizedBox(),
-            //Padding for Calendar
             IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               onPressed: () {
                 // Update State of App
                 Navigator.pop(context);
@@ -59,6 +45,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               icon: const Icon(Icons.badge),
             ),
             IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               onPressed: () {
                 // Update State of App
                 Navigator.pop(context);
@@ -71,6 +58,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               icon: const Icon(Icons.card_giftcard),
             ),
             IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               onPressed: () {
                 // Update State of App
                 Navigator.pop(context);
@@ -83,6 +71,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               icon: const Icon(Icons.chat),
             ),
             IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               onPressed: () {
                 // Update State of App
                 Navigator.pop(context);
@@ -95,6 +84,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               icon: const Icon(Icons.event),
             ),
             IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               onPressed: () {
                 // Update State of App
                 Navigator.pop(context);
