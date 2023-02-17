@@ -17,7 +17,10 @@ class _CalendarState extends State<Chat> {
       appBar: AppBar(
         title: const Text("Chat"),
       ),
-      bottomNavigationBar: const BottomNavigation(currentPage: "Chat"),
+      bottomNavigationBar: const BottomNavigation(
+        currentPage: "Chat",
+        privilege: "Admin",
+      ),
     );
   }
 }

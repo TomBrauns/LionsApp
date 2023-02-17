@@ -20,7 +20,10 @@ class _CalendarState extends State<Calendar> {
         appBar: AppBar(
           title: const Text("Kalender"),
         ),
-        bottomNavigationBar: const BottomNavigation(currentPage: "Calendar"),
+        bottomNavigationBar: const BottomNavigation(
+          currentPage: "Calendar",
+          privilege: "Admin",
+        ),
         body: MonthView(controller: _eventController));
   }
 }

@@ -18,7 +18,10 @@ class _UserState extends State<User> {
         appBar: AppBar(
           title: const Text("Benutzer"),
         ),
-        bottomNavigationBar: const BottomNavigation(currentPage: "User"),
+        bottomNavigationBar: const BottomNavigation(
+          currentPage: "User",
+          privilege: "Admin",
+        ),
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[

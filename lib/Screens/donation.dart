@@ -35,7 +35,10 @@ class _DonationsState extends State<Donations> {
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: MyAppBar(title: "Spenden", privilege: "Admin"),
-        bottomNavigationBar: const BottomNavigation(currentPage: "Donations"),
+        bottomNavigationBar: const BottomNavigation(
+          currentPage: "Donations",
+          privilege: "Admin",
+        ),
         body: StreamBuilder<DocumentSnapshot>(
             stream: _documentStream,
             builder: (context, snapshot) {

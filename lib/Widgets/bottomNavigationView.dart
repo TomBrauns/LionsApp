@@ -7,8 +7,10 @@ import 'package:lionsapp/Screens/user_configs.dart';
 
 class BottomNavigation extends StatefulWidget {
   final String currentPage;
+  final String privilege;
 
-  const BottomNavigation({Key? key, required this.currentPage})
+  const BottomNavigation(
+      {Key? key, required this.currentPage, required this.privilege})
       : super(key: key);
 
   @override
@@ -26,7 +28,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            widget.currentPage == "Catalogue"
+            widget.currentPage == "Catalogue" && widget.privilege == "Member" ||
+                    widget.currentPage == "Catalogue" &&
+                        widget.privilege == "Admin"
                 ? const Padding(
                     padding: EdgeInsets.only(left: 90),
                   )
