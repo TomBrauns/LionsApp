@@ -16,14 +16,14 @@ import 'package:lionsapp/login/register.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
-
+  static String privilege = "Friend";
   @override
   State<BurgerMenu> createState() => _BurgerMenuState();
 }
 
 class _BurgerMenuState extends State<BurgerMenu> {
   // Test Value
-  static const String privilege = "Admin";
+  //static const String privilege = "Friend";
   //
   @override
   Widget build(BuildContext context) {
@@ -62,11 +62,13 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Push to Screen
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  Donations()),
+                MaterialPageRoute(builder: (context) => Donations()),
               );
             },
           ),
-          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
+          BurgerMenu.privilege == "Admin" ||
+                  BurgerMenu.privilege == "Member" ||
+                  BurgerMenu.privilege == "Friend"
               ? ListTile(
                   title: const Text('Benutzer'),
                   onTap: () {
@@ -80,7 +82,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
+          BurgerMenu.privilege == "Admin" ||
+                  BurgerMenu.privilege == "Member" ||
+                  BurgerMenu.privilege == "Friend"
               ? ListTile(
                   title: const Text('Kalender'),
                   onTap: () {
@@ -94,7 +98,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Friend" || privilege == "Member" || privilege == "Admin"
+          BurgerMenu.privilege == "Friend" ||
+                  BurgerMenu.privilege == "Member" ||
+                  BurgerMenu.privilege == "Admin"
               ? ListTile(
                   title: const Text('Events'),
                   onTap: () {
@@ -108,7 +114,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Admin" || privilege == "Member" || privilege == "Friend"
+          BurgerMenu.privilege == "Admin" ||
+                  BurgerMenu.privilege == "Member" ||
+                  BurgerMenu.privilege == "Friend"
               ? ListTile(
                   title: const Text('Katalog'),
                   onTap: () {
@@ -123,7 +131,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Admin" || privilege == "Member"
+          BurgerMenu.privilege == "Admin" || BurgerMenu.privilege == "Member"
               ? ListTile(
                   title: const Text('Chat'),
                   onTap: () {
@@ -137,7 +145,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Admin" || privilege == "Member"
+          BurgerMenu.privilege == "Admin" || BurgerMenu.privilege == "Member"
               ? ListTile(
                   title: const Text('Event erstellen'),
                   onTap: () {
@@ -202,7 +210,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
 
           /// Following functions are for Admins only
-          privilege == "Admin"
+          BurgerMenu.privilege == "Admin"
               ? ListTile(
                   title: const Text('Nutzerverwaltung'),
                   onTap: () {
@@ -217,7 +225,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          privilege == "Admin"
+          BurgerMenu.privilege == "Admin"
               ? ListTile(
                   title: const Text('Kontaktpostfach'),
                   onTap: () {

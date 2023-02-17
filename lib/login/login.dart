@@ -8,6 +8,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lionsapp/login/google/authentication.dart';
 import 'package:lionsapp/login/google/google_sign_in_button.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart' as constant;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   /* TEST */
   bool isLoggedIN = false;
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-
   /* ENDE */
   bool _isObscure3 = true;
   bool visible = false;
@@ -245,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('rool') == "member") {
+          BurgerMenu.privilege = "Admin";
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -252,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          BurgerMenu.privilege = "Friend";
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
