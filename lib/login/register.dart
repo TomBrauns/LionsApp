@@ -23,13 +23,13 @@ class _RegisterState extends State<Register> {
 
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpassController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstnameController = TextEditingController();
+  final TextEditingController lastnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobile = TextEditingController();
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
-  var rool = "friend";
 
   @override
   Widget build(BuildContext context) {
@@ -71,26 +71,61 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 50,
                         ),
+                        Row(
+                          children:[
+
+                            Expanded(child:
                         TextFormField(
-                          controller: nameController,
+                          controller: firstnameController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: 'Vor- und Nachname',
+                            hintText: 'Vorname',
                             enabled: true,
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide:  BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           onChanged: (value) {},
                           keyboardType: TextInputType.name,
+                        ),
+
+                            ),
+
+                        const SizedBox(width: 10),
+
+                        Expanded(child:
+
+                        TextFormField(
+                          controller: lastnameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Nachname',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          keyboardType: TextInputType.name,
+                        )
+                        ),
+                        ],
                         ),
                         SizedBox(
                           height: 20,
@@ -315,10 +350,11 @@ class _RegisterState extends State<Register> {
                                   showProgress = true;
                                 });
                                 signUp(
-                                    nameController.text,
+                                    firstnameController.text,
+                                    lastnameController.text,
                                     emailController.text,
                                     passwordController.text,
-                                    rool);
+                                    );
                               },
                               child: Text(
                                 "Registrieren",
@@ -345,24 +381,24 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp(String name, String email, String password, String rool) async {
+  void signUp(String firstname, String lastname, String email, String password) async {
     CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(name, email, rool)})
+          .then((value) => {postDetailsToFirestore(firstname,lastname, email)})
           .catchError((e) {});
     }
   }
 
-  postDetailsToFirestore(String name, String email, String rool) async {
+  postDetailsToFirestore(String firstname,String lastname, String email) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
     ref.doc(user!.uid).set({
-      'name': nameController.text,
+      'firstname' : firstnameController.text,
+      'lastname' : lastnameController.text,
       'email': emailController.text,
-      'rool': rool
     });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginPage()));
