@@ -10,6 +10,7 @@ import 'package:lionsapp/login/google/authentication.dart';
 import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart' as constant;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lionsapp/login/register.dart' as test;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -250,6 +251,7 @@ class _LoginPageState extends State<LoginPage> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+    print(await FirebaseAuth.instance.signInWithCredential(credential));
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
