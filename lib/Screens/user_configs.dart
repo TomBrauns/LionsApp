@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -119,10 +120,11 @@ class _UserState extends State<User> {
               ),
               label: const Text('Ausloggen'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {
+                signOut();
+                BurgerMenu.privilege = "Friend";
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LogOut()),
@@ -132,6 +134,10 @@ class _UserState extends State<User> {
           ),
         ])));
   }
+}
+
+Future<void> signOut() async {
+  await FirebaseAuth.instance.signOut();
 }
 
 class UserForm extends StatefulWidget {
