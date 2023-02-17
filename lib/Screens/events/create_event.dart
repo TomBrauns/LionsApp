@@ -19,7 +19,7 @@ import 'package:path/path.dart';
 
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
-String _dropdownValue = list.first;
+String? _selectedProject;
 
 
 class CreateEvent extends StatefulWidget {
@@ -32,18 +32,15 @@ class CreateEvent extends StatefulWidget {
 class _CreateEvent extends State<CreateEvent> {
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
-
   TextEditingController _eventInfoController = TextEditingController();
-
   TextEditingController _spendenzielController = TextEditingController();
-
   TextEditingController _addressController = TextEditingController();
+  TextEditingController _eventNameController = TextEditingController();
 
   bool _createChat = false;
   
   bool _spendenZielErforderlich = false;
 
-  String? _selectedProject;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +49,8 @@ class _CreateEvent extends State<CreateEvent> {
       appBar: AppBar(
         title: const Text("Event erstellen"),
       ),
-      body: Container(
+      body:
+      Container(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,14 +157,22 @@ class _CreateEvent extends State<CreateEvent> {
               ],
 
             ),
+            Container(
+              child: Center(
+                child: TextField(
+                  controller: _eventNameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Eventname eingeben",
+                  ),
+                ),
+              ),
+            ),
             Center(
               child: Container(
                 padding: EdgeInsets.all(30.0),
                 child: Text("Projekt, für welches Geld gesammelt wird:"),
               )
-            ),
-            Center(
-              child: Text("Hier kommt das bessere Dropdown hin"),
             ),
             Container(
               padding: EdgeInsets.all(10.0),
@@ -241,7 +247,8 @@ class _CreateEvent extends State<CreateEvent> {
                       'spendenZiel':_spendenzielController.text,
                       'ort':_addressController.text,
                       'chat':_createChat,
-                      'projekt':_dropdownValue
+                      'projekt': _selectedProject,
+                      'eventName':_eventNameController.text,
                     });
                    },
                   child:
@@ -264,7 +271,6 @@ class ProjectDropdown extends StatefulWidget{
 }
 
 class _ProjectDropdownState extends State<ProjectDropdown> {
-  String? _selectedProject;
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +280,6 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
         if (!snapshot.hasData) {
           return Container(); // Rückgabe eines leeren Containers
         }
-
         List<DropdownMenuItem> projectItems = [];
         snapshot.data!.docs.forEach((doc) {
           projectItems.add(DropdownMenuItem(
@@ -292,9 +297,8 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Select a project:'),
             DropdownButton(
-              hint: Text('Select a project'),
+              hint: Text('Projekt auswählen'),
               value: _selectedProject,
               onChanged: (value) {
                 setState(() {

@@ -14,6 +14,7 @@ import 'package:lionsapp/Screens/contact_mailbox.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
 
+
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
   static String privilege = "Friend";
