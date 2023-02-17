@@ -27,9 +27,17 @@ class _RegisterState extends State<Register> {
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobile = TextEditingController();
+  final TextEditingController postalcodeController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController streetnrController = TextEditingController();
+
+     // For the Postal code keyboardType: TextInputType.number
+
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
+  var rool;
 
   @override
   Widget build(BuildContext context) {
@@ -251,6 +259,130 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 20,
                         ),
+
+                        // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
+                        // TODO: Add attribute to make them optional
+                        Row(
+                          children:[
+
+                            Expanded(child:
+                            TextFormField(
+                              controller: postalcodeController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Postleizahl',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.number,
+                            ),
+
+                            ),
+
+                            const SizedBox(width: 10),
+
+                            Expanded(child:
+
+                            TextFormField(
+                              controller: cityController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Stadtname',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.name,
+                            )
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // TODO: Add attribute to make them optional
+                        Row(
+                          children:[
+
+                            Expanded(child:
+                            TextFormField(
+                              controller: streetController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Straßenname',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.number,
+                            ),
+
+                            ),
+
+                            const SizedBox(width: 10),
+
+                            Expanded(child:
+
+                            TextFormField(
+                              controller: streetnrController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Hausnummer und Adresszusatz',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.name,
+                            )
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 20,
+                        ),
+
                         const SizedBox(height: 24),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -354,6 +486,11 @@ class _RegisterState extends State<Register> {
                                     lastnameController.text,
                                     emailController.text,
                                     passwordController.text,
+                                    postalcodeController.text,
+                                    cityController.text,
+                                    streetController.text,
+                                    streetnrController.text,
+                                    rool,
                                     );
                               },
                               child: Text(
@@ -381,24 +518,30 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp(String firstname, String lastname, String email, String password) async {
+  void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool ) async {
     CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(firstname,lastname, email)})
+          .then((value) => {postDetailsToFirestore(firstname,lastname, email, postalcode, cityname, streetname, streetnumber, rool)})
           .catchError((e) {});
     }
   }
 
-  postDetailsToFirestore(String firstname,String lastname, String email) async {
+  postDetailsToFirestore(String firstname,String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({
+    ref.doc(user!.uid).set(
+        {
       'firstname' : firstnameController.text,
       'lastname' : lastnameController.text,
       'email': emailController.text,
+      'postalcode': emailController.text,
+      'cityname' : cityController.text,
+      'streetname': streetController.text,
+      'streetnumber' : streetnrController.text,
+      'rool' : rool,
     });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginPage()));
