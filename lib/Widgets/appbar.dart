@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/user_configs.dart';
+import 'package:lionsapp/Screens/user/user_configs.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;

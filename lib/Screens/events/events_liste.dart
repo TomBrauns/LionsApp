@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Screens/event.dart';
+import 'package:lionsapp/Screens/events/event.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
 class Events extends StatefulWidget {
