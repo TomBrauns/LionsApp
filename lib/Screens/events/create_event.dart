@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:lionsapp/main.dart';
 
 import 'package:path/path.dart';
 
@@ -42,24 +43,7 @@ class _CreateEvent extends State<CreateEvent> {
   
   bool _spendenZielErforderlich = false;
 
-  late String _selectedProject;
-  List<String> _categories = [];
-
-  @override
-  void initState(){
-    super.initState();
-    FirebaseFirestore.instance.collection('projects').get().then((querySnapshot){
-      querySnapshot.docs.forEach((doc){
-        if(!_categories.contains(doc['category'])){
-          setState(() {
-            _categories.add(doc['category']);
-          });
-        }
-      });
-    });
-  }
-
-
+  String? _selectedProject;
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +165,12 @@ class _CreateEvent extends State<CreateEvent> {
                 child: Text("Projekt, für welches Geld gesammelt wird:"),
               )
             ),
-            const Center(
-              child: DropdownButtonExample(),
+            Center(
+              child: Text("Hier kommt das bessere Dropdown hin"),
+            ),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: ProjectDropdown(),
             ),
             const Center(
               child: Text('Ort:'),
@@ -267,39 +255,56 @@ class _CreateEvent extends State<CreateEvent> {
   }
 }
 
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
 
+class ProjectDropdown extends StatefulWidget{
   @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+  _ProjectDropdownState createState() => _ProjectDropdownState();
+
 }
 
-
-class _DropdownButtonExampleState extends State<DropdownButtonExample>{
-
+class _ProjectDropdownState extends State<ProjectDropdown> {
+  String? _selectedProject;
 
   @override
-  Widget build(BuildContext context){
-    return DropdownButton<String>(
-      value: _dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value){
-        setState(() {
-          _dropdownValue = value!;
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('projects').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          return Container(); // Rückgabe eines leeren Containers
+        }
+
+        List<DropdownMenuItem> projectItems = [];
+        snapshot.data!.docs.forEach((doc) {
+          projectItems.add(DropdownMenuItem(
+            value: doc['name'],
+            child: Row(
+              children: [
+                Icon(Icons.check_circle_outline),
+                SizedBox(width: 10.0),
+                Text(doc['name']),
+              ],
+            ),
+          ));
         });
-      },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Select a project:'),
+            DropdownButton(
+              hint: Text('Select a project'),
+              value: _selectedProject,
+              onChanged: (value) {
+                setState(() {
+                  _selectedProject = value;
+                });
+              },
+              items: projectItems,
+            ),
+          ],
         );
-      }).toList(),
+      },
     );
   }
 }
