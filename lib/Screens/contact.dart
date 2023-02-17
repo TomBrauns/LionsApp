@@ -33,7 +33,7 @@ class _ContactState extends State<Contact> {
       final Email email = Email(
         body: _messageController.text,
         subject: 'Contact Form Submission',
-        recipients: ['youremail@example.com'],
+        recipients: ['xxxx@gmail.com'],
         isHTML: false,
       );
 
