@@ -35,7 +35,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 ? const Padding(
                     padding: EdgeInsets.only(left: 90),
                   )
-                : const SizedBox(),
+                : SizedBox(),
             //Padding for Catalogue
             //PAdding for Calendar
             widget.currentPage == "Calendar" && widget.privilege == "Member" ||
@@ -44,7 +44,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 ? const Padding(
                     padding: EdgeInsets.only(left: 90),
                   )
-                : const SizedBox(),
+                : SizedBox(),
             //Padding for Calendar
             IconButton(
               onPressed: () {

@@ -18,20 +18,22 @@ class _CalendarState extends State<Calendar> {
       MaterialPageRoute(builder: (context) => const CreateEvent()),
     );
   }
+
   final EventController _eventController = EventController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const BurgerMenu(),
-        appBar: AppBar(
-          title: const Text("Kalender"),
-        ),
-        bottomNavigationBar: const BottomNavigation(
-          currentPage: "Calendar",
-          privilege: "Admin",
-        ),
-        body: MonthView(controller: _eventController),
+      drawer: const BurgerMenu(),
+      appBar: AppBar(
+        title: const Text("Kalender"),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      bottomNavigationBar: const BottomNavigation(
+        currentPage: "Calendar",
+        privilege: "Admin",
+      ),
+      body: MonthView(controller: _eventController),
       floatingActionButton: FloatingActionButton(
         onPressed: _handleAddEvent,
         child: const Icon(Icons.add),
