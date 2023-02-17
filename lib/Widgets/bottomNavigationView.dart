@@ -31,79 +31,66 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     padding: EdgeInsets.only(left: 90),
                   )
                 : const SizedBox(),
-            widget.currentPage == "User"
-                ? const SizedBox.shrink()
-                : IconButton(
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const User()),
-                      );
-                    },
-                    icon: const Icon(Icons.badge),
-                  ),
-            widget.currentPage == "Donations"
-                ? const SizedBox.shrink()
-                : IconButton(
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Donations()),
-                      );
-                    },
-                    icon: const Icon(Icons.card_giftcard),
-                  ),
-            widget.currentPage == "Chat"
-                ? const SizedBox.shrink()
-                : IconButton(
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Chat()),
-                      );
-                    },
-                    icon: const Icon(Icons.chat),
-                  ),
-            widget.currentPage == "Calendar"
-                ? const SizedBox.shrink()
-                : IconButton(
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Calendar()),
-                      );
-                    },
-                    icon: const Icon(Icons.event),
-                  ),
-            widget.currentPage == "Catalogue"
-                ? const SizedBox.shrink()
-                : IconButton(
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Catalogue()),
-                      );
-                    },
-                    icon: const Icon(Icons.book),
-                  ),
+            IconButton(
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const User()),
+                );
+              },
+              icon: const Icon(Icons.badge),
+            ),
+            IconButton(
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Donations()),
+                );
+              },
+              icon: const Icon(Icons.card_giftcard),
+            ),
+            IconButton(
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Chat()),
+                );
+              },
+              icon: const Icon(Icons.chat),
+            ),
+            IconButton(
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Calendar()),
+                );
+              },
+              icon: const Icon(Icons.event),
+            ),
+            IconButton(
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Catalogue()),
+                );
+              },
+              icon: const Icon(Icons.book),
+            ),
           ],
         ));
   }
