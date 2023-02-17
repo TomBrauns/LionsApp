@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
+import 'package:lionsapp/Widgets/appbar.dart';
 
 class Donations extends StatefulWidget {
   final String? documentId;
@@ -33,23 +34,7 @@ class _DonationsState extends State<Donations> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
-        appBar: AppBar(
-            title: const Text("Spenden"),
-            // User Icon in AppBar
-            actions: <Widget>[
-              privilege == "Member" || privilege == "Friend"
-                  ? IconButton(
-                      icon: const Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const User()),
-                        );
-                      })
-                  : Container(),
-              // End User Icon
-            ]),
+        appBar: MyAppBar(title: "Spenden", privilege: "Admin"),
         bottomNavigationBar: const BottomNavigation(currentPage: "Donations"),
         body: StreamBuilder<DocumentSnapshot>(
             stream: _documentStream,
