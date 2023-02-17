@@ -36,80 +36,83 @@ class _CatalogueState extends State<Catalogue> {
       appBar: AppBar(
         title: const Text("Katalog"),
       ),
-      bottomNavigationBar: const BottomNavigation(),
-      body:
-      StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('projects').orderBy('category').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          final Map<String, List<DocumentSnapshot>> groupedData = {};
-          snapshot.data!.docs.forEach((DocumentSnapshot document) {
-            final String category = document.get('category') ?? 'Other';
-            if (groupedData.containsKey(category)) {
-              groupedData[category]!.add(document);
-            } else {
-              groupedData[category] = [document];
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      bottomNavigationBar: const BottomNavigation(currentPage: "Catalogue"),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('projects')
+              .orderBy('category')
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
             }
-          });
 
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          final List<Widget> categoryWidgets = groupedData.entries.map((MapEntry<String, List<DocumentSnapshot>> entry) {
+            final Map<String, List<DocumentSnapshot>> groupedData = {};
+            snapshot.data!.docs.forEach((DocumentSnapshot document) {
+              final String category = document.get('category') ?? 'Other';
+              if (groupedData.containsKey(category)) {
+                groupedData[category]!.add(document);
+              } else {
+                groupedData[category] = [document];
+              }
+            });
 
-            final String category = entry.key;
-            final List<DocumentSnapshot> documents = entry.value;
+            final List<Widget> categoryWidgets = groupedData.entries
+                .map((MapEntry<String, List<DocumentSnapshot>> entry) {
+              final String category = entry.key;
+              final List<DocumentSnapshot> documents = entry.value;
 
-            final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
-              //print(document.id);
-              return ListTile(
-                leading: const SizedBox(),
-                title: Text(document.get('name')),
-                subtitle: Text(document.get('support')),
-                onTap:() {
-                  String documentId = document.id;
-                  print(documentId);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Project(documentId: documentId)));
+              final List<Widget> documentWidgets =
+                  documents.map((DocumentSnapshot document) {
+                //print(document.id);
+                return ListTile(
+                    leading: const SizedBox(),
+                    title: Text(document.get('name')),
+                    subtitle: Text(document.get('support')),
+                    onTap: () {
+                      String documentId = document.id;
+                      print(documentId);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Project(documentId: documentId)));
 
-
-
-                  //_handleProjectClicked;
-
-                }
-
+                      //_handleProjectClicked;
+                    });
+              }).toList();
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    leading: Image.asset('assets/projects/$category.png',
+                        width: 32, height: 32),
+                    title: Text(category),
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: documentWidgets,
+                  ),
+                  const Divider(indent: 68),
+                ],
               );
             }).toList();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
-                  title: Text(category),
-                ),
-                ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: documentWidgets,
-                ),
-                const Divider(indent: 68),
-              ],
-            );
-          }).toList();
 
-          return ListView(
-            children: categoryWidgets,
-          );
-        }
-      ),
+            return ListView(
+              children: categoryWidgets,
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: _handleAddProject,
         child: const Icon(Icons.add),

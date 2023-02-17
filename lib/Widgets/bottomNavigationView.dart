@@ -7,34 +7,16 @@ import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user_configs.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+  final String currentPage;
+
+  const BottomNavigation({Key? key, required this.currentPage})
+      : super(key: key);
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  String ActionButton = "Catalogue";
-  void bottomappbar_index(int _chosenindex) {
-    switch (_chosenindex) {
-      case 1:
-        String ActionButton = "User";
-        break;
-      case 2:
-        String ActionButton = "Donation";
-        break;
-      case 3:
-        String ActionButton = "Chat";
-        break;
-      case 4:
-        String ActionButton = "Calendar";
-        break;
-      case 5:
-        String ActionButton = "Catalogue";
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -45,9 +27,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            widget.currentPage == "Catalogue"
+                ? Padding(
+                    padding: EdgeInsets.only(left: 90),
+                  )
+                : SizedBox(),
             IconButton(
               onPressed: () {
-                bottomappbar_index(1);
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
@@ -60,7 +46,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             IconButton(
               onPressed: () {
-                bottomappbar_index(2);
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
@@ -73,7 +58,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             IconButton(
               onPressed: () {
-                bottomappbar_index(3);
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
@@ -86,7 +70,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             IconButton(
               onPressed: () {
-                bottomappbar_index(4);
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
@@ -99,7 +82,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             IconButton(
               onPressed: () {
-                bottomappbar_index(5);
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen

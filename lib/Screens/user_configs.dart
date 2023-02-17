@@ -17,7 +17,7 @@ class _UserState extends State<User> {
         appBar: AppBar(
           title: const Text("Benutzer"),
         ),
-        bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: const BottomNavigation(currentPage: "User"),
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
