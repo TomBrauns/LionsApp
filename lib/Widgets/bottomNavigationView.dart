@@ -28,6 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            //Padding for Catalogue
             widget.currentPage == "Catalogue" && widget.privilege == "Member" ||
                     widget.currentPage == "Catalogue" &&
                         widget.privilege == "Admin"
@@ -35,6 +36,16 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     padding: EdgeInsets.only(left: 90),
                   )
                 : const SizedBox(),
+            //Padding for Catalogue
+            //PAdding for Calendar
+            widget.currentPage == "Calendar" && widget.privilege == "Member" ||
+                    widget.currentPage == "Calendar" &&
+                        widget.privilege == "Admin"
+                ? const Padding(
+                    padding: EdgeInsets.only(left: 90),
+                  )
+                : const SizedBox(),
+            //Padding for Calendar
             IconButton(
               onPressed: () {
                 // Update State of App

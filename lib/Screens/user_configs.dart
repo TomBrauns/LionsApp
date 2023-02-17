@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/login/login.dart';
+import 'package:lionsapp/login/login.dart' as test;
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -141,10 +142,6 @@ class _UserState extends State<User> {
 
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
-}
-
-Future<void> updateCredentials() async {
-  var userMail = FirebaseAuth.instance.currentUser?.email;
 }
 
 class UserForm extends StatefulWidget {
@@ -297,6 +294,10 @@ class _UserFormState extends State<UserForm> {
                 ))));
   }
 }
+
+/* TEST */
+
+/* TEST */
 
 class Subs extends StatefulWidget {
   const Subs({super.key});

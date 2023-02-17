@@ -522,7 +522,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  postDetailsToFirestore(
+  void postDetailsToFirestore(
       String firstname,
       String lastname,
       String email,
@@ -535,13 +535,13 @@ class _RegisterState extends State<Register> {
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
     ref.doc(user!.uid).set({
-      'firstname': firstnameController.text,
-      'lastname': lastnameController.text,
-      'email': emailController.text,
-      'postalcode': emailController.text,
-      'cityname': cityController.text,
-      'streetname': streetController.text,
-      'streetnumber': streetnrController.text,
+      'firstname': firstname,
+      'lastname': lastname,
+      'email': email,
+      'postalcode': postalcode,
+      'cityname': cityname,
+      'streetname': streetname,
+      'streetnumber': streetnumber,
       'rool': rool,
     });
     Navigator.pushReplacement(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Screens/event.dart';
+import 'package:lionsapp/Screens/events/create_event.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});
@@ -18,6 +19,12 @@ class EventEntry {
 }
 
 class _EventsState extends State<Events> {
+  void _handleAddEvent() {
+  Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => const CreateEvent()),
+  );
+  }
   static var events = [
     EventEntry(
         "Martini-Konzert",
@@ -69,6 +76,11 @@ class _EventsState extends State<Events> {
                                 Text(DateFormat("d. MMM y").format(e.date))
                               ]),
                             ]))))
-                .toList()));
+                .toList()),
+
+      floatingActionButton: FloatingActionButton(
+      onPressed: _handleAddEvent,
+      child: const Icon(Icons.add),
+    ),);
   }
 }
