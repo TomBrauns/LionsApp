@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Screens/events/event.dart';
+import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
@@ -27,29 +28,6 @@ class _EventsState extends State<Events> {
     );
   }
 
-  static var events = [
-    EventEntry(
-        "Martini-Konzert",
-        "Die Einnahmen vom Konzert werden an das Kinderhospiz in Worms gespendet. Es sollen ingesamt 10.000€ erzielt werden.",
-        "Festplatz Worms",
-        DateTime.now()),
-    EventEntry(
-        "Golf spielen",
-        "Die Einnahmen werden an die Organisation XYZ gespendet. Hier folgt noch eine weitere Kurzbeschreibung.",
-        "Golfplatz Kaiserslautern",
-        DateTime.now()),
-    EventEntry(
-        "Konzert 2",
-        "Die Einnahmen werden gespendet an das Deutsche Rote Kreuz. Hier folgt noch eine weitere Kurzbeschreibung.",
-        "Oper Kaiserslautern",
-        DateTime.now())
-  ];
-
-  void _handleEventClicked(EventEntry e) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Event()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +35,12 @@ class _EventsState extends State<Events> {
         title: const Text("Events"),
       ),
       drawer: const BurgerMenu(),
-      body: ListView(
+      body: EventList(),
+
+
+      //Alter ListView von Nico
+
+      /*body: ListView(
           children: events
               .map((e) => Card(
                   child: ListTile(
@@ -78,7 +61,7 @@ class _EventsState extends State<Events> {
                               Text(DateFormat("d. MMM y").format(e.date))
                             ]),
                           ]))))
-              .toList()),
+              .toList()),*/
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Events",
         privilege: "Admin",
@@ -91,3 +74,63 @@ class _EventsState extends State<Events> {
     );
   }
 }
+
+class EventList extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context){
+
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('events').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return ListView.builder(
+          itemCount: snapshot.data!.size,
+          itemBuilder: (BuildContext context, int index) {
+            final event = snapshot.data!.docs[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventDetailsPage(event: event)),
+                );
+              },
+              child: Card(
+                child: ListTile(
+                  title: Text(event['eventName']),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(event['eventInfo']),
+                      const SizedBox(height: 4),
+                      Row(children: [
+                        const Icon(Icons.location_on, size: 16),
+                        Text(event['ort']),
+                      ]),
+                      const SizedBox(height: 4),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+
+      }
+    );
+  }
+}
+

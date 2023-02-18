@@ -16,6 +16,8 @@ import 'package:lionsapp/main.dart';
 
 import 'package:path/path.dart';
 
+import 'events_liste.dart';
+
 
 const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
 
@@ -38,14 +40,13 @@ class _CreateEvent extends State<CreateEvent> {
   TextEditingController _eventNameController = TextEditingController();
 
   bool _createChat = false;
-  
+
   bool _spendenZielErforderlich = false;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BurgerMenu(),
       appBar: AppBar(
         title: const Text("Event erstellen"),
       ),
@@ -55,48 +56,48 @@ class _CreateEvent extends State<CreateEvent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-              Row(
-                children: <Widget>[
-                  Container(
-                    child: Text("Spendenziel im Event anzeigen: "),
+            Row(
+              children: <Widget>[
+                Container(
+                  child: Text("Spendenziel im Event anzeigen: "),
+                ),
+                Container(
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    value: _spendenZielErforderlich,
+                    onChanged: (bool? value){
+                      setState(() {
+                        _spendenZielErforderlich = value!;
+                      });
+                    },
                   ),
-                  Container(
-                    child: Checkbox(
-                      checkColor: Colors.white,
-                      value: _spendenZielErforderlich,
-                      onChanged: (bool? value){
-                        setState(() {
-                          _spendenZielErforderlich = value!;
-                        });
-                      },
-                    ),
-                  )
-                  ],
-              ),
+                )
+              ],
+            ),
             if(_spendenZielErforderlich)
               Container(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
-                      padding: EdgeInsets.all(10),
-                      child: const Text(
-                        'Spendenziel festlegen: '
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 40,
+                        padding: EdgeInsets.all(10),
+                        child: const Text(
+                            'Spendenziel festlegen: '
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
-                      child: TextField(
-                        inputFormatters: [CurrencyTextInputFormatter(
-                          locale: 'eu',
-                          symbol: '€'
-                        )],
-                        keyboardType: TextInputType.number,
-                        controller: _spendenzielController,
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 40,
+                        child: TextField(
+                          inputFormatters: [CurrencyTextInputFormatter(
+                              locale: 'eu',
+                              symbol: '€'
+                          )],
+                          keyboardType: TextInputType.number,
+                          controller: _spendenzielController,
+                        ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  )
               ),
             Row(
               children: <Widget>[
@@ -117,7 +118,7 @@ class _CreateEvent extends State<CreateEvent> {
                         if (pickedDate != null) {
                           print(pickedDate);
                           String formattedStartDate =
-                              DateFormat('dd.MM.yyyy').format(pickedDate);
+                          DateFormat('dd.MM.yyyy').format(pickedDate);
                           print(formattedStartDate);
                           setState(() {
                             _startDateController.text = formattedStartDate;
@@ -143,7 +144,7 @@ class _CreateEvent extends State<CreateEvent> {
                           lastDate: DateTime(2101));
                       if (pickedDate != null) {
                         String formattedEndDate =
-                            DateFormat('dd.MM.yyyy').format(pickedDate);
+                        DateFormat('dd.MM.yyyy').format(pickedDate);
 
                         setState(() {
                           _endDateController.text = formattedEndDate;
@@ -169,10 +170,10 @@ class _CreateEvent extends State<CreateEvent> {
               ),
             ),
             Center(
-              child: Container(
-                padding: EdgeInsets.all(30.0),
-                child: Text("Projekt, für welches Geld gesammelt wird:"),
-              )
+                child: Container(
+                  padding: EdgeInsets.all(30.0),
+                  child: Text("Projekt, für welches Geld gesammelt wird:"),
+                )
             ),
             Container(
               padding: EdgeInsets.all(10.0),
@@ -188,8 +189,8 @@ class _CreateEvent extends State<CreateEvent> {
                 child: TextField(
                   controller: _addressController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Ort eingeben'
+                      border: OutlineInputBorder(),
+                      hintText: 'Ort eingeben'
                   ),
                 ),
               ),
@@ -215,45 +216,50 @@ class _CreateEvent extends State<CreateEvent> {
               ),
             ),
             Center(
-              child: Container(
-                padding: EdgeInsets.all(30.0),
-                  child: Text("Informationen zum Event:")
-              )
+                child: Container(
+                    padding: EdgeInsets.all(30.0),
+                    child: Text("Informationen zum Event:")
+                )
             ),
             SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              child: TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Information eintragen',
-                ),
-                controller: _eventInfoController,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-              )
+                scrollDirection: Axis.vertical,
+                reverse: true,
+                child: TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Information eintragen',
+                  ),
+                  controller: _eventInfoController,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                )
             ),
             Center(
               child:
-                ElevatedButton(
-                  onPressed: () {
+              ElevatedButton(
+                onPressed: () {
 
-                    FirebaseFirestore db = FirebaseFirestore.instance;
+                  FirebaseFirestore db = FirebaseFirestore.instance;
 
-                    FirebaseFirestore.instance.collection('events').add({
-                      'startDate':_startDateController.text,
-                      'endDate':_endDateController.text,
-                      'eventInfo':_eventInfoController.text,
-                      'spendenZiel':_spendenzielController.text,
-                      'ort':_addressController.text,
-                      'chat':_createChat,
-                      'projekt': _selectedProject,
-                      'eventName':_eventNameController.text,
-                    });
-                   },
-                  child:
-                  Text('Event anlegen'),
-                ),
+                  FirebaseFirestore.instance.collection('events').add({
+                    'startDate':_startDateController.text,
+                    'endDate':_endDateController.text,
+                    'eventInfo':_eventInfoController.text,
+                    'spendenZiel':_spendenzielController.text,
+                    'ort':_addressController.text,
+                    'chat':_createChat,
+                    'projekt': _selectedProject,
+                    'eventName':_eventNameController.text,
+                  });
+
+                  Navigator.pop(
+                    context
+                  );
+
+                },
+                child:
+                Text('Event anlegen'),
+              ),
             ),
           ],
         ),
