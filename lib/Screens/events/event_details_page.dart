@@ -28,7 +28,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
   void _handleDonation() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Donations()));
+        context, MaterialPageRoute(builder: (context) => const Donations()));
   }
 
   @override
