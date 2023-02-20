@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Paymethode extends StatefulWidget {
   const Paymethode({Key? key}) : super(key: key);
-
   final int amount = 10;
 
   @override
@@ -37,8 +37,7 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    final token = await paypalAuth();
-                    makePaypalPayment(widget.amount, token);
+                    paypalOnPress();
                   },
                   child: const Text("Paypal"),
                 ),
@@ -62,6 +61,17 @@ class _PaymethodeState extends State<Paymethode> {
         ),
       ),
     );
+  }
+}
+
+Future<void> paypalOnPress() async {
+  var url;
+  var _url;
+  final token = await paypalAuth();
+  url = await makePaypalPayment(Paymethode().amount, token);
+  _url = Uri.parse(url);
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
   }
 }
 
@@ -93,7 +103,7 @@ Future<String> paypalAuth() async {
   }
 }
 
-Future<void> makePaypalPayment(int amount, String token) async {
+Future<String?> makePaypalPayment(int amount, String token) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -130,6 +140,7 @@ Future<void> makePaypalPayment(int amount, String token) async {
     final responseData = jsonDecode(response.body);
     final approvalUrl = responseData['links'][1]['href'];
     print('Payment created successfully: $approvalUrl');
+    return approvalUrl;
     // Open the approvalUrl in a web view to allow the user to approve the payment
   } else {
     print('Failed to create payment: ${response.body}');
