@@ -67,7 +67,7 @@ class Project extends StatelessWidget{
                                     builder: (context) => Donations(documentId: documentId)
                                   ));
                                 },
-                                child: Padding(
+                                child: const Padding(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 6.0, horizontal: 4.0),
                                     child: Text("Spenden", style: TextStyle(fontSize: 22))),
