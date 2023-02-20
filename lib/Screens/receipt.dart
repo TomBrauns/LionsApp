@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
-
+import 'package:lionsapp/Screens/contact.dart';
 // Test Values
 // ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
@@ -31,8 +31,30 @@ class _DonationReceivedState extends State<DonationReceived> {
                 color: Color.fromARGB(156, 141, 196, 241),
                 border: Border.all(color: Colors.blueAccent)),
             child: Text(
-                "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName"),
+                "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
+                    "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
+                    "über das Kontaktformular zu erreichen."),
           ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.receipt,
+                    size: 24.0,
+                  ),
+                  label: const Text('Kontaktformular'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Contact()),
+                    );
+                  },
+                ),
+              ),
           Container(
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
