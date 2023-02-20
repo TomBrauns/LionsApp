@@ -264,7 +264,7 @@ class _RegisterState extends State<Register> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Postleizahl (*)',
+                                  hintText: '* Postleizahl',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
@@ -288,7 +288,7 @@ class _RegisterState extends State<Register> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: 'Stadtname (*)',
+                                hintText: '* Stadtname',
                                 enabled: true,
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
@@ -318,7 +318,7 @@ class _RegisterState extends State<Register> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Straßenname (*)',
+                                  hintText: '* Straßenname',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
@@ -342,7 +342,7 @@ class _RegisterState extends State<Register> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: 'Hausnummer und Adresszusatz (*)',
+                                hintText: '* Hausnummer und Adresszusatz',
                                 enabled: true,
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
