@@ -68,7 +68,7 @@ class Authentication {
             .get()
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
-            if (documentSnapshot.get('rool') == "member") {
+            if (documentSnapshot.get('rool') == "admin") {
               Privileges.privilege = "Admin";
               Navigator.pushReplacement(
                 context,

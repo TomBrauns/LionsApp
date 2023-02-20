@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class Privileges extends StatefulWidget {
   const Privileges({super.key});
-  static String privilege = "Admin";
+  static String privilege = "gast";
   @override
   State<Privileges> createState() => _PrivilegesState();
 }

@@ -267,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "member") {
+        if (documentSnapshot.get('rool') == "admin") {
           Privileges.privilege = "Admin";
           Navigator.pushReplacement(
             context,
@@ -308,4 +308,24 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+}
+
+Future<void> checkRool() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  FirebaseFirestore.instance
+      .collection('users')
+      .doc(user!.uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      if (documentSnapshot.get('rool') == "admin") {
+        Privileges.privilege = "Admin";
+      } else {
+        Privileges.privilege = "Friend";
+      }
+    } else {
+      print('Document does not exist on the database');
+    }
+  });
+  await Future.delayed(Duration(seconds: 2)); // Beispiel-Verzögerung
 }
