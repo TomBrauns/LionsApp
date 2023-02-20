@@ -1,68 +1,8 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart';
+import 'package:lionsapp/Screens/Payment/paymethode.dart';
+import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
-
-class Paymethode extends StatefulWidget {
-  const Paymethode({Key? key}) : super(key: key);
-  final int amount = 10;
-
-  @override
-  State<Paymethode> createState() => _PaymethodeState();
-}
-
-class _PaymethodeState extends State<Paymethode> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Zahlungsmethode"),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 250,
-          height: 500,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100,
-                width: 350,
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () async {
-                    paypalOnPress();
-                  },
-                  child: const Text("Paypal"),
-                ),
-              ),
-              Container(
-                height: 100,
-                width: 350,
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {},
-                  child: const Text("Kartenzahlung/Giro"),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 Future<void> paypalOnPress() async {
   var url;
@@ -103,7 +43,7 @@ Future<String> paypalAuth() async {
   }
 }
 
-Future<String?> makePaypalPayment(int amount, String token) async {
+Future<String?> makePaypalPayment(double amount, String token) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
