@@ -13,10 +13,11 @@ import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Screens/contact_mailbox.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
-  static String privilege = "gast";
+
   @override
   State<BurgerMenu> createState() => _BurgerMenuState();
 }
@@ -66,9 +67,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
-          BurgerMenu.privilege == "Admin" ||
-                  BurgerMenu.privilege == "Member" ||
-                  BurgerMenu.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   title: const Text('Benutzer'),
                   onTap: () {
@@ -82,9 +83,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Admin" ||
-                  BurgerMenu.privilege == "Member" ||
-                  BurgerMenu.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   title: const Text('Kalender'),
                   onTap: () {
@@ -98,9 +99,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Friend" ||
-                  BurgerMenu.privilege == "Member" ||
-                  BurgerMenu.privilege == "Admin"
+          Privileges.privilege == "Friend" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Admin"
               ? ListTile(
                   title: const Text('Events'),
                   onTap: () {
@@ -114,9 +115,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Admin" ||
-                  BurgerMenu.privilege == "Member" ||
-                  BurgerMenu.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   title: const Text('Katalog'),
                   onTap: () {
@@ -131,7 +132,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Admin" || BurgerMenu.privilege == "Member"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   title: const Text('Chat'),
                   onTap: () {
@@ -145,7 +146,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Admin" || BurgerMenu.privilege == "Member"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   title: const Text('Event erstellen'),
                   onTap: () {
@@ -212,7 +213,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
 
           /// Following functions are for Admins only
-          BurgerMenu.privilege == "Admin"
+          Privileges.privilege == "Admin"
               ? ListTile(
                   title: const Text('Nutzerverwaltung'),
                   onTap: () {
@@ -227,7 +228,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          BurgerMenu.privilege == "Admin"
+          Privileges.privilege == "Admin"
               ? ListTile(
                   title: const Text('Kontaktpostfach'),
                   onTap: () {

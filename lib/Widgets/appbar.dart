@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 import 'burgermenu.dart';
 
@@ -21,9 +22,9 @@ class _MyAppBarState extends State<MyAppBar> {
     return AppBar(
       title: Text(widget.title),
       actions: <Widget>[
-        if (BurgerMenu.privilege == "Member" ||
-            BurgerMenu.privilege == "Friend" ||
-            BurgerMenu.privilege == "Admin")
+        if (Privileges.privilege == "Member" ||
+            Privileges.privilege == "Friend" ||
+            Privileges.privilege == "Admin")
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
