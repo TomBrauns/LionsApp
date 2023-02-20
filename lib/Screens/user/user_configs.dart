@@ -5,6 +5,7 @@ import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/login.dart' as test;
 
@@ -144,7 +145,7 @@ class _UserState extends State<User> {
               ),
               onPressed: () {
                 signOut();
-                BurgerMenu.privilege = "Friend";
+                Privileges.privilege = "Friend";
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LogOut()),

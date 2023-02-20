@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/burgermenu.dart';
 import '../friend.dart';
@@ -68,7 +69,7 @@ class Authentication {
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
             if (documentSnapshot.get('rool') == "member") {
-              BurgerMenu.privilege = "Admin";
+              Privileges.privilege = "Admin";
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -76,7 +77,7 @@ class Authentication {
                 ),
               );
             } else {
-              BurgerMenu.privilege = "Friend";
+              Privileges.privilege = "Friend";
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
