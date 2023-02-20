@@ -14,10 +14,9 @@ import 'package:lionsapp/Screens/contact_mailbox.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
 
-
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
-  static String privilege = "Friend";
+  static String privilege = "gast";
   @override
   State<BurgerMenu> createState() => _BurgerMenuState();
 }
@@ -169,7 +168,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Push to Screen
               Navigator.push(
                 context,
-                
+
                 //just rm const unten
                 MaterialPageRoute(builder: (context) => Contact()),
               );

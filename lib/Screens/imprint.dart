@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
+import '../Widgets/appbar.dart';
+
 class Imprint extends StatefulWidget {
   const Imprint({Key? key}) : super(key: key);
 
@@ -14,9 +16,7 @@ class _ImprintState extends State<Imprint> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: AppBar(
-        title: const Text("Impressum"),
-      ),
+      appBar: MyAppBar(title: "Impressum"),
       body: Scrollbar(
           thickness: 5.0,
           thumbVisibility: false,

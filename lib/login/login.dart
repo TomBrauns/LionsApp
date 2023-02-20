@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lionsapp/Screens/donation.dart';
 import 'friend.dart';
 import 'member.dart';
 import 'register.dart';
@@ -270,7 +271,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Member(),
+              builder: (context) => Donations(),
             ),
           );
         } else {
@@ -278,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Friend(),
+              builder: (context) => Donations(),
             ),
           );
         }

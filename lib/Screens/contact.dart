@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
+import '../Widgets/appbar.dart';
+
 class Contact extends StatefulWidget {
   @override
   _ContactState createState() => _ContactState();
@@ -88,9 +90,7 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Kontakt und Hilfe'),
-      ),
+      appBar: MyAppBar(title: "Kontakt und Hilfe"),
       body: Form(
         key: _formKey,
         child: ListView(

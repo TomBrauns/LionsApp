@@ -5,6 +5,8 @@ import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
+import '../../Widgets/appbar.dart';
+
 class Catalogue extends StatefulWidget {
   const Catalogue({Key? key}) : super(key: key);
 
@@ -33,9 +35,7 @@ class _CatalogueState extends State<Catalogue> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: AppBar(
-        title: const Text("Katalog"),
-      ),
+      appBar: MyAppBar(title: "Katalog"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Catalogue",

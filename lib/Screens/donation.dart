@@ -34,7 +34,7 @@ class _DonationsState extends State<Donations> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
-        appBar: MyAppBar(title: "Spenden", privilege: "Admin"),
+        appBar: MyAppBar(title: "Spenden"),
         bottomNavigationBar: const BottomNavigation(
           currentPage: "Donations",
           privilege: "Admin",
@@ -103,14 +103,13 @@ class _DonationsState extends State<Donations> {
                               }),
                             ),
                             InkWell(
-                              onTap: (){
-                                setState(() {
-                                  _isReceiptChecked = !_isReceiptChecked;
-                                });
-                              },
-                                child: Text("Ich möchte eine Quittung erhalten.")
-                            )
-
+                                onTap: () {
+                                  setState(() {
+                                    _isReceiptChecked = !_isReceiptChecked;
+                                  });
+                                },
+                                child:
+                                    Text("Ich möchte eine Quittung erhalten."))
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -161,7 +160,7 @@ class _DonationsState extends State<Donations> {
 
   /*@override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: AppBar(
@@ -264,7 +263,7 @@ class _DonationsState extends State<Donations> {
                 )
             )
         )
-     );*/
+    );*/
 
 
 

@@ -4,6 +4,8 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
+import '../Widgets/appbar.dart';
+
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
 
@@ -25,9 +27,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: AppBar(
-        title: const Text("Kalender"),
-      ),
+      appBar: MyAppBar(title: "Kalender"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Calendar",

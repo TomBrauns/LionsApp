@@ -352,7 +352,6 @@ class _SubsState extends State<Subs> {
     return const Scaffold(
       appBar: MyAppBar(
         title: "Abo Verwaltung",
-        privilege: "Friend",
       ),
     );
   }

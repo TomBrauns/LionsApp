@@ -6,6 +6,8 @@ import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 
+import '../../Widgets/appbar.dart';
+
 class Events extends StatefulWidget {
   const Events({super.key});
 
@@ -31,12 +33,9 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Events"),
-      ),
+      appBar: MyAppBar(title: "Events"),
       drawer: const BurgerMenu(),
       body: EventList(),
-
 
       //Alter ListView von Nico
 
@@ -75,62 +74,56 @@ class _EventsState extends State<Events> {
   }
 }
 
-class EventList extends StatelessWidget{
-
+class EventList extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
-
-
+  Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('events').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+        stream: FirebaseFirestore.instance.collection('events').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
 
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        return ListView.builder(
-          itemCount: snapshot.data!.size,
-          itemBuilder: (BuildContext context, int index) {
-            final event = snapshot.data!.docs[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EventDetailsPage(event: event)),
-                );
-              },
-              child: Card(
-                child: ListTile(
-                  title: Text(event['eventName']),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(event['eventInfo']),
-                      const SizedBox(height: 4),
-                      Row(children: [
-                        const Icon(Icons.location_on, size: 16),
-                        Text(event['ort']),
-                      ]),
-                      const SizedBox(height: 4),
-                    ],
+          return ListView.builder(
+            itemCount: snapshot.data!.size,
+            itemBuilder: (BuildContext context, int index) {
+              final event = snapshot.data!.docs[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EventDetailsPage(event: event)),
+                  );
+                },
+                child: Card(
+                  child: ListTile(
+                    title: Text(event['eventName']),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(event['eventInfo']),
+                        const SizedBox(height: 4),
+                        Row(children: [
+                          const Icon(Icons.location_on, size: 16),
+                          Text(event['ort']),
+                        ]),
+                        const SizedBox(height: 4),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        );
-
-      }
-    );
+              );
+            },
+          );
+        });
   }
 }
-
