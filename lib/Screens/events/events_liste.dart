@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
@@ -34,7 +33,7 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "Events"),
+      appBar: const MyAppBar(title: "Events"),
       drawer: const BurgerMenu(),
       body: EventList(),
       bottomNavigationBar: const BottomNavigation(
@@ -51,6 +50,8 @@ class _EventsState extends State<Events> {
 }
 
 class EventList extends StatefulWidget{
+  const EventList({super.key});
+
   @override
   State<EventList> createState() => _EventListState();
 }
