@@ -44,7 +44,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   ),
                   label: const Text('Kontaktformular'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                    backgroundColor: Colors.blue,
                     elevation: 0,
                   ),
                   onPressed: () {
@@ -64,7 +64,7 @@ class _DonationReceivedState extends State<DonationReceived> {
               ),
               label: const Text('Quittung'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {
@@ -84,7 +84,7 @@ class _DonationReceivedState extends State<DonationReceived> {
               ),
               label: const Text('Teilen'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {
@@ -156,7 +156,7 @@ class _ReceiptState extends State<Receipt> {
               ),
               label: const Text('PDF herunterladen'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {},
@@ -172,7 +172,7 @@ class _ReceiptState extends State<Receipt> {
               ),
               label: const Text('Email senden'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {
@@ -193,7 +193,7 @@ class _ReceiptState extends State<Receipt> {
               ),
               label: const Text('Cloud hochladen'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
                 elevation: 0,
               ),
               onPressed: () {},
@@ -237,7 +237,7 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
                       margin: const EdgeInsets.all(25),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           elevation: 0,
                         ),
                         onPressed: () {},

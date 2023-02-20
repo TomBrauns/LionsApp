@@ -10,7 +10,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   const MyAppBar({Key? key, required this.title}) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   _MyAppBarState createState() => _MyAppBarState();

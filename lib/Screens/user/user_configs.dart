@@ -79,7 +79,7 @@ class _UserState extends State<User> {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text(
                             'Sie müssen sich zuerst anmelden!',
                             style: TextStyle(color: Colors.white),
@@ -385,7 +385,7 @@ class _AccessibilityState extends State<Accessibility> {
         ),
         body: Center(
             child: Column(children: <Widget>[
-              Text("Fontgröße"),
+              const Text("Fontgröße"),
               Slider(
                   value: _currentSliderValue,
                   max: 5,
@@ -396,7 +396,7 @@ class _AccessibilityState extends State<Accessibility> {
                       _currentSliderValue = value;
                     });
                   }),
-              Text("Farbenblindheitsmodus"),
+              const Text("Farbenblindheitsmodus"),
               DropdownButton<String>(
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_downward),
@@ -404,7 +404,7 @@ class _AccessibilityState extends State<Accessibility> {
                 style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                 underline: Container(
                   height: 2,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: const Color.fromARGB(255, 0, 0, 0),
                 ),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
@@ -420,9 +420,9 @@ class _AccessibilityState extends State<Accessibility> {
                 }).toList(),
               ),
               Container(
-                margin: EdgeInsets.all(25),
+                margin: const EdgeInsets.all(25),
                 child: ElevatedButton(
-                  child: Text("Bestätigen"),
+                  child: const Text("Bestätigen"),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.blue,
                     elevation: 0,

@@ -43,12 +43,12 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image(
+                    const Image(
                       image: AssetImage("assets/google_logo.png"),
                       height: 30.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
                       child: Text(
                         'REGISTER//Sign in with Google',
                         style: TextStyle(

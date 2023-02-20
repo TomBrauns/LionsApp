@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _isObscure3 = true;
   bool visible = false;
   final _formkey = GlobalKey<FormState>();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -39,23 +39,23 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             Container(
-              color: Color.fromARGB(255, 29, 89, 167),
+              color: const Color.fromARGB(255, 29, 89, 167),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Center(
                 //LoginText
                 child: Container(
-                  margin: EdgeInsets.all(12),
+                  margin: const EdgeInsets.all(12),
                   child: Form(
                     key: _formkey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Login",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 40,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -76,12 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           validator: (value) {
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -124,16 +124,16 @@ class _LoginPageState extends State<LoginPage> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           validator: (value) {
-                            RegExp regex = new RegExp(r'^.{6,}$');
+                            RegExp regex = RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
                               return "Password cannot be empty";
                             }
@@ -148,11 +148,11 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         MaterialButton(
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                             signIn(
                                 emailController.text, passwordController.text);
                           },
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(
                               fontSize: 20,
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Visibility(
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                             maintainState: true,
                             visible: visible,
                             child: Container(
-                                child: CircularProgressIndicator(
+                                child: const CircularProgressIndicator(
                               color: Colors.white,
                             ))),
                         //TEST
@@ -190,12 +190,12 @@ class _LoginPageState extends State<LoginPage> {
                               context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
-                              return Text('Error initializing Firebase');
+                              return const Text('Error initializing Firebase');
                             } else if (snapshot.connectionState ==
                                 ConnectionState.done) {
                               return GoogleSignInButton();
                             }
-                            return CircularProgressIndicator(
+                            return const CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 Colors.orange,
                               ),
@@ -204,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         //TEST
                         MaterialButton(
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20.0),
                             ),
@@ -220,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                           color: Colors.blue[900],
-                          child: Text(
+                          child: const Text(
                             "Register Now",
                             style: TextStyle(
                               color: Colors.white,
@@ -272,7 +272,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Donations(),
+              builder: (context) => const Donations(),
             ),
           );
         } else {
@@ -280,7 +280,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Donations(),
+              builder: (context) => const Donations(),
             ),
           );
         }

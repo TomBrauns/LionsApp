@@ -16,7 +16,7 @@ class _ImprintState extends State<Imprint> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: MyAppBar(title: "Impressum"),
+      appBar: const MyAppBar(title: "Impressum"),
       body: Scrollbar(
           thickness: 5.0,
           thumbVisibility: false,
@@ -460,9 +460,9 @@ class ImprintMainHeadlineText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 20),
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 20),
       child: Text(
-        this.text,
+        text,
         style: const TextStyle(
           fontSize: 30.0,
           color: Color(0xFF00338D),
@@ -485,7 +485,7 @@ class ImprintMainHeadlineTextS extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 30),
       child: Text(
-        this.text,
+        text,
         style: const TextStyle(
           fontSize: 35.0,
           color: Color(0xFF00338D),
@@ -508,7 +508,7 @@ class ImprintHeadlineText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 10),
       child: Text(
-        this.text,
+        text,
         style: const TextStyle(
           fontSize: 20.0,
           color: Color(0xFF00338D),
@@ -531,7 +531,7 @@ class ImprintHeadlineTextS extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 50, 0, 10),
       child: Text(
-        this.text,
+        text,
         style: const TextStyle(
           fontSize: 25.0,
           color: Color(0xFF00338D),
@@ -545,7 +545,7 @@ class ImprintHeadlineTextS extends StatelessWidget {
 }
 
 class ImprintText extends StatelessWidget {
-  const ImprintText(this.text, {bool this.underline = false, Key? key})
+  const ImprintText(this.text, {this.underline = false, Key? key})
       : super(key: key);
 
   final String text;
@@ -556,7 +556,7 @@ class ImprintText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
       child: Text(
-        this.text,
+        text,
         textAlign: TextAlign.start,
         style: TextStyle(
           decoration: (underline == true)
@@ -573,7 +573,7 @@ class ImprintText extends StatelessWidget {
 }
 
 class ImprintTextS extends StatelessWidget {
-  const ImprintTextS(this.text, {bool this.underline = false, Key? key})
+  const ImprintTextS(this.text, {this.underline = false, Key? key})
       : super(key: key);
 
   final String text;
@@ -584,7 +584,7 @@ class ImprintTextS extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
       child: Text(
-        this.text,
+        text,
         textAlign: TextAlign.start,
         style: TextStyle(
           decoration:

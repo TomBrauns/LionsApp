@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
 
 class EventDetailsPage extends StatefulWidget {
@@ -30,7 +29,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   late String _project = "";
   late String _target = "";
   late String _description = "";
-  String _imgUri = "assets/events/martini-konzert.jpg"; // TODO Static, solange es noch keine richtige Image Lösung in Firebase integriert ist
+  final String _imgUri = "assets/events/martini-konzert.jpg"; // TODO Static, solange es noch keine richtige Image Lösung in Firebase integriert ist
 
   @override
   void initState(){
@@ -51,10 +50,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         _target = data['spendenZiel'];
         _description = data['eventInfo'];
 
-        print(_title);
+
       });
-    }else{
-      print("Dokument nicht gefunden");
     }
 
   }
@@ -142,7 +139,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     ),
                                     Text("Ziel")
                                   ]),
-                                  subtitle: Text("$_target", maxLines: 1),
+                                  subtitle: Text(_target, maxLines: 1),
                                 ))),
                       ]),
                       const SizedBox(height: 16),

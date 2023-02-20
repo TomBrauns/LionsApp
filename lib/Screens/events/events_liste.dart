@@ -35,7 +35,7 @@ class _EventsState extends State<Events> {
     return Scaffold(
       appBar: const MyAppBar(title: "Events"),
       drawer: const BurgerMenu(),
-      body: EventList(),
+      body: const EventList(),
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Events",
         privilege: "Admin",

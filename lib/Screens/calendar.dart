@@ -27,7 +27,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: MyAppBar(title: "Kalender"),
+      appBar: const MyAppBar(title: "Kalender"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Calendar",

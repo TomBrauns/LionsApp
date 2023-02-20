@@ -4,6 +4,8 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import '../Widgets/appbar.dart';
 
 class Contact extends StatefulWidget {
+  const Contact({super.key});
+
   @override
   _ContactState createState() => _ContactState();
 }
@@ -54,15 +56,15 @@ class _ContactState extends State<Contact> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Success'),
-        content: Text('Nachricht erfolgreich gesendet.'),
+        title: const Text('Success'),
+        content: const Text('Nachricht erfolgreich gesendet.'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -73,14 +75,14 @@ class _ContactState extends State<Contact> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text('Ihre Nachricht wurde nicht gesendet: $errorMessage'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -90,16 +92,16 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "Kontakt und Hilfe"),
+      appBar: const MyAppBar(title: "Kontakt und Hilfe"),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name',
                 hintText: 'Vor uund Nachnamen eingeben',
                 border: OutlineInputBorder(),
@@ -111,10 +113,10 @@ class _ContactState extends State<Contact> {
                 return null;
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'E-Mail eingeben',
                 border: OutlineInputBorder(),
@@ -126,11 +128,11 @@ class _ContactState extends State<Contact> {
                 return null;
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _messageController,
               maxLines: 5,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Text',
                 hintText: 'Text hier tippen',
                 border: OutlineInputBorder(),
@@ -142,12 +144,12 @@ class _ContactState extends State<Contact> {
                 return null;
               },
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             _isSending
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : ElevatedButton(
                     onPressed: _sendEmail,
-                    child: Text('Senden'),
+                    child: const Text('Senden'),
                   ),
           ],
         ),

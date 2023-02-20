@@ -155,7 +155,7 @@ class _CreateEvent extends State<CreateEvent> {
               ),
               Container(
                 padding: const EdgeInsets.all(10.0),
-                child: ProjectDropdown(),
+                child: const ProjectDropdown(),
               ),
               const Center(
                 child: Text('Ort:'),
@@ -249,7 +249,7 @@ class _CreateEvent extends State<CreateEvent> {
 }
 
 class ProjectDropdown extends StatefulWidget{
-
+  const ProjectDropdown({super.key});
 
   @override
   _ProjectDropdownState createState() => _ProjectDropdownState();

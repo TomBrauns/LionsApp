@@ -46,26 +46,26 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
-              color: Color.fromARGB(255, 29, 89, 167),
+              color: const Color.fromARGB(255, 29, 89, 167),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 child: Container(
-                  margin: EdgeInsets.all(12),
+                  margin: const EdgeInsets.all(12),
                   child: Form(
                     key: _formkey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 80,
                         ),
-                        Text(
+                        const Text(
                           "Registrierung",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -73,10 +73,10 @@ class _RegisterState extends State<Register> {
                             fontSize: 40,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Row(
@@ -92,11 +92,11 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -116,11 +116,11 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -129,7 +129,7 @@ class _RegisterState extends State<Register> {
                             )),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -142,12 +142,12 @@ class _RegisterState extends State<Register> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           validator: (value) {
@@ -165,7 +165,7 @@ class _RegisterState extends State<Register> {
                           onChanged: (value) {},
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -188,16 +188,16 @@ class _RegisterState extends State<Register> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           validator: (value) {
-                            RegExp regex = new RegExp(r'^.{6,}$');
+                            RegExp regex = RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
                               return "Passwort darf nicht leer sein";
                             }
@@ -209,7 +209,7 @@ class _RegisterState extends State<Register> {
                           },
                           onChanged: (value) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -232,12 +232,12 @@ class _RegisterState extends State<Register> {
                             contentPadding: const EdgeInsets.only(
                                 left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           validator: (value) {
@@ -250,7 +250,7 @@ class _RegisterState extends State<Register> {
                           },
                           onChanged: (value) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
 
@@ -269,11 +269,11 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -293,11 +293,11 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -306,7 +306,7 @@ class _RegisterState extends State<Register> {
                             )),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         // TODO: Add attribute to make them optional
@@ -323,11 +323,11 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -347,11 +347,11 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -361,7 +361,7 @@ class _RegisterState extends State<Register> {
                           ],
                         ),
 
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
 
@@ -423,7 +423,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ],
                         ), */
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -431,13 +431,13 @@ class _RegisterState extends State<Register> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             MaterialButton(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
-                                CircularProgressIndicator();
+                                const CircularProgressIndicator();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -445,7 +445,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Zurück zu Login",
                                 style: TextStyle(
                                   fontSize: 20,
@@ -454,7 +454,7 @@ class _RegisterState extends State<Register> {
                               color: Colors.white,
                             ),
                             MaterialButton(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
@@ -475,7 +475,7 @@ class _RegisterState extends State<Register> {
                                   rool,
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Registrieren",
                                 style: TextStyle(
                                   fontSize: 20,
@@ -485,7 +485,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ],
@@ -510,7 +510,7 @@ class _RegisterState extends State<Register> {
       String? streetname,
       String? streetnumber,
       String rool) async {
-    CircularProgressIndicator();
+    const CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)

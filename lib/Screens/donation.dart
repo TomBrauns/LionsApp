@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
@@ -34,7 +33,7 @@ class _DonationsState extends State<Donations> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
-        appBar: MyAppBar(title: "Spenden"),
+        appBar: const MyAppBar(title: "Spenden"),
         bottomNavigationBar: const BottomNavigation(
           currentPage: "Donations",
           privilege: "Admin",
@@ -109,7 +108,7 @@ class _DonationsState extends State<Donations> {
                                   });
                                 },
                                 child:
-                                    Text("Ich möchte eine Quittung erhalten."))
+                                    const Text("Ich möchte eine Quittung erhalten."))
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -153,8 +152,7 @@ class _DonationsState extends State<Donations> {
 
   void _handleSubmit() {
     int value = _getCurrentValue();
-    // TODO Submitted
-    print("Value=$value, Quittung=$_isReceiptChecked");
+
   }
 }
 

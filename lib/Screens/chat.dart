@@ -14,10 +14,10 @@ class Chat extends StatefulWidget {
 class _CalendarState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const BurgerMenu(),
+    return const Scaffold(
+      drawer: BurgerMenu(),
       appBar: MyAppBar(title: "Chat"),
-      bottomNavigationBar: const BottomNavigation(
+      bottomNavigationBar: BottomNavigation(
         currentPage: "Chat",
         privilege: "Admin",
       ),
