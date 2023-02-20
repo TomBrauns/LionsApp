@@ -37,33 +37,6 @@ class _EventsState extends State<Events> {
       appBar: MyAppBar(title: "Events"),
       drawer: const BurgerMenu(),
       body: EventList(),
-
-
-
-      //Alter ListView von Nico
-
-      /*body: ListView(
-          children: events
-              .map((e) => Card(
-                  child: ListTile(
-                      onTap: () => _handleEventClicked(e),
-                      title: Text(e.title),
-                      subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(e.description),
-                            const SizedBox(height: 4),
-                            Row(children: [
-                              const Icon(Icons.location_on, size: 16),
-                              Text(e.location),
-                            ]),
-                            const SizedBox(height: 4),
-                            Row(children: [
-                              const Icon(Icons.calendar_month, size: 16),
-                              Text(DateFormat("d. MMM y").format(e.date))
-                            ]),
-                          ]))))
-              .toList()),*/
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Events",
         privilege: "Admin",
