@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
 import 'package:lionsapp/Screens/calendar.dart';
-import 'package:lionsapp/Screens/Payment/paymethode.dart';
+import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
