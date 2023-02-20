@@ -8,14 +8,14 @@ String DonationProjectName = "Test Projekt";
 var DonationAmount = 1;
 //
 
-class DonationRecieved extends StatefulWidget {
-  const DonationRecieved({super.key});
+class DonationReceived extends StatefulWidget {
+  const DonationReceived({super.key});
 
   @override
-  State<DonationRecieved> createState() => _DonationRecievedState();
+  State<DonationReceived> createState() => _DonationReceivedState();
 }
 
-class _DonationRecievedState extends State<DonationRecieved> {
+class _DonationReceivedState extends State<DonationReceived> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -357,7 +357,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const DonationRecieved()));
+                                      const DonationReceived()));
                         },
                       ),
                     ),
