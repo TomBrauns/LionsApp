@@ -46,11 +46,13 @@ dependencies:
   dropdown_search: ^5.0.5
   google_sign_in: ^5.4.4
   calendar_view: ^1.0.2
+  http: ^0.13.5
 
   flutter_launcher_icons: ^0.11.0
   image_picker: ^0.8.6+1
   firebase_storage: ^11.0.13
   flutter_email_sender: ^5.2.0
+  http_auth: ^1.0.1
 
 
 dev_dependencies:

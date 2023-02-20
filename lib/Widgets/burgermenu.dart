@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
 import 'package:lionsapp/Screens/calendar.dart';
+import 'package:lionsapp/Screens/paymethode.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
@@ -239,6 +240,21 @@ class _BurgerMenuState extends State<BurgerMenu> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const ContactMailbox()),
+                    );
+                  },
+                )
+              : Container(),
+          Privileges.privilege == "Admin"
+              ? ListTile(
+                  title: const Text('paymethode'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Paymethode()),
                     );
                   },
                 )
