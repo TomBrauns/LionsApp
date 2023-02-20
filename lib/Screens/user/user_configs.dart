@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -68,10 +70,23 @@ class _UserState extends State<User> {
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const UserForm()),
-                );
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Update()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Sie müssen sich zuerst anmelden!',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
             ),
           ),
@@ -293,6 +308,30 @@ class _UserFormState extends State<UserForm> {
                     ),
                   ),
                 ))));
+  }
+
+  Future<void> updateUserInFirestore(
+      {String? newName, String? newEmail, int? newAge}) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
+
+    final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+    Map<String, dynamic> updates = {};
+
+    if (newName != null && newName.isNotEmpty) {
+      updates['name'] = newName;
+    }
+
+    if (newEmail != null && newEmail.isNotEmpty) {
+      updates['email'] = newEmail;
+    }
+
+    if (newAge != null && newAge > 0) {
+      updates['age'] = newAge;
+    }
+
+    await userRef.update(updates);
   }
 }
 

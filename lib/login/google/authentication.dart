@@ -33,7 +33,6 @@ class Authentication {
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-    print("hallo");
 
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
