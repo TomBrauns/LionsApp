@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
@@ -19,6 +20,7 @@ class User extends StatefulWidget {
 class _UserState extends State<User> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Benutzer"),
@@ -80,7 +82,15 @@ class _UserState extends State<User> {
                 }
               },
               child: const Text('Profilbild ändern'),
-            )
+            ),
+            //TODO: (aus)kommentieren, da sonst immer Fehler
+            if (user != null)
+              UserDataWidget()
+            else
+              Text(
+                'Sie müssen sich zuerst anmelden!',
+                style: TextStyle(color: Colors.red),
+              ),
           ])),
           Container(
             margin: const EdgeInsets.all(25),
@@ -169,7 +179,6 @@ class _UserState extends State<User> {
               ),
               onPressed: () {
                 signOut();
-                Privileges.privilege = "Friend";
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LogOut()),
@@ -182,6 +191,7 @@ class _UserState extends State<User> {
 }
 
 Future<void> signOut() async {
+  Privileges.privilege = "gast";
   await FirebaseAuth.instance.signOut();
 }
 
@@ -524,12 +534,56 @@ class _LogOutState extends State<LogOut> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => Donations()),
               );
             },
           ),
         ),
       ])),
     );
+  }
+}
+
+class UserDataWidget extends StatelessWidget {
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  @override
+  Widget build(BuildContext context) {
+    if (userId == null || userId.isEmpty) {
+      return Text('gerade niemand eingeloggt');
+    } else {
+      return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            final userData = snapshot.data!.data()!;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (userData['firstname'] != null &&
+                    userData['lastname'] != null)
+                  Text(
+                      'Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null)
+                  Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null &&
+                    userData['streetnumber'] != null &&
+                    userData['postalcode'] != null &&
+                    userData['cityname'] != null)
+                  Text(
+                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      );
+    }
   }
 }

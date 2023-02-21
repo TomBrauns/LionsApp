@@ -354,16 +354,16 @@ class UpdateState extends State<Update> {
       dataToUpdate['password'] = newPassword;
     }
     if (newPostalCode != null && newPostalCode.isNotEmpty) {
-      dataToUpdate['postalCode'] = newPostalCode;
+      dataToUpdate['postalcode'] = newPostalCode;
     }
     if (newCity != null && newCity.isNotEmpty) {
-      dataToUpdate['city'] = newCity;
+      dataToUpdate['cityname'] = newCity;
     }
     if (newStreet != null && newStreet.isNotEmpty) {
-      dataToUpdate['street'] = newStreet;
+      dataToUpdate['streetname'] = newStreet;
     }
     if (newStreetNr != null && newStreetNr.isNotEmpty) {
-      dataToUpdate['streetNr'] = newStreetNr;
+      dataToUpdate['streetnumber'] = newStreetNr;
     }
 
     if (dataToUpdate.isNotEmpty) {
@@ -374,7 +374,6 @@ class UpdateState extends State<Update> {
           content: Text('Nutzerdaten erfolgreich aktualisiert!'),
         ),
       );
-      print('success');
     } else {
       print('No updates to perform');
       ScaffoldMessenger.of(context).showSnackBar(
