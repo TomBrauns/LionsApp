@@ -20,18 +20,9 @@ Future<void> main() async {
     final User? user = auth.currentUser;
     if (user != null) {
       String uid = user.uid;
-      print("User ID: $uid");
-      print("There's a active User!");
       await checkRool();
     }
   });
-  //await checkRool();
-  /*await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw",
-          appId: "1:923321843822:android:e238895b700aaf2180e67f",
-          messagingSenderId: "923321843822",
-          projectId: "lionsapp-973b3"));*/
   runApp(const MyApp());
 }
 
