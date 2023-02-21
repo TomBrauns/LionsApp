@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../Widgets/appbar.dart';
 
@@ -121,6 +123,22 @@ class _EventListState extends State<EventList>{
                     child: Card(
                       child: ListTile(
                         title: Text(event['eventName']),
+                        trailing: Wrap(
+                          spacing: 12,
+                          children:  [
+                            IconButton(
+                              icon: Icon(Icons.qr_code),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => QrCodeWithImage(link: 'www.hier-kommt-der-link-hin.de/documentID', documentId: eventId),
+                                    )
+                                  );
+                                },
+                            )
+                          ]
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
