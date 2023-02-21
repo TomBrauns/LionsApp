@@ -8,8 +8,6 @@ import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/burgermenu.dart';
-import '../friend.dart';
-import '../member.dart';
 
 class Authentication {
   static SnackBar customSnackBar({required String content}) {

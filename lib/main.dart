@@ -15,14 +15,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    if (user != null) {
-      String uid = user.uid;
-      await checkRool();
-    }
-  });
+  reAuthenticateUser();
   runApp(const MyApp());
 }
 

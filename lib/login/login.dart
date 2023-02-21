@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'friend.dart';
-import 'member.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -327,5 +325,16 @@ Future<void> checkRool() async {
       print('Document does not exist on the database');
     }
   });
-  //await Future.delayed(Duration(seconds: 2)); // Beispiel-Verzögerung
+  //await Future.delayed(Duration(seconds: 2)); // TODO: evtl einbauen? Fkt ist ist nicht fertig bis Screen geladen ist
+}
+
+void reAuthenticateUser() {
+  FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    if (user != null) {
+      String uid = user.uid;
+      await checkRool();
+    }
+  });
 }
