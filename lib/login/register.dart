@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/agb.dart';
 import 'login.dart';
 // import 'model.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -92,11 +93,13 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -116,11 +119,13 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -269,11 +274,13 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -293,11 +300,13 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -323,11 +332,13 @@ class _RegisterState extends State<Register> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -347,11 +358,13 @@ class _RegisterState extends State<Register> {
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -375,12 +388,18 @@ class _RegisterState extends State<Register> {
                                   isChecked = checked ?? false;
                                 }),
                               ),
-                              const Text(
-                                "AGB's akzeptieren",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              )
+                              InkWell(
+                                  child: const Text(
+                                    "ABG's akzeptieren",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const AGB()),
+                                    );
+                                  }),
                             ]),
 
                         /*  Row(

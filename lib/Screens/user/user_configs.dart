@@ -30,136 +30,162 @@ class _UserState extends State<User> {
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
-              Container(
-                  child: Column(children: <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.account_circle),
-                      tooltip: 'Profilbild ändern',
-                      iconSize: 70,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfilePicture()),
-                        );
-                      },
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 10),
+          Container(
+              child: Column(children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.account_circle),
+              tooltip: 'Profilbild ändern',
+              iconSize: 70,
+              onPressed: () {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePicture()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Sie müssen sich zuerst anmelden!',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfilePicture()),
-                        );
-                      },
-                      child: const Text('Profilbild ändern'),
-                    )
-                  ])),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.badge,
-                    size: 24.0,
-                  ),
-                  label: const Text('Nutzerdaten ändern'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    final user = FirebaseAuth.instance.currentUser;
-                    if (user != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Update()),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Sie müssen sich zuerst anmelden!',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  },
-                ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 10),
               ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.card_membership,
-                    size: 24.0,
-                  ),
-                  label: const Text('Abos Verwalten'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Subs()),
-                    );
-                  },
-                ),
+              onPressed: () {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePicture()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Sie müssen sich zuerst anmelden!',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Profilbild ändern'),
+            )
+          ])),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.badge,
+                size: 24.0,
               ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.accessibility_new,
-                    size: 24.0,
-                  ),
-                  label: const Text('Bedienungshilfe'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Accessibility()),
-                    );
-                  },
-                ),
+              label: const Text('Nutzerdaten ändern'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
               ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.logout,
-                    size: 24.0,
-                  ),
-                  label: const Text('Ausloggen'),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    signOut();
-                    Privileges.privilege = "Friend";
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LogOut()),
-                    );
-                  },
-                ),
+              onPressed: () {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Update()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Sie müssen sich zuerst anmelden!',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.card_membership,
+                size: 24.0,
               ),
-            ])));
+              label: const Text('Abos Verwalten'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Subs()),
+                );
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.accessibility_new,
+                size: 24.0,
+              ),
+              label: const Text('Bedienungshilfe'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Accessibility()),
+                );
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.logout,
+                size: 24.0,
+              ),
+              label: const Text('Ausloggen'),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+              ),
+              onPressed: () {
+                signOut();
+                Privileges.privilege = "Friend";
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogOut()),
+                );
+              },
+            ),
+          ),
+        ])));
   }
 }
 
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
 }
+
+// TODO: class UserForm is depricated
 
 class UserForm extends StatefulWidget {
   const UserForm({super.key});
@@ -385,52 +411,52 @@ class _AccessibilityState extends State<Accessibility> {
         ),
         body: Center(
             child: Column(children: <Widget>[
-              const Text("Fontgröße"),
-              Slider(
-                  value: _currentSliderValue,
-                  max: 5,
-                  divisions: 5,
-                  label: _currentSliderValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _currentSliderValue = value;
-                    });
-                  }),
-              const Text("Farbenblindheitsmodus"),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
-                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                underline: Container(
-                  height: 2,
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                ),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+          const Text("Fontgröße"),
+          Slider(
+              value: _currentSliderValue,
+              max: 5,
+              divisions: 5,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                });
+              }),
+          const Text("Farbenblindheitsmodus"),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+            underline: Container(
+              height: 2,
+              color: const Color.fromARGB(255, 0, 0, 0),
+            ),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton(
+              child: const Text("Bestätigen"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                elevation: 0,
               ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton(
-                  child: const Text("Bestätigen"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ])));
+              onPressed: () {},
+            ),
+          ),
+        ])));
   }
 }
 
@@ -472,38 +498,38 @@ class _LogOutState extends State<LogOut> {
       ),
       body: Center(
           child: Column(children: [
-            Container(
-              margin: const EdgeInsets.all(40),
-              padding: const EdgeInsets.all(40.0),
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                border: Border.all(color: Colors.amber),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Text("Schade, dass du dich ausgeloggt hast. "
-                  "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen."),
+        Container(
+          margin: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(40.0),
+          decoration: BoxDecoration(
+            color: Colors.amber,
+            border: Border.all(color: Colors.amber),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Text("Schade, dass du dich ausgeloggt hast. "
+              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen."),
+        ),
+        Container(
+          margin: const EdgeInsets.all(25),
+          child: ElevatedButton.icon(
+            icon: const Icon(
+              Icons.keyboard_return,
+              size: 24.0,
             ),
-            Container(
-              margin: const EdgeInsets.all(25),
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.keyboard_return,
-                  size: 24.0,
-                ),
-                label: const Text('Zurück zum Start'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  elevation: 0,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-              ),
+            label: const Text('Zurück zum Start'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              elevation: 0,
             ),
-          ])),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+        ),
+      ])),
     );
   }
 }
