@@ -25,7 +25,7 @@ Future<void> main() async {
       await checkRool();
     }
   });
-  await checkRool();
+  //await checkRool();
   /*await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
 import 'package:lionsapp/Screens/calendar.dart';
+import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/chat.dart';
@@ -208,6 +209,18 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('QRCode-Test'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => QrCodeWithImage(link: 'www.google.de?param:', documentId: '12jdksl2342')),
               );
             },
           ),

@@ -55,6 +55,10 @@ dependencies:
   http_auth: ^1.0.1
   shared_preferences: ^2.0.17
 
+  qr_flutter: ^4.0.0
+  path_provider: ^2.0.12
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
