@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/user/confirmMailForPwReset.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -146,8 +147,32 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PwReset(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                "Passwort vergessen",
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(
-                          height: 20,
+                          height: 60,
                         ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
