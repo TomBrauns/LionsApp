@@ -86,16 +86,13 @@ class UpdateState extends State<Update> {
                                   fillColor: Colors.white,
                                   hintText: 'Vorname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -112,16 +109,13 @@ class UpdateState extends State<Update> {
                                 fillColor: Colors.white,
                                 hintText: 'Nachname',
                                 enabled: true,
-                                contentPadding: const EdgeInsets.only(
-                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -140,8 +134,7 @@ class UpdateState extends State<Update> {
                             fillColor: Colors.white,
                             hintText: 'Email',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: new BorderSide(color: Colors.white),
                               borderRadius: new BorderRadius.circular(20),
@@ -170,16 +163,13 @@ class UpdateState extends State<Update> {
                                   fillColor: Colors.white,
                                   hintText: 'Postleitszahl',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -196,16 +186,13 @@ class UpdateState extends State<Update> {
                                 fillColor: Colors.white,
                                 hintText: 'Stadtname',
                                 enabled: true,
-                                contentPadding: const EdgeInsets.only(
-                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -228,16 +215,13 @@ class UpdateState extends State<Update> {
                                   fillColor: Colors.white,
                                   hintText: 'Straßenname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
+                                    borderSide: const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -254,16 +238,13 @@ class UpdateState extends State<Update> {
                                 fillColor: Colors.white,
                                 hintText: 'Hausnummer und Adresszusatz',
                                 enabled: true,
-                                contentPadding: const EdgeInsets.only(
-                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -281,9 +262,7 @@ class UpdateState extends State<Update> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             MaterialButton(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {

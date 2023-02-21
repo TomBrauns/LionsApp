@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/login/login.dart';
-import 'package:lionsapp/login/login.dart' as test;
+import 'package:lionsapp/login/register.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -32,31 +35,9 @@ class _UserState extends State<User> {
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
-          Container(
-              child: Column(children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.account_circle),
-              tooltip: 'Profilbild ändern',
-              iconSize: 70,
-              onPressed: () {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePicture()),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Sie müssen sich zuerst anmelden!',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
+          Column(children: <Widget>[
+            Container(
+              child: buildImageFromFirebase(),
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -65,10 +46,7 @@ class _UserState extends State<User> {
               onPressed: () {
                 final user = FirebaseAuth.instance.currentUser;
                 if (user != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePicture()),
-                  );
+                  uploadIMG();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -83,7 +61,6 @@ class _UserState extends State<User> {
               },
               child: const Text('Profilbild ändern'),
             ),
-            //TODO: (aus)kommentieren, da sonst immer Fehler
             if (user != null)
               UserDataWidget()
             else
@@ -91,7 +68,7 @@ class _UserState extends State<User> {
                 'Sie müssen sich zuerst anmelden!',
                 style: TextStyle(color: Colors.red),
               ),
-          ])),
+          ]),
           Container(
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
@@ -160,8 +137,7 @@ class _UserState extends State<User> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const Accessibility()),
+                  MaterialPageRoute(builder: (context) => const Accessibility()),
                 );
               },
             ),
@@ -187,6 +163,65 @@ class _UserState extends State<User> {
             ),
           ),
         ])));
+  }
+
+  Widget buildImageFromFirebase() {
+    final user = FirebaseAuth.instance.currentUser;
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
+      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          String? imageUrl = snapshot.data!.get('image_url');
+          if (imageUrl != null) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.network(
+                imageUrl!,
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+              ),
+            );
+          }
+        }
+        return Icon(Icons.person, size: 50);
+      },
+    );
+  }
+
+  Future<void> uploadIMG() async {
+    String imageUrl = '';
+    //IMAGEPICKER
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    print('${file?.path}');
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    //UPLOAD TO FIREBASE
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+
+    //Handle errors/success
+    try {
+      //Store the file
+      await referenceImageToUpload.putFile(File(file!.path));
+      //Success: get the download URL
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+    } catch (error) {
+      //Some error occurred
+    }
+    //Store
+    await referenceImageToUpload.putFile((File(file!.path)));
+    //LINK IN FIRESTORE
+    Map<String, dynamic> dataToUpdate = {};
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      dataToUpdate['image_url'] = imageUrl;
+    }
+
+    if (dataToUpdate.isNotEmpty) {
+      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+    } else {}
   }
 }
 
@@ -347,8 +382,7 @@ class _UserFormState extends State<UserForm> {
                 ))));
   }
 
-  Future<void> updateUserInFirestore(
-      {String? newName, String? newEmail, int? newAge}) async {
+  Future<void> updateUserInFirestore({String? newName, String? newEmail, int? newAge}) async {
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
 
@@ -394,13 +428,7 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>[
-  'keins',
-  'Protanopie',
-  'Deuteranopie',
-  'Tritanopie',
-  'Achromatopsie'
-];
+const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -553,28 +581,17 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null &&
-                    userData['lastname'] != null)
-                  Text(
-                      'Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null)
-                  Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null &&
-                    userData['streetnumber'] != null &&
-                    userData['postalcode'] != null &&
-                    userData['cityname'] != null)
-                  Text(
-                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null) Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
               ],
             );
           } else if (snapshot.hasError) {
