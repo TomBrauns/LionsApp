@@ -391,7 +391,10 @@ class _RegisterState extends State<Register> {
                               InkWell(
                                   child: const Text(
                                     "ABG's akzeptieren",
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
                                   onTap: () {
                                     Navigator.push(

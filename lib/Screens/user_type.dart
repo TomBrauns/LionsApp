@@ -27,6 +27,7 @@ class UserTypeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
+            // TODO: Button wird hier nichtmehr gebraucht, jetzt in Login
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement the 'Hier registrieren' button's functionality

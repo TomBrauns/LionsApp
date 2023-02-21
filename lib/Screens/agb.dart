@@ -15,7 +15,6 @@ class _AGBState extends State<AGB> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BurgerMenu(),
       appBar: const MyAppBar(title: "AGB's"),
       body: Scrollbar(
           thickness: 5.0,
