@@ -62,9 +62,6 @@ class UpdateState extends State<Update> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 80,
-                        ),
                         const Text(
                           "Nutzerdaten ändern",
                           style: TextStyle(
@@ -92,11 +89,13 @@ class UpdateState extends State<Update> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -107,26 +106,28 @@ class UpdateState extends State<Update> {
                             const SizedBox(width: 10),
                             Expanded(
                                 child: TextFormField(
-                                  controller: lastnameController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: 'Nachname',
-                                    enabled: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 14.0, bottom: 8.0, top: 8.0),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  onChanged: (value) {},
-                                  keyboardType: TextInputType.text,
-                                )),
+                              controller: lastnameController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Nachname',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.text,
+                            )),
                           ],
                         ),
                         const SizedBox(
@@ -156,72 +157,6 @@ class UpdateState extends State<Update> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextFormField(
-                          obscureText: _isObscure,
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                icon: Icon(_isObscure
-                                    ? Icons.visibility_off
-                                    : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                }),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Passwort',
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 15.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          obscureText: _isObscure2,
-                          controller: confirmpassController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                icon: Icon(_isObscure2
-                                    ? Icons.visibility_off
-                                    : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure2 = !_isObscure2;
-                                  });
-                                }),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Passwort bestätigen',
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 15.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
 
                         // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
                         // TODO: Add attribute to make them optional
@@ -238,11 +173,13 @@ class UpdateState extends State<Update> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -253,26 +190,28 @@ class UpdateState extends State<Update> {
                             const SizedBox(width: 10),
                             Expanded(
                                 child: TextFormField(
-                                  controller: cityController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: 'Stadtname',
-                                    enabled: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 14.0, bottom: 8.0, top: 8.0),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  onChanged: (value) {},
-                                  keyboardType: TextInputType.text,
-                                )),
+                              controller: cityController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Stadtname',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.text,
+                            )),
                           ],
                         ),
                         const SizedBox(
@@ -292,11 +231,13 @@ class UpdateState extends State<Update> {
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -307,69 +248,31 @@ class UpdateState extends State<Update> {
                             const SizedBox(width: 10),
                             Expanded(
                                 child: TextFormField(
-                                  controller: streetnrController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: 'Hausnummer und Adresszusatz',
-                                    enabled: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 14.0, bottom: 8.0, top: 8.0),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  onChanged: (value) {},
-                                  keyboardType: TextInputType.number,
-                                )),
+                              controller: streetnrController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Hausnummer und Adresszusatz',
+                                enabled: true,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14.0, bottom: 8.0, top: 8.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.number,
+                            )),
                           ],
                         ),
 
-                        /*  Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(RRR
-                              "Rolle : ",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            DropdownButton<String>(
-                              dropdownColor: Colors.blue[900],
-                              isDense: true,
-                              isExpanded: false,
-                              iconEnabledColor: Colors.white,
-                              focusColor: Colors.white,
-                              items: options.map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(
-                                    dropDownStringItem,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (newValueSelected) {
-                                setState(() {
-                                  _currentItemSelected = newValueSelected!;
-                                  rool = newValueSelected;
-                                });
-                              },
-                              value: _currentItemSelected,
-                            ),
-                          ],
-                        ), */
                         const SizedBox(
                           height: 20,
                         ),
@@ -380,7 +283,7 @@ class UpdateState extends State<Update> {
                             MaterialButton(
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
+                                      BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
@@ -408,9 +311,6 @@ class UpdateState extends State<Update> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                       ],
                     ),
                   ),
@@ -424,15 +324,15 @@ class UpdateState extends State<Update> {
   }
 
   Future<void> updateUser(
-      String? newFirstName,
-      String? newLastName,
-      String? newEmail,
-      String? newPassword,
-      String? newPostalCode,
-      String? newCity,
-      String? newStreet,
-      String? newStreetNr,
-      ) async {
+    String? newFirstName,
+    String? newLastName,
+    String? newEmail,
+    String? newPassword,
+    String? newPostalCode,
+    String? newCity,
+    String? newStreet,
+    String? newStreetNr,
+  ) async {
     final user = FirebaseAuth.instance.currentUser;
 
     final userId = user?.uid;

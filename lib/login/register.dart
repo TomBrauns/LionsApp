@@ -47,7 +47,6 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
@@ -63,9 +62,6 @@ class _RegisterState extends State<Register> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 80,
-                        ),
                         const Text(
                           "Registrierung",
                           style: TextStyle(
@@ -506,9 +502,6 @@ class _RegisterState extends State<Register> {
                               color: Colors.white,
                             ),
                           ],
-                        ),
-                        const SizedBox(
-                          height: 20,
                         ),
                       ],
                     ),
