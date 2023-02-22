@@ -38,7 +38,6 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: routes,
-      home: HomePage(),
     );
   }
 }
