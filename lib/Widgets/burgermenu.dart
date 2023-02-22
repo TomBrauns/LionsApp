@@ -18,7 +18,7 @@ import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/routes.dart';
+//import 'package:lionsapp/routes.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -65,7 +65,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/');
+              //Navigator.pushNamed(context, '/');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
             },
           ),
           ListTile(
@@ -75,7 +79,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/Donations');
+              //Navigator.pushNamed(context, '/Donations');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Donations()),
+              );
             },
           ),
           Privileges.privilege == "Admin" ||
@@ -88,7 +96,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/User');
+                    //Navigator.pushNamed(context, '/User');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const User()),
+                    );
                   },
                 )
               : Container(),
@@ -102,7 +114,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/Calendar');
+                    //Navigator.pushNamed(context, '/Calendar');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Calendar()),
+                    );
                   },
                 )
               : Container(),
@@ -116,7 +132,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/Events');
+                    //Navigator.pushNamed(context, '/Events');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Events()),
+                    );
                   },
                 )
               : Container(),
@@ -130,7 +150,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/Catalogue');
+                    //Navigator.pushNamed(context, '/Catalogue');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Catalogue()),
+                    );
                   },
                 )
               : Container(),
@@ -142,7 +167,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/Chat');
+                    //Navigator.pushNamed(context, '/Chat');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Chat()),
+                    );
                   },
                 )
               : Container(),
@@ -168,7 +197,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/Contact');
+              //Navigator.pushNamed(context, '/Contact');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Contact()),
+              );
             },
           ),
           ListTile(
@@ -178,7 +211,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/Imprint');
+              //Navigator.pushNamed(context, '/Imprint');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Imprint()),
+              );
             },
           ),
           ListTile(
@@ -188,7 +225,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/Register');
+              //Navigator.pushNamed(context, '/Register');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Register()),
+              );
             },
           ),
           ListTile(
@@ -198,7 +239,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/Login');
+              //Navigator.pushNamed(context, '/Login');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
             },
           ),
           ListTile(
@@ -249,13 +294,17 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           ListTile(
-            leading: Icon(Icons.check_box ),
+            leading: Icon(Icons.check_box),
             title: const Text("AGB's"),
             onTap: () {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/EULA');
+              //Navigator.pushNamed(context, '/EULA');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AGB()),
+              );
             },
           ),
           ListTile(
@@ -273,22 +322,21 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
 
           Privileges.privilege == "Admin" ||
-              Privileges.privilege == "Member" ||
-              Privileges.privilege == "Friend"
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
-            leading: Icon(Icons.logout),
-            title: const Text('Log Out'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LogOut()),
-              );
-            },
-          )
+                  leading: Icon(Icons.logout),
+                  title: const Text('Log Out'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogOut()),
+                    );
+                  },
+                )
               : Container(),
         ],
       ),
