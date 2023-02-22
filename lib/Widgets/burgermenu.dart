@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/agb.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
 import 'package:lionsapp/Screens/calendar.dart';
@@ -9,6 +10,7 @@ import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/imprint.dart';
+import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 import 'package:lionsapp/Screens/user_management.dart';
@@ -220,7 +222,10 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Push to Screen
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => QrCodeWithImage(link: 'www.google.de?param:', documentId: '12jdksl2342')),
+                MaterialPageRoute(
+                    builder: (context) => QrCodeWithImage(
+                        link: 'www.google.de?param:',
+                        documentId: '12jdksl2342')),
               );
             },
           ),
@@ -271,6 +276,31 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
+          ListTile(
+            title: const Text("AGB's"),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AGB()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Quittung'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DonationReceived()),
+              );
+            },
+          ),
         ],
       ),
     ));
