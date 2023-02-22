@@ -491,7 +491,16 @@ class _RegisterState extends State<Register> {
   void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     const CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) => {postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool)}).catchError((e) {});
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then(
+            (value) => {
+              postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool),
+            },
+          )
+          .catchError(
+            (e) {},
+          );
     }
   }
 
@@ -509,7 +518,12 @@ class _RegisterState extends State<Register> {
       'streetnumber': streetnumber,
       'rool': rool,
     });
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
+    );
   }
 
   Future<void> uploadFileToFirebaseStorage(File file) async {

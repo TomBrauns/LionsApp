@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'model.dart';
+import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import '../../login/login.dart';
@@ -22,24 +22,48 @@ class UpdateState extends State<Update> {
   final _formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
 
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpassController = TextEditingController();
-  final TextEditingController firstnameController = TextEditingController();
-  final TextEditingController lastnameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController postalcodeController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
-  final TextEditingController streetnrController = TextEditingController();
-
-  // For the Postal code keyboardType: TextInputType.number
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController postalcodeController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController streetnrController = TextEditingController();
 
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
   var rool = "friend";
-
+  String? _firstname;
+  String? _lastname;
+  String? _email;
+  String? _postalcode;
+  String? _cityname;
+  String? _streetname;
+  String? _streetnumber;
   @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final userData = docSnapshot.data() as Map<String, dynamic>;
+    setState(
+      () {
+        firstnameController.text = userData['firstname'] as String;
+        lastnameController.text = userData['lastname'] as String;
+        emailController.text = userData['email'] as String;
+        postalcodeController.text = userData['postalcode'] as String;
+        cityController.text = userData['cityname'] as String;
+        streetController.text = userData['streetname'] as String;
+        streetnrController.text = userData['streetnumber'] as String;
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
@@ -82,9 +106,9 @@ class UpdateState extends State<Update> {
                               child: TextFormField(
                                 controller: firstnameController,
                                 decoration: InputDecoration(
+                                  hintText: "Vorname",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Vorname',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
@@ -102,26 +126,27 @@ class UpdateState extends State<Update> {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: TextFormField(
-                              controller: lastnameController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Nachname',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
+                              child: TextFormField(
+                                controller: lastnameController,
+                                decoration: InputDecoration(
+                                  hintText: "Nachname",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.text,
                               ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.text,
-                            )),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -132,20 +157,19 @@ class UpdateState extends State<Update> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: 'Email',
                             enabled: true,
                             contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                              borderRadius: new BorderRadius.circular(20),
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           onChanged: (value) {},
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                         ),
                         const SizedBox(
                           height: 20,
@@ -159,61 +183,9 @@ class UpdateState extends State<Update> {
                               child: TextFormField(
                                 controller: postalcodeController,
                                 decoration: InputDecoration(
+                                  hintText: "PLZ",
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Postleitszahl',
-                                  enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                onChanged: (value) {},
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                                child: TextFormField(
-                              controller: cityController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Stadtname',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.text,
-                            )),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        // TODO: Add attribute to make them optional
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: streetController,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: 'Straßenname',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
@@ -231,26 +203,80 @@ class UpdateState extends State<Update> {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: TextFormField(
-                              controller: streetnrController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Hausnummer und Adresszusatz',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
+                              child: TextFormField(
+                                controller: cityController,
+                                decoration: InputDecoration(
+                                  hintText: "Stadt",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.text,
                               ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.number,
-                            )),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        // TODO: Add attribute to make them optional
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: streetController,
+                                decoration: InputDecoration(
+                                  hintText: "Straße",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.text,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: TextFormField(
+                                controller: streetnrController,
+                                decoration: InputDecoration(
+                                  hintText: "Hausnummer",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.text,
+                              ),
+                            ),
                           ],
                         ),
 
@@ -273,7 +299,6 @@ class UpdateState extends State<Update> {
                                   firstnameController.text,
                                   lastnameController.text,
                                   emailController.text,
-                                  passwordController.text,
                                   postalcodeController.text,
                                   cityController.text,
                                   streetController.text,
@@ -306,7 +331,6 @@ class UpdateState extends State<Update> {
     String? newFirstName,
     String? newLastName,
     String? newEmail,
-    String? newPassword,
     String? newPostalCode,
     String? newCity,
     String? newStreet,
@@ -320,7 +344,7 @@ class UpdateState extends State<Update> {
 
     Map<String, dynamic> dataToUpdate = {};
 
-    if (newFirstName != null && newFirstName.isNotEmpty) {
+    /* if (newFirstName != null && newFirstName.isNotEmpty) {
       dataToUpdate['firstname'] = newFirstName;
     }
     if (newLastName != null && newLastName.isNotEmpty) {
@@ -329,9 +353,7 @@ class UpdateState extends State<Update> {
     if (newEmail != null && newEmail.isNotEmpty) {
       dataToUpdate['email'] = newEmail;
     }
-    if (newPassword != null && newPassword.isNotEmpty) {
-      dataToUpdate['password'] = newPassword;
-    }
+
     if (newPostalCode != null && newPostalCode.isNotEmpty) {
       dataToUpdate['postalcode'] = newPostalCode;
     }
@@ -343,7 +365,20 @@ class UpdateState extends State<Update> {
     }
     if (newStreetNr != null && newStreetNr.isNotEmpty) {
       dataToUpdate['streetnumber'] = newStreetNr;
-    }
+    } */
+    dataToUpdate['firstname'] = newFirstName;
+
+    dataToUpdate['lastname'] = newLastName;
+
+    dataToUpdate['email'] = newEmail;
+
+    dataToUpdate['postalcode'] = newPostalCode;
+
+    dataToUpdate['cityname'] = newCity;
+
+    dataToUpdate['streetname'] = newStreet;
+
+    dataToUpdate['streetnumber'] = newStreetNr;
 
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
@@ -353,6 +388,7 @@ class UpdateState extends State<Update> {
           content: Text('Nutzerdaten erfolgreich aktualisiert!'),
         ),
       );
+      Navigator.pushNamed(context, '/User');
     } else {
       print('No updates to perform');
       ScaffoldMessenger.of(context).showSnackBar(
