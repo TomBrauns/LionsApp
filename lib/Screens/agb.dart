@@ -10,6 +10,7 @@ class AGB extends StatefulWidget {
 }
 
 class _AGBState extends State<AGB> {
+  var scrollcontroller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,10 @@ class _AGBState extends State<AGB> {
           thickness: 5.0,
           thumbVisibility: false,
           radius: const Radius.circular(360),
+          controller: scrollcontroller,
           child: ListView(
+              scrollDirection: Axis.vertical,
+              controller: scrollcontroller,
               padding: const EdgeInsets.all(15),
               children: const <Widget>[
                 AGBMainHeadlineTextS("Support"),
