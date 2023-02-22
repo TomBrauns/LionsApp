@@ -17,7 +17,7 @@ import 'package:lionsapp/login/register.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 
-Map<String, WidgetBuilder> routes = {
+var routes = <String, WidgetBuilder>{
   '/': (context) => HomePage(),
   '/User': (context) => User(),
   '/User/Data': (context) => Update(),

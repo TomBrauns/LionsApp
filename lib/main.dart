@@ -9,6 +9,7 @@ import 'package:lionsapp/Screens/home.dart';
 import 'package:lionsapp/Screens/imprint.dart';
 import 'firebase_options.dart';
 import 'package:lionsapp/login/login.dart';
+import 'package:lionsapp/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),
+      initialRoute: '/',
+      routes: routes,
       home: HomePage(),
     );
   }
