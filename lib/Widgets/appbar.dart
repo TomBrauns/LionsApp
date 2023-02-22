@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/routes.dart';
 
 import 'burgermenu.dart';
 
@@ -29,10 +30,11 @@ class _MyAppBarState extends State<MyAppBar> {
             icon: const Icon(Icons.person),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const User()),
-              );
+              );*/
+              Navigator.pushNamed(context, '/User');
             },
           ),
       ],

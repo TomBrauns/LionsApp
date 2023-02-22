@@ -4,6 +4,7 @@ import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
+import 'package:lionsapp/routes.dart';
 
 class BottomNavigation extends StatefulWidget {
   final String currentPage;
@@ -37,10 +38,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const User()),
-                );
+                );*/
+                Navigator.pushNamed(context, '/User');
               },
               icon: const Icon(Icons.badge),
             ),
@@ -50,10 +52,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Donations()),
-                );
+                );*/
+                Navigator.pushNamed(context, '/Donations');
               },
               icon: const Icon(Icons.card_giftcard),
             ),
@@ -63,10 +66,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Chat()),
-                );
+                );*/
+                Navigator.pushNamed(context, '/Chat');
               },
               icon: const Icon(Icons.chat),
             ),
@@ -76,10 +80,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Calendar()),
-                );
+                );*/
+                Navigator.pushNamed(context, '/Calendar');
               },
               icon: const Icon(Icons.event),
             ),
@@ -89,10 +94,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 // Update State of App
                 Navigator.pop(context);
                 // Push to Screen
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Catalogue()),
-                );
+                );*/
+                Navigator.pushNamed(context, '/Catalogue');
               },
               icon: const Icon(Icons.book),
             ),

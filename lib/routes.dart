@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/agb.dart';
 import 'package:lionsapp/Screens/calendar.dart';

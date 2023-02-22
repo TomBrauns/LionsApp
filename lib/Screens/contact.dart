@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import '../Widgets/appbar.dart';
 
@@ -93,6 +94,7 @@ class _ContactState extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: "Kontakt und Hilfe"),
+      drawer: BurgerMenu(),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -102,7 +104,8 @@ class _ContactState extends State<Contact> {
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(
-                labelText: 'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
+                labelText:
+                    'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
                 hintText: 'Vor und Nachname',
                 border: OutlineInputBorder(),
               ),
@@ -117,7 +120,8 @@ class _ContactState extends State<Contact> {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Bitte Email eingeben, über die wir Sie erreichen können.',
+                labelText:
+                    'Bitte Email eingeben, über die wir Sie erreichen können.',
                 hintText: 'E-Mail',
                 border: OutlineInputBorder(),
               ),
@@ -133,7 +137,8 @@ class _ContactState extends State<Contact> {
               controller: _messageController,
               maxLines: 5,
               decoration: const InputDecoration(
-                labelText: 'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
+                labelText:
+                    'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
                 hintText: 'Nachricht',
                 border: OutlineInputBorder(),
               ),

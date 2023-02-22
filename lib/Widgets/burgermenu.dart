@@ -18,7 +18,7 @@ import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-//import 'package:lionsapp/routes.dart';
+import 'package:lionsapp/routes.dart';
 
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
@@ -65,11 +65,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/');
-              Navigator.push(
+              Navigator.pushNamed(context, '/');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomePage()),
-              );
+              );*/
             },
           ),
           ListTile(
@@ -79,11 +79,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/Donations');
-              Navigator.push(
+              Navigator.pushNamed(context, '/Donations');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Donations()),
-              );
+              );*/
             },
           ),
           Privileges.privilege == "Admin" ||
@@ -96,11 +96,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    //Navigator.pushNamed(context, '/User');
-                    Navigator.push(
+                    Navigator.pushNamed(context, '/User');
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const User()),
-                    );
+                    );*/
                   },
                 )
               : Container(),
@@ -114,11 +114,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    //Navigator.pushNamed(context, '/Calendar');
-                    Navigator.push(
+                    Navigator.pushNamed(context, '/Calendar');
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Calendar()),
-                    );
+                    );*/
                   },
                 )
               : Container(),
@@ -132,11 +132,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    //Navigator.pushNamed(context, '/Events');
-                    Navigator.push(
+                    Navigator.pushNamed(context, '/Events');
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Events()),
-                    );
+                    );*/
                   },
                 )
               : Container(),
@@ -150,12 +150,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    //Navigator.pushNamed(context, '/Catalogue');
-                    Navigator.push(
+                    Navigator.pushNamed(context, '/Catalogue');
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const Catalogue()),
-                    );
+                    );*/
                   },
                 )
               : Container(),
@@ -167,11 +167,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    //Navigator.pushNamed(context, '/Chat');
-                    Navigator.push(
+                    Navigator.pushNamed(context, '/Chat');
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const Chat()),
-                    );
+                    );*/
                   },
                 )
               : Container(),
@@ -197,11 +197,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/Contact');
-              Navigator.push(
+              Navigator.pushNamed(context, '/Contact');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Contact()),
-              );
+              );*/
             },
           ),
           ListTile(
@@ -211,11 +211,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/Imprint');
-              Navigator.push(
+              Navigator.pushNamed(context, '/Imprint');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Imprint()),
-              );
+              );*/
             },
           ),
           ListTile(
@@ -225,11 +225,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/Register');
-              Navigator.push(
+              Navigator.pushNamed(context, '/Register');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Register()),
-              );
+              );*/
             },
           ),
           ListTile(
@@ -239,11 +239,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/Login');
-              Navigator.push(
+              Navigator.pushNamed(context, '/Login');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+              );*/
             },
           ),
           ListTile(
@@ -300,11 +300,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              //Navigator.pushNamed(context, '/EULA');
-              Navigator.push(
+              Navigator.pushNamed(context, '/EULA');
+              /*Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const AGB()),
-              );
+              );*/
             },
           ),
           ListTile(
