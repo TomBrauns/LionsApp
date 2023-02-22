@@ -31,6 +31,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
   // Test Value
   //static const String privilege = "Friend";
   //
+  var scrollcontroller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -39,9 +41,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
       thickness: 5.0,
       thumbVisibility: false,
       radius: const Radius.circular(360),
+      controller: scrollcontroller,
       child: ListView(
-        //
+        scrollDirection: Axis.vertical,
+        controller: scrollcontroller,
         padding: EdgeInsets.zero,
+        //
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
@@ -60,6 +65,10 @@ class _BurgerMenuState extends State<BurgerMenu> {
             ),
           ),
           ListTile(
+            title: const Text('Hauptseiten'),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
             title: const Text('Startseite'),
             onTap: () {
               // Update State of App
@@ -175,21 +184,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member"
-              ? ListTile(
-                  title: const Text('Event erstellen'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateEvent()),
-                    );
-                  },
-                )
-              : Container(),
+          ListTile(
+            title: const Text('Info Seiten'),
+          ),
           ListTile(
             leading: Icon(Icons.contact_support),
             title: const Text('Kontakt'),
@@ -219,6 +216,23 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.check_box),
+            title: const Text("AGB's"),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.pushNamed(context, '/EULA');
+              /*Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AGB()),
+              );*/
+            },
+          ),
+          ListTile(
+            title: const Text('Konto Seiten'),
+          ),
+          ListTile(
             leading: Icon(Icons.app_registration),
             title: const Text('Registrierung'),
             onTap: () {
@@ -232,6 +246,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );*/
             },
           ),
+
           ListTile(
             leading: Icon(Icons.login),
             title: const Text('Login'),
@@ -246,25 +261,72 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );*/
             },
           ),
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
+              ? ListTile(
+                  leading: Icon(Icons.logout),
+                  title: const Text('Log Out'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogOut()),
+                    );
+                  },
+                )
+              : Container(),
           ListTile(
-            title: const Text('QRCode-Test'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => QrCodeWithImage(
-                        link: 'www.google.de?param:',
-                        documentId: '12jdksl2342')),
-              );
-            },
+            title: const Text('Member Seiten'),
           ),
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member"
+              ? ListTile(
+                  leading: Icon(Icons.add_circle),
+                  title: const Text('Event erstellen'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateEvent()),
+                    );
+                  },
+                )
+              : Container(),
 
           /// Following functions are for Admins only
           Privileges.privilege == "Admin"
               ? ListTile(
+                  title: const Text('Admin Seiten'),
+                )
+              : Container(),
+
+          Privileges.privilege == "Admin"
+              ? ListTile(
+                  leading: Icon(Icons.qr_code),
+                  title: const Text('QRCode-Test'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => QrCodeWithImage(
+                              link: 'www.google.de?param:',
+                              documentId: '12jdksl2342')),
+                    );
+                  },
+                )
+              : Container(),
+
+          Privileges.privilege == "Admin"
+              ? ListTile(
+                  leading: Icon(Icons.manage_accounts),
                   title: const Text('Nutzerverwaltung'),
                   onTap: () {
                     // Update State of App
@@ -280,6 +342,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
           Privileges.privilege == "Admin"
               ? ListTile(
+                  leading: Icon(Icons.payments),
                   title: const Text('paymethode'),
                   onTap: () {
                     // Update State of App
@@ -293,47 +356,19 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          ListTile(
-            leading: Icon(Icons.check_box),
-            title: const Text("AGB's"),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.pushNamed(context, '/EULA');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AGB()),
-              );*/
-            },
-          ),
-          ListTile(
-            title: const Text('Quittung'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DonationReceived()),
-              );
-            },
-          ),
 
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin"
               ? ListTile(
-                  leading: Icon(Icons.logout),
-                  title: const Text('Log Out'),
+                  leading: Icon(Icons.receipt),
+                  title: const Text('Quittung'),
                   onTap: () {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const LogOut()),
+                      MaterialPageRoute(
+                          builder: (context) => const DonationReceived()),
                     );
                   },
                 )
