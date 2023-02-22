@@ -15,7 +15,6 @@ import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 import 'package:lionsapp/Screens/user_management.dart';
-import 'package:lionsapp/Screens/contact_mailbox.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
@@ -70,6 +69,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.card_giftcard),
             title: const Text('Spenden'),
             onTap: () {
               // Update State of App
@@ -82,6 +82,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Member" ||
                   Privileges.privilege == "Friend"
               ? ListTile(
+                  leading: Icon(Icons.badge),
                   title: const Text('Benutzer'),
                   onTap: () {
                     // Update State of App
@@ -95,6 +96,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Member" ||
                   Privileges.privilege == "Friend"
               ? ListTile(
+                  leading: Icon(Icons.calendar_month_rounded),
                   title: const Text('Kalender'),
                   onTap: () {
                     // Update State of App
@@ -108,6 +110,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Member" ||
                   Privileges.privilege == "Admin"
               ? ListTile(
+                  leading: Icon(Icons.event),
                   title: const Text('Events'),
                   onTap: () {
                     // Update State of App
@@ -121,6 +124,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Member" ||
                   Privileges.privilege == "Friend"
               ? ListTile(
+                  leading: Icon(Icons.book),
                   title: const Text('Katalog'),
                   onTap: () {
                     // Update State of App
@@ -132,6 +136,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
+                  leading: Icon(Icons.chat),
                   title: const Text('Chat'),
                   onTap: () {
                     // Update State of App
@@ -157,6 +162,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           ListTile(
+            leading: Icon(Icons.contact_support),
             title: const Text('Kontakt'),
             onTap: () {
               // Update State of App
@@ -166,6 +172,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.format_align_justify_outlined),
             title: const Text('Impressum'),
             onTap: () {
               // Update State of App
@@ -175,6 +182,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.app_registration),
             title: const Text('Registrierung'),
             onTap: () {
               // Update State of App
@@ -184,6 +192,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
+            leading: Icon(Icons.login),
             title: const Text('Login'),
             onTap: () {
               // Update State of App
@@ -226,21 +235,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
           Privileges.privilege == "Admin"
               ? ListTile(
-                  title: const Text('Kontaktpostfach'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ContactMailbox()),
-                    );
-                  },
-                )
-              : Container(),
-          Privileges.privilege == "Admin"
-              ? ListTile(
                   title: const Text('paymethode'),
                   onTap: () {
                     // Update State of App
@@ -255,6 +249,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           ListTile(
+            leading: Icon(Icons.check_box ),
             title: const Text("AGB's"),
             onTap: () {
               // Update State of App
@@ -276,6 +271,25 @@ class _BurgerMenuState extends State<BurgerMenu> {
               );
             },
           ),
+
+          Privileges.privilege == "Admin" ||
+              Privileges.privilege == "Member" ||
+              Privileges.privilege == "Friend"
+              ? ListTile(
+            leading: Icon(Icons.logout),
+            title: const Text('Log Out'),
+            onTap: () {
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LogOut()),
+              );
+            },
+          )
+              : Container(),
         ],
       ),
     ));
