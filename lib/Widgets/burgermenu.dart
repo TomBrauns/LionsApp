@@ -66,7 +66,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
             ),
           ),
           ListTile(
-            title: const Text('Hauptseiten'),
+            title: const Text(
+              'Hauptseiten',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
             leading: Icon(Icons.home),
@@ -186,7 +190,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           ListTile(
-            title: const Text('Info Seiten'),
+            title: const Text('Info Seiten',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
             leading: Icon(Icons.contact_support),
@@ -231,7 +237,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           ListTile(
-            title: const Text('Konto Seiten'),
+            title: const Text('Konto Seiten',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
             leading: Icon(Icons.app_registration),
@@ -280,7 +288,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           ListTile(
-            title: const Text('Member Seiten'),
+            title: const Text(
+              'Member Seiten',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
@@ -302,7 +314,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
           /// Following functions are for Admins only
           Privileges.privilege == "Admin"
               ? ListTile(
-                  title: const Text('Admin Seiten'),
+                  title: const Text(
+                    'Admin Seiten',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  tileColor: Color.fromARGB(255, 211, 211, 211),
                 )
               : Container(),
 
@@ -375,21 +391,22 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           Privileges.privilege == "Admin" ||
-              Privileges.privilege == "Member" ||
-              Privileges.privilege == "Friend"
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
-            leading: Icon(Icons.logout),
-            title: const Text('New Donations'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const DonationsUser()),
-              );
-            },
-          )
+                  leading: Icon(Icons.logout),
+                  title: const Text('New Donations'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DonationsUser()),
+                    );
+                  },
+                )
               : Container(),
         ],
       ),
