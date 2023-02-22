@@ -155,6 +155,7 @@ class UpdateState extends State<Update> {
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
+                            hintText: "Email Adresse",
                             filled: true,
                             fillColor: Colors.white,
                             enabled: true,
