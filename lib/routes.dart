@@ -14,7 +14,8 @@ import 'package:lionsapp/Screens/projects/project_editor.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/login/register.dart';
-import 'Screens/user/userUpdate.dart';
+import 'package:lionsapp/Screens/user/userUpdate.dart';
+import 'package:lionsapp/Screens/events/events_liste.dart';
 
 Map<String, WidgetBuilder> routes = {
   '/': (context) => HomePage(),
@@ -27,8 +28,7 @@ Map<String, WidgetBuilder> routes = {
   '/Chat': (context) =>
       Chat(), // '/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
   '/Calendar': (context) => Calendar(),
-  // TODO: Route for Events
-  //'/Events': (context) => Event(type),
+  '/Events': (context) => Events(),
   // TODO: Route for Catalogue
   '/Catalogue': (context) => Catalogue(),
   '/Catalogue/ProjectEditor': (context) =>
