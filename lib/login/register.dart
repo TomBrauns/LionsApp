@@ -442,17 +442,29 @@ class _RegisterState extends State<Register> {
                                   showProgress = true;
                                 });
 
-                                signUp(
-                                  firstnameController.text,
-                                  lastnameController.text,
-                                  emailController.text,
-                                  passwordController.text,
-                                  postalcodeController.text,
-                                  cityController.text,
-                                  streetController.text,
-                                  streetnrController.text,
-                                  rool,
-                                );
+                                if (isChecked == false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Sie müssen den AGBs zustimmen!',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                } else {
+                                  signUp(
+                                    firstnameController.text,
+                                    lastnameController.text,
+                                    emailController.text,
+                                    passwordController.text,
+                                    postalcodeController.text,
+                                    cityController.text,
+                                    streetController.text,
+                                    streetnrController.text,
+                                    rool,
+                                  );
+                                }
                               },
                               child: const Text(
                                 "Registrieren",
