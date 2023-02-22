@@ -7,7 +7,9 @@ import 'package:lionsapp/Widgets/appbar.dart';
 class Donations extends StatefulWidget {
   final String? documentId;
 
-  const Donations({Key? key, this.documentId}) : super(key: key);
+  var docuPara = Uri.base.queryParameters['documentId'];
+
+  Donations({Key? key, this.documentId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();

@@ -71,7 +71,7 @@ class Authentication {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Donations(),
+                  builder: (context) =>  Donations(),
                 ),
               );
             } else {
@@ -79,7 +79,7 @@ class Authentication {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Donations(),
+                  builder: (context) =>  Donations(),
                 ),
               );
             }

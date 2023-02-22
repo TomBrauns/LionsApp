@@ -295,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Donations(),
+              builder: (context) =>  Donations(),
             ),
           );
         } else {
@@ -303,7 +303,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Donations(),
+              builder: (context) =>  Donations(),
             ),
           );
         }

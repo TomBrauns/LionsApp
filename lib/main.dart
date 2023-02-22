@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[900],
       ),
       //home: HomePage(),
-      initialRoute: '/',
+      initialRoute: '/Donations',
       routes: routes,
     );
   }
