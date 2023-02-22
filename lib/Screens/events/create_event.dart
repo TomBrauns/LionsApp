@@ -16,239 +16,219 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEvent extends State<CreateEvent> {
+
+  final TextEditingController _eventName = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _eventInfoController = TextEditingController();
+  final TextEditingController _eventDescription = TextEditingController();
   final TextEditingController _spendenzielController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _eventNameController = TextEditingController();
+  final TextEditingController _location = TextEditingController();
 
-  bool _createChat = false;
+  late  bool _spendenzielAnzeigen = true;
+  late bool _createChat = false;
 
-  bool _spendenZielErforderlich = false;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Event erstellen"),
+        theme: ThemeData(
+          useMaterial3: true,
         ),
-        body:
-        Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: <Widget>[
-                  const Text("Spendenziel im Event anzeigen: "),
-                  Checkbox(
-                    checkColor: Colors.white,
-                    value: _spendenZielErforderlich,
-                    onChanged: (bool? value){
-                      setState(() {
-                        _spendenZielErforderlich = value!;
-                      });
-                    },
-                  )
-                ],
-              ),
-              if(_spendenZielErforderlich)
-                Row(
-                  children: <Widget>[
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text("Event erstellen"),
+          ),
+          body:
+              SingleChildScrollView(
+                child: Column(
+                  children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                          'Spendenziel festlegen: '
+                        padding: const EdgeInsets.all(8),
+                        child: TextField(
+                          controller: _eventName,
+                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Eventname eingeben'),
+                        )
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                                child:
+                                TextField(
+                                  controller: _startDateController,
+                                  decoration: const InputDecoration(
+                                      icon: Icon(Icons.calendar_today),
+                                      labelText: "Startdatum"),
+                                  readOnly: false,
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2101));
+                                    if (pickedDate != null) {
+                                      //print(pickedDate);
+                                      String formattedStartDate =
+                                      DateFormat('dd.MM.yyyy').format(pickedDate);
+                                      //print(formattedStartDate);
+                                      setState(() {
+                                        _startDateController.text = formattedStartDate;
+                                      });
+                                    }
+                                  },
+                                )),
+                              ),
+
+                          Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                                child:
+                                TextField(
+                                  controller: _startDateController,
+                                  decoration: const InputDecoration(
+                                      icon: Icon(Icons.calendar_today),
+                                      labelText: "Startdatum"),
+                                  readOnly: false,
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2101));
+                                    if (pickedDate != null) {
+                                      //print(pickedDate);
+                                      String formattedStartDate =
+                                      DateFormat('dd.MM.yyyy').format(pickedDate);
+                                      //print(formattedStartDate);
+                                      setState(() {
+                                        _startDateController.text = formattedStartDate;
+                                      });
+                                    }
+                                  },
+                                )),
+                              )
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
+                    const SizedBox(height: 8,),
+                    Container(
+                      padding: const EdgeInsets.all(8),
                       child: TextField(
-                        inputFormatters: [CurrencyTextInputFormatter(
-                            locale: 'eu',
-                            symbol: '€'
-                        )],
-                        keyboardType: TextInputType.number,
-                        controller: _spendenzielController,
+                        controller: _eventDescription,
+                        decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Eventbeschreibung eingeben'),
+                        autofocus: false,
+                        maxLines: null,
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    ProjectDropdown(),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                              child: Container(
+                                child:
+                                  CheckboxListTile(
+                                    title: Text("Spendenziel anzeigen:"),
+                                    value: _spendenzielAnzeigen,
+                                    onChanged: (bool? value){
+                                      setState(() {
+                                        _spendenzielAnzeigen = value!;
+                                      });
+                                    },
+                                  )
+
+                              )
+                          ),
+                          if(_spendenzielAnzeigen)
+                            Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextField(
+                                    controller: _spendenzielController,
+                                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Spendenziel'),
+                                  ),
+                                )
+                            ),
+
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: TextField(
+                        controller: _location,
+                        decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Ort eingeben'),
+                        autofocus: false,
+                        maxLines: null,
+                      ),
+                    ),
+                    CheckboxListTile(
+                      title: Text("Chat erstellen:"),
+                      value: _createChat,
+                      onChanged: (bool? value){
+                        setState(() {
+                          _createChat = value!;
+                        });
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add_circle_outline),
+                      onPressed: (){
+
+
+                        if(_eventName.text.isEmpty){
+                          print("EventName empty");
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }else{
+                          DateTime startDate = DateFormat('dd.MM.yyy').parse(_startDateController.text);
+                          DateTime endDate = DateFormat('dd.MM.yyy').parse(_endDateController.text);
+
+                          FirebaseFirestore.instance.collection('events').add({
+                            'startDate':startDate,
+                            'endDate':endDate,
+                            'eventInfo':_eventDescription.text,
+                            'spendenZiel':_spendenzielController.text,
+                            'ort':_location.text,
+                            'chat':_createChat,
+                            'projekt': _selectedProject,
+                            'eventName':_eventName.text,
+                          });
+
+                          Navigator.pop(
+                              context
+                          );
+                        }
+
+
+
+                      },
+                    )
+
+
+
                   ],
                 ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
-                      child: TextField(
-                        controller: _startDateController,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today),
-                            labelText: "Startdatum"),
-                        readOnly: false,
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2101));
-                          if (pickedDate != null) {
-                            //print(pickedDate);
-                            String formattedStartDate =
-                            DateFormat('dd.MM.yyyy').format(pickedDate);
-                            //print(formattedStartDate);
-                            setState(() {
-                              _startDateController.text = formattedStartDate;
-                            });
-                          }
-                        },
-                      )),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2 - 40,
-                    child: TextField(
-                      controller: _endDateController,
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.calendar_today),
-                          labelText: "Enddatum"),
-                      readOnly: false,
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101));
-                        if (pickedDate != null) {
-                          String formattedEndDate =
-                          DateFormat('dd.MM.yyyy').format(pickedDate);
+              )
 
-                          setState(() {
-                            _endDateController.text = formattedEndDate;
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                ],
-
-              ),
-              Center(
-                child: TextField(
-                  controller: _eventNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Eventname eingeben",
-                  ),
-                ),
-              ),
-              Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(30.0),
-                    child: const Text("Projekt, für welches Geld gesammelt wird:"),
-                  )
-              ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                child: const ProjectDropdown(),
-              ),
-              const Center(
-                child: Text('Ort:'),
-
-              ),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(30),
-                  child: TextField(
-                    controller: _addressController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Ort eingeben'
-                    ),
-                  ),
-                ),
-              ),
-              Center(
-                child: Row(
-                    children: <Widget>[
-                      const Text("Chat erstellen?"),
-                      Checkbox(
-                        checkColor: Colors.white,
-                        value: _createChat,
-                        onChanged: (bool? value){
-                          setState(() {
-                            _createChat = value!;
-                          });
-                        },
-                      )
-                    ]
-                ),
-              ),
-              Center(
-                  child: Container(
-                      padding: const EdgeInsets.all(30.0),
-                      child: const Text("Informationen zum Event:")
-                  )
-              ),
-              Expanded(
-                child:
-                SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Information eintragen',
-                      ),
-                      validator: (value){
-                        if(value == null ||value.isEmpty){
-                          return 'Dieses Feld ist ein Pflichtfeld';
-                        }
-                      },
-                      controller: _eventInfoController,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                    )
-                ),
-              ),
-              Center(
-                child:
-                ElevatedButton(
-                  onPressed: () {
-
-                    DateTime startDate = DateFormat('dd.MM.yyy').parse(_startDateController.text);
-                    DateTime endDate = DateFormat('dd.MM.yyy').parse(_endDateController.text);
-
-                    print(endDate);
-
-                    FirebaseFirestore.instance.collection('events').add({
-                      'startDate':startDate,
-                      'endDate':endDate,
-                      'eventInfo':_eventInfoController.text,
-                      'spendenZiel':_spendenzielController.text,
-                      'ort':_addressController.text,
-                      'chat':_createChat,
-                      'projekt': _selectedProject,
-                      'eventName':_eventNameController.text,
-                    });
-
-                    Navigator.pop(
-                        context
-                    );
-                  },
-                  child:
-                  const Text('Event anlegen'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      )
+        )
     );
   }
 }
+
+const snackBar = SnackBar(
+  content: Text("Bitte einen Eventnamen eingeben"),
+);
 
 class ProjectDropdown extends StatefulWidget{
   const ProjectDropdown({super.key});
