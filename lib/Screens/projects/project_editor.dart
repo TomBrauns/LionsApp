@@ -23,6 +23,11 @@ class _ProjectEditorState extends State<ProjectEditor> {
     selectedCategory = category ?? selectedCategory;
   }
 
+  void _handleUpload() {
+    print("Upload Image");
+    // TODO Implement
+  }
+
   void _handleSubmit() {
     final name = _nameInputController.value.text;
     final background = _backgroundInputController.value.text;
@@ -76,79 +81,118 @@ class _ProjectEditorState extends State<ProjectEditor> {
               ? "Projekt anlegen"
               : "Projekt bearbeiten"),
         ),
-        body: Container(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DropdownButtonFormField(
-                      value: selectedCategory,
-                      items: Category.all
-                          .map<DropdownMenuItem<String>>(
-                              ((c) => DropdownMenuItem(
-                                  value: c.name,
+        body: SingleChildScrollView(
+            child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 200,
+                            width: double.infinity,
+                            child: GestureDetector(
+                                onTap: _handleUpload,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.grey,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: const [
+                                          Icon(Icons.upload, size: 48),
+                                          Text("Bild auswählen")
+                                        ])))),
+                        const SizedBox(height: 16),
+                        DropdownButtonFormField(
+                          value: selectedCategory,
+                          items: Category.all
+                              .map<DropdownMenuItem<String>>(
+                                  ((c) => DropdownMenuItem(
+                                      value: c.name,
+                                      child: Row(
+                                        children: [
+                                          Image.asset(c.path,
+                                              width: 24, height: 24),
+                                          const SizedBox(width: 8),
+                                          Text(c.name)
+                                        ],
+                                      ))))
+                              .toList(),
+                          onChanged: _handleCategoryChange,
+                          decoration: const InputDecoration(
+                              labelText: "Kategorie",
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              border: OutlineInputBorder()),
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                            controller: _nameInputController,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Projektname",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always)),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                            height: 150,
+                            width: double.infinity,
+                            child: TextFormField(
+                                controller: _backgroundInputController,
+                                minLines: null,
+                                maxLines: null,
+                                expands: true,
+                                textAlign: TextAlign.start,
+                                textAlignVertical: TextAlignVertical.top,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Hintergrund",
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always))),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                            height: 150,
+                            width: double.infinity,
+                            child: TextFormField(
+                                controller: _supportInputController,
+                                minLines: null,
+                                maxLines: null,
+                                expands: true,
+                                textAlign: TextAlign.start,
+                                textAlignVertical: TextAlignVertical.top,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: "Unsere Unterstützung",
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always))),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: _handleSubmit,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    children: [
-                                      Image.asset(c.path,
-                                          width: 24, height: 24),
-                                      const SizedBox(width: 8),
-                                      Text(c.name)
-                                    ],
-                                  ))))
-                          .toList(),
-                      onChanged: _handleCategoryChange,
-                      decoration:
-                          const InputDecoration(border: OutlineInputBorder()),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                        controller: _nameInputController,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Bezeichnung")),
-                    const SizedBox(height: 8),
-                    Expanded(
-                        child: TextFormField(
-                            controller: _backgroundInputController,
-                            minLines: null,
-                            maxLines: null,
-                            expands: true,
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Hintergrund"))),
-                    const SizedBox(height: 8),
-                    Expanded(
-                        child: TextFormField(
-                            controller: _supportInputController,
-                            minLines: null,
-                            maxLines: null,
-                            expands: true,
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Unsere Unterstützung"))),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            onPressed: _handleSubmit,
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.save),
-                                    SizedBox(width: 4),
-                                    Text("Speichern",
-                                        style: TextStyle(fontSize: 18))
-                                  ]),
-                            ))),
-                  ],
-                ))));
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(Icons.save),
+                                        SizedBox(width: 4),
+                                        Text("Speichern",
+                                            style: TextStyle(fontSize: 18))
+                                      ]),
+                                ))),
+                      ],
+                    )))));
   }
 }
