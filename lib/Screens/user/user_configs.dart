@@ -181,36 +181,64 @@ class _UserState extends State<User> {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        if (FirebaseAuth.instance.currentUser!.uid != null) {
-                          deleteAcc();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Ihr Account wurde gelöscht',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const Donations()),
-                          );
+                        if (FirebaseAuth.instance.currentUser!.uid == null) {
+                          return;
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Niemand eingeloggt!',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
+                          showMyDialog();
                         }
                       },
                     ),
                   ),
                 ]))));
+  }
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Wollen Sie Ihren Account wirklich löschen?'),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Abrechen'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const User()),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Bestätigen'),
+              onPressed: () {
+                deleteAcc();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Ihr Account wurde gelöscht',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Donations()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget buildImageFromFirebase() {
@@ -425,10 +453,6 @@ class _AccessibilityState extends State<Accessibility> {
               onPressed: () {},
             ),
           ),
-              //TODO: Add the Text size to EVERY page somehow so that the textsize is saved. Maybe with a button of sorts...
-              Text("Dies ist ein Probetext um die Lesbarkeit zu testen.",
-              style: TextStyle(fontSize: 16 * _currentSliderValue),
-              ),
         ])));
   }
 }
@@ -444,7 +468,6 @@ class _LogOutState extends State<LogOut> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: const Text("Ausgeloggt"),
       ),
