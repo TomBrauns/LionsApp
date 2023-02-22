@@ -1,11 +1,20 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/material.dart';
+import 'package:lionsapp/Widgets/appbar.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: MyAppBar(title: "Startseite"),
+      drawer: BurgerMenu(),
+      body: Center(
+        child: Text('Ich bin eine Homepage, füll mich!'),
+      ),
+    );
   }
 }
