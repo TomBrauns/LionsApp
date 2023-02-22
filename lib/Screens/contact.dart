@@ -102,13 +102,13 @@ class _ContactState extends State<Contact> {
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(
-                labelText: 'Name',
-                hintText: 'Vor uund Nachnamen eingeben',
+                labelText: 'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
+                hintText: 'Vor und Nachname',
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Bitte, Vor und Nachname eingeben.';
+                  return 'Bitte Vor- und Nachnamen eingeben.';
                 }
                 return null;
               },
@@ -117,8 +117,8 @@ class _ContactState extends State<Contact> {
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'E-Mail eingeben',
+                labelText: 'Bitte Email eingeben, über die wir Sie erreichen können.',
+                hintText: 'E-Mail',
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
@@ -133,8 +133,8 @@ class _ContactState extends State<Contact> {
               controller: _messageController,
               maxLines: 5,
               decoration: const InputDecoration(
-                labelText: 'Text',
-                hintText: 'Text hier tippen',
+                labelText: 'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
+                hintText: 'Nachricht',
                 border: OutlineInputBorder(),
               ),
               validator: (value) {

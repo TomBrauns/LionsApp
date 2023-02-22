@@ -116,7 +116,7 @@ class _DonationReceivedState extends State<DonationReceived> {
 
               // TODO: Right now this button is only supposed to show for Friends / Members / Admins, Guests are not supposed to see this
               ElevatedButton(
-                child: const Text('Eventseite'),
+                child: const Text('Weitere Events'),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
