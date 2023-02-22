@@ -34,144 +34,153 @@ class _UserState extends State<User> {
           privilege: "Admin",
         ),
         drawer: const BurgerMenu(),
+        resizeToAvoidBottomInset: false,
         body: Center(
-            child: Column(children: <Widget>[
-          Column(children: <Widget>[
-            Container(
-              child: buildImageFromFirebase(),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 10),
-              ),
-              onPressed: () {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user != null) {
-                  uploadImageAllPlatforms();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Sie müssen sich zuerst anmelden!',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.red,
+            child: Scrollbar(
+                thickness: 5.0,
+                thumbVisibility: false,
+                radius: const Radius.circular(360),
+                child: ListView(children: <Widget>[
+                  Column(children: <Widget>[
+                    Container(
+                      child: buildImageFromFirebase(),
                     ),
-                  );
-                }
-              },
-              child: const Text('Profilbild ändern'),
-            ),
-            if (user != null)
-              UserDataWidget()
-            else
-              Text(
-                'Sie müssen sich zuerst anmelden!',
-                style: TextStyle(color: Colors.red),
-              ),
-          ]),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.badge,
-                size: 24.0,
-              ),
-              label: const Text('Nutzerdaten ändern'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Update()),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Sie müssen sich zuerst anmelden!',
-                        style: TextStyle(color: Colors.white),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 10),
                       ),
-                      backgroundColor: Colors.red,
+                      onPressed: () {
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          uploadImageAllPlatforms();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Sie müssen sich zuerst anmelden!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Profilbild ändern'),
                     ),
-                  );
-                }
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.card_membership,
-                size: 24.0,
-              ),
-              label: const Text('Abos Verwalten'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Subs()),
-                );
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.accessibility_new,
-                size: 24.0,
-              ),
-              label: const Text('Bedienungshilfe'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Accessibility()),
-                );
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.logout,
-                size: 24.0,
-              ),
-              label: const Text('Ausloggen'),
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-              ),
-              onPressed: () {
-                signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LogOut()),
-                );
-              },
-            ),
-          ),
-        ])));
+                    if (user != null)
+                      UserDataWidget()
+                    else
+                      Text(
+                        'Sie müssen sich zuerst anmelden!',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                  ]),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.badge,
+                        size: 24.0,
+                      ),
+                      label: const Text('Nutzerdaten ändern'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Update()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Sie müssen sich zuerst anmelden!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.card_membership,
+                        size: 24.0,
+                      ),
+                      label: const Text('Abos Verwalten'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Subs()),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.accessibility_new,
+                        size: 24.0,
+                      ),
+                      label: const Text('Bedienungshilfe'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Accessibility()),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 24.0,
+                      ),
+                      label: const Text('Ausloggen'),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LogOut()),
+                        );
+                      },
+                    ),
+                  ),
+                ]))));
   }
 
   Widget buildImageFromFirebase() {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        future:
+            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             String? imageUrl = snapshot.data!.get('image_url');
             if (imageUrl != null) {
@@ -214,7 +223,9 @@ class _UserState extends State<User> {
 
     //UPLOAD TO FIREBASE
     Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceDirImages = referenceRoot
+        .child('user_images')
+        .child(FirebaseAuth.instance.currentUser!.uid);
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
     //Handle errors/success
@@ -235,7 +246,10 @@ class _UserState extends State<User> {
     }
 
     if (dataToUpdate.isNotEmpty) {
-      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update(dataToUpdate);
     } else {}
   }
 
@@ -253,7 +267,9 @@ TODO: isPlatformWEB usw.. einbauen */
 
     //UPLOAD TO FIREBASE
     Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceDirImages = referenceRoot
+        .child('user_images')
+        .child(FirebaseAuth.instance.currentUser!.uid);
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
     //HANDLE ERRORS/SUCCESS
@@ -270,7 +286,10 @@ TODO: isPlatformWEB usw.. einbauen */
       }
 
       if (dataToUpdate.isNotEmpty) {
-        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(dataToUpdate);
       } else {}
     } catch (error) {
       //SOME ERROR OCCURRED
@@ -282,186 +301,6 @@ Future<void> signOut() async {
   Privileges.privilege = "gast";
   await FirebaseAuth.instance.signOut();
 }
-
-// TODO: class UserForm is depricated
-
-class UserForm extends StatefulWidget {
-  const UserForm({super.key});
-
-  @override
-  State<UserForm> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<UserForm> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Nutzerdaten ändern"),
-        ),
-        resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-            child: Scrollbar(
-                thickness: 5.0,
-                thumbVisibility: false,
-                radius: const Radius.circular(360),
-                child: Center(
-                  child: SizedBox(
-                    width: 250,
-                    height: 600,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Vorname',
-                              hintText: 'Vorname eingeben',
-                              icon: Icon(
-                                Icons.person,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Geben Sie Ihre Vorname ein';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Nachname',
-                              hintText: 'Nachnamen eingeben',
-                              icon: Icon(
-                                Icons.person,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Geben Sie Ihre Namen ein';
-                            }
-                            return null;
-                          },
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'E-Mail',
-                              hintText: 'Email eingeben',
-                              icon: Icon(
-                                Icons.email,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Geben Sie Ihre Email Adresse ein';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'E-Mail bestätigen',
-                              hintText: 'Email bestätigen',
-                              icon: Icon(
-                                Icons.email,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Geben Sie Ihre Email Adresse ein';
-                            }
-                            return null;
-                          },
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Passwort',
-                              hintText: 'Passwort',
-                              icon: Icon(
-                                Icons.lock,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Geben Sie ein Passwort';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: 'Passwort Bestätigen',
-                              hintText: 'Passwort',
-                              icon: Icon(
-                                Icons.lock,
-                                color: Colors.blue,
-                                size: 25,
-                              )),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Passwort bestätigen';
-                            }
-                            return null;
-                          },
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Validate will return true if the form is valid, or false if
-                              // the form is invalid.
-                              //if (_formKey.currentState!.validate()) {
-                              // Process data.
-                              //}
-                            },
-                            child: const Text('Bestätigen'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ))));
-  }
-
-  Future<void> updateUserInFirestore({String? newName, String? newEmail, int? newAge}) async {
-    final user = FirebaseAuth.instance.currentUser;
-    final userId = user?.uid;
-
-    final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
-
-    Map<String, dynamic> updates = {};
-
-    if (newName != null && newName.isNotEmpty) {
-      updates['name'] = newName;
-    }
-
-    if (newEmail != null && newEmail.isNotEmpty) {
-      updates['email'] = newEmail;
-    }
-
-    if (newAge != null && newAge > 0) {
-      updates['age'] = newAge;
-    }
-
-    await userRef.update(updates);
-  }
-}
-
-/* TEST */
-
-/* TEST */
 
 class Subs extends StatefulWidget {
   const Subs({super.key});
@@ -481,7 +320,13 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
+const List<String> list = <String>[
+  'keins',
+  'Protanopie',
+  'Deuteranopie',
+  'Tritanopie',
+  'Achromatopsie'
+];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -634,17 +479,28 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null) Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+                if (userData['firstname'] != null &&
+                    userData['lastname'] != null)
+                  Text(
+                      'Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null)
+                  Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null &&
+                    userData['streetnumber'] != null &&
+                    userData['postalcode'] != null &&
+                    userData['cityname'] != null)
+                  Text(
+                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
               ],
             );
           } else if (snapshot.hasError) {
