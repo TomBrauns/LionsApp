@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/home.dart';
 import 'package:lionsapp/Screens/imprint.dart';
 import 'firebase_options.dart';
 import 'package:lionsapp/login/login.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),
-      home: Donations(),
+      home: HomePage(),
     );
   }
 }
