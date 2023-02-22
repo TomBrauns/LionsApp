@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/passwordForgotten.dart';
+import 'package:lionsapp/Screens/payment/paymethode.dart';
+import 'package:lionsapp/login/register.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -60,14 +63,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        // TODO: Add login functionality
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Paymethode()),
+                        );
                       }
                     },
                     child: const Text('Anmelden'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // TODO: Handle password forgotten functionality
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Register()),
+                      );
+                    },
+                    child: const Text('Hier registrieren'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PasswordForgottenScreen()),
+                      );
                     },
                     child: const Text('Passwort vergessen?'),
                   ),
