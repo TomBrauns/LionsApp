@@ -144,7 +144,8 @@ class _UserState extends State<User> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Accessibility()),
+                          MaterialPageRoute(
+                              builder: (context) => const Accessibility()),
                         );
                       },
                     ),
@@ -164,20 +165,92 @@ class _UserState extends State<User> {
                         signOut();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LogOut()),
+                          MaterialPageRoute(
+                              builder: (context) => const LogOut()),
                         );
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 24.0,
+                      ),
+                      label: const Text('Account löschen'),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        if (FirebaseAuth.instance.currentUser!.uid == null) {
+                          return;
+                        } else {
+                          showMyDialog();
+                        }
                       },
                     ),
                   ),
                 ]))));
   }
 
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Wollen Sie Ihren Account wirklich löschen?'),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Abrechen'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const User()),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Bestätigen'),
+              onPressed: () {
+                deleteAcc();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Ihr Account wurde gelöscht',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Donations()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget buildImageFromFirebase() {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        future:
+            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('image_url')) {
@@ -225,7 +298,9 @@ class _UserState extends State<User> {
 
     //UPLOAD TO FIREBASE
     Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceDirImages = referenceRoot
+        .child('user_images')
+        .child(FirebaseAuth.instance.currentUser!.uid);
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
     //Handle errors/success
@@ -246,7 +321,10 @@ class _UserState extends State<User> {
     }
 
     if (dataToUpdate.isNotEmpty) {
-      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update(dataToUpdate);
     } else {}
   }
 
@@ -264,7 +342,9 @@ TODO: isPlatformWEB usw.. einbauen */
 
     //UPLOAD TO FIREBASE
     Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceDirImages = referenceRoot
+        .child('user_images')
+        .child(FirebaseAuth.instance.currentUser!.uid);
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
     //HANDLE ERRORS/SUCCESS
@@ -281,12 +361,24 @@ TODO: isPlatformWEB usw.. einbauen */
       }
 
       if (dataToUpdate.isNotEmpty) {
-        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(dataToUpdate);
       } else {}
     } catch (error) {
       //SOME ERROR OCCURRED
     }
   }
+}
+
+Future<void> deleteAcc() async {
+  Privileges.privilege = "gast";
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .delete();
+  FirebaseAuth.instance.currentUser!.delete();
 }
 
 Future<void> signOut() async {
@@ -312,7 +404,13 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
+const List<String> list = <String>[
+  'keins',
+  'Protanopie',
+  'Deuteranopie',
+  'Tritanopie',
+  'Achromatopsie'
+];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -443,17 +541,28 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null) Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+                if (userData['firstname'] != null &&
+                    userData['lastname'] != null)
+                  Text(
+                      'Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null)
+                  Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null &&
+                    userData['streetnumber'] != null &&
+                    userData['postalcode'] != null &&
+                    userData['cityname'] != null)
+                  Text(
+                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
               ],
             );
           } else if (snapshot.hasError) {

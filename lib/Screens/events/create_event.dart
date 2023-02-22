@@ -89,7 +89,7 @@ class _CreateEvent extends State<CreateEvent> {
                                 padding: const EdgeInsets.fromLTRB(8,0,8,0),
                                 child:
                                 TextField(
-                                  controller: _startDateController,
+                                  controller: _endDateController,
                                   decoration: const InputDecoration(
                                       icon: Icon(Icons.calendar_today),
                                       labelText: "Startdatum"),
@@ -153,6 +153,10 @@ class _CreateEvent extends State<CreateEvent> {
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
                                   child: TextField(
+                                    inputFormatters: [CurrencyTextInputFormatter(
+                                      locale: 'eu',
+                                      symbol: '€'
+                                    )],
                                     controller: _spendenzielController,
                                     decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Spendenziel'),
                                   ),
@@ -182,8 +186,8 @@ class _CreateEvent extends State<CreateEvent> {
                         });
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.add_circle_outline),
+                    ElevatedButton(
+                      child: Text("Event erstellen"),
                       onPressed: (){
 
 
