@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'category.dart';
 
 class ProjectEditor extends StatefulWidget {
-  const ProjectEditor({Key? key}) : super(key: key);
+  final String? documentId;
+
+  const ProjectEditor({super.key, this.documentId});
 
   @override
   State<ProjectEditor> createState() => _ProjectEditorState();
@@ -28,24 +30,51 @@ class _ProjectEditorState extends State<ProjectEditor> {
     if (name.isEmpty || background.isEmpty || support.isEmpty) {
       return;
     } else {
-      FirebaseFirestore db = FirebaseFirestore.instance;
-
-      FirebaseFirestore.instance.collection('projects').add({
-        'name': name,
-        'background': background,
-        'support': support,
-        'category': selectedCategory
-      });
-
+      final collection = FirebaseFirestore.instance.collection("projects");
+      if (widget.documentId == null) {
+        collection.add({
+          'name': name,
+          'background': background,
+          'support': support,
+          'category': selectedCategory
+        });
+      } else {
+        collection.doc(widget.documentId).set({
+          'name': name,
+          'background': background,
+          'support': support,
+          'category': selectedCategory
+        });
+      }
       Navigator.pop(context);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.documentId == null) return;
+    FirebaseFirestore.instance
+        .collection("projects")
+        .doc(widget.documentId)
+        .get()
+        .then((project) => {
+              _nameInputController.text = project.get("name"),
+              _supportInputController.text = project.get("support"),
+              _backgroundInputController.text = project.get("background"),
+              setState(() {
+                selectedCategory = project.get("category");
+              })
+            });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Projekt anlegen"),
+          title: Text(widget.documentId == null
+              ? "Projekt anlegen"
+              : "Projekt bearbeiten"),
         ),
         body: Container(
             padding: const EdgeInsets.all(16),
@@ -80,28 +109,45 @@ class _ProjectEditorState extends State<ProjectEditor> {
                             border: OutlineInputBorder(),
                             hintText: "Bezeichnung")),
                     const SizedBox(height: 8),
-                    TextFormField(
-                        controller: _backgroundInputController,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Hintergrund")),
+                    Expanded(
+                        child: TextFormField(
+                            controller: _backgroundInputController,
+                            minLines: null,
+                            maxLines: null,
+                            expands: true,
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.top,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Hintergrund"))),
                     const SizedBox(height: 8),
-                    TextFormField(
-                        controller: _supportInputController,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Unsere Unterstützung")),
+                    Expanded(
+                        child: TextFormField(
+                            controller: _supportInputController,
+                            minLines: null,
+                            maxLines: null,
+                            expands: true,
+                            textAlign: TextAlign.start,
+                            textAlignVertical: TextAlignVertical.top,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Unsere Unterstützung"))),
                     const SizedBox(height: 16),
                     SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: _handleSubmit,
                             child: Container(
-                                padding: const EdgeInsets.all(8.0),
-                                child: const Text("Erstellen",
-                                    style: TextStyle(fontSize: 18))))),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(Icons.save),
+                                    SizedBox(width: 4),
+                                    Text("Speichern",
+                                        style: TextStyle(fontSize: 18))
+                                  ]),
+                            ))),
                   ],
                 ))));
   }
