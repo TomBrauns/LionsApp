@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:mailer/mailer.dart';import 'package:lionsapp/Widgets/burgermenu.dart';
 
-import '../Widgets/appbar.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 class Contact extends StatefulWidget {
   const Contact({super.key});
@@ -15,164 +14,137 @@ class _ContactState extends State<Contact> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
-
-  bool _isSending = false;
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _subjectController.dispose();
     _messageController.dispose();
     super.dispose();
   }
 
-  void _sendEmail() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isSending = true;
-      });
+  Future<void> sendEmail() async {
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final subject = _subjectController.text;
+    final message = _messageController.text;
 
-      final Email email = Email(
-        body: _messageController.text,
-        subject: 'Contact Form Submission',
-        recipients: ['xxxx@gmail.com'],
-        isHTML: false,
-      );
+    final smtpServer = gmail('xxx@gmail.com', 'passwort');
+    final emailMessage = Message()
+      ..from = Address(email, name)
+      ..recipients.add('xxx@gmail.com')
+      ..subject = subject
+      ..text = message;
 
-      try {
-        await FlutterEmailSender.send(email);
-        _showSuccessDialog();
-      } catch (error) {
-        _showErrorDialog(error.toString());
-      } finally {
-        setState(() {
-          _isSending = false;
-        });
-      }
+    try {
+      await send(emailMessage, smtpServer);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Nachricht erfolgreich gesendet'),
+      ));
+      _formKey.currentState!.reset();
+    } on MailerException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.'),
+      ));
+      print('Fehler beim Versenden der E-Mail: $e');
     }
-  }
-
-  void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text('Nachricht erfolgreich gesendet.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showErrorDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Error'),
-        content: Text('Ihre Nachricht wurde nicht gesendet: $errorMessage'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Kontakt und Hilfe"),
-      drawer: BurgerMenu(),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: [
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText:
-                    'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
-                hintText: 'Vor und Nachname',
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Bitte Vor- und Nachnamen eingeben.';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText:
-                    'Bitte Email eingeben, über die wir Sie erreichen können.',
-                hintText: 'E-Mail',
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Bitte E-Mail Adresse eingeben.';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _messageController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                labelText:
-                    'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
-                hintText: 'Nachricht',
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Text eingeben.';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 32),
-            _isSending
-                ? const Center(child: CircularProgressIndicator())
-                : ElevatedButton(
-                    onPressed: _sendEmail,
-                    child: const Text('Senden'),
-                  ),
-          ],
+        appBar: AppBar(
+          title: Text('Kontakt Formular'),
         ),
-      ),
-    );
-  }
-}
-
-class Contactform extends StatefulWidget {
-  const Contactform({super.key});
-
-  @override
-  State<Contactform> createState() => _ContactformState();
-}
-
-class _ContactformState extends State<Contactform> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
+                      hintText: 'Vor und Nachnamen eingeben',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Vor und Nachnamen eingeben';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Bitte Email eingeben, über die wir Sie erreichen können.',
+                      hintText: 'E-Mail eingeben',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email eingeben ';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _subjectController,
+                    decoration: InputDecoration(
+                      labelText: 'Betreff',
+                      hintText: 'Betreff eingeben',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Betreff eingeben';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _messageController,
+                    maxLines: 6,
+                    decoration: InputDecoration(
+                      labelText: 'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
+                      hintText: 'Nachricht tippen',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Text tippen';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        sendEmail();
+                      }
+                    },
+                    child: Text('Senden'),
+                  ),
+                  Center(
+                    child: Divider(),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }
