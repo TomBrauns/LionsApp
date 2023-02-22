@@ -166,27 +166,32 @@ class _UserState extends State<User> {
   }
 
   Widget buildImageFromFirebase() {
-    final user = FirebaseAuth.instance.currentUser;
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          String? imageUrl = snapshot.data!.get('image_url');
-          if (imageUrl != null) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.network(
-                imageUrl!,
-                fit: BoxFit.cover,
-                width: 100,
-                height: 100,
-              ),
-            );
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      return FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            String? imageUrl = snapshot.data!.get('image_url');
+            if (imageUrl != null) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  width: 100,
+                  height: 100,
+                ),
+              );
+            }
           }
-        }
-        return Icon(Icons.person, size: 50);
-      },
-    );
+          return Icon(Icons.person, size: 50);
+        },
+      );
+    } catch (e) {
+      print('Error: $e');
+      return Icon(Icons.person, size: 50);
+    }
   }
 
   Future<void> uploadIMG() async {
