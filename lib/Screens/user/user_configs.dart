@@ -169,6 +169,47 @@ class _UserState extends State<User> {
                       },
                     ),
                   ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 24.0,
+                      ),
+                      label: const Text('Account löschen'),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        if (FirebaseAuth.instance.currentUser!.uid != null) {
+                          deleteAcc();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Ihr Account wurde gelöscht',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Donations()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Niemand eingeloggt!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ]))));
   }
 
@@ -287,6 +328,12 @@ TODO: isPlatformWEB usw.. einbauen */
       //SOME ERROR OCCURRED
     }
   }
+}
+
+Future<void> deleteAcc() async {
+  Privileges.privilege = "gast";
+  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
+  FirebaseAuth.instance.currentUser!.delete();
 }
 
 Future<void> signOut() async {
