@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/contact.dart';
+import 'package:lionsapp/Screens/events/events_liste.dart';
 // Test Values
 // ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
@@ -112,6 +113,8 @@ class _DonationReceivedState extends State<DonationReceived> {
                   );
                 },
               ),
+
+              // TODO: Right now this button is only supposed to show for Friends / Members / Admins, Guests are not supposed to see this
               ElevatedButton(
                 child: const Text('Eventseite'),
                 onPressed: () {
@@ -120,7 +123,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   // Push to Screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Donations()),
+                    MaterialPageRoute(builder: (context) => const Events()),
                   );
                 },
               ),
@@ -167,27 +170,6 @@ class _ReceiptState extends State<Receipt> {
             height: 50,
             child: ElevatedButton.icon(
               icon: const Icon(
-                Icons.email,
-                size: 24.0,
-              ),
-              label: const Text('Email senden'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ReceiptEmail()));
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: const Icon(
                 Icons.cloud_upload,
                 size: 24.0,
               ),
@@ -199,9 +181,19 @@ class _ReceiptState extends State<Receipt> {
               onPressed: () {},
             ),
           ),
+              Container(
+                margin: const EdgeInsets.all(40),
+                height: 50,
+                child: Text("Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
+
+              ),
         ])));
   }
 }
+
+// The Following ReceiptEmail-Class is deprecated and is no longer in use due to
+// an user being able to missspelling their Email. Its saver to just open this possibility to
+// Signed in users and by automatizing it
 
 class ReceiptEmail extends StatefulWidget {
   const ReceiptEmail({super.key});
