@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 //Firebase integration
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-const List<String> list = <String>['Diese','Liste','wird','aus','der','Datenbank','gefüttert'];
-
 String? _selectedProject;
 
 

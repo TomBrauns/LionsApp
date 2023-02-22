@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/events/event_bearbeiten.dart';
 
 class EventDetailsPage extends StatefulWidget {
   const EventDetailsPage({Key? key, required this.eventId}) : super(key: key);
@@ -74,6 +75,18 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(_title),
+          // TODO Hier müssen noch die Berechtigungen angepasst werden, damit der Edit Button nur von Membern gesehen werden kann
+          actions: [
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: (){
+                print("Icon Button gepressed");
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => EditDocumentPage(documentId: widget.eventId)),
+                );
+              },
+            )
+          ],
         ),
         body: SingleChildScrollView(
             child:
