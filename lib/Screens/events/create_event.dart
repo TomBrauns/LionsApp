@@ -27,7 +27,6 @@ class _CreateEvent extends State<CreateEvent> {
 
   bool _spendenZielErforderlich = false;
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -219,9 +218,14 @@ class _CreateEvent extends State<CreateEvent> {
                 ElevatedButton(
                   onPressed: () {
 
+                    DateTime startDate = DateFormat('dd.MM.yyy').parse(_startDateController.text);
+                    DateTime endDate = DateFormat('dd.MM.yyy').parse(_endDateController.text);
+
+                    print(endDate);
+
                     FirebaseFirestore.instance.collection('events').add({
-                      'startDate':_startDateController.text,
-                      'endDate':_endDateController.text,
+                      'startDate':startDate,
+                      'endDate':endDate,
                       'eventInfo':_eventInfoController.text,
                       'spendenZiel':_spendenzielController.text,
                       'ort':_addressController.text,
