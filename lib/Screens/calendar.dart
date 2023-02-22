@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:calendar_view/calendar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
