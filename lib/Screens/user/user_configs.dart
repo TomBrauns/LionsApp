@@ -12,6 +12,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/login/register.dart';
+import 'package:platform/platform.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -46,7 +47,7 @@ class _UserState extends State<User> {
               onPressed: () {
                 final user = FirebaseAuth.instance.currentUser;
                 if (user != null) {
-                  uploadIMG();
+                  uploadImageAllPlatforms();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -194,6 +195,15 @@ class _UserState extends State<User> {
     }
   }
 
+  Future<String?> uploadImageAllPlatforms() async {
+    if (Platform.android == true || Platform.iOS == true) {
+      uploadIMG();
+    } else {
+      uploadIMGWeb();
+    }
+    return null;
+  }
+
   Future<void> uploadIMG() async {
     String imageUrl = '';
     //IMAGEPICKER
@@ -227,6 +237,44 @@ class _UserState extends State<User> {
     if (dataToUpdate.isNotEmpty) {
       await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
     } else {}
+  }
+
+  /* für Flutter Web, wird das bild zerlegt, damit der Browser erlaubt es hochzuladen - funzt auch
+TODO: isPlatformWEB usw.. einbauen */
+  Future<void> uploadIMGWeb() async {
+    //IMAGE PICKER
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    print('${file?.path}');
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    //CONVERT IMAGE TO BYTES
+    final bytes = await file!.readAsBytes();
+
+    //UPLOAD TO FIREBASE
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+
+    //HANDLE ERRORS/SUCCESS
+    try {
+      //STORE THE FILE
+      await referenceImageToUpload.putData(bytes);
+      //SUCCESS: GET THE DOWNLOAD URL
+      String imageUrl = await referenceImageToUpload.getDownloadURL();
+
+      //LINK IN FIRESTORE
+      Map<String, dynamic> dataToUpdate = {};
+      if (imageUrl != null && imageUrl.isNotEmpty) {
+        dataToUpdate['image_url'] = imageUrl;
+      }
+
+      if (dataToUpdate.isNotEmpty) {
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
+      } else {}
+    } catch (error) {
+      //SOME ERROR OCCURRED
+    }
   }
 }
 

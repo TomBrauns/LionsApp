@@ -2,11 +2,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/agb.dart';
 import 'login.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:platform/platform.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -344,7 +346,7 @@ class _RegisterState extends State<Register> {
                         ),
                         IconButton(
                             onPressed: () async {
-                              uploadIMG();
+                              uploadImageAllPlatforms();
                             },
                             icon: const Icon(Icons.camera_alt)),
                         const SizedBox(height: 24),
@@ -482,6 +484,15 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Future<String?> uploadImageAllPlatforms() async {
+    if (Platform.android == true || Platform.iOS == true) {
+      uploadIMG();
+    } else {
+      uploadIMGWeb();
+    }
+    return null;
+  }
+
   Future<void> uploadIMG() async {
     String imageUrl = '';
     //IMAGEPICKER
@@ -517,75 +528,9 @@ class _RegisterState extends State<Register> {
     } else {}
   }
 
-  void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
-    const CircularProgressIndicator();
-    if (_formkey.currentState!.validate()) {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) => {postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool)}).catchError((e) {});
-    }
-  }
-
-  void postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var user = _auth.currentUser;
-    CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'postalcode': postalcode,
-      'cityname': cityname,
-      'streetname': streetname,
-      'streetnumber': streetnumber,
-      'rool': rool,
-    });
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-  }
-
-// Definiere eine Funktion, um das Bild in Firebase Storage zu speichern
-  Future<String> _uploadImage(File image) async {
-    String? userID = FirebaseAuth.instance.currentUser!.uid;
-    // Erhalte eine Referenz auf das Firebase Storage Bucket
-    final FirebaseStorage storage = FirebaseStorage.instance;
-    final String fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final Reference ref = storage.ref().child('profile_images').child(fileName);
-
-    // Lade das Bild auf Firebase Storage hoch
-    final UploadTask uploadTask = ref.putFile(image);
-    final TaskSnapshot downloadUrl = (await uploadTask);
-
-    // Speichere die Download-URL des Bildes in Firestore
-    final String url = (await downloadUrl.ref.getDownloadURL());
-    FirebaseFirestore.instance.collection('user_profiles').doc(userID).set({
-      'profile_picture': url,
-    }, SetOptions(merge: true));
-
-    // Gib die Download-URL zurück
-    return url;
-  }
-
-  Future<void> uploadFileToFirebaseStorage(File file) async {
-    try {
-      // Create a unique filename for the file
-      String filename = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
-
-      // Get a reference to the Firebase Storage location where we will upload the file
-      final ref = FirebaseStorage.instance.ref().child(filename);
-
-      // Upload the file to Firebase Storage
-      await ref.putFile(file);
-
-      print('File uploaded to Firebase Storage successfully');
-    } catch (e) {
-      print('Error uploading file to Firebase Storage: $e');
-    }
-  }
-}
-
-
-
-/* für Flutter Web, wird das bild zerlegt, damit der Browser erlaubt es hochzuladen - funzt auch
-TODO: isPlatformWEB usw.. einbauen
- Future<void> uploadIMG() async {
+  /* für Flutter Web, wird das bild zerlegt, damit der Browser erlaubt es hochzuladen - funzt auch
+TODO: isPlatformWEB usw.. einbauen */
+  Future<void> uploadIMGWeb() async {
     //IMAGE PICKER
     ImagePicker imagePicker = ImagePicker();
     XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -620,4 +565,45 @@ TODO: isPlatformWEB usw.. einbauen
       //SOME ERROR OCCURRED
     }
   }
- */
+
+  void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
+    const CircularProgressIndicator();
+    if (_formkey.currentState!.validate()) {
+      await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) => {postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool)}).catchError((e) {});
+    }
+  }
+
+  void postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference ref = FirebaseFirestore.instance.collection('users');
+    ref.doc(user!.uid).set({
+      'firstname': firstname,
+      'lastname': lastname,
+      'email': email,
+      'postalcode': postalcode,
+      'cityname': cityname,
+      'streetname': streetname,
+      'streetnumber': streetnumber,
+      'rool': rool,
+    });
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+
+  Future<void> uploadFileToFirebaseStorage(File file) async {
+    try {
+      // Create a unique filename for the file
+      String filename = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+
+      // Get a reference to the Firebase Storage location where we will upload the file
+      final ref = FirebaseStorage.instance.ref().child(filename);
+
+      // Upload the file to Firebase Storage
+      await ref.putFile(file);
+
+      print('File uploaded to Firebase Storage successfully');
+    } catch (e) {
+      print('Error uploading file to Firebase Storage: $e');
+    }
+  }
+}
