@@ -425,6 +425,10 @@ class _AccessibilityState extends State<Accessibility> {
               onPressed: () {},
             ),
           ),
+              //TODO: Add the Text size to EVERY page somehow so that the textsize is saved. Maybe with a button of sorts...
+              Text("Dies ist ein Probetext um die Lesbarkeit zu testen.",
+              style: TextStyle(fontSize: 16 * _currentSliderValue),
+              ),
         ])));
   }
 }
@@ -440,6 +444,7 @@ class _LogOutState extends State<LogOut> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: const Text("Ausgeloggt"),
       ),
