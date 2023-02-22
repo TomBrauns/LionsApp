@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/login.dart';
+import 'package:lionsapp/Screens/payment/paymethode.dart';
 
 class UserTypeScreen extends StatelessWidget {
   @override
@@ -11,28 +13,22 @@ class UserTypeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement the 'Gast' button's functionality
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Paymethode()),
+                );
               },
-              child: const Text('Gast'),
+              child: const Text('Als Gast fortfahren'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement the 'Anmelden' button's functionality
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
               },
               child: const Text('Anmelden'),
-            ),
-            const Text(
-              'Noch kein Konto?',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 20),
-            // TODO: Button wird hier nichtmehr gebraucht, jetzt in Login
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement the 'Hier registrieren' button's functionality
-              },
-              child: const Text('Hier registrieren'),
             ),
           ],
         ),
