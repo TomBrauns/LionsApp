@@ -341,14 +341,6 @@ class _RegisterState extends State<Register> {
                           ],
                         ),
 
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        IconButton(
-                            onPressed: () async {
-                              uploadImageAllPlatforms();
-                            },
-                            icon: const Icon(Icons.camera_alt)),
                         const SizedBox(height: 24),
                         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                           Checkbox(
@@ -482,88 +474,6 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
-  }
-
-  Future<String?> uploadImageAllPlatforms() async {
-    if (Platform.android == true || Platform.iOS == true) {
-      uploadIMG();
-    } else {
-      uploadIMGWeb();
-    }
-    return null;
-  }
-
-  Future<void> uploadIMG() async {
-    String imageUrl = '';
-    //IMAGEPICKER
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
-    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    //UPLOAD TO FIREBASE
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
-    //Handle errors/success
-    try {
-      //Store the file
-      await referenceImageToUpload.putFile(File(file!.path));
-      //Success: get the download URL
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-    } catch (error) {
-      //Some error occurred
-    }
-    //Store
-    await referenceImageToUpload.putFile((File(file!.path)));
-    //LINK IN FIRESTORE
-    Map<String, dynamic> dataToUpdate = {};
-    if (imageUrl != null && imageUrl.isNotEmpty) {
-      dataToUpdate['image_url'] = imageUrl;
-    }
-
-    if (dataToUpdate.isNotEmpty) {
-      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
-    } else {}
-  }
-
-  /* für Flutter Web, wird das bild zerlegt, damit der Browser erlaubt es hochzuladen - funzt auch
-TODO: isPlatformWEB usw.. einbauen */
-  Future<void> uploadIMGWeb() async {
-    //IMAGE PICKER
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
-    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    //CONVERT IMAGE TO BYTES
-    final bytes = await file!.readAsBytes();
-
-    //UPLOAD TO FIREBASE
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('user_images').child(FirebaseAuth.instance.currentUser!.uid);
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
-    //HANDLE ERRORS/SUCCESS
-    try {
-      //STORE THE FILE
-      await referenceImageToUpload.putData(bytes);
-      //SUCCESS: GET THE DOWNLOAD URL
-      String imageUrl = await referenceImageToUpload.getDownloadURL();
-
-      //LINK IN FIRESTORE
-      Map<String, dynamic> dataToUpdate = {};
-      if (imageUrl != null && imageUrl.isNotEmpty) {
-        dataToUpdate['image_url'] = imageUrl;
-      }
-
-      if (dataToUpdate.isNotEmpty) {
-        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update(dataToUpdate);
-      } else {}
-    } catch (error) {
-      //SOME ERROR OCCURRED
-    }
   }
 
   void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
