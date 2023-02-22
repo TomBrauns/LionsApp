@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/newPassword.dart';
 
 class AuthCodeScreen extends StatefulWidget {
   const AuthCodeScreen({super.key});
@@ -11,7 +12,38 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
   final TextEditingController _authCodeController = TextEditingController();
 
   void _submitForm() {
-    // TODO: Implement functionality to verify the entered auth code
+    final String enteredCode = _authCodeController.text;
+
+    // Implement functionality to verify the entered auth code
+    // For example, you can use a network call to a backend service to validate the code
+
+    // If the code is valid, navigate to the next screen
+    if (enteredCode == '1234') {
+      // Replace '1234' with the actual valid code
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => NewPasswordScreen()),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Fehler'),
+            content:
+                Text('Der eingegebene Authentifizierungscode ist ungültig.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
