@@ -4,6 +4,7 @@ import 'package:lionsapp/Screens/projects/project_editor.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/appbar.dart';
 
@@ -22,6 +23,20 @@ class _CatalogueState extends State<Catalogue> {
     );
   }
 
+  // FAB with Priviledge
+  //Copy that
+  Widget? _getFAB() {
+    if (Privileges.privilege == "Admin") {
+      return FloatingActionButton(
+        onPressed: () => _handleAddProject,
+        child: const Icon(Icons.add),
+      );
+    } else {
+      return null;
+    }
+  }
+  // and use Function for Fab in Scaffold
+
   /*void _handleProjectClicked() {
 
 
@@ -37,6 +52,7 @@ class _CatalogueState extends State<Catalogue> {
       drawer: const BurgerMenu(),
       appBar: MyAppBar(title: "Katalog"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _getFAB(),
       bottomNavigationBar: const BottomNavigation(
         currentPage: "Catalogue",
         privilege: "Admin",
@@ -116,10 +132,6 @@ class _CatalogueState extends State<Catalogue> {
               children: categoryWidgets,
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _handleAddProject,
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
