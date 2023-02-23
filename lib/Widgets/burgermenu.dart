@@ -37,12 +37,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        // Copy that Bar
-        child: Scrollbar(
-      thickness: 5.0,
-      thumbVisibility: false,
-      radius: const Radius.circular(360),
-      controller: scrollcontroller,
+      // Copy that Bar
+
       child: ListView(
         scrollDirection: Axis.vertical,
         controller: scrollcontroller,
@@ -377,6 +373,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
         ],
       ),
-    ));
+    );
   }
 }
