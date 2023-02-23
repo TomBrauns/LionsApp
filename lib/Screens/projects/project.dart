@@ -34,7 +34,7 @@ class Project extends StatelessWidget {
             snapshot.data!.data() as Map<String, dynamic>;
 
         final String title = data['name'];
-        final String imgUri = "assets/projects/example_project.jpg";
+        final String? imgUri = data['image_url'];
         final String background = data['background'];
         final String support = data['support'];
 
@@ -56,8 +56,8 @@ class Project extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  Image.asset(imgUri,
-                      width: double.infinity, height: 250, fit: BoxFit.cover),
+                      if(imgUri != null && imgUri.isNotEmpty)
+                  Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
                   Container(
                       padding: const EdgeInsets.all(16),
                       child: Column(
