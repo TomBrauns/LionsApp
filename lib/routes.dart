@@ -31,6 +31,8 @@ var routes = <String, WidgetBuilder>{
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login' : (context) => LoginPage(),
   '/Donations/UserType/PayMethode': (context) => Paymethode(),
+  //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
+  //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(),
   '/ThankYou/Share':(context) => ShareDonation(),
   '/ThankYou/Receipt':(context) => Receipt(),
@@ -53,7 +55,4 @@ var routes = <String, WidgetBuilder>{
   '/Login': (context) => LoginPage(),
   '/Register': (context) => Register(),
   '/LogOut': (context) => LogOut(),
-  '/Payment': (context) => Paymethode(),
-  //'/Payment/Success':(context) => PaySuccess(),
-  //'/Payment/Failure':(context) => PayFailure(),
 };

@@ -357,39 +357,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin"
-              ? ListTile(
-                  leading: Icon(Icons.payments),
-                  title: const Text('paymethode'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Paymethode()),
-                    );
-                  },
-                )
-              : Container(),
-
-          Privileges.privilege == "Admin"
-              ? ListTile(
-                  leading: Icon(Icons.receipt),
-                  title: const Text('Quittung'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DonationReceived()),
-                    );
-                  },
-                )
-              : Container(),
           Privileges.privilege == "Admin" ||
                   Privileges.privilege == "Member" ||
                   Privileges.privilege == "Friend"
