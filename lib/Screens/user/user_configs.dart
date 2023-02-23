@@ -182,7 +182,7 @@ class _UserState extends State<User> {
                     margin: const EdgeInsets.all(25),
                     child: ElevatedButton.icon(
                       icon: const Icon(
-                        Icons.logout,
+                        Icons.delete,
                         size: 24.0,
                       ),
                       label: const Text('Account löschen'),
@@ -198,25 +198,28 @@ class _UserState extends State<User> {
                       },
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.logout,
-                        size: 24.0,
-                      ),
-                      label: const Text('Admin ernennen'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => callAdmin()),
-                        );
-                      },
-                    ),
-                  ),
+                  Privileges.privilege == "Admin"
+                      ? Container(
+                          margin: const EdgeInsets.all(25),
+                          child: ElevatedButton.icon(
+                            icon: const Icon(
+                              Icons.admin_panel_settings,
+                              size: 24.0,
+                            ),
+                            label: const Text('Rollen Verwalten'),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => callAdmin()),
+                              );
+                            },
+                          ),
+                        )
+                      : Container(),
                 ]))));
   }
 
