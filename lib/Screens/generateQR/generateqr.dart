@@ -18,7 +18,7 @@ class QrCodeWithImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Generate QR code data
-    String data = "$link?documentId=$documentId";
+    String data = "$link?interneId=$documentId";
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
     // Define image asset path

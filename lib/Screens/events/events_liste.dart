@@ -144,9 +144,10 @@ class _EventListState extends State<EventList> {
                                       MaterialPageRoute(
                                         builder: (context) => QrCodeWithImage(
                                             link:
-                                                'www.hier-kommt-der-link-hin.de/documentID',
+                                                'www.marc-wieland.de/#/Donations',
                                             documentId: eventId),
                                       ));
+
                                 },
                               )
                             ]),
