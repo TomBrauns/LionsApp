@@ -30,6 +30,7 @@ class _CalendarState extends State<Calendar> {
     super.initState();
     FirebaseFirestore.instance.collection('events').get().then((snapshot) => {
           _eventController.addAll(snapshot.docs
+              .where((event) => event.get("startDate") != null && event.get("endDate") != null)
               .map((event) => CalendarEventData(
                   event: event.id,
                   title: event.get("eventName"),
