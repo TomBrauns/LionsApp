@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/passwordForgotten.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
+import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/login/register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text('Passwort vergessen?'),
                   ),
+                  GoogleSignInButton(),
                 ],
               ),
             ],

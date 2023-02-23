@@ -141,7 +141,7 @@ class _CreateEvent extends State<CreateEvent> {
                                             .format(pickedDate);
                                     //print(formattedStartDate);
                                     setState(() {
-                                      _startDateController.text =
+                                      _endDateController.text =
                                           formattedStartDate;
                                     });
                                   }

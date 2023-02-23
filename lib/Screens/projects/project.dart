@@ -78,7 +78,7 @@ class Project extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Donations(documentId: documentId)));
+                                          Donations(interneId: documentId)));
                             },
                             child: const Padding(
                                 padding: EdgeInsets.symmetric(

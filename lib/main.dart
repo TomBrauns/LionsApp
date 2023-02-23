@@ -18,11 +18,17 @@ Future<void> main() async {
   );
 
   reAuthenticateUser();
-  runApp(const MyApp());
+
+  String myurl = Uri.base.toString();
+  String? paramId = Uri.base.queryParameters['docid'];
+  print(paramId);
+
+  runApp(MyApp(documentId: paramId));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  String? documentId;
+  MyApp({super.key, this.documentId});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -36,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),
-      //home: HomePage(),
+      //home: Donations(interneId: widget.documentId),
       initialRoute: '/Donations',
       routes: routes,
     );
