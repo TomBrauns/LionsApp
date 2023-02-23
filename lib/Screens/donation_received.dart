@@ -243,50 +243,86 @@ void shareToFacebook() async {
   }
 }
 
+void shareToTwitter() async {
+  final url = 'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
+void shareToInstagram() async {
+  final url = 'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class _ShareDonationState extends State<ShareDonation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Teile deine Spende"),
-        ),
-        body: Center(
-            child:
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ElevatedButton(
-                    onPressed: (){
-                      shareToFacebook();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF1877F2),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)
-                      ),
-                      minimumSize: const Size(double.infinity, 50.0)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Icon(Icons.facebook,color: Colors.white),
-                        SizedBox(
-                            width: 10
-                        ),
-                        Text(
-                            'Auf Facebook teilen',
-                            style: TextStyle(color: Colors.white)
-                        )
-                      ],
-                    ),
-                  ),
-                )
-
+      appBar: AppBar(
+        title: const Text("Teile deine Spende"),
+      ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  shareToFacebook();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xFF1877F2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
+                  minimumSize: const Size(double.infinity, 50.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Icon(Icons.facebook, color: Colors.white),
+                    SizedBox(width: 10),
+                    Text('Auf Facebook teilen',
+                        style: TextStyle(color: Colors.white))
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  shareToTwitter();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xFF1DA1F2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
+                  minimumSize: const Size(double.infinity, 50.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Icon(Icons.facebook, color: Colors.white),
+                    SizedBox(width: 10),
+                    Text('Auf Twitter teilen',
+                        style: TextStyle(color: Colors.white))
+                  ],
+                ),
+              ),
+            ],
           ),
-        );
+        ),
+      ),
+    );
   }
 }
+
 
 class Receiptdata extends StatefulWidget {
   const Receiptdata({super.key});
