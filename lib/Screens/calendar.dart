@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
-import 'package:lionsapp/Screens/events/create_event.dart';
+import 'package:lionsapp/Screens/events/event_editor.dart';
 
 import '../Widgets/appbar.dart';
 import 'events/event_details_page.dart';
@@ -19,7 +19,7 @@ class _CalendarState extends State<Calendar> {
   void _handleAddEvent() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const CreateEvent()),
+      MaterialPageRoute(builder: (context) => const EventEditor()),
     );
   }
 

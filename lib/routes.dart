@@ -4,8 +4,7 @@ import 'package:lionsapp/Screens/calendar.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Screens/events/create_event.dart';
-import 'package:lionsapp/Screens/events/event_bearbeiten.dart';
+import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Screens/home.dart';
 import 'package:lionsapp/Screens/imprint.dart';
@@ -42,7 +41,7 @@ var routes = <String, WidgetBuilder>{
   //'/Chat/Chatroom' + Chatroom.roomId + "/Settings": (context) => ChatroomSettings(chatroomId: chatroomId)
   '/Calendar': (context) => Calendar(),
   '/Events': (context) => Events(),
-  '/Events/CreateEvent': (context) => CreateEvent(),
+  '/Events/EventEditor': (context) => EventEditor(),
   //'/Events/EventDetailsPage' + EventDetailsPage.eventId: (context) => EventDetailsPage(eventId: EventDetailsPage.eventId,),
   //'/Events/EditDocumentPage' + Events.documentId: (context) => EditDocumentPage(documentId: Events.documentId),
   // TODO: Route for Catalogue
