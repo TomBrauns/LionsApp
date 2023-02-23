@@ -1,58 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mailer/mailer.dart';import 'package:lionsapp/Widgets/burgermenu.dart';
-
-import 'package:mailer/smtp_server/gmail.dart';
 
 class Contact extends StatefulWidget {
-  const Contact({super.key});
+  const Contact({Key? key}) : super(key: key);
 
   @override
-  _ContactState createState() => _ContactState();
+  State<Contact> createState() => _ContactState();
 }
 
 class _ContactState extends State<Contact> {
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _subjectController.dispose();
-    _messageController.dispose();
-    super.dispose();
-  }
-
-  Future<void> sendEmail() async {
-    final name = _nameController.text;
-    final email = _emailController.text;
-    final subject = _subjectController.text;
-    final message = _messageController.text;
-
-    final smtpServer = gmail('xxx@gmail.com', 'passwort');
-    final emailMessage = Message()
-      ..from = Address(email, name)
-      ..recipients.add('xxx@gmail.com')
-      ..subject = subject
-      ..text = message;
-
-    try {
-      await send(emailMessage, smtpServer);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Nachricht erfolgreich gesendet'),
-      ));
-      _formKey.currentState!.reset();
-    } on MailerException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.'),
-      ));
-      print('Fehler beim Versenden der E-Mail: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,18 +90,43 @@ class _ContactState extends State<Contact> {
                       return null;
                     },
                   ),
+                  Center(
+                    child:  Container(
+                      margin: EdgeInsets.only(top: 40),
+                      child: Text("Weitere Daten"),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      margin: EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Datei zum Hochladen hier reinziehen"),
+                          Icon(Icons.upload)
+                        ],
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        sendEmail();
-                      }
-                    },
-                    child: Text('Senden'),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          //sendEmail();
+                        }
+                      },
+                      child: Text('Senden'),
+                    ),
                   ),
                   Center(
                     child: Divider(),
-                  )
+                  ),
                 ],
               ),
             ),
