@@ -122,12 +122,7 @@ class _DonationsState extends State<Donations> {
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              UserTypeScreen()),
-                                    );
+                                    Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),

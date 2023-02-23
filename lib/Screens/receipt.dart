@@ -121,10 +121,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Events()),
-                  );
+                  Navigator.pushNamed(context, '/Events');
                 },
               ),
             ],

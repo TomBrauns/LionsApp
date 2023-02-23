@@ -70,11 +70,7 @@ class _PaymethodeState extends State<Paymethode> {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DonationReceived()),
-                      );
+                      Navigator.pushNamed(context, '/Receipt');
                     },
                     child: const Text("Skip"),
                   ))

@@ -13,6 +13,7 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
+import 'package:lionsapp/Screens/receipt.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/login/login.dart';
@@ -28,6 +29,9 @@ var routes = <String, WidgetBuilder>{
   '/User/Subs': (context) => Subs(),
   '/Donations': (context) => Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
+  '/Donations/UserType/Login' : (context) => LoginPage(),
+  '/Donations/UserType/PayMethode': (context) => Paymethode(),
+  '/Receipt': (context) => DonationReceived(),
   // TODO: Chaträume
   '/Chat': (context) => Chat(),
   //'/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
