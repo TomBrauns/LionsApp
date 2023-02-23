@@ -28,7 +28,7 @@ class _DonationsState extends State<Donations> {
 
     if (widget.interneId != null) {
       _documentStream = FirebaseFirestore.instance
-          .collection('projects')
+          .collection('events')
           .doc(widget.interneId)
           .snapshots();
     }
@@ -56,7 +56,7 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = snapshot.data?.get('name') ?? "";
+              String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
                   padding: const EdgeInsets.all(16),
