@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/receipt.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 
@@ -58,6 +59,25 @@ class _PaymethodeState extends State<Paymethode> {
                   child: const Text("Kartenzahlung/Giro"),
                 ),
               ),
+              Container(
+                  height: 50,
+                  width: 350,
+                  padding: const EdgeInsets.all(15.0),
+                  margin: const EdgeInsets.all(15),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      elevation: 0,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DonationReceived()),
+                      );
+                    },
+                    child: const Text("Skip"),
+                  ))
             ],
           ),
         ),
