@@ -17,7 +17,7 @@ class _callAdminState extends State<callAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const BurgerMenu(),
-        appBar: const MyAppBar(title: "Admin ernennen"),
+        appBar: const MyAppBar(title: "Rollen Verwalten"),
         bottomNavigationBar: BottomNavigation(),
         body: Center(
           child: Column(
