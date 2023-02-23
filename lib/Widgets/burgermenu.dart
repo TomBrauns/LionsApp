@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/agb.dart';
+import 'package:lionsapp/login/agb.dart';
 import 'package:lionsapp/Screens/donation_user_screen.dart';
 import 'package:lionsapp/Screens/events/create_event.dart';
 
@@ -12,7 +12,7 @@ import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/imprint.dart';
-import 'package:lionsapp/Screens/receipt.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 import 'package:lionsapp/Screens/user_management.dart';
