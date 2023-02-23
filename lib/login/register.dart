@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/agb.dart';
+import 'package:lionsapp/login/agb.dart';
 import 'login.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';

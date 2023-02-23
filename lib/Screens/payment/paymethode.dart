@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/receipt.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 
@@ -70,7 +70,7 @@ class _PaymethodeState extends State<Paymethode> {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/Receipt');
+                      Navigator.pushNamed(context, '/ThankYou');
                     },
                     child: const Text("Skip"),
                   ))

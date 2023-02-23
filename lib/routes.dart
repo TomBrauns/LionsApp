@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/agb.dart';
+import 'package:lionsapp/login/agb.dart';
 import 'package:lionsapp/Screens/calendar.dart';
 import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/contact.dart';
@@ -13,7 +13,7 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'package:lionsapp/Screens/projects/catalogue.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
-import 'package:lionsapp/Screens/receipt.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/login/login.dart';
@@ -31,7 +31,11 @@ var routes = <String, WidgetBuilder>{
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login' : (context) => LoginPage(),
   '/Donations/UserType/PayMethode': (context) => Paymethode(),
-  '/Receipt': (context) => DonationReceived(),
+  //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
+  //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
+  '/ThankYou': (context) => DonationReceived(),
+  '/ThankYou/Share':(context) => ShareDonation(),
+  '/ThankYou/Receipt':(context) => Receipt(),
   // TODO: Chaträume
   '/Chat': (context) => Chat(),
   //'/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
@@ -51,7 +55,4 @@ var routes = <String, WidgetBuilder>{
   '/Login': (context) => LoginPage(),
   '/Register': (context) => Register(),
   '/LogOut': (context) => LogOut(),
-  '/Payment': (context) => Paymethode(),
-  //'/Payment/Success':(context) => PaySuccess(),
-  //'/Payment/Failure':(context) => PayFailure(),
 };

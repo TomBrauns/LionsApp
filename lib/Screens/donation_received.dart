@@ -10,8 +10,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 String DonationProjectName = "Test Projekt";
 // ignore: non_constant_identifier_names
 var DonationAmount = 1;
-//
-//TODO: Change "Back" Button with Burgermenu Button for the screen
+
 class DonationReceived extends StatefulWidget {
   const DonationReceived({super.key});
 
@@ -23,9 +22,8 @@ class _DonationReceivedState extends State<DonationReceived> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: const MyAppBar(title: "Danke für ihre Spende"),
-          drawer: const BurgerMenu(),
-
+        appBar: const MyAppBar(title: "Danke für ihre Spende"),
+        drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
           Container(
@@ -36,29 +34,26 @@ class _DonationReceivedState extends State<DonationReceived> {
                 border: Border.all(color: Colors.blueAccent)),
             child: Text(
                 "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
-                    "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
-                    "über das Kontaktformular zu erreichen."),
+                "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
+                "über das Kontaktformular zu erreichen."),
           ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.receipt,
-                    size: 24.0,
-                  ),
-                  label: const Text('Kontaktformular'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Contact()),
-                    );
-                  },
-                ),
+          Container(
+            margin: const EdgeInsets.all(25),
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.receipt,
+                size: 24.0,
               ),
+              label: const Text('Kontaktformular'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/Contact');
+              },
+            ),
+          ),
           Container(
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
@@ -72,10 +67,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Receipt()),
-                );
+                Navigator.pushNamed(context, '/ThankYou/Receipt');
               },
             ),
           ),
@@ -92,20 +84,16 @@ class _DonationReceivedState extends State<DonationReceived> {
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ShareDonation()),
-                );
+                Navigator.pushNamed(context, '/ThankYou/Share');
               },
             ),
           ),
           ButtonBar(
-            mainAxisSize: MainAxisSize
-                .min, // this will take space as minimum as posible(to center)
+            mainAxisSize: MainAxisSize.min,
+            // this will take space as minimum as possible(to center)
             children: <Widget>[
               ElevatedButton(
-                child: const Text('Startseite'),
+                child: const Text('Zurück zum Spenden'),
                 onPressed: () {
                   // Push to Screen
                   Navigator.pushNamed(context, '/Donations');
@@ -176,12 +164,12 @@ class _ReceiptState extends State<Receipt> {
               onPressed: () {},
             ),
           ),
-              Container(
-                margin: const EdgeInsets.all(40),
-                height: 50,
-                child: Text("Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
-
-              ),
+          Container(
+            margin: const EdgeInsets.all(40),
+            height: 50,
+            child: Text(
+                "Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
+          ),
         ])));
   }
 }
@@ -200,6 +188,7 @@ class ReceiptEmail extends StatefulWidget {
 class _ReceiptEmailState extends State<ReceiptEmail> {
   String EMail = "";
   final myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
