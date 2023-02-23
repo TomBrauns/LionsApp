@@ -72,8 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Email',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -87,9 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (value!.length == 0) {
                               return "Email cannot be empty";
                             }
-                            if (!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)) {
+                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
                               return ("Please enter a valid email");
                             } else {
                               return null;
@@ -108,9 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                icon: Icon(_isObscure3
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
+                                icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
                                 onPressed: () {
                                   setState(() {
                                     _isObscure3 = !_isObscure3;
@@ -120,8 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Password',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 15.0),
+                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -175,17 +169,14 @@ class _LoginPageState extends State<LoginPage> {
                           height: 60,
                         ),
                         MaterialButton(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
                             setState(() {
                               visible = true;
                             });
-                            signIn(
-                                emailController.text, passwordController.text);
+                            signIn(emailController.text, passwordController.text);
                           },
                           child: const Text(
                             "Login",
@@ -209,13 +200,11 @@ class _LoginPageState extends State<LoginPage> {
                             ))),
                         //TEST
                         FutureBuilder(
-                          future: Authentication.initializeFirebase(
-                              context: context),
+                          future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return const Text('Error initializing Firebase');
-                            } else if (snapshot.connectionState ==
-                                ConnectionState.done) {
+                            } else if (snapshot.connectionState == ConnectionState.done) {
                               return GoogleSignInButton();
                             }
                             return const CircularProgressIndicator(
@@ -268,8 +257,7 @@ class _LoginPageState extends State<LoginPage> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -284,18 +272,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void route() {
     User? user = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
+    FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('rool') == "admin") {
           Privileges.privilege = "Admin";
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  Donations(),
+              builder: (context) => Donations(),
             ),
           );
         } else {
@@ -303,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  Donations(),
+              builder: (context) => Donations(),
             ),
           );
         }
@@ -316,12 +300,19 @@ class _LoginPageState extends State<LoginPage> {
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
-        route();
+        if (userCredential.user!.emailVerified) {
+          route();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Please verify your email address first.'),
+            ),
+          );
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No user found for that email.');
@@ -335,11 +326,7 @@ class _LoginPageState extends State<LoginPage> {
 
 Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
-  FirebaseFirestore.instance
-      .collection('users')
-      .doc(user!.uid)
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
+  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       if (documentSnapshot.get('rool') == "admin") {
         Privileges.privilege = "Admin";

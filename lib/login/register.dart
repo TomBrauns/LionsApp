@@ -491,16 +491,17 @@ class _RegisterState extends State<Register> {
   void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     const CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then(
-            (value) => {
-              postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool),
-            },
-          )
-          .catchError(
-            (e) {},
-          );
+      await _auth.createUserWithEmailAndPassword(email: email, password: password).then(
+        (result) async {
+          await result.user!.sendEmailVerification();
+          postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
+        },
+      ).catchError(
+        (e) {
+          // Handle error
+          print(e);
+        },
+      );
     }
   }
 
@@ -508,16 +509,18 @@ class _RegisterState extends State<Register> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'postalcode': postalcode,
-      'cityname': cityname,
-      'streetname': streetname,
-      'streetnumber': streetnumber,
-      'rool': rool,
-    });
+    ref.doc(user!.uid).set(
+      {
+        'firstname': firstname,
+        'lastname': lastname,
+        'email': email,
+        'postalcode': postalcode,
+        'cityname': cityname,
+        'streetname': streetname,
+        'streetnumber': streetnumber,
+        'rool': rool,
+      },
+    );
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
