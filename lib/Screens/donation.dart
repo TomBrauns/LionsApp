@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
@@ -18,11 +19,9 @@ class _DonationsState extends State<Donations> {
 
   String? interneId;
 
-
   @override
   void initState() {
     super.initState();
-
 
     //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
     interneId = widget.interneId;
@@ -114,14 +113,22 @@ class _DonationsState extends State<Donations> {
                                     _isReceiptChecked = !_isReceiptChecked;
                                   });
                                 },
-                                child:
-                                    const Text("Ich möchte eine Quittung erhalten."))
+                                child: const Text(
+                                    "Ich möchte eine Quittung erhalten."))
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                  onPressed: _handleSubmit,
+                                  // onPressed: _handleSubmit,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserTypeScreen()),
+                                    );
+                                  },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),
                                       child: const Text("Spenden",
@@ -159,11 +166,10 @@ class _DonationsState extends State<Donations> {
 
   void _handleSubmit() {
     int value = _getCurrentValue();
-
   }
 }
 
-  /*@override
+/*@override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -269,6 +275,3 @@ class _DonationsState extends State<Donations> {
             )
         )
     );*/
-
-
-
