@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 final String STRIPE_PUBLISHABLE_KEY =
     "pk_test_51MdYkcIUPbRZz1M7GaXIS2CVXWQByUEtV1EuJLpUwywrj6DhLH4Q3TYW7OGbmZICAU7Qrl5LZ6ZzbILonuk6Vf2D00yjifRoo7";
@@ -80,4 +82,42 @@ class _PaymethodeState extends State<Paymethode> {
       ),
     );
   }
+}
+
+class GetPlatform {
+  static String get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'GetPlatform are not supported for this platform.',
+        );
+    }
+  }
+
+  static const String web = "web";
+
+  static const String android = "android";
+
+  static const String ios = "ios";
+
+  static const String macos = "macos";
 }
