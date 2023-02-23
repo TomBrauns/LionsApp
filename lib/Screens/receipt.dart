@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
+import '../../Widgets/appbar.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
+
 // Test Values
 // ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
 // ignore: non_constant_identifier_names
 var DonationAmount = 1;
 //
-
+//TODO: Change "Back" Button with Burgermenu Button for the screen
 class DonationReceived extends StatefulWidget {
   const DonationReceived({super.key});
 
@@ -20,9 +23,9 @@ class _DonationReceivedState extends State<DonationReceived> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Danke fürs Spenden"),
-        ),
+          appBar: const MyAppBar(title: "User Type"),
+          drawer: const BurgerMenu(),
+
         body: Center(
             child: Column(children: <Widget>[
           Container(
@@ -104,13 +107,8 @@ class _DonationReceivedState extends State<DonationReceived> {
               ElevatedButton(
                 child: const Text('Startseite'),
                 onPressed: () {
-                  // Update State of App
-                  Navigator.pop(context);
                   // Push to Screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  Donations()),
-                  );
+                  Navigator.pushNamed(context, '/Donations');
                 },
               ),
 
