@@ -1,20 +1,15 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/login/register.dart';
 import 'package:lionsapp/util/image_upload.dart';
-import 'package:platform/platform.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -156,8 +151,7 @@ class _UserState extends State<User> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const Accessibility()),
+                          MaterialPageRoute(builder: (context) => const Accessibility()),
                         );
                       },
                     ),
@@ -177,8 +171,7 @@ class _UserState extends State<User> {
                         signOut();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const LogOut()),
+                          MaterialPageRoute(builder: (context) => const LogOut()),
                         );
                       },
                     ),
@@ -200,6 +193,25 @@ class _UserState extends State<User> {
                         } else {
                           showMyDialog();
                         }
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 24.0,
+                      ),
+                      label: const Text('Admin ernennen'),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => callAdmin()),
+                        );
                       },
                     ),
                   ),
@@ -259,10 +271,8 @@ class _UserState extends State<User> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return FutureBuilder<DocumentSnapshot>(
-        future:
-        FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('image_url')) {
@@ -294,10 +304,7 @@ class _UserState extends State<User> {
 
 Future<void> deleteAcc() async {
   Privileges.privilege = "gast";
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .delete();
+  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
   FirebaseAuth.instance.currentUser!.delete();
 }
 
@@ -324,13 +331,7 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>[
-  'keins',
-  'Protanopie',
-  'Deuteranopie',
-  'Tritanopie',
-  'Achromatopsie'
-];
+const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -461,22 +462,17 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null &&
-                    userData['lastname'] != null)
-                  Text(
-                      'Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null)
-                  Text('Email: ${userData['email']}'),
+                if (userData['firstname'] != null && userData['lastname'] != null)
+                  Text('Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null) Text('Email: ${userData['email']}'),
                 if (userData['streetname'] != null &&
                     userData['streetnumber'] != null &&
                     userData['postalcode'] != null &&

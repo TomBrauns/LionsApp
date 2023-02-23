@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/login.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
+import 'package:lionsapp/login/login.dart';
 
 class UserTypeScreen extends StatelessWidget {
   @override
@@ -25,7 +25,7 @@ class UserTypeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
               child: const Text('Anmelden'),

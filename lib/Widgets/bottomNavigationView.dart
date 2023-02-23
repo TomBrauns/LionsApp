@@ -5,6 +5,7 @@ import 'package:lionsapp/Screens/chat.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/routes.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 class BottomNavigation extends StatefulWidget {
   final String currentPage;
@@ -86,7 +87,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 );*/
                 Navigator.pushNamed(context, '/Calendar');
               },
-              icon: const Icon(Icons.event),
+              icon: const Icon(Icons.calendar_month_rounded),
             ),
             IconButton(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -101,6 +102,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 Navigator.pushNamed(context, '/Catalogue');
               },
               icon: const Icon(Icons.book),
+            ),
+            IconButton(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              onPressed: () {
+                // Update State of App
+                Navigator.pop(context);
+                // Push to Screen
+                /*Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Catalogue()),
+                );*/
+                Navigator.pushNamed(context, '/Events');
+              },
+              icon: const Icon(Icons.event),
             ),
           ],
         ));
