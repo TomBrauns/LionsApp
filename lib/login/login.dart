@@ -141,7 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -150,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => PwReset(),
+                                    builder: (context) => const PwReset(),
                                   ),
                                 );
                               },
@@ -173,9 +172,11 @@ class _LoginPageState extends State<LoginPage> {
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
-                            setState(() {
-                              visible = true;
-                            });
+                            setState(
+                              () {
+                                visible = true;
+                              },
+                            );
                             signIn(emailController.text, passwordController.text);
                           },
                           child: const Text(
@@ -189,32 +190,6 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            visible: visible,
-                            child: Container(
-                                child: const CircularProgressIndicator(
-                              color: Colors.white,
-                            ))),
-                        //TEST
-                        FutureBuilder(
-                          future: Authentication.initializeFirebase(context: context),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return const Text('Error initializing Firebase');
-                            } else if (snapshot.connectionState == ConnectionState.done) {
-                              return GoogleSignInButton();
-                            }
-                            return const CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.orange,
-                              ),
-                            );
-                          },
-                        ),
-                        //TEST
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -304,21 +279,34 @@ class _LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
-        if (userCredential.user!.emailVerified) {
-          route();
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Please verify your email address first.'),
-            ),
-          );
-        }
+        //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+
+        // if (userCredential.user!.emailVerified) {
+        route();
+        // } else {
+        //  ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //      content: Text('Bitte bestätigen sie zu erst ihre Email Adresse'),
+        //     ),
+        //   );
+        //  }
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("etwas is falsch gelaufen - Versuchen Sie es erneut!"),
+              actions: <Widget>[
+                MaterialButton(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }
