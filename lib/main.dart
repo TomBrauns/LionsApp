@@ -35,7 +35,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final String interneId = '7efwahy3BaeZRuKoFDao'; // Beispiel-Parameter
+  final String interneId = ''; // Beispiel-Parameter
 
   @override
   Widget build(BuildContext context) {

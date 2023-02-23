@@ -43,7 +43,7 @@ class _DonationsState extends State<Donations> {
     print("Hier EventID: $eventId");
     print("Hier widget id: ${widget.interneId}");
 
-    if (eventId != null) {
+    if (eventId != "") {
       _documentStream = FirebaseFirestore.instance
           .collection('events')
           .doc(eventId)
@@ -70,7 +70,16 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = snapshot.data?.get('eventName') ?? "";
+              String donationTitle = "Kein Event gefunden.";
+
+              if(snapshot.hasData && snapshot.data!.exists){
+                Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
+                if(data != null && data.containsKey('eventName')){
+                   donationTitle = data['eventName'] as String;
+                }
+              }
+
+              //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
                   padding: const EdgeInsets.all(16),
