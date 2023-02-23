@@ -35,6 +35,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final String interneId = 'ONcqAsVodd4c3LZQjcMh'; // Beispiel-Parameter
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,9 +44,22 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),
-      //home: Donations(interneId: widget.documentId),
-      initialRoute: '/Donations',
+      initialRoute: '/Donations?interneId=$interneId', // Route mit Parameter
       routes: routes,
+      onGenerateRoute: (RouteSettings settings) {
+        // Überprüfe, ob die Route mit "/Donations" beginnt
+        if (settings.name!.startsWith('/Donations')) {
+          // Extrahiere den Parameter aus der Query-String-Variable "interneId"
+          final uri = Uri.parse(settings.name!);
+          var interneId = uri.queryParameters['interneId'];
+          // Erstelle die Donations-Seite mit dem Parameter
+          //interneId = 'HWWbzQyOsVSbH7rS4BHR';
+          return MaterialPageRoute(builder: (context) => Donations(interneId: interneId));
+        }
+
+        // Rückgabe einer Standardroute, falls keine passende Route gefunden wurde
+        //return MaterialPageRoute(builder: (context) => HomePage());
+      },
     );
   }
 }
