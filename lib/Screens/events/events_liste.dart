@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
-import 'package:lionsapp/Screens/events/create_event.dart';
+import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
@@ -28,7 +28,7 @@ class _EventsState extends State<Events> {
   void _handleAddEvent() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const CreateEvent()),
+      MaterialPageRoute(builder: (context) => const EventEditor()),
     );
   }
 

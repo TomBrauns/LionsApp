@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/login/agb.dart';
 import 'package:lionsapp/Screens/donation_user_screen.dart';
-import 'package:lionsapp/Screens/events/create_event.dart';
+import 'package:lionsapp/Screens/events/event_editor.dart';
 
 import 'package:lionsapp/Screens/calendar.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
@@ -305,7 +305,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CreateEvent()),
+                          builder: (context) => const EventEditor()),
                     );
                   },
                 )

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Screens/events/event_bearbeiten.dart';
+import 'event_editor.dart';
 
 class EventDetailsPage extends StatefulWidget {
   const EventDetailsPage({Key? key, required this.eventId}) : super(key: key);
@@ -22,8 +22,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   late String _project = "";
   late String _target = "";
   late String _description = "";
-  final String _imgUri =
-      "assets/events/martini-konzert.jpg"; // TODO Static, solange es noch keine richtige Image Lösung in Firebase integriert ist
+  late String _imgUri = "";
 
   @override
   void initState() {
@@ -32,32 +31,30 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   }
 
   void _loadEventData() async {
-    final docSnapshot = await FirebaseFirestore.instance
-        .collection('events')
-        .doc(widget.eventId)
-        .get();
+    final docSnapshot = await FirebaseFirestore.instance.collection('events').doc(widget.eventId).get();
 
     if (docSnapshot.exists) {
       final data = docSnapshot.data()!;
       setState(() {
         _title = data['eventName'];
-        _location = data['ort'];
-        _date = dateFormat.format((data['startDate'] as Timestamp).toDate());
-        _project = data['projekt'];
-        _target = data['spendenZiel'];
+        _location = data['ort'] ?? "";
+        if (data["startDate"] != null) {
+          _date = dateFormat.format((data['startDate'] as Timestamp).toDate());
+        }
+        _project = data['projekt'] ?? "";
+        _target = data['spendenZiel'] ?? "";
+        _imgUri = data['image_url'] ?? "";
         _description = data['eventInfo'];
       });
     }
   }
 
   // Style
-  final TextStyle _headlineStyle =
-      const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+  final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
   final TextStyle _textStyle = const TextStyle(fontSize: 16);
 
   void _handleDonation() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) =>  Donations()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations()));
   }
 
   @override
@@ -65,27 +62,15 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(_title),
-          // TODO Hier müssen noch die Berechtigungen angepasst werden, damit der Edit Button nur von Membern gesehen werden kann
-          actions: [
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                print("Icon Button gepressed");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditDocumentPage(documentId: widget.eventId)),
-                );
-              },
-            )
-          ],
         ),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
+            }),
         body: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset(_imgUri,
-              width: double.infinity, height: 250, fit: BoxFit.cover),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          if (_imgUri.isNotEmpty) Image.network(_imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
           Container(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -156,8 +141,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       child: ElevatedButton(
                     onPressed: _handleDonation,
                     child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6.0, horizontal: 4.0),
+                        padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
                         child: Text("Spenden", style: TextStyle(fontSize: 22))),
                   )),
                   const SizedBox(height: 32),
