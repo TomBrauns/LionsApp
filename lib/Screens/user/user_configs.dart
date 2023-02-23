@@ -12,6 +12,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/login/register.dart';
+import 'package:lionsapp/util/image_upload.dart';
 import 'package:platform/platform.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -50,10 +51,21 @@ class _UserState extends State<User> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 10),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         final user = FirebaseAuth.instance.currentUser;
                         if (user != null) {
-                          uploadImageAllPlatforms();
+                          final XFile? file = await ImageUpload.selectImage();
+                          if (file != null) {
+                            final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                            final String? imageUrl =
+                                await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
+                            if (imageUrl != null) {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .update({"image_url": imageUrl});
+                            }
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -233,7 +245,7 @@ class _UserState extends State<User> {
                 );
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  Donations()),
+                  MaterialPageRoute(builder: (context) => Donations()),
                 );
               },
             ),
@@ -248,7 +260,7 @@ class _UserState extends State<User> {
       final user = FirebaseAuth.instance.currentUser!;
       return FutureBuilder<DocumentSnapshot>(
         future:
-            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -276,98 +288,6 @@ class _UserState extends State<User> {
     } catch (e) {
       print('Error: $e');
       return Icon(Icons.person, size: 50);
-    }
-  }
-
-  Future<String?> uploadImageAllPlatforms() async {
-    if (Platform.android == true || Platform.iOS == true) {
-      uploadIMG();
-    } else {
-      uploadIMGWeb();
-    }
-    return null;
-  }
-
-  Future<void> uploadIMG() async {
-    String imageUrl = '';
-    //IMAGEPICKER
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
-    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    //UPLOAD TO FIREBASE
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot
-        .child('user_images')
-        .child(FirebaseAuth.instance.currentUser!.uid);
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
-    //Handle errors/success
-    try {
-      //Store the file
-      await referenceImageToUpload.putFile(File(file!.path));
-      //Success: get the download URL
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-    } catch (error) {
-      //Some error occurred
-    }
-    //Store
-    await referenceImageToUpload.putFile((File(file!.path)));
-    //LINK IN FIRESTORE
-    Map<String, dynamic> dataToUpdate = {};
-    if (imageUrl != null && imageUrl.isNotEmpty) {
-      dataToUpdate['image_url'] = imageUrl;
-    }
-
-    if (dataToUpdate.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update(dataToUpdate);
-    } else {}
-  }
-
-  /* für Flutter Web, wird das bild zerlegt, damit der Browser erlaubt es hochzuladen - funzt auch
-TODO: isPlatformWEB usw.. einbauen */
-  Future<void> uploadIMGWeb() async {
-    //IMAGE PICKER
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    print('${file?.path}');
-    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    //CONVERT IMAGE TO BYTES
-    final bytes = await file!.readAsBytes();
-
-    //UPLOAD TO FIREBASE
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot
-        .child('user_images')
-        .child(FirebaseAuth.instance.currentUser!.uid);
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
-    //HANDLE ERRORS/SUCCESS
-    try {
-      //STORE THE FILE
-      await referenceImageToUpload.putData(bytes);
-      //SUCCESS: GET THE DOWNLOAD URL
-      String imageUrl = await referenceImageToUpload.getDownloadURL();
-
-      //LINK IN FIRESTORE
-      Map<String, dynamic> dataToUpdate = {};
-      if (imageUrl != null && imageUrl.isNotEmpty) {
-        dataToUpdate['image_url'] = imageUrl;
-      }
-
-      if (dataToUpdate.isNotEmpty) {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update(dataToUpdate);
-      } else {}
-    } catch (error) {
-      //SOME ERROR OCCURRED
     }
   }
 }
