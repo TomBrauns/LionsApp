@@ -61,6 +61,8 @@ dependencies:
 
   mailer: ^6.0.0
 
+  pay: ^1.1.0
+
 
 dev_dependencies:
   flutter_test:

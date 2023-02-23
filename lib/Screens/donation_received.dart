@@ -253,15 +253,36 @@ class _ShareDonationState extends State<ShareDonation> {
           title: const Text("Teile deine Spende"),
         ),
         body: Center(
-            child: SizedBox(
-                height: 100,
-                width: 350,
-                child: ElevatedButton(
-                  onPressed: () {
-                    shareToFacebook();
-                  },
-                  child: Text('Auf Facebook teilen'),
-                )),
+            child:
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      shareToFacebook();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF1877F2),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)
+                      ),
+                      minimumSize: const Size(double.infinity, 50.0)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(Icons.facebook,color: Colors.white),
+                        SizedBox(
+                            width: 10
+                        ),
+                        Text(
+                            'Auf Facebook teilen',
+                            style: TextStyle(color: Colors.white)
+                        )
+                      ],
+                    ),
+                  ),
+                )
+
           ),
         );
   }
