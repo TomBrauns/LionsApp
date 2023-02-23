@@ -52,10 +52,7 @@ class _EventsState extends State<Events> {
       appBar: const MyAppBar(title: "Events"),
       drawer: const BurgerMenu(),
       body: const EventList(),
-      bottomNavigationBar: const BottomNavigation(
-        currentPage: "Events",
-        privilege: "Admin",
-      ),
+      bottomNavigationBar: BottomNavigation(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _getFAB(),
     );

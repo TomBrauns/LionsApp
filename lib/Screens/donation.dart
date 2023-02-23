@@ -4,6 +4,7 @@ import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 class Donations extends StatefulWidget {
   final String? interneId;
@@ -18,6 +19,19 @@ class _DonationsState extends State<Donations> {
   var _documentStream;
 
   String? interneId;
+
+  // BAB with Priviledge
+  //Copy that
+  Widget? _getBAB() {
+    if (Privileges.privilege == "Admin" ||
+        Privileges.privilege == "Member" ||
+        Privileges.privilege == "Friend") {
+      return BottomNavigation();
+    } else {
+      return null;
+    }
+  }
+  // and use Function for Fab in Scaffold
 
   @override
   void initState() {
@@ -40,10 +54,7 @@ class _DonationsState extends State<Donations> {
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: const MyAppBar(title: "Spenden"),
-        bottomNavigationBar: const BottomNavigation(
-          currentPage: "Donations",
-          privilege: "Admin",
-        ),
+        bottomNavigationBar: _getBAB(),
         body: StreamBuilder<DocumentSnapshot>(
             stream: _documentStream,
             builder: (context, snapshot) {
@@ -122,7 +133,8 @@ class _DonationsState extends State<Donations> {
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/Donations/UserType');
+                                    Navigator.pushNamed(
+                                        context, '/Donations/UserType');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),

@@ -68,10 +68,7 @@ class _CalendarState extends State<Calendar> {
       drawer: const BurgerMenu(),
       appBar: const MyAppBar(title: "Kalender"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const BottomNavigation(
-        currentPage: "Calendar",
-        privilege: "Admin",
-      ),
+      bottomNavigationBar: BottomNavigation(),
       body: Column(children: [
         DropdownButtonFormField(
           value: currentView,

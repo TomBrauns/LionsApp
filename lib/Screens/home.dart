@@ -14,10 +14,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(title: "Startseite"),
       drawer: BurgerMenu(),
-      bottomNavigationBar: BottomNavigation(
-        currentPage: "HomePage",
-        privilege: Privileges.privilege,
-      ),
+      bottomNavigationBar: BottomNavigation(),
       body: Center(
         child: Text('Ich bin eine Homepage, füll mich!'),
       ),

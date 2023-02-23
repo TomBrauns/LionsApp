@@ -37,6 +37,19 @@ class _CatalogueState extends State<Catalogue> {
   }
   // and use Function for Fab in Scaffold
 
+  // BAB with Priviledge
+  //Copy that
+  Widget? _getBAB() {
+    if (Privileges.privilege == "Admin" ||
+        Privileges.privilege == "Member" ||
+        Privileges.privilege == "Friend") {
+      return BottomNavigation();
+    } else {
+      return null;
+    }
+  }
+  // and use Function for Fab in Scaffold
+
   /*void _handleProjectClicked() {
 
 
@@ -53,10 +66,7 @@ class _CatalogueState extends State<Catalogue> {
       appBar: MyAppBar(title: "Katalog"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _getFAB(),
-      bottomNavigationBar: const BottomNavigation(
-        currentPage: "Catalogue",
-        privilege: "Admin",
-      ),
+      bottomNavigationBar: _getBAB(),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('projects')

@@ -4,6 +4,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Screens/projects/category.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 class DonationsUser extends StatefulWidget {
   final String? documentId;
@@ -17,6 +18,19 @@ class DonationsUser extends StatefulWidget {
 class _DonationsUserState extends State<DonationsUser> {
   var _documentStream;
 
+  // BAB with Priviledge
+  //Copy that
+  Widget? _getBAB() {
+    if (Privileges.privilege == "Admin" ||
+        Privileges.privilege == "Member" ||
+        Privileges.privilege == "Friend") {
+      return BottomNavigation();
+    } else {
+      return null;
+    }
+  }
+  // and use Function for Fab in Scaffold
+
   @override
   void initState() {
     super.initState();
@@ -28,21 +42,20 @@ class _DonationsUserState extends State<DonationsUser> {
           .snapshots();
     }
   }
+
   String selectedCategory = Category.all.map((c) => c.name).first;
 
   void _handleCategoryChange(String? category) {
     selectedCategory = category ?? selectedCategory;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
         appBar: const MyAppBar(title: "Spenden"),
-        bottomNavigationBar: const BottomNavigation(
-          currentPage: "Donations",
-          privilege: "Admin",
-        ),
+        bottomNavigationBar: _getBAB(),
         body: StreamBuilder<DocumentSnapshot>(
             stream: _documentStream,
             builder: (context, snapshot) {
@@ -72,20 +85,20 @@ class _DonationsUserState extends State<DonationsUser> {
                             value: selectedCategory,
                             items: Category.all
                                 .map<DropdownMenuItem<String>>(
-                                ((c) => DropdownMenuItem(
-                                    value: c.name,
-                                    child: Row(
-                                      children: [
-                                        Image.asset(c.path,
-                                            width: 24, height: 24),
-                                        const SizedBox(width: 8),
-                                        Text(c.name)
-                                      ],
-                                    ))))
+                                    ((c) => DropdownMenuItem(
+                                        value: c.name,
+                                        child: Row(
+                                          children: [
+                                            Image.asset(c.path,
+                                                width: 24, height: 24),
+                                            const SizedBox(width: 8),
+                                            Text(c.name)
+                                          ],
+                                        ))))
                                 .toList(),
                             onChanged: _handleCategoryChange,
-                            decoration:
-                            const InputDecoration(border: OutlineInputBorder()),
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder()),
                           ),
                           SizedBox(height: 8),
                           TextFormField(
@@ -97,14 +110,14 @@ class _DonationsUserState extends State<DonationsUser> {
                           ),
                           Container(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceAround,
                                   children: [5, 10, 25, 50, 100]
                                       .map((int amount) => FilledButton(
-                                      onPressed: () => _handleAdd(amount),
-                                      child: Text("+ $amount€")))
+                                          onPressed: () => _handleAdd(amount),
+                                          child: Text("+ $amount€")))
                                       .toList())),
                           const SizedBox(height: 24),
                           SizedBox(
@@ -138,7 +151,6 @@ class _DonationsUserState extends State<DonationsUser> {
 
   void _handleSubmit() {
     int value = _getCurrentValue();
-
   }
 }
 

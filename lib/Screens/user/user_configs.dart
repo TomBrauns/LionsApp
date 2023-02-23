@@ -26,10 +26,7 @@ class _UserState extends State<User> {
         appBar: AppBar(
           title: const Text("Benutzer"),
         ),
-        bottomNavigationBar: const BottomNavigation(
-          currentPage: "User",
-          privilege: "Admin",
-        ),
+        bottomNavigationBar: BottomNavigation(),
         drawer: const BurgerMenu(),
         resizeToAvoidBottomInset: false,
         body: Center(
@@ -51,9 +48,12 @@ class _UserState extends State<User> {
                         if (user != null) {
                           final XFile? file = await ImageUpload.selectImage();
                           if (file != null) {
-                            final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                            final String uniqueFilename = DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString();
                             final String? imageUrl =
-                                await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
+                                await ImageUpload.uploadImage(file,
+                                    "user_images", user.uid, uniqueFilename);
                             if (imageUrl != null) {
                               await FirebaseFirestore.instance
                                   .collection('users')
@@ -151,7 +151,8 @@ class _UserState extends State<User> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Accessibility()),
+                          MaterialPageRoute(
+                              builder: (context) => const Accessibility()),
                         );
                       },
                     ),
@@ -171,7 +172,8 @@ class _UserState extends State<User> {
                         signOut();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LogOut()),
+                          MaterialPageRoute(
+                              builder: (context) => const LogOut()),
                         );
                       },
                     ),
@@ -271,8 +273,10 @@ class _UserState extends State<User> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        future:
+            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('image_url')) {
@@ -304,7 +308,10 @@ class _UserState extends State<User> {
 
 Future<void> deleteAcc() async {
   Privileges.privilege = "gast";
-  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .delete();
   FirebaseAuth.instance.currentUser!.delete();
 }
 
@@ -331,7 +338,13 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
+const List<String> list = <String>[
+  'keins',
+  'Protanopie',
+  'Deuteranopie',
+  'Tritanopie',
+  'Achromatopsie'
+];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -462,17 +475,22 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null && userData['lastname'] != null)
-                  Text('Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null) Text('Email: ${userData['email']}'),
+                if (userData['firstname'] != null &&
+                    userData['lastname'] != null)
+                  Text(
+                      'Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null)
+                  Text('Email: ${userData['email']}'),
                 if (userData['streetname'] != null &&
                     userData['streetnumber'] != null &&
                     userData['postalcode'] != null &&
