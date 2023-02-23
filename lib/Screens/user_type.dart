@@ -5,7 +5,6 @@ import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
 
-//TODO: Add Appbar + Burgermenu to this screen
 class UserTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

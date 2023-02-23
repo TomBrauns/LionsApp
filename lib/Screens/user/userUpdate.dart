@@ -66,8 +66,9 @@ class UpdateState extends State<Update> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BurgerMenu(),
-      appBar: AppBar(),
+        appBar: AppBar(
+        title: const Text("Benutzer"),
+        ),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),

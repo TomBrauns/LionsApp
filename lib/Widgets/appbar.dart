@@ -27,6 +27,7 @@ class _MyAppBarState extends State<MyAppBar> {
             Privileges.privilege == "Friend" ||
             Privileges.privilege == "Admin")
           IconButton(
+            padding: const EdgeInsets.only(right: 20),
             icon: const Icon(Icons.person),
             onPressed: () {
               Navigator.pop(context);

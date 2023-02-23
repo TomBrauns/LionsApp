@@ -23,7 +23,7 @@ class _DonationReceivedState extends State<DonationReceived> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: const MyAppBar(title: "User Type"),
+          appBar: const MyAppBar(title: "Danke für ihre Spende"),
           drawer: const BurgerMenu(),
 
         body: Center(
