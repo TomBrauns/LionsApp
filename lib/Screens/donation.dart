@@ -18,7 +18,7 @@ class Donations extends StatefulWidget {
 class _DonationsState extends State<Donations> {
   var _documentStream;
 
-  String? interneId;
+  String? eventId;
 
   // BAB with Priviledge
   //Copy that
@@ -38,12 +38,15 @@ class _DonationsState extends State<Donations> {
     super.initState();
 
     //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
-    interneId = widget.interneId;
+    eventId = widget.interneId;
 
-    if (widget.interneId != null) {
+    print("Hier EventID: $eventId");
+    print("Hier widget id: ${widget.interneId}");
+
+    if (eventId != null) {
       _documentStream = FirebaseFirestore.instance
           .collection('events')
-          .doc(widget.interneId)
+          .doc(eventId)
           .snapshots();
     }
   }
@@ -66,7 +69,6 @@ class _DonationsState extends State<Donations> {
               }
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
-
               String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
