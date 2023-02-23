@@ -69,6 +69,7 @@ class _DonationsState extends State<Donations> {
               }
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
+
               String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
