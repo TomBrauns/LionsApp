@@ -5,11 +5,9 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
 class Donations extends StatefulWidget {
-  final String? documentId;
+  final String? interneId;
 
-  var docuPara = Uri.base.queryParameters['documentId'];
-
-  Donations({Key? key, this.documentId}) : super(key: key);
+  Donations({Key? key, this.interneId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();
@@ -18,14 +16,21 @@ class Donations extends StatefulWidget {
 class _DonationsState extends State<Donations> {
   var _documentStream;
 
+  String? interneId;
+
+
   @override
   void initState() {
     super.initState();
 
-    if (widget.documentId != null) {
+
+    //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
+    interneId = widget.interneId;
+
+    if (widget.interneId != null) {
       _documentStream = FirebaseFirestore.instance
           .collection('projects')
-          .doc(widget.documentId)
+          .doc(widget.interneId)
           .snapshots();
     }
   }
