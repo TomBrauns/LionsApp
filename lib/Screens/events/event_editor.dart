@@ -274,7 +274,7 @@ class _EventEditorState extends State<EventEditor> {
                   Row(
                     children: <Widget>[
                       SizedBox(
-                          width: 130,
+                          width: 135,
                           child: CheckboxListTile(
                             title: const Text("Ziel"),
                             value: _hasDonationTarget,
@@ -302,7 +302,7 @@ class _EventEditorState extends State<EventEditor> {
                   Row(
                     children: <Widget>[
                       SizedBox(
-                          width: 130,
+                          width: 135,
                           child: CheckboxListTile(
                             title: const Text("Zweck"),
                             value: _hasProject,
