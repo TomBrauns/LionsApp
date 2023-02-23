@@ -4,6 +4,7 @@ import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Test Values
 // ignore: non_constant_identifier_names
@@ -84,7 +85,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/ThankYou/Share');
+                Navigator.pushNamed(context, '/ThankYou/ShareDonation');
               },
             ),
           ),
@@ -233,14 +234,36 @@ class ShareDonation extends StatefulWidget {
   State<ShareDonation> createState() => _ShareDonationState();
 }
 
+void shareToFacebook() async {
+  final url = 'https://www.facebook.com/sharer/sharer.php?u=https://marc-wieland.de';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+
+
 class _ShareDonationState extends State<ShareDonation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Teile deine Spende"),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Teile deine Spende"),
+        ),
+        body: Center(
+            child: SizedBox(
+                height: 100,
+                width: 350,
+                child: ElevatedButton(
+                  onPressed: () {
+                    shareToFacebook();
+                  },
+                  child: Text('Auf Facebook teilen'),
+                )),
+          ),
+        );
   }
 }
 

@@ -33,7 +33,7 @@ var routes = <String, WidgetBuilder>{
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(),
-  '/ThankYou/Share':(context) => ShareDonation(),
+  '/ThankYou/ShareDonation':(context) => ShareDonation(),
   '/ThankYou/Receipt':(context) => Receipt(),
   // TODO: Chaträume
   '/Chat': (context) => Chat(),
