@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/chat/rooms.dart';
 import 'package:lionsapp/login/agb.dart';
 import 'package:lionsapp/Screens/calendar.dart';
 import 'package:lionsapp/Screens/chat.dart';
@@ -28,15 +29,15 @@ var routes = <String, WidgetBuilder>{
   '/User/Subs': (context) => Subs(),
   '/Donations': (context) => Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
-  '/Donations/UserType/Login' : (context) => LoginPage(),
+  '/Donations/UserType/Login': (context) => LoginPage(),
   '/Donations/UserType/PayMethode': (context) => Paymethode(),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(),
-  '/ThankYou/ShareDonation':(context) => ShareDonation(),
-  '/ThankYou/Receipt':(context) => Receipt(),
+  '/ThankYou/ShareDonation': (context) => ShareDonation(),
+  '/ThankYou/Receipt': (context) => Receipt(),
   // TODO: Chaträume
-  '/Chat': (context) => Chat(),
+  '/Chat': (context) => RoomsPage(),
   //'/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
   //'/Chat/Chatroom' + Chatroom.roomId + "/Settings": (context) => ChatroomSettings(chatroomId: chatroomId)
   '/Calendar': (context) => Calendar(),
