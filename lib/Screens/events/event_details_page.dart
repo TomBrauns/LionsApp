@@ -21,7 +21,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   final TextStyle _textStyle = const TextStyle(fontSize: 16);
 
   void _handleDonation() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.eventId)));
   }
 
   @override

@@ -1,29 +1,26 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
+import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image/image.dart' as img;
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
 
-class QrCodeWithImage extends StatefulWidget {
+class QrCode_Web extends StatefulWidget {
   final String link;
   final String documentId;
 
-  QrCodeWithImage({required this.link, required this.documentId});
+  QrCode_Web({required this.link, required this.documentId});
 
   @override
-  _QrCodeWithImageState createState() => _QrCodeWithImageState();
+  _QrCode_WebState createState() => _QrCode_WebState();
 }
 
-class _QrCodeWithImageState extends State<QrCodeWithImage> {
+class _QrCode_WebState extends State<QrCode_Web> {
   final GlobalKey _repaintBoundaryKey = GlobalKey();
 
   @override
@@ -73,7 +70,17 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  _handleDownloadButtonPressed();
+                  final bytes = await _captureQrCode();
+                  final blob = html.Blob([bytes]);
+                  final url = html.Url.createObjectUrlFromBlob(blob);
+                  final anchor = html.document.createElement('a') as html.AnchorElement
+                    ..href = url
+                    ..download = 'qr_code.png'
+                    ..style.display = 'none';
+                  html.document.body?.children.add(anchor);
+                  anchor.click();
+                  html.document.body?.children.remove(anchor);
+                  html.Url.revokeObjectUrl(url);
                 },
                 child: Text('Download'),
               ),
@@ -96,27 +103,4 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
       return null;
     }
   }
-
-  Future<String?> _saveQrCode(Uint8List bytes) async {
-    try {
-      final directory = await getTemporaryDirectory();
-      final file = File('${directory.path}/qr_code.png');
-      await file.writeAsBytes(bytes);
-      return file.path;
-    } catch (e) {
-      print('Error saving QR code: $e');
-      return null;
-    }
-  }
-
-  void _handleDownloadButtonPressed() async{
-    final bytes = await _captureQrCode();
-    if(bytes != null){
-      final filePath = await _saveQrCode(bytes);
-      if(filePath != null){
-        Share.shareFiles([filePath], text: 'QR Code');
-      }
-    }
-  }
-
 }

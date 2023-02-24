@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import '../firebase_options.dart';
 import 'chat.dart';
-import '../firebase_options.dart';
 import '../login/login.dart';
 import 'users.dart';
 import 'util.dart';
@@ -23,11 +24,39 @@ class _RoomsPageState extends State<RoomsPage> {
   bool _error = false;
   bool _initialized = false;
   User? _user;
+  void signUpForChatUser() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final collectionRef = FirebaseFirestore.instance.collection('my_collection');
+    final docRef = collectionRef.doc(userId);
+    final docSnapshot = await docRef.get();
+    final docExists = docSnapshot.exists;
+
+    try {
+      if (!docExists) {
+        final user = FirebaseAuth.instance.currentUser!;
+        final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        final imageUrl = documentSnapshot.data()?['image_url'];
+        final firstname = documentSnapshot.data()?['firstname'];
+        final lastname = documentSnapshot.data()?['lastname'];
+        final email = documentSnapshot.data()?['email'];
+        await FirebaseChatCore.instance.createUserInFirestore(
+          types.User(
+            id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
+            imageUrl: imageUrl,
+            firstName: firstname,
+            lastName: lastname,
+            mailAdress: email,
+          ),
+        );
+      }
+    } catch (e) {}
+  }
 
   @override
   void initState() {
     initializeFlutterFire();
     super.initState();
+    signUpForChatUser();
   }
 
   @override
@@ -57,13 +86,10 @@ class _RoomsPageState extends State<RoomsPage> {
                   },
           ),
         ],
-        leading: IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: _user == null ? null : logout,
-        ),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text('Rooms'),
       ),
+      drawer: const BurgerMenu(),
       body: _user == null
           ? Container(
               alignment: Alignment.center,
@@ -98,7 +124,7 @@ class _RoomsPageState extends State<RoomsPage> {
                     margin: const EdgeInsets.only(
                       bottom: 200,
                     ),
-                    child: const Text('No rooms'),
+                    child: const Text('Keine Chats vorhanden'),
                   );
                 }
 

@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/login/agb.dart';
 import 'login.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,7 +43,7 @@ class _RegisterState extends State<Register> {
 
   bool _isObscure = true;
   bool _isObscure2 = true;
-  var rool = "friend";
+  var rool = "Admin";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -492,24 +493,17 @@ class _RegisterState extends State<Register> {
 
   void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     const CircularProgressIndicator();
+
     if (_formkey.currentState!.validate()) {
       await _auth.createUserWithEmailAndPassword(email: email, password: password).then(
         (result) async {
-          await FirebaseChatCore.instance.createUserInFirestore(
-            types.User(
-              id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
-              imageUrl: 'https://i.pravatar.cc/300',
-              firstName: firstname,
-              lastName: lastname,
-            ),
-          );
           await result.user!.sendEmailVerification();
           postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
         },
       ).catchError(
         (e) {
           // Handle error
-          print("hier ?" + e);
+          print(e);
         },
       );
     }
@@ -519,6 +513,7 @@ class _RegisterState extends State<Register> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
+
     ref.doc(user!.uid).set(
       {
         'firstname': firstname,
@@ -534,7 +529,7 @@ class _RegisterState extends State<Register> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => Donations(),
       ),
     );
   }

@@ -48,17 +48,10 @@ class _UserState extends State<User> {
                         if (user != null) {
                           final XFile? file = await ImageUpload.selectImage();
                           if (file != null) {
-                            final String uniqueFilename = DateTime.now()
-                                .millisecondsSinceEpoch
-                                .toString();
-                            final String? imageUrl =
-                                await ImageUpload.uploadImage(file,
-                                    "user_images", user.uid, uniqueFilename);
+                            final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                            final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
                             if (imageUrl != null) {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user.uid)
-                                  .update({"image_url": imageUrl});
+                              await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
                             }
                           }
                         } else {
@@ -151,8 +144,7 @@ class _UserState extends State<User> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const Accessibility()),
+                          MaterialPageRoute(builder: (context) => const Accessibility()),
                         );
                       },
                     ),
@@ -172,8 +164,7 @@ class _UserState extends State<User> {
                         signOut();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const LogOut()),
+                          MaterialPageRoute(builder: (context) => const LogOut()),
                         );
                       },
                     ),
@@ -213,8 +204,7 @@ class _UserState extends State<User> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => callAdmin()),
+                                MaterialPageRoute(builder: (context) => callAdmin()),
                               );
                             },
                           ),
@@ -272,18 +262,21 @@ class _UserState extends State<User> {
     );
   }
 
-  Widget buildImageFromFirebase() {
+  Widget? buildImageFromFirebase() {
     try {
       final user = FirebaseAuth.instance.currentUser!;
-      return FutureBuilder<DocumentSnapshot>(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+      return StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Icon(Icons.person, size: 50);
+          } else {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('image_url')) {
-              final imageUrl = data['image_url'] as String?;
+              String? imageUrl = data['image_url'] as String?;
               if (imageUrl != null) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(50),
@@ -297,24 +290,18 @@ class _UserState extends State<User> {
               }
             }
             return Icon(Icons.person, size: 50);
-          } else {
-            return CircularProgressIndicator();
           }
         },
       );
     } catch (e) {
-      print('Error: $e');
-      return Icon(Icons.person, size: 50);
+      print(e);
     }
   }
 }
 
 Future<void> deleteAcc() async {
   Privileges.privilege = "gast";
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .delete();
+  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
   FirebaseAuth.instance.currentUser!.delete();
 }
 
@@ -341,13 +328,7 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>[
-  'keins',
-  'Protanopie',
-  'Deuteranopie',
-  'Tritanopie',
-  'Achromatopsie'
-];
+const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -478,28 +459,17 @@ class UserDataWidget extends StatelessWidget {
       return Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (userData['firstname'] != null &&
-                    userData['lastname'] != null)
-                  Text(
-                      'Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null)
-                  Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null &&
-                    userData['streetnumber'] != null &&
-                    userData['postalcode'] != null &&
-                    userData['cityname'] != null)
-                  Text(
-                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null) Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
               ],
             );
           } else if (snapshot.hasError) {
