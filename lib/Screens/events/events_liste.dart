@@ -93,7 +93,7 @@ class _EventListState extends State<EventList> {
               });
             },
             decoration:
-                const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+            const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
           ),
         ),
         Expanded(
