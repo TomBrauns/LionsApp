@@ -71,19 +71,22 @@ class _DonationsState extends State<Donations> {
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
               String donationTitle = "Kein Event gefunden.";
-              String? sponsor, sponsorImgUrl;
+              String? sponsor, sponsorImgUrl, donationTarget;
 
               if(snapshot.hasData && snapshot.data!.exists){
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
                 if (data != null) {
+                  if (data.containsKey("spendenZiel")) {
+                    donationTarget = data["spendenZiel"] as String?;
+                  }
                   if (data.containsKey('eventName')) {
                     donationTitle = data['eventName'] as String;
                   }
                   if (data.containsKey("sponsor")) {
-                    sponsor = data["sponsor"] as String;
+                    sponsor = data["sponsor"] as String?;
                   }
                   if (data.containsKey("sponsor_img_url")) {
-                    sponsorImgUrl = data["sponsor_img_url"] as String;
+                    sponsorImgUrl = data["sponsor_img_url"] as String?;
                   }
                 }
               }
@@ -102,16 +105,16 @@ class _DonationsState extends State<Donations> {
                               child: Text(donationTitle,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(fontSize: 24))),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 32),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text("Spendenziel: 10.000€"),
-                                  LinearProgressIndicator(
-                                      value: 0.42, minHeight: 24.0),
-                                ]),
-                          ),
+                          if (donationTarget != null)
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 32),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Text("Spendenziel: $donationTarget"),
+                                const LinearProgressIndicator(value: 0.42, minHeight: 24.0),
+                              ]),
+                            )
+                          else
+                            const SizedBox(height: 64),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _inputController,
