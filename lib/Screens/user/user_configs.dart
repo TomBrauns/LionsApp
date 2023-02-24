@@ -262,36 +262,40 @@ class _UserState extends State<User> {
     );
   }
 
-  Widget buildImageFromFirebase() {
-    final user = FirebaseAuth.instance.currentUser!;
-    return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          print('Error: ${snapshot.error}');
-          return Icon(Icons.person, size: 50);
-        } else {
-          final data = snapshot.data?.data() as Map<String, dynamic>?;
-          if (data != null && data.containsKey('image_url')) {
-            String? imageUrl = data['image_url'] as String?;
-            if (imageUrl != null) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  width: 100,
-                  height: 100,
-                ),
-              );
+  Widget? buildImageFromFirebase() {
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      return StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Icon(Icons.person, size: 50);
+          } else {
+            final data = snapshot.data?.data() as Map<String, dynamic>?;
+            if (data != null && data.containsKey('image_url')) {
+              String? imageUrl = data['image_url'] as String?;
+              if (imageUrl != null) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 100,
+                  ),
+                );
+              }
             }
+            return Icon(Icons.person, size: 50);
           }
-          return Icon(Icons.person, size: 50);
-        }
-      },
-    );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }
 
