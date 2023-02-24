@@ -8,7 +8,6 @@ class Contact extends StatefulWidget {
 }
 
 class _ContactState extends State<Contact> {
-
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -33,7 +32,8 @@ class _ContactState extends State<Contact> {
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      labelText: 'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
+                      labelText:
+                          'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
                       hintText: 'Vor und Nachnamen eingeben',
                       border: OutlineInputBorder(),
                     ),
@@ -48,7 +48,8 @@ class _ContactState extends State<Contact> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: 'Bitte Email eingeben, über die wir Sie erreichen können.',
+                      labelText:
+                          'Bitte Email eingeben, über die wir Sie erreichen können.',
                       hintText: 'E-Mail eingeben',
                       border: OutlineInputBorder(),
                     ),
@@ -79,7 +80,8 @@ class _ContactState extends State<Contact> {
                     controller: _messageController,
                     maxLines: 6,
                     decoration: InputDecoration(
-                      labelText: 'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
+                      labelText:
+                          'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
                       hintText: 'Nachricht tippen',
                       border: OutlineInputBorder(),
                     ),
@@ -90,27 +92,21 @@ class _ContactState extends State<Contact> {
                       return null;
                     },
                   ),
-                  Center(
-                    child:  Container(
-                      margin: EdgeInsets.only(top: 40),
-                      child: Text("Weitere Daten"),
-                    ),
+                  Container(
+                    margin: EdgeInsets.only(top: 40),
+                    child: Text("Weitere Daten"),
                   ),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(5)
-                      ),
-                      margin: EdgeInsets.only(bottom: 10),
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("Datei zum Hochladen hier reinziehen"),
-                          Icon(Icons.upload)
-                        ],
-                      ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Datei zum Hochladen hier reinziehen"),
+                        Icon(Icons.upload)
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey
                     ),
                   ),
                   SizedBox(height: 16),
