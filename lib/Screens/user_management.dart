@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
+
+//Not used as current functionality is in user_configs.dart
+
 class UserManagement extends StatefulWidget {
   const UserManagement({Key? key}) : super(key: key);
 
