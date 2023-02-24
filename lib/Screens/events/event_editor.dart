@@ -378,6 +378,10 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
           ));
         }
 
+        if (_selectedProject != null && !snapshot.data!.docs.map((doc) => doc["name"]).contains(_selectedProject)) {
+          _selectedProject = null;
+        }
+
         return DropdownButtonFormField(
           value: _selectedProject,
           decoration: const InputDecoration(
