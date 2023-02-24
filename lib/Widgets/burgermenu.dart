@@ -371,20 +371,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
-              ? ListTile(
-                  leading: Icon(Icons.receipt),
-                  title: const Text('Quittung temporär'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.pushNamed(context, '/ThankYou');
-                  },
-                )
-              : Container(),
         ],
       ),
     );

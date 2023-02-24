@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
+import 'stripefunc.dart';
+
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
+//import 'package:flutter_stripe/flutter_stripe.dart';
 
 double amount = 10.00;
 
@@ -35,6 +40,7 @@ class _PaymethodeState extends State<Paymethode> {
       PaymentConfiguration.fromAsset('default_payment_profile_apple_pay.json');
   final Future<PaymentConfiguration> _googlePayConfigFuture =
       PaymentConfiguration.fromAsset('default_payment_profile_google_pay.json');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,34 +69,53 @@ class _PaymethodeState extends State<Paymethode> {
                   child: const Text("Paypal"),
                 ),
               ),
-              FutureBuilder<PaymentConfiguration>(
-                  future: _applePayConfigFuture,
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? ApplePayButton(
-                          paymentConfiguration: snapshot.data!,
-                          paymentItems: _paymentItems,
-                          type: ApplePayButtonType.buy,
-                          margin: const EdgeInsets.only(top: 15.0),
-                          onPaymentResult: onApplePayResult,
-                          loadingIndicator: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink()),
-              FutureBuilder<PaymentConfiguration>(
-                  future: _googlePayConfigFuture,
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? GooglePayButton(
-                          paymentConfiguration: snapshot.data!,
-                          paymentItems: _paymentItems,
-                          type: GooglePayButtonType.buy,
-                          margin: const EdgeInsets.only(top: 15.0),
-                          onPaymentResult: onGooglePayResult,
-                          loadingIndicator: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink()),
+              if (GetPlatform.currentPlatform != GetPlatform.web)
+                Container(
+                  height: 100,
+                  width: 350,
+                  padding: const EdgeInsets.all(15.0),
+                  margin: const EdgeInsets.all(15),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      elevation: 0,
+                    ),
+                    onPressed: () async {
+                      stripeOnPress(amount, context);
+                    },
+                    child: const Text("Stripe"),
+                  ),
+                ),
+              if (GetPlatform.currentPlatform != GetPlatform.web)
+                FutureBuilder<PaymentConfiguration>(
+                    future: _applePayConfigFuture,
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? ApplePayButton(
+                            paymentConfiguration: snapshot.data!,
+                            paymentItems: _paymentItems,
+                            type: ApplePayButtonType.donate,
+                            margin: const EdgeInsets.only(top: 15.0),
+                            onPaymentResult: onApplePayResult,
+                            loadingIndicator: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : const SizedBox.shrink()),
+              if (GetPlatform.currentPlatform != GetPlatform.web)
+                FutureBuilder<PaymentConfiguration>(
+                    future: _googlePayConfigFuture,
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? GooglePayButton(
+                            paymentConfiguration: snapshot.data!,
+                            paymentItems: _paymentItems,
+                            type: GooglePayButtonType.donate,
+                            margin: const EdgeInsets.only(top: 15.0),
+                            onPaymentResult: onGooglePayResult,
+                            loadingIndicator: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : const SizedBox.shrink()),
               Container(
                   height: 50,
                   width: 350,
