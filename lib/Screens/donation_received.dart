@@ -5,6 +5,9 @@ import 'package:lionsapp/Screens/events/events_liste.dart';
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_social_button/flutter_social_button.dart';
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 // Test Values
 // ignore: non_constant_identifier_names
@@ -234,33 +237,41 @@ class ShareDonation extends StatefulWidget {
   State<ShareDonation> createState() => _ShareDonationState();
 }
 
-void shareToFacebook() async {
-  final url = Uri.parse(
-      'https://www.facebook.com/sharer/sharer.php?u=https://marc-wieland.de');
-  if (!await canLaunchUrl(url)) {
-    await launchUrl(url);
+Future<void> shareToFacebook(String url) async {
+  if (GetPlatform.currentPlatform == GetPlatform.web) {
+    if (await canLaunchUrl(
+        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(
+          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    } else {
+      print("Could not launch URL");
+    }
   } else {
-    throw 'Could not launch $url';
+    if (!await canLaunchUrl(
+        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(
+          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    } else {
+      print("Could not launch URL");
+    }
   }
 }
 
-void shareToTwitter() async {
-  final url = Uri.parse(
-      'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
-  if (!await canLaunchUrl(url)) {
-    await launchUrl(url);
+Future<void> shareToTwitter(String url) async {
+  if (GetPlatform.currentPlatform == GetPlatform.web) {
+    if (await canLaunchUrl(
+        Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
+      await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
+    } else {
+      print("Could not launch URL");
+    }
   } else {
-    throw 'Could not launch $url';
-  }
-}
-
-void shareToInstagram() async {
-  final url = Uri.parse(
-      'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
-  if (!await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
+    if (!await canLaunchUrl(
+        Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
+      await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
+    } else {
+      print("Could not launch URL");
+    }
   }
 }
 
@@ -277,46 +288,39 @@ class _ShareDonationState extends State<ShareDonation> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  shareToFacebook();
+              //For facebook Button
+              FlutterSocialButton(
+                onTap: () async {
+                  try {
+                    await shareToFacebook('https://marc-wieland.de');
+                  } catch (e) {
+                    print("Failed to share to Facebook: $e");
+                  }
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFF1877F2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  minimumSize: const Size(double.infinity, 50.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Icon(Icons.facebook, color: Colors.white),
-                    SizedBox(width: 10),
-                    Text('Auf Facebook teilen',
-                        style: TextStyle(color: Colors.white))
-                  ],
-                ),
+                title: "Auf Facebook teilen",
+                mini: false,
+                buttonType: ButtonType.facebook,
               ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  shareToTwitter();
+              const SizedBox(
+                height: 2,
+              ),
+
+              //For twitter Button
+              FlutterSocialButton(
+                onTap: () async {
+                  try {
+                    await shareToTwitter(
+                        'https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
+                  } catch (e) {
+                    print("Failed to share to Twitter: $e");
+                  }
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFF1DA1F2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  minimumSize: const Size(double.infinity, 50.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Icon(Icons.facebook, color: Colors.white),
-                    SizedBox(width: 10),
-                    Text('Auf Twitter teilen',
-                        style: TextStyle(color: Colors.white))
-                  ],
-                ),
+                title: "Auf Twitter teilen",
+                mini: false,
+                buttonType: ButtonType.twitter,
+              ),
+              const SizedBox(
+                height: 2,
               ),
             ],
           ),
@@ -422,4 +426,42 @@ class _ReceiptdataState extends State<Receiptdata> {
                   ],
                 ))));
   }
+}
+
+class GetPlatform {
+  static String get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'GetPlatform are not supported for this platform.',
+        );
+    }
+  }
+
+  static const String web = "web";
+
+  static const String android = "android";
+
+  static const String ios = "ios";
+
+  static const String macos = "macos";
 }
