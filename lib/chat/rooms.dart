@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import '../firebase_options.dart';
 import 'chat.dart';
@@ -57,13 +58,10 @@ class _RoomsPageState extends State<RoomsPage> {
                   },
           ),
         ],
-        leading: IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: _user == null ? null : logout,
-        ),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text('Rooms'),
       ),
+      drawer: const BurgerMenu(),
       body: _user == null
           ? Container(
               alignment: Alignment.center,
