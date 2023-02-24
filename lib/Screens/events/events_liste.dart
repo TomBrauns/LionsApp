@@ -77,7 +77,7 @@ class _EventListState extends State<EventList> {
   void initState() {
     super.initState();
     _searchQuery = '';
-    _eventsStream = FirebaseFirestore.instance.collection('events').snapshots();
+    _eventsStream = FirebaseFirestore.instance.collection('events').orderBy("startDate").snapshots();
   }
 
   @override
