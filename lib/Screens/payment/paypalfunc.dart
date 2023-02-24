@@ -4,11 +4,11 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> paypalOnPress() async {
+Future<void> paypalOnPress(double amount) async {
   var url;
   var _url;
   final token = await paypalAuth();
-  url = await makePaypalPayment(Paymethode().amount, token);
+  url = await makePaypalPayment(amount, token);
   _url = Uri.parse(url);
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');

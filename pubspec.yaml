@@ -74,6 +74,7 @@ dependencies:
   flutter_firebase_chat_core: ^1.6.4
   open_filex: ^4.3.2
   flutter_social_button: ^1.1.4+1
+  pay: ^1.1.0
 
 
 dev_dependencies:

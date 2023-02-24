@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
-import 'stripefunc.dart';
+import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-final String STRIPE_PUBLISHABLE_KEY =
-    "pk_test_51MdYkcIUPbRZz1M7GaXIS2CVXWQByUEtV1EuJLpUwywrj6DhLH4Q3TYW7OGbmZICAU7Qrl5LZ6ZzbILonuk6Vf2D00yjifRoo7";
+double amount = 10.00;
+
+var _paymentItems = [
+  PaymentItem(
+    label: 'Spende',
+    amount: amount.toString(),
+    status: PaymentItemStatus.final_price,
+  )
+];
 
 class Paymethode extends StatefulWidget {
   const Paymethode({Key? key}) : super(key: key);
-  final double amount = 10.00;
 
   @override
   State<Paymethode> createState() => _PaymethodeState();
 }
 
 class _PaymethodeState extends State<Paymethode> {
+  void onApplePayResult(paymentResult) {
+    // Send the resulting Apple Pay token to your server / PSP
+  }
+
+  void onGooglePayResult(paymentResult) {
+    // Send the resulting Google Pay token to your server / PSP
+  }
+
+  final Future<PaymentConfiguration> _applePayConfigFuture =
+      PaymentConfiguration.fromAsset('default_payment_profile_apple_pay.json');
+  final Future<PaymentConfiguration> _googlePayConfigFuture =
+      PaymentConfiguration.fromAsset('default_payment_profile_google_pay.json');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,27 +58,39 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    paypalOnPress();
+                    paypalOnPress(amount);
                   },
                   child: const Text("Paypal"),
                 ),
               ),
-              Container(
-                height: 100,
-                width: 350,
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                  onPressed: () async {
-                    stripeOnPress(widget.amount);
-                  },
-                  child: const Text("Kartenzahlung/Giro"),
-                ),
-              ),
+              FutureBuilder<PaymentConfiguration>(
+                  future: _applePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? ApplePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: ApplePayButtonType.buy,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onApplePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+              FutureBuilder<PaymentConfiguration>(
+                  future: _googlePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? GooglePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: GooglePayButtonType.buy,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onGooglePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
               Container(
                   height: 50,
                   width: 350,
@@ -75,7 +105,7 @@ class _PaymethodeState extends State<Paymethode> {
                       Navigator.pushNamed(context, '/ThankYou');
                     },
                     child: const Text("Skip"),
-                  ))
+                  )),
             ],
           ),
         ),
