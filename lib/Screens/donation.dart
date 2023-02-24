@@ -71,11 +71,20 @@ class _DonationsState extends State<Donations> {
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
               String donationTitle = "Kein Event gefunden.";
+              String? sponsor, sponsorImgUrl;
 
               if(snapshot.hasData && snapshot.data!.exists){
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
-                if(data != null && data.containsKey('eventName')){
-                   donationTitle = data['eventName'] as String;
+                if (data != null) {
+                  if (data.containsKey('eventName')) {
+                    donationTitle = data['eventName'] as String;
+                  }
+                  if (data.containsKey("sponsor")) {
+                    sponsor = data["sponsor"] as String;
+                  }
+                  if (data.containsKey("sponsor_img_url")) {
+                    sponsorImgUrl = data["sponsor_img_url"] as String;
+                  }
                 }
               }
 
@@ -153,14 +162,10 @@ class _DonationsState extends State<Donations> {
                                       child: const Text("Spenden",
                                           style: TextStyle(fontSize: 18))))),
                           Expanded(child: Container()),
-                          const Text("Gesponsort von: Rewe"),
-                          SizedBox(
-                              width: double.infinity,
-                              height: 128,
-                              child: Container(
-                                decoration:
-                                    const BoxDecoration(color: Colors.grey),
-                              ))
+                          if (sponsor != null && sponsor.isNotEmpty)
+                            Text("Gesponsort von $sponsor"),
+                          if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
+                            Image.network(sponsorImgUrl, height: 128, width: double.infinity, fit: BoxFit.contain)
                         ],
                       )));
 
