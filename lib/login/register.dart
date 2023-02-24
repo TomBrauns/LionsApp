@@ -501,7 +501,6 @@ class _RegisterState extends State<Register> {
               imageUrl: 'https://i.pravatar.cc/300',
               firstName: firstname,
               lastName: lastname,
-              mailAdress: email,
             ),
           );
           await result.user!.sendEmailVerification();
