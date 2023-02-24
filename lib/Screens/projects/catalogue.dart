@@ -107,7 +107,7 @@ class _CatalogueState extends State<Catalogue> {
                 return ListTile(
                     leading: const SizedBox(),
                     title: Text(document.get('name')),
-                    subtitle: Text(document.get('support')),
+                    subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
                     onTap: () {
                       String documentId = document.id;
                       print(documentId);
