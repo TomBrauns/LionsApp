@@ -25,9 +25,11 @@ class _EventEditorState extends State<EventEditor> {
   final TextEditingController _eventDescriptionController = TextEditingController();
   final TextEditingController _donationTargetController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _sponsorController = TextEditingController();
 
   String textValue = 'Privat';
-  String imgUrl = "";
+  String eventImgUrl = "";
+  String sponsorImgUrl = "";
   bool isSwitched = false;
   late bool _hasDonationTarget = true;
   late bool _hasProject = true;
@@ -73,7 +75,9 @@ class _EventEditorState extends State<EventEditor> {
         'chat': _createChat,
         'projekt': _hasProject ? _selectedProject : null,
         'eventName': _eventNameController.text,
-        'image_url': imgUrl,
+        'image_url': eventImgUrl,
+        'sponsor': _sponsorController.text,
+        'sponsor_img_url': sponsorImgUrl
       };
       if (widget.documentId == null) {
         collection.add(event);
@@ -84,14 +88,27 @@ class _EventEditorState extends State<EventEditor> {
     }
   }
 
-  void _handleUpload() async {
+  void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
       final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
       final String? imgUrl = await ImageUpload.uploadImage(file, "event_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
-          this.imgUrl = imgUrl;
+          eventImgUrl = imgUrl;
+        });
+      }
+    }
+  }
+
+  void _handleSponsorImageUpload() async {
+    final XFile? file = await ImageUpload.selectImage();
+    if (file != null) {
+      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(file, "sponsor_images", "", uniqueFilename);
+      if (imgUrl != null) {
+        setState(() {
+          sponsorImgUrl = imgUrl;
         });
       }
     }
@@ -106,6 +123,9 @@ class _EventEditorState extends State<EventEditor> {
       _eventDescriptionController.text = project.get("eventInfo") ?? "";
       _donationTargetController.text = project.get("spendenZiel") ?? "";
       _locationController.text = project.get("ort") ?? "";
+      if (project.data()!.containsKey("sponsor")) {
+        _sponsorController.text = project.get("sponsor") ?? "";
+      }
       if (project.get("startDate") != null) {
         _startDateController.text = dateFormat.format((project.get("startDate") as Timestamp).toDate());
       }
@@ -114,7 +134,10 @@ class _EventEditorState extends State<EventEditor> {
       }
       setState(() {
         if (project.data()!.containsKey("image_url")) {
-          imgUrl = project.get("image_url");
+          eventImgUrl = project.get("image_url");
+        }
+        if (project.data()!.containsKey("sponsor_img_url")) {
+          sponsorImgUrl = project.get("sponsor_img_url");
         }
         _createChat = project.get("chat");
         _hasDonationTarget = project.get("spendenZiel").toString().isNotEmpty;
@@ -139,7 +162,7 @@ class _EventEditorState extends State<EventEditor> {
                       height: 200,
                       width: double.infinity,
                       child: GestureDetector(
-                          onTap: _handleUpload,
+                          onTap: _handleEventImageUpload,
                           child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
@@ -149,8 +172,8 @@ class _EventEditorState extends State<EventEditor> {
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              child: imgUrl.isNotEmpty
-                                  ? Image.network(imgUrl)
+                              child: eventImgUrl.isNotEmpty
+                                  ? Image.network(eventImgUrl)
                                   : Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -325,6 +348,35 @@ class _EventEditorState extends State<EventEditor> {
                       });
                     },
                   ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _sponsorController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Sponsor',
+                        floatingLabelBehavior: FloatingLabelBehavior.always),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                      height: 200,
+                      width: double.infinity,
+                      child: GestureDetector(
+                          onTap: _handleSponsorImageUpload,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              child: sponsorImgUrl.isNotEmpty
+                                  ? Image.network(sponsorImgUrl)
+                                  : Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: const [Icon(Icons.upload, size: 48), Text("Bild auswählen")])))),
                   const SizedBox(height: 16),
                   SizedBox(
                       width: double.infinity,
