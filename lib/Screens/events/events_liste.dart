@@ -159,11 +159,12 @@ class _EventListState extends State<EventList> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            event['eventName'],
-                                            style: const TextStyle(fontWeight: FontWeight.bold),
-                                          ),
-                                          if (event["eventInfo"] != null) Text(event['eventInfo'], maxLines: 3),
+                                          Text(event['eventName'],
+                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis),
+                                          if (event["eventInfo"] != null)
+                                            Text(event['eventInfo'], maxLines: 3, overflow: TextOverflow.ellipsis),
                                           Expanded(child: Container()),
                                           if (event["ort"] != null)
                                             Row(children: [
