@@ -75,6 +75,8 @@ dependencies:
   open_filex: ^4.3.2
   flutter_social_button: ^1.1.4+1
 
+  universal_html: ^2.0.9
+
 
 dev_dependencies:
   flutter_test:
