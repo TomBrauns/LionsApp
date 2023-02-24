@@ -6,6 +6,8 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
+import '../Widgets/dual_progress_bar.dart';
+
 class Donations extends StatefulWidget {
   final String? interneId;
 
@@ -19,18 +21,18 @@ class _DonationsState extends State<Donations> {
   var _documentStream;
 
   String? eventId;
+  double _donationInput = 0.0;
 
   // BAB with Priviledge
   //Copy that
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" ||
-        Privileges.privilege == "Member" ||
-        Privileges.privilege == "Friend") {
+    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend") {
       return BottomNavigation();
     } else {
       return null;
     }
   }
+
   // and use Function for Fab in Scaffold
 
   @override
@@ -44,10 +46,24 @@ class _DonationsState extends State<Donations> {
     print("Hier widget id: ${widget.interneId}");
 
     if (eventId != "") {
-      _documentStream = FirebaseFirestore.instance
-          .collection('events')
-          .doc(eventId)
-          .snapshots();
+      _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
+    }
+  }
+
+  void _handleInputChange(String? text) {
+    setState(() {
+      _donationInput = _parseEuroStringToDouble(text);
+    });
+  }
+
+  double _parseEuroStringToDouble(String? text) {
+    if (text == null || text.isEmpty) {
+      return 0.0;
+    } else {
+      text = text.replaceAll("€", "");
+      text = text.replaceAll(".", "");
+      text = text.replaceAll(",", ".");
+      return double.parse(text);
     }
   }
 
@@ -73,7 +89,7 @@ class _DonationsState extends State<Donations> {
               String donationTitle = "Kein Event gefunden.";
               String? sponsor, sponsorImgUrl, donationTarget;
 
-              if(snapshot.hasData && snapshot.data!.exists){
+              if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
                 if (data != null) {
                   if (data.containsKey("spendenZiel")) {
@@ -103,14 +119,18 @@ class _DonationsState extends State<Donations> {
                           SizedBox(
                               width: double.infinity,
                               child: Text(donationTitle,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 24))),
+                                  textAlign: TextAlign.center, style: const TextStyle(fontSize: 24))),
                           if (donationTarget != null)
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: $donationTarget"),
-                                const LinearProgressIndicator(value: 0.42, minHeight: 24.0),
+                                Text("Spendenziel: $donationTarget", style: const TextStyle(fontSize: 16)),
+                                DualLinearProgressIndicator(
+                                  maxValue: _parseEuroStringToDouble(donationTarget),
+                                  // TODO show actual progressValue not that random value:
+                                  progressValue: _parseEuroStringToDouble(donationTarget) * 0.35,
+                                  addValue: _donationInput,
+                                ),
                               ]),
                             )
                           else
@@ -118,21 +138,17 @@ class _DonationsState extends State<Donations> {
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _inputController,
+                            onChanged: _handleInputChange,
                             decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Betrag",
-                                suffix: Text("€")),
+                                border: OutlineInputBorder(), hintText: "Betrag", suffix: Text("€")),
                           ),
                           Container(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [5, 10, 25, 50, 100]
-                                      .map((int amount) => FilledButton(
-                                          onPressed: () => _handleAdd(amount),
-                                          child: Text("+ $amount€")))
+                                      .map((int amount) =>
+                                          FilledButton(onPressed: () => _handleAdd(amount), child: Text("+ $amount€")))
                                       .toList())),
                           const SizedBox(height: 24),
                           Row(children: [
@@ -148,8 +164,7 @@ class _DonationsState extends State<Donations> {
                                     _isReceiptChecked = !_isReceiptChecked;
                                   });
                                 },
-                                child: const Text(
-                                    "Ich möchte eine Quittung erhalten."))
+                                child: const Text("Ich möchte eine Quittung erhalten."))
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -157,16 +172,13 @@ class _DonationsState extends State<Donations> {
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, '/Donations/UserType');
+                                    Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: const Text("Spenden",
-                                          style: TextStyle(fontSize: 18))))),
+                                      child: const Text("Spenden", style: TextStyle(fontSize: 18))))),
                           Expanded(child: Container()),
-                          if (sponsor != null && sponsor.isNotEmpty)
-                            Text("Gesponsort von $sponsor"),
+                          if (sponsor != null && sponsor.isNotEmpty) Text("Gesponsort von $sponsor"),
                           if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
                             Image.network(sponsorImgUrl, height: 128, width: double.infinity, fit: BoxFit.contain)
                         ],
@@ -189,6 +201,9 @@ class _DonationsState extends State<Donations> {
 
   void _handleAdd(int value) {
     _inputController.text = (_getCurrentValue() + value).toString();
+    setState(() {
+      _donationInput = _parseEuroStringToDouble(_inputController.text);
+    });
   }
 
   void _handleSubmit() {

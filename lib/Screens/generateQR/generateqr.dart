@@ -13,6 +13,9 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 
+import 'package:universal_html/html.dart' as html;
+import 'package:universal_html/controller.dart' as controller;
+
 class QrCodeWithImage extends StatefulWidget {
   final String link;
   final String documentId;
@@ -73,7 +76,13 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () async {
-                 _handleDownloadButtonPressed();
+                  print("Button gedrückt");
+                  if(kIsWeb){
+                    _handleWebDownloadButtonPressed();
+                    print("Web erkannt");
+                  }else{
+                    _handleDownloadButtonPressed();
+                  }
                 },
                 child: Text('Download'),
               ),
@@ -118,5 +127,25 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
       }
     }
   }
+
+  Future<void> _handleWebDownloadButtonPressed() async {
+    final bytes = await _captureQrCode();
+    if (bytes != null) {
+      final blob = html.Blob([bytes]);
+      final dataUrl = html.Url.createObjectUrlFromBlob(blob);
+      final anchorElement = html.document.createElement('a') as html.AnchorElement
+        ..href = dataUrl
+        ..download = 'qr_code.png';
+
+
+      html.document.body!.append(anchorElement);
+      anchorElement.click();
+
+
+      html.document.body!.querySelector('a')?.remove();
+      html.Url.revokeObjectUrl(dataUrl);
+    }
+  }
+
 
 }
