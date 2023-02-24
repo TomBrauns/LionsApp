@@ -4,11 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/login/agb.dart';
 import 'login.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:platform/platform.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class Register extends StatefulWidget {
   @override
@@ -493,13 +495,22 @@ class _RegisterState extends State<Register> {
     if (_formkey.currentState!.validate()) {
       await _auth.createUserWithEmailAndPassword(email: email, password: password).then(
         (result) async {
+          await FirebaseChatCore.instance.createUserInFirestore(
+            types.User(
+              id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
+              imageUrl: 'https://i.pravatar.cc/300',
+              firstName: firstname,
+              lastName: lastname,
+              mailAdress: email,
+            ),
+          );
           await result.user!.sendEmailVerification();
           postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
         },
       ).catchError(
         (e) {
           // Handle error
-          print(e);
+          print("hier ?" + e);
         },
       );
     }
