@@ -235,27 +235,30 @@ class ShareDonation extends StatefulWidget {
 }
 
 void shareToFacebook() async {
-  final url = 'https://www.facebook.com/sharer/sharer.php?u=https://marc-wieland.de';
-  if (await canLaunch(url)) {
-    await launch(url);
+  final url = Uri.parse(
+      'https://www.facebook.com/sharer/sharer.php?u=https://marc-wieland.de');
+  if (!await canLaunchUrl(url)) {
+    await launchUrl(url);
   } else {
     throw 'Could not launch $url';
   }
 }
 
 void shareToTwitter() async {
-  final url = 'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21';
-  if (await canLaunch(url)) {
-    await launch(url);
+  final url = Uri.parse(
+      'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
+  if (!await canLaunchUrl(url)) {
+    await launchUrl(url);
   } else {
     throw 'Could not launch $url';
   }
 }
 
 void shareToInstagram() async {
-  final url = 'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21';
-  if (await canLaunch(url)) {
-    await launch(url);
+  final url = Uri.parse(
+      'https://twitter.com/share?url=https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
+  if (!await canLaunchUrl(url)) {
+    await launchUrl(url);
   } else {
     throw 'Could not launch $url';
   }
@@ -322,7 +325,6 @@ class _ShareDonationState extends State<ShareDonation> {
     );
   }
 }
-
 
 class Receiptdata extends StatefulWidget {
   const Receiptdata({super.key});
