@@ -19,11 +19,11 @@ class _callAdminState extends State<callAdmin> {
         drawer: const BurgerMenu(),
         appBar: const MyAppBar(title: "Rollen Verwalten"),
         bottomNavigationBar: BottomNavigation(),
-        body: Center(
+        body: const Center(
           child: Column(
             children: [
-              const SizedBox(height: 50),
-              const Text("Alle Nutzer: "),
+              SizedBox(height: 50),
+              Text("Alle Nutzer: "),
               listAllUsersWidget(),
             ],
           ),
@@ -62,8 +62,7 @@ class _listAllUsersWidgetState extends State<listAllUsersWidget> {
     return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
       future: FirebaseFirestore.instance.collection('users').get(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
           final users = snapshot.data!.docs;
 
           return DataTable(

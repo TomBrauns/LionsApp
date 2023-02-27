@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/chat/createRoom.dart';
 
 import '../firebase_options.dart';
 import 'chat.dart';
@@ -26,8 +27,7 @@ class _RoomsPageState extends State<RoomsPage> {
   User? _user;
   void signUpForChatUser() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final collectionRef =
-        FirebaseFirestore.instance.collection('my_collection');
+    final collectionRef = FirebaseFirestore.instance.collection('my_collection');
     final docRef = collectionRef.doc(userId);
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;
@@ -35,18 +35,14 @@ class _RoomsPageState extends State<RoomsPage> {
     try {
       if (!docExists) {
         final user = FirebaseAuth.instance.currentUser!;
-        final documentSnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
         final imageUrl = documentSnapshot.data()?['image_url'];
         final firstname = documentSnapshot.data()?['firstname'];
         final lastname = documentSnapshot.data()?['lastname'];
         final email = documentSnapshot.data()?['email'];
         await FirebaseChatCore.instance.createUserInFirestore(
           types.User(
-            id: FirebaseAuth
-                .instance.currentUser!.uid, // UID from Firebase Authentication
+            id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
             imageUrl: imageUrl,
             firstName: firstname,
             lastName: lastname,
@@ -77,6 +73,28 @@ class _RoomsPageState extends State<RoomsPage> {
       appBar: AppBar(
         actions: [
           IconButton(
+            icon: const Icon(Icons.group_add),
+            onPressed: _user == null
+                ? null
+                : () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => RoomCreator(),
+                      ),
+                    );
+                    /* FirebaseChatCore.instance.createGroupRoom(
+                      name: "TESTROOM",
+                      imageUrl: "https://i.redd.it/n8fmcevxrrp21.jpg",
+                      users: [
+                        const types.User(id: 'Ixkxf3v3utREncrIsWlZbFOiUR23'),
+                        const types.User(id: 'PvPDLcfjPfPK3zd1f3Nr2mMmME92'),
+                        const types.User(id: 'ipHZg8aeJZWCGHc28vHZLVU3Ydv2'),
+                      ],
+                    ); */
+                  },
+          ),
+          IconButton(
             icon: const Icon(Icons.add),
             onPressed: _user == null
                 ? null
@@ -91,7 +109,7 @@ class _RoomsPageState extends State<RoomsPage> {
           ),
         ],
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        title: const Text('Rooms'),
+        title: const Text('Chats'),
       ),
       drawer: const BurgerMenu(),
       body: _user == null
@@ -185,10 +203,6 @@ class _RoomsPageState extends State<RoomsPage> {
         _error = true;
       });
     }
-  }
-
-  void logout() async {
-    await FirebaseAuth.instance.signOut();
   }
 
   Widget _buildAvatar(types.Room room) {
