@@ -55,7 +55,7 @@ class listAllUsersWidget extends StatefulWidget {
 }
 
 class _listAllUsersWidgetState extends State<listAllUsersWidget> {
-  final List<String> _roleOptions = ['friend', 'member', 'Admin'];
+  final List<String> _roleOptions = ['Friend', 'Member', 'Admin'];
   Map<String, String?> _selectedRoles = {};
   @override
   Widget build(BuildContext context) {

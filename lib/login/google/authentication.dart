@@ -54,14 +54,14 @@ class Authentication {
             'firstname': vorName,
             'lastname': nachName,
             'email': Email,
-            'rool': 'friend',
+            'rool': 'Friend',
           });
         }
 
-        FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            if (documentSnapshot.get('rool') == "Admin") {
-              Privileges.privilege = "Admin";
+        FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
+          (DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              Privileges.privilege = documentSnapshot.get('rool');
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -69,20 +69,10 @@ class Authentication {
                 ),
               );
             } else {
-              Privileges.privilege = "Friend";
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Donations(),
-                ),
-              );
+              print('Document does not exist on the database');
             }
-          } else {
-            print('Document does not exist on the database');
-          }
-        });
-
-        ;
+          },
+        );
       } catch (e) {
         print(e);
       }
@@ -101,7 +91,12 @@ class Authentication {
 
         try {
           final UserCredential userCredential = await auth.signInWithCredential(credential);
-
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Donations(),
+            ),
+          );
           user = userCredential.user;
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {

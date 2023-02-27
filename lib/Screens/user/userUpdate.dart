@@ -33,7 +33,7 @@ class UpdateState extends State<Update> {
   bool _isObscure = true;
   bool _isObscure2 = true;
   File? file;
-  var rool = "friend";
+  var rool = "Friend";
   String? _firstname;
   String? _lastname;
   String? _email;
@@ -66,9 +66,9 @@ class UpdateState extends State<Update> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         title: const Text("Benutzer"),
-        ),
+      ),
       backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
