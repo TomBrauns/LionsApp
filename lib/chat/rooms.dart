@@ -83,15 +83,6 @@ class _RoomsPageState extends State<RoomsPage> {
                         builder: (context) => RoomCreator(),
                       ),
                     );
-                    /* FirebaseChatCore.instance.createGroupRoom(
-                      name: "TESTROOM",
-                      imageUrl: "https://i.redd.it/n8fmcevxrrp21.jpg",
-                      users: [
-                        const types.User(id: 'Ixkxf3v3utREncrIsWlZbFOiUR23'),
-                        const types.User(id: 'PvPDLcfjPfPK3zd1f3Nr2mMmME92'),
-                        const types.User(id: 'ipHZg8aeJZWCGHc28vHZLVU3Ydv2'),
-                      ],
-                    ); */
                   },
           ),
           IconButton(

@@ -229,7 +229,7 @@ class _UserState extends State<User> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abrechen'),
+              child: const Text('Abbrechen'),
               onPressed: () {
                 Navigator.push(
                   context,
