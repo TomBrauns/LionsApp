@@ -31,9 +31,32 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   }
 
   void _handleDelete() {
-    FirebaseFirestore.instance.collection("events").doc(widget.eventId).delete().then((_) {
-      Navigator.pop(context);
-    });
+    final collection = FirebaseFirestore.instance.collection("events");
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Aktivität löschen'),
+          content: const Text('Sind Sie sich sicher, dass Sie diese Aktivität löschen möchten?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Abbrechen'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+                child: const Text('Löschen'),
+                onPressed: () {
+                  collection.doc(widget.eventId).delete().then((_) {
+                    Navigator.of(context).pop();
+                    Navigator.pop(context);
+                  });
+                }),
+          ],
+        );
+      },
+    );
   }
 
   @override
