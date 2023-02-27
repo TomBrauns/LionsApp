@@ -38,8 +38,7 @@ class Authentication {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
 
       try {
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
 
         user = userCredential.user!;
 
@@ -48,8 +47,7 @@ class Authentication {
         String Email = user.email!;
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-        CollectionReference ref =
-            FirebaseFirestore.instance.collection('users');
+        CollectionReference ref = FirebaseFirestore.instance.collection('users');
 
         if (!(await ref.doc(user.uid).get()).exists) {
           ref.doc(user.uid).set({
@@ -60,18 +58,14 @@ class Authentication {
           });
         }
 
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get()
-            .then((DocumentSnapshot documentSnapshot) {
+        FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
-            if (documentSnapshot.get('rool') == "admin") {
+            if (documentSnapshot.get('rool') == "Admin") {
               Privileges.privilege = "Admin";
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  Donations(),
+                  builder: (context) => Donations(),
                 ),
               );
             } else {
@@ -79,7 +73,7 @@ class Authentication {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  Donations(),
+                  builder: (context) => Donations(),
                 ),
               );
             }
@@ -95,12 +89,10 @@ class Authentication {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
@@ -108,23 +100,20 @@ class Authentication {
         );
 
         try {
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
+          final UserCredential userCredential = await auth.signInWithCredential(credential);
 
           user = userCredential.user;
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
               Authentication.customSnackBar(
-                content:
-                    'The account already exists with a different credential',
+                content: 'The account already exists with a different credential',
               ),
             );
           } else if (e.code == 'invalid-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
               Authentication.customSnackBar(
-                content:
-                    'Error occurred while accessing credentials. Try again.',
+                content: 'Error occurred while accessing credentials. Try again.',
               ),
             );
           }
