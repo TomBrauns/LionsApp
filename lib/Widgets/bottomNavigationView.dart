@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/calendar.dart';
-import 'package:lionsapp/Screens/projects/catalogue.dart';
-import 'package:lionsapp/Screens/chat.dart';
-import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Screens/user/user_configs.dart';
-import 'package:lionsapp/routes.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 class BottomNavigation extends StatefulWidget {
