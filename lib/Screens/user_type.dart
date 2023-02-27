@@ -4,34 +4,57 @@ import 'package:lionsapp/login/login.dart';
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
-
 class UserTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Type'),
-      ),
-
+      appBar: MyAppBar(title: 'User Type'),
+      backgroundColor: Colors.blue, // set the background color to blue
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
               },
-              child: const Text('Als Gast fortfahren'),
+              child: Text(
+                'Als Gast fortfahren',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize:
+                        20), // set text color to dark and increase font size
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                minimumSize: Size(200, 50),
+                primary: Colors.white, // set button color to white
+              ),
             ),
-            const SizedBox(height: 20),
-
-            //TODO: Wenn hier jemand rausfindet wie man von der Route mit nem POP zurückkommt ists fast schon gg
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/Login');
               },
-              child: const Text('Anmelden'),
+              child: Text(
+                'Anmelden',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize:
+                        20), // set text color to dark and increase font size
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                minimumSize: Size(200, 50),
+                primary: Colors.white, // set button color to white
+              ),
             ),
           ],
         ),
