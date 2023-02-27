@@ -1,4 +1,5 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -66,6 +67,7 @@ class _EventEditorState extends State<EventEditor> {
         endDate = null;
       }
       final collection = FirebaseFirestore.instance.collection('events');
+      final String userId = FirebaseAuth.instance.currentUser!.uid;
       final event = {
         'startDate': startDate,
         'endDate': endDate,
@@ -77,7 +79,8 @@ class _EventEditorState extends State<EventEditor> {
         'eventName': _eventNameController.text,
         'image_url': eventImgUrl,
         'sponsor': _sponsorController.text,
-        'sponsor_img_url': sponsorImgUrl
+        'sponsor_img_url': sponsorImgUrl,
+        'creator': userId
       };
       if (widget.documentId == null) {
         collection.add(event);

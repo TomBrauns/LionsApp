@@ -141,7 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -276,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "admin") {
+        if (documentSnapshot.get('rool') == "Admin") {
           Privileges.privilege = "Admin";
           Navigator.pushReplacement(
             context,
@@ -317,7 +319,7 @@ class _LoginPageState extends State<LoginPage> {
         //     ),
         //   );
         //  }
-      } on FirebaseAuthException catch (e) {
+      } catch (e) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -343,7 +345,7 @@ Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
   FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
-      if (documentSnapshot.get('rool') == "admin") {
+      if (documentSnapshot.get('rool') == "Admin") {
         Privileges.privilege = "Admin";
       } else {
         Privileges.privilege = "Friend";

@@ -55,15 +55,14 @@ class listAllUsersWidget extends StatefulWidget {
 }
 
 class _listAllUsersWidgetState extends State<listAllUsersWidget> {
-  final List<String> _roleOptions = ['friend', 'member', 'admin'];
+  final List<String> _roleOptions = ['friend', 'member', 'Admin'];
   Map<String, String?> _selectedRoles = {};
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
       future: FirebaseFirestore.instance.collection('users').get(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
           final users = snapshot.data!.docs;
 
           return DataTable(
