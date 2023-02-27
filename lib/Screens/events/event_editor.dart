@@ -19,7 +19,7 @@ class EventEditor extends StatefulWidget {
 }
 
 class _EventEditorState extends State<EventEditor> {
-  final DateFormat dateFormat = DateFormat('dd.MM.yyy');
+  final DateFormat dateFormat = DateFormat('dd.MM.yyyy HH:mm');
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
@@ -115,6 +115,65 @@ class _EventEditorState extends State<EventEditor> {
         });
       }
     }
+  }
+
+  void _handleStartTimeTap() {
+    final DateTime? currentDateTime;
+    final TimeOfDay? currentTime;
+    if (_startDateController.text.isNotEmpty) {
+      currentDateTime = dateFormat.parse(_startDateController.text);
+      currentTime = TimeOfDay.fromDateTime(currentDateTime);
+    } else {
+      currentDateTime = null;
+      currentTime = null;
+    }
+    showDatePicker(
+            context: context,
+            initialDate: currentDateTime ?? DateTime.now(),
+            firstDate: DateTime(2020),
+            lastDate: DateTime(2100))
+        .then((pickedDate) => {
+              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 15, minute: 0))
+                  .then((pickedTime) {
+                if (pickedDate != null && pickedTime != null) {
+                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final DateTime completeDate = pickedDate.add(duration);
+                  _startDateController.text = dateFormat.format(completeDate);
+                }
+              })
+            });
+  }
+
+  void _handleEndTimeTap() {
+    final DateTime? currentDateTime, currentStartDate;
+    final TimeOfDay? currentTime;
+    if (_endDateController.text.isNotEmpty) {
+      currentDateTime = dateFormat.parse(_endDateController.text);
+      currentTime = TimeOfDay.fromDateTime(currentDateTime);
+    } else {
+      currentDateTime = null;
+      currentTime = null;
+    }
+    if (_startDateController.text.isNotEmpty) {
+      currentStartDate = dateFormat.parse(_startDateController.text);
+    } else {
+      currentStartDate = null;
+    }
+    showDatePicker(
+            context: context,
+            initialDate: currentDateTime ?? currentStartDate ?? DateTime.now(),
+            firstDate: currentStartDate ?? DateTime(2020),
+            lastDate: DateTime(2100))
+        .then((pickedDate) => {
+              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 18, minute: 0))
+                  .then((pickedTime) {
+                if (pickedDate != null && pickedTime != null) {
+                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final DateTime completeDate = pickedDate.add(duration);
+                  _endDateController.text = dateFormat.format(completeDate);
+                }
+              })
+            });
   }
 
   @override
@@ -223,50 +282,21 @@ class _EventEditorState extends State<EventEditor> {
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               border: OutlineInputBorder()),
                           readOnly: false,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2101));
-                            if (pickedDate != null) {
-                              //print(pickedDate);
-                              String formattedStartDate = DateFormat('dd.MM.yyyy').format(pickedDate);
-                              //print(formattedStartDate);
-                              setState(() {
-                                _startDateController.text = formattedStartDate;
-                              });
-                            }
-                          },
+                          onTap: _handleStartTimeTap,
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: TextField(
-                          controller: _endDateController,
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.calendar_today),
-                              labelText: "Ende",
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
-                              border: OutlineInputBorder()),
-                          readOnly: false,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2101));
-                            if (pickedDate != null) {
-                              //print(pickedDate);
-                              String formattedStartDate = DateFormat('dd.MM.yyyy').format(pickedDate);
-                              //print(formattedStartDate);
-                              setState(() {
-                                _endDateController.text = formattedStartDate;
-                              });
-                            }
-                          },
-                        ),
-                      )
+                          child: TextField(
+                        controller: _endDateController,
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.calendar_today),
+                            labelText: "Ende",
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            border: OutlineInputBorder()),
+                        readOnly: false,
+                        onTap: _handleEndTimeTap,
+                      ))
                     ],
                   ),
                   const SizedBox(height: 16),
