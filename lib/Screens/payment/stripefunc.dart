@@ -44,19 +44,6 @@ Future<void> stripeOnPress(double amount, context) async {
       if (e is StripeException &&
           e.error.localizedMessage == 'The payment flow has been canceled') {
         // Display a message to the user indicating that the payment has been canceled
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text('Payment Canceled'),
-            content: Text('The payment has been canceled. Please try again.'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
       } else {
         // Handle other exceptions
         print('Error occurred: $e');

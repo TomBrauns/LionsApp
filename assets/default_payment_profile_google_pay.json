@@ -10,8 +10,9 @@
           "tokenizationSpecification": {
             "type": "PAYMENT_GATEWAY",
             "parameters": {
-              "gateway": "example",
-              "gatewayMerchantId": "gatewayMerchantId"
+              "gateway": "stripe",
+              "stripe:version": "2020-03-02",
+              "stripe:publishableKey": "pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cBn9EmypeyJ92nC7mJpCwWHg1ZexBY8V00BAEi7S8t"
             }
           },
           "parameters": {
@@ -26,12 +27,12 @@
         }
       ],
       "merchantInfo": {
-        "merchantId": "01234567890123456789",
-        "merchantName": "Example Merchant Name"
+        "merchantId": "BCR2DN6TQ6VNP3K5",
+        "merchantName": "Team Lions"
       },
       "transactionInfo": {
-        "countryCode": "US",
-        "currencyCode": "USD"
+        "countryCode": "DE",
+        "currencyCode": "EUR"
       }
     }
   }
