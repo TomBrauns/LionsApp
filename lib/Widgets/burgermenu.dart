@@ -31,15 +31,11 @@ class BurgerMenu extends StatefulWidget {
 }
 
 class _BurgerMenuState extends State<BurgerMenu> {
-  // Test Value
-  //static const String privilege = "Friend";
-  //
   var scrollcontroller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // Copy that Bar
 
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -63,8 +59,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ),
             ),
           ),
-          ListTile(
-            title: const Text(
+          const ListTile(
+            title: Text(
               'Hauptseiten',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -78,10 +74,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );*/
             },
           ),
           ListTile(
@@ -92,10 +84,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Donations');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Donations()),
-              );*/
             },
           ),
           Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
@@ -107,10 +95,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/User');
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const User()),
-                    );*/
+
                   },
                 )
               : Container(),
@@ -123,10 +108,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Calendar');
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Calendar()),
-                    );*/
+
                   },
                 )
               : Container(),
@@ -139,10 +121,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Events');
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Events()),
-                    );*/
                   },
                 )
               : Container(),
@@ -155,11 +133,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Catalogue');
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Catalogue()),
-                    );*/
+
                   },
                 )
               : Container(),
@@ -172,10 +146,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Chat');
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Chat()),
-                    );*/
+
                   },
                 )
               : Container(),
@@ -191,10 +162,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Contact');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Contact()),
-              );*/
+
             },
           ),
           ListTile(
@@ -205,10 +173,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Imprint');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Imprint()),
-              );*/
+
             },
           ),
           ListTile(
@@ -219,10 +184,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/EULA');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AGB()),
-              );*/
+
             },
           ),
           ListTile(
@@ -237,10 +199,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Register');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Register()),
-              );*/
+
             },
           ),
 
@@ -252,10 +211,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Login');
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );*/
+
             },
           ),
           Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
