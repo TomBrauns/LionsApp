@@ -191,7 +191,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
             title: const Text('Konto Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
-          ListTile(
+
+          Privileges.privilege == "Guest"
+              ? ListTile(
             leading: Icon(Icons.app_registration),
             title: const Text('Registrierung'),
             onTap: () {
@@ -201,9 +203,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/Register');
 
             },
-          ),
+          )
+          : Container(),
 
-          ListTile(
+
+          Privileges.privilege == "Guest"
+          ? ListTile(
             leading: Icon(Icons.login),
             title: const Text('Login'),
             onTap: () {
@@ -213,7 +218,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/Login');
 
             },
-          ),
+          )
+          : Container(),
+
           Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.logout),
