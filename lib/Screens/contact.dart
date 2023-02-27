@@ -33,9 +33,9 @@ class _ContactState extends State<Contact> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText:
-                          'Bitte tragen sie hier ihren Namen ein, damit wir besser bezug zu ihrer Nachricht nehmen können.',
+                          'Bitte tragen Sie hier ihren Namen ein, damit wir einen besseren Bezug zu ihrer Nachricht bekommen.',
                       hintText: 'Vor und Nachnamen eingeben',
                       border: OutlineInputBorder(),
                     ),
@@ -46,12 +46,12 @@ class _ContactState extends State<Contact> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText:
-                          'Bitte Email eingeben, über die wir Sie erreichen können.',
+                          'Bitte Email eingeben, über die wir mit Ihnen in Kontakt treten können.',
                       hintText: 'E-Mail eingeben',
                       border: OutlineInputBorder(),
                     ),
@@ -62,10 +62,10 @@ class _ContactState extends State<Contact> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _subjectController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Betreff',
                       hintText: 'Betreff eingeben',
                       border: OutlineInputBorder(),
@@ -77,13 +77,13 @@ class _ContactState extends State<Contact> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _messageController,
                     maxLines: 6,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText:
-                          'Hier bitte die Nachricht eintragen, die sie uns mitgeben möchten.',
+                          'Hier bitte die Nachricht eintragen, die Sie uns mitgeben möchten.',
                       hintText: 'Nachricht tippen',
                       border: OutlineInputBorder(),
                     ),
@@ -95,23 +95,23 @@ class _ContactState extends State<Contact> {
                     },
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 40),
-                    child: Text("Weitere Daten"),
+                    margin: const EdgeInsets.only(top: 40),
+                    child: const Text("Weitere Daten"),
                   ),
                   ElevatedButton(
                     onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: const [
                         Text("Datei zum Hochladen hier reinziehen"),
                         Icon(Icons.upload)
                       ],
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey
-                    ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -119,10 +119,10 @@ class _ContactState extends State<Contact> {
                           //sendEmail();
                         }
                       },
-                      child: Text('Senden'),
+                      child: const Text('Senden'),
                     ),
                   ),
-                  Center(
+                  const Center(
                     child: Divider(),
                   ),
                 ],

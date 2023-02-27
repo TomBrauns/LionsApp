@@ -14,11 +14,7 @@ class UserInList {
   final String documentId;
   bool isSelected;
 
-  UserInList(
-      {required this.firstName,
-      required this.lastName,
-      required this.documentId,
-      this.isSelected = false});
+  UserInList({required this.firstName, required this.lastName, required this.documentId, this.isSelected = false});
 }
 
 class RoomCreator extends StatefulWidget {
@@ -43,12 +39,10 @@ class _RoomCreatorState extends State<RoomCreator> {
     String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
 
     // Get the list of users from Firestore
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('users_chat').get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users_chat').get();
 
     // Filter the list to remove the current user
-    List<UserInList> filteredUsers =
-        snapshot.docs.where((document) => document.id != currentUserId).map(
+    List<UserInList> filteredUsers = snapshot.docs.where((document) => document.id != currentUserId).map(
       (DocumentSnapshot document) {
         return UserInList(
           firstName: document.get('firstName'),
@@ -72,10 +66,8 @@ class _RoomCreatorState extends State<RoomCreator> {
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename =
-          DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(
-          file, "room_images", "", uniqueFilename);
+      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(file, "room_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
           roomImg = imgUrl;
@@ -109,7 +101,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                 ),
                 child: roomImg.isNotEmpty
                     ? Image.network(roomImg)
-                    : Column(
+                    :  Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -128,8 +120,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               fillColor: Colors.white,
               hintText: 'Name der Gruppe',
               enabled: true,
-              contentPadding:
-                  EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
             ),
             onChanged: (value) {},
             keyboardType: TextInputType.text,
@@ -144,8 +135,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               fillColor: Colors.white,
               hintText: 'Beschreibung der Gruppe',
               enabled: true,
-              contentPadding:
-                  EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
             ),
             onChanged: (value) {},
             keyboardType: TextInputType.text,
@@ -161,8 +151,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                       children: [
                         Icon(Icons.person),
                         SizedBox(width: 10),
-                        Text(
-                            '${_users[index].firstName} ${_users[index].lastName}'),
+                        Text('${_users[index].firstName} ${_users[index].lastName}'),
                       ],
                     ),
                     value: _users[index].isSelected,
