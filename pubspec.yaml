@@ -80,6 +80,8 @@ dependencies:
   flutter_stripe: ^8.0.0+1
   flutter_stripe_web: ^3.0.0
   flutter_localization: any
+  webview_flutter: ^4.0.5
+  dio: ^5.0.1
 
 dependency_overrides:
   intl: ^0.18.0 

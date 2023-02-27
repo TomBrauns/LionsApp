@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
+import 'stripefuncweb.dart';
 
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
