@@ -17,7 +17,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await checkRool();
+  try {
+    await checkRool();
+  } catch (e) {}
 
   String myurl = Uri.base.toString();
   String? paramId = Uri.base.queryParameters['docid'];
