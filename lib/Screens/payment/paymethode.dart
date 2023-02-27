@@ -69,23 +69,26 @@ class _PaymethodeState extends State<Paymethode> {
                   child: const Text("Paypal"),
                 ),
               ),
-              if (GetPlatform.currentPlatform != GetPlatform.web)
-                Container(
-                  height: 100,
-                  width: 350,
-                  padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.all(15),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      elevation: 0,
-                    ),
-                    onPressed: () async {
-                      stripeOnPress(amount, context);
-                    },
-                    child: const Text("Stripe"),
+              Container(
+                height: 100,
+                width: 350,
+                padding: const EdgeInsets.all(15.0),
+                margin: const EdgeInsets.all(15),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
                   ),
+                  onPressed: () async {
+                    if (GetPlatform.currentPlatform != GetPlatform.web) {
+                      stripeOnPressApp(amount, context);
+                    } else if (GetPlatform.currentPlatform == GetPlatform.web) {
+                      stripeOnPressWeb(amount, context);
+                    }
+                  },
+                  child: const Text("Stripe"),
                 ),
+              ),
               if (GetPlatform.currentPlatform != GetPlatform.web)
                 FutureBuilder<PaymentConfiguration>(
                     future: _applePayConfigFuture,

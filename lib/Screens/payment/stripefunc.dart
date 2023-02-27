@@ -5,6 +5,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_stripe_web/flutter_stripe_web.dart'
+    if (dart.library.io) ''
+    if (dart.library.html) 'package:flutter_stripe_web/flutter_stripe_web.dart';
+
 Map<String, dynamic>? paymentIntent;
 
 void stripeSettings() {
@@ -19,7 +23,7 @@ void stripeSettings() {
 // Calculate amount in cents
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<void> stripeOnPress(double amount, context) async {
+Future<void> stripeOnPressApp(double amount, context) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   try {
@@ -87,3 +91,5 @@ Future<void> displayPaymentSheet() async {
     print(stackTrace);
   });
 }
+
+Future<void> stripeOnPressWeb(double amount, context) async {}

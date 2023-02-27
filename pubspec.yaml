@@ -78,6 +78,7 @@ dependencies:
 
   universal_html: ^2.0.9
   flutter_stripe: ^8.0.0+1
+  flutter_stripe_web: ^3.0.0
 
 
 dev_dependencies:
