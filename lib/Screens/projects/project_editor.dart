@@ -38,37 +38,6 @@ class _ProjectEditorState extends State<ProjectEditor> {
     }
   }
 
-  void _handleDelete() {
-    final collection = FirebaseFirestore.instance.collection("projects");
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Projekt löschen'),
-          content: const Text('Sind Sie sich sicher, dass Sie dieses Projekt löschen möchten?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Abbrechen'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Löschen'),
-              onPressed: () {
-                if (widget?.documentId != null) {
-                  collection.doc(widget.documentId).delete();
-                }
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _handleSubmit() {
     final name = _nameInputController.value.text;
     final background = _backgroundInputController.value.text;
@@ -120,12 +89,6 @@ class _ProjectEditorState extends State<ProjectEditor> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.documentId == null ? "Projekt anlegen" : "Projekt bearbeiten"),
-        ),
-        floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        _handleDelete();
-        },
-          child: Icon(Icons.delete_outline),
         ),
         body: SingleChildScrollView(
             child: Container(
