@@ -26,6 +26,16 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.eventId)));
   }
 
+  void _handleEdit() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
+  }
+
+  void _handleDelete() {
+    FirebaseFirestore.instance.collection("events").doc(widget.eventId).delete().then((_) {
+      Navigator.pop(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
@@ -39,10 +49,16 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               child: CircularProgressIndicator(),
             );
           }
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+
+          final Map<String, dynamic> data;
+          if (snapshot.data != null && snapshot.data!.exists) {
+            data = snapshot.data!.data() as Map<String, dynamic>;
+          } else {
+            data = {};
+          }
 
           final String date;
-          final String title = data['eventName'];
+          final String title = data['eventName'] ?? "";
           final String location = data['ort'] ?? "";
           if (data["startDate"] != null) {
             date = dateFormat.format((data['startDate'] as Timestamp).toDate());
@@ -52,12 +68,11 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           final String project = data['projekt'] ?? "";
           final String target = data['spendenZiel'] ?? "";
           final String imgUri = data['image_url'] ?? "";
-          final String description = data['eventInfo'];
-          final String creatorId = data['creator'];
+          final String description = data['eventInfo'] ?? "";
+          final String creatorId = data['creator'] ?? "";
 
           // Condition for showing the edit button: user must be member + creator OR user must be admin
           final String userId = FirebaseAuth.instance.currentUser!.uid;
-          print(Privileges.privilege);
           final bool showEditButton = (Privileges.privilege == "Member" && creatorId == userId) || Privileges.privilege == "Admin";
 
           return Scaffold(
@@ -65,12 +80,14 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 title: Text(title),
               ),
               floatingActionButton: showEditButton
-                  ? FloatingActionButton(
-                      child: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
-                      })
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                          FloatingActionButton(onPressed: _handleDelete, child: const Icon(Icons.delete)),
+                          const SizedBox(height: 16),
+                          FloatingActionButton(onPressed: _handleEdit, child: const Icon(Icons.edit)),
+                        ])
                   : null,
               body: SingleChildScrollView(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
