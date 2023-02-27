@@ -115,7 +115,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"
               ? ListTile(
                   leading: Icon(Icons.event),
-                  title: const Text('Events'),
+                  title: const Text('Aktivitäten'),
                   onTap: () {
                     // Update State of App
                     Navigator.pop(context);
@@ -248,7 +248,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   leading: Icon(Icons.add_circle),
-                  title: const Text('Event erstellen'),
+                  title: const Text('Aktivität erstellen'),
                   onTap: () {
                     // Update State of App
                     Navigator.pop(context);

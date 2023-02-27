@@ -51,7 +51,7 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Events"),
+      appBar: const MyAppBar(title: "Aktivitäten"),
       drawer: const BurgerMenu(),
       body: const EventList(),
       bottomNavigationBar: BottomNavigation(),
