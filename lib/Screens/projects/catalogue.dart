@@ -37,7 +37,7 @@ class _CatalogueState extends State<Catalogue> {
   }
   // and use Function for Fab in Scaffold
 
-  // BAB with Priviledge
+  // BAB with Privilege
   //Copy that
   Widget? _getBAB() {
     if (Privileges.privilege == "Admin" ||

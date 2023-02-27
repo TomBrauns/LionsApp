@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Widgets/appbar.dart';
+import 'package:lionsapp/main.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class Contact extends StatefulWidget {
   const Contact({Key? key}) : super(key: key);
@@ -17,9 +20,8 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Kontakt Formular'),
-        ),
+      appBar: MyAppBar(title: "Contact"),
+      drawer: BurgerMenu(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

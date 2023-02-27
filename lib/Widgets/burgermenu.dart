@@ -36,7 +36,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-
       child: ListView(
         scrollDirection: Axis.vertical,
         controller: scrollcontroller,
@@ -86,7 +85,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/Donations');
             },
           ),
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.badge),
                   title: const Text('Benutzer'),
@@ -95,11 +96,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/User');
-
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.calendar_month_rounded),
                   title: const Text('Kalender'),
@@ -108,11 +110,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Calendar');
-
                   },
                 )
               : Container(),
-          Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"
+          Privileges.privilege == "Friend" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Admin"
               ? ListTile(
                   leading: Icon(Icons.event),
                   title: const Text('Aktivitäten'),
@@ -124,7 +127,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.book),
                   title: const Text('Katalog'),
@@ -133,7 +138,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Catalogue');
-
                   },
                 )
               : Container(),
@@ -146,12 +150,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     Navigator.pop(context);
                     // Push to Screen
                     Navigator.pushNamed(context, '/Chat');
-
                   },
                 )
               : Container(),
           ListTile(
-            title: const Text('Info Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: const Text('Info Seiten',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
@@ -162,7 +166,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Contact');
-
             },
           ),
           ListTile(
@@ -173,7 +176,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/Imprint');
-
             },
           ),
           ListTile(
@@ -184,44 +186,43 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/EULA');
-
             },
           ),
           ListTile(
-            title: const Text('Konto Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: const Text('Konto Seiten',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
 
           Privileges.privilege == "Guest"
               ? ListTile(
-            leading: Icon(Icons.app_registration),
-            title: const Text('Registrierung'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.pushNamed(context, '/Register');
-
-            },
-          )
-          : Container(),
-
+                  leading: Icon(Icons.app_registration),
+                  title: const Text('Registrierung'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Register');
+                  },
+                )
+              : Container(),
 
           Privileges.privilege == "Guest"
-          ? ListTile(
-            leading: Icon(Icons.login),
-            title: const Text('Login'),
-            onTap: () {
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.pushNamed(context, '/Login');
+              ? ListTile(
+                  leading: Icon(Icons.login),
+                  title: const Text('Login'),
+                  onTap: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Login');
+                  },
+                )
+              : Container(),
 
-            },
-          )
-          : Container(),
-
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.logout),
                   title: const Text('Log Out'),
@@ -238,13 +239,19 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          ListTile(
-            title: const Text(
-              'Member Seiten',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            tileColor: Color.fromARGB(255, 211, 211, 211),
-          ),
+
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
+              ? ListTile(
+                  title: const Text(
+                    'Member Seiten',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  tileColor: Color.fromARGB(255, 211, 211, 211),
+                )
+              : Container(),
+
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   leading: Icon(Icons.add_circle),
@@ -255,7 +262,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const EventEditor()),
+                      MaterialPageRoute(
+                          builder: (context) => const EventEditor()),
                     );
                   },
                 )
@@ -282,7 +290,10 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => QrCodeWithImage(link: 'www.google.de?param:', documentId: '12jdksl2342')),
+                      MaterialPageRoute(
+                          builder: (context) => QrCodeWithImage(
+                              link: 'www.google.de?param:',
+                              documentId: '12jdksl2342')),
                     );
                   },
                 )
@@ -298,12 +309,15 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const UserManagement()),
+                      MaterialPageRoute(
+                          builder: (context) => const UserManagement()),
                     );
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" ||
+                  Privileges.privilege == "Member" ||
+                  Privileges.privilege == "Friend"
               ? ListTile(
                   leading: Icon(Icons.logout),
                   title: const Text('New Donations'),
@@ -313,7 +327,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const DonationsUser()),
+                      MaterialPageRoute(
+                          builder: (context) => const DonationsUser()),
                     );
                   },
                 )
