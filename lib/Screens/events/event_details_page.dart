@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
@@ -51,17 +52,20 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           final String target = data['spendenZiel'] ?? "";
           final String imgUri = data['image_url'] ?? "";
           final String description = data['eventInfo'];
+          final String creator = data['creator'];
 
           return Scaffold(
               appBar: AppBar(
                 title: Text(title),
               ),
-              floatingActionButton: FloatingActionButton(
-                  child: const Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
-                  }),
+              floatingActionButton: FirebaseAuth.instance.currentUser?.uid == creator
+                  ? FloatingActionButton(
+                      child: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
+                      })
+                  : null,
               body: SingleChildScrollView(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 if (imgUri.isNotEmpty) Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),

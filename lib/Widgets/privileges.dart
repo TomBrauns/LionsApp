@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class Privileges extends StatefulWidget {
   const Privileges({super.key});
-  static String privilege = "Friend";
+  static String privilege = "Admin";
   @override
   State<Privileges> createState() => _PrivilegesState();
 }

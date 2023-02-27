@@ -78,6 +78,10 @@ dependencies:
 
   universal_html: ^2.0.9
   flutter_stripe: ^8.0.0+1
+  flutter_localization: any
+
+dependency_overrides:
+  intl: ^0.18.0 
 
 
 dev_dependencies:
