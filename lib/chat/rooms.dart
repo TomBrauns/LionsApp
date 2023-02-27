@@ -121,7 +121,7 @@ class _RoomsPageState extends State<RoomsPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Not authenticated'),
+                  const Text('Nicht angemeldet!'),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(

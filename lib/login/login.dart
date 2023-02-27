@@ -343,27 +343,33 @@ class _LoginPageState extends State<LoginPage> {
 
 Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
-  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
-    if (documentSnapshot.exists) {
-      if (documentSnapshot.get('rool') == "Admin") {
-        Privileges.privilege = "Admin";
-      } else {
+  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then(
+    (DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        if (documentSnapshot.get('rool') == "Admin") {
+          Privileges.privilege = "Admin";
+        } else if (documentSnapshot.get('rool') == "Member") {
+          Privileges.privilege = "Member";
+        }
+      } else if (documentSnapshot.get('rool') == "Friend") {
         Privileges.privilege = "Friend";
+      } else {
+        Privileges.privilege = "Guest";
       }
-    } else {
-      print('Document does not exist on the database');
-    }
-  });
+    },
+  );
   //await Future.delayed(Duration(seconds: 2)); // TODO: evtl einbauen? Fkt ist ist nicht fertig bis Screen geladen ist
 }
 
 void reAuthenticateUser() {
-  FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    if (user != null) {
-      String uid = user.uid;
-      await checkRool();
-    }
-  });
+  FirebaseAuth.instance.authStateChanges().listen(
+    (User? user) async {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final User? user = auth.currentUser;
+      if (user != null) {
+        String uid = user.uid;
+        await checkRool();
+      }
+    },
+  );
 }
