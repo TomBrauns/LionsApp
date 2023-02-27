@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import '../../Widgets/privileges.dart';
 import 'event_editor.dart';
 
 class EventDetailsPage extends StatefulWidget {
@@ -52,13 +53,18 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           final String target = data['spendenZiel'] ?? "";
           final String imgUri = data['image_url'] ?? "";
           final String description = data['eventInfo'];
-          final String creator = data['creator'];
+          final String creatorId = data['creator'];
+
+          // Condition for showing the edit button: user must be member + creator OR user must be admin
+          final String userId = FirebaseAuth.instance.currentUser!.uid;
+          print(Privileges.privilege);
+          final bool showEditButton = (Privileges.privilege == "Member" && creatorId == userId) || Privileges.privilege == "Admin";
 
           return Scaffold(
               appBar: AppBar(
                 title: Text(title),
               ),
-              floatingActionButton: FirebaseAuth.instance.currentUser?.uid == creator
+              floatingActionButton: showEditButton
                   ? FloatingActionButton(
                       child: const Icon(Icons.edit),
                       onPressed: () {
