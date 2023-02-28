@@ -134,7 +134,7 @@ class _roomDetailsState extends State<roomDetails> {
                 ),
                 child: roomImg.isNotEmpty
                     ? Image.network(roomImg)
-                    : const Column(
+                    : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
