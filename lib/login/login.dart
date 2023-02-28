@@ -345,10 +345,6 @@ Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
 
   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
-
-  if (documentSnapshot.exists) {
-    Privileges.privilege = documentSnapshot.get('rool');
-  } else {
-    Privileges.privilege = 'Guest';
-  }
+  Privileges.privilege = documentSnapshot.get('rool');
+  print(Privileges.privilege);
 }

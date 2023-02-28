@@ -53,6 +53,7 @@ class _UserState extends State<User> {
                               final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
                               if (imageUrl != null) {
                                 await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                                await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"imageUrl": imageUrl});
                               }
                             }
                           } else {

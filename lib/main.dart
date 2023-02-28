@@ -40,8 +40,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final String interneId = ''; // Beispiel-Parameter
 
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
