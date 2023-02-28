@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/util/color.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-        color: Colors.blueAccent,
+        color: ColorUtils.primaryColor,
         shape: const CircularNotchedRectangle(), //shape of notch
         notchMargin: 5,
         elevation: 0,
@@ -29,7 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                 Navigator.pushNamed(context, '/User');
               },
-              icon: const Icon(Icons.badge),
+              icon: const Icon(Icons.badge, color: Colors.white),
             ),
             IconButton(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -40,7 +41,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                 Navigator.pushNamed(context, '/Donations');
               },
-              icon: const Icon(Icons.card_giftcard),
+              icon: const Icon(Icons.card_giftcard, color: Colors.white),
             ),
             if (Privileges.privilege == "Admin" ||
                 Privileges.privilege == "Member")
@@ -53,7 +54,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/Chat');
                 },
-                icon: const Icon(Icons.chat),
+                icon: const Icon(Icons.chat, color: Colors.white),
               ),
             if (Privileges.privilege == "Admin" ||
                 Privileges.privilege == "Member")
@@ -66,7 +67,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/Calendar');
                 },
-                icon: const Icon(Icons.calendar_month_rounded),
+                icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
               ),
             IconButton(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -77,7 +78,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                 Navigator.pushNamed(context, '/Catalogue');
               },
-              icon: const Icon(Icons.book),
+              icon: const Icon(Icons.book, color: Colors.white),
             ),
             IconButton(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -88,7 +89,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                 Navigator.pushNamed(context, '/Events');
               },
-              icon: const Icon(Icons.event),
+              icon: const Icon(Icons.event, color: Colors.white),
             ),
           ],
         ));

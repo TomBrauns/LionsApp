@@ -35,47 +35,49 @@ class _UserState extends State<User> {
                 thumbVisibility: false,
                 radius: const Radius.circular(360),
                 child: ListView(children: <Widget>[
-                  Column(children: <Widget>[
-                    Container(
-                      child: buildImageFromFirebase(),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 10),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        child: buildImageFromFirebase(),
                       ),
-                      onPressed: () async {
-                        final user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          final XFile? file = await ImageUpload.selectImage();
-                          if (file != null) {
-                            final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-                            final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
-                            if (imageUrl != null) {
-                              await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 10),
+                        ),
+                        onPressed: () async {
+                          final user = FirebaseAuth.instance.currentUser;
+                          if (user != null) {
+                            final XFile? file = await ImageUpload.selectImage();
+                            if (file != null) {
+                              final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                              final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
+                              if (imageUrl != null) {
+                                await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                              }
                             }
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Sie müssen sich zuerst anmelden!',
-                                style: TextStyle(color: Colors.white),
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Sie müssen sich zuerst anmelden!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.red,
                               ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('Profilbild ändern'),
-                    ),
-                    if (user != null)
-                      UserDataWidget()
-                    else
-                      Text(
-                        'Sie müssen sich zuerst anmelden!',
-                        style: TextStyle(color: Colors.red),
+                            );
+                          }
+                        },
+                        child: const Text('Profilbild ändern'),
                       ),
-                  ]),
+                      if (user != null)
+                        UserDataWidget()
+                      else
+                        Text(
+                          'Sie müssen sich zuerst anmelden!',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                    ],
+                  ),
                   Container(
                     margin: const EdgeInsets.all(25),
                     child: ElevatedButton.icon(
@@ -85,7 +87,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Nutzerdaten ändern'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {
@@ -118,7 +119,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Abos Verwalten'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {
@@ -138,7 +138,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Bedienungshilfe'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {

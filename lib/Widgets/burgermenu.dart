@@ -6,6 +6,8 @@ import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
+import '../util/color.dart';
+
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
 
@@ -27,17 +29,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 29, 89, 167),
+              color: ColorUtils.primaryColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: const [
-                  Text(
-                    "Lions App",
-                    textScaleFactor: 1.3,
-                  ),
-                ],
+              child: Center(
+                child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
               ),
             ),
           ),

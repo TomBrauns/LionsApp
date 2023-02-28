@@ -10,6 +10,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/appbar.dart';
+import '../../util/color.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});
@@ -39,6 +40,7 @@ class _EventsState extends State<Events> {
     if (Privileges.privilege == "Member" || Privileges.privilege == "Admin") {
       return FloatingActionButton(
         onPressed: () => _handleAddEvent(),
+        backgroundColor: ColorUtils.secondaryColor,
         child: const Icon(Icons.add),
       );
     } else {

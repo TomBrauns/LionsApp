@@ -1,6 +1,12 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/util/color.dart';
 import 'firebase_options.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/routes.dart';
@@ -10,6 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseChatCore.instance.setConfig(const FirebaseChatCoreConfig(null, "rooms", "user_chat"));
 
   try {
     await checkRool();
@@ -33,14 +40,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final String interneId = ''; // Beispiel-Parameter
 
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, child) =>
-          MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
+      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.blue[900],
+        primaryColor: ColorUtils.primaryColor,
+        primarySwatch: ColorUtils.primarySwatch,
       ),
       initialRoute: '/Donations?interneId=$interneId', // Route mit Parameter
       routes: routes,

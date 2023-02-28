@@ -346,28 +346,6 @@ class UpdateState extends State<Update> {
 
     Map<String, dynamic> dataToUpdate = {};
 
-    /* if (newFirstName != null && newFirstName.isNotEmpty) {
-      dataToUpdate['firstname'] = newFirstName;
-    }
-    if (newLastName != null && newLastName.isNotEmpty) {
-      dataToUpdate['lastname'] = newLastName;
-    }
-    if (newEmail != null && newEmail.isNotEmpty) {
-      dataToUpdate['email'] = newEmail;
-    }
-
-    if (newPostalCode != null && newPostalCode.isNotEmpty) {
-      dataToUpdate['postalcode'] = newPostalCode;
-    }
-    if (newCity != null && newCity.isNotEmpty) {
-      dataToUpdate['cityname'] = newCity;
-    }
-    if (newStreet != null && newStreet.isNotEmpty) {
-      dataToUpdate['streetname'] = newStreet;
-    }
-    if (newStreetNr != null && newStreetNr.isNotEmpty) {
-      dataToUpdate['streetnumber'] = newStreetNr;
-    } */
     dataToUpdate['firstname'] = newFirstName;
 
     dataToUpdate['lastname'] = newLastName;
