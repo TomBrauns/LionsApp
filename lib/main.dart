@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/util/color.dart';
 import 'firebase_options.dart';
 import 'package:lionsapp/login/login.dart';
 import 'package:lionsapp/routes.dart';
@@ -39,13 +40,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final String interneId = ''; // Beispiel-Parameter
 
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.blue[900],
+        primaryColor: ColorUtils.primaryColor,
+        primarySwatch: ColorUtils.primarySwatch,
       ),
       initialRoute: '/Donations?interneId=$interneId', // Route mit Parameter
       routes: routes,

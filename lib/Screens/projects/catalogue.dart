@@ -7,6 +7,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/appbar.dart';
+import '../../util/color.dart';
 
 class Catalogue extends StatefulWidget {
   const Catalogue({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _CatalogueState extends State<Catalogue> {
   Widget? _getFAB() {
     if (Privileges.privilege == "Admin") {
       return FloatingActionButton(
+        backgroundColor: ColorUtils.secondaryColor,
         onPressed: () => _handleAddProject(),
         child: const Icon(Icons.add),
       );

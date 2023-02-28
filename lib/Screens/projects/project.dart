@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
 
 import '../../Widgets/privileges.dart';
+import '../../util/color.dart';
 import '../donation.dart';
 
 class Project extends StatefulWidget {
@@ -91,9 +92,17 @@ class _ProjectState extends State<Project> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                        FloatingActionButton(onPressed: _handleDelete, child: const Icon(Icons.delete)),
+                        FloatingActionButton(
+                          onPressed: _handleDelete,
+                          backgroundColor: ColorUtils.secondaryColor,
+                          child: const Icon(Icons.delete),
+                        ),
                         const SizedBox(height: 16),
-                        FloatingActionButton(onPressed: _handleEdit, child: const Icon(Icons.edit)),
+                        FloatingActionButton(
+                          onPressed: _handleEdit,
+                          backgroundColor: ColorUtils.secondaryColor,
+                          child: const Icon(Icons.edit),
+                        ),
                       ])
                 : null,
             body: SingleChildScrollView(

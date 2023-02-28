@@ -87,7 +87,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Nutzerdaten ändern'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {
@@ -120,7 +119,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Abos Verwalten'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {
@@ -140,7 +138,6 @@ class _UserState extends State<User> {
                       ),
                       label: const Text('Bedienungshilfe'),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
                         elevation: 0,
                       ),
                       onPressed: () {

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/util/color.dart';
 import '../../Widgets/privileges.dart';
 import 'event_editor.dart';
 
@@ -107,9 +108,17 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                          FloatingActionButton(onPressed: _handleDelete, child: const Icon(Icons.delete)),
+                          FloatingActionButton(
+                            onPressed: _handleDelete,
+                            backgroundColor: ColorUtils.secondaryColor,
+                            child: const Icon(Icons.delete),
+                          ),
                           const SizedBox(height: 16),
-                          FloatingActionButton(onPressed: _handleEdit, child: const Icon(Icons.edit)),
+                          FloatingActionButton(
+                            onPressed: _handleEdit,
+                            backgroundColor: ColorUtils.secondaryColor,
+                            child: const Icon(Icons.edit),
+                          ),
                         ])
                   : null,
               body: SingleChildScrollView(
