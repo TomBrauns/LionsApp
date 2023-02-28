@@ -215,7 +215,7 @@ class _ReceiptState extends State<Receipt> {
     List<int> bytes = await document.save();
     document.dispose();
 
-    return bytes;
+    return bytes; //HEHAHU
   }
 
   Future<Uint8List> _readImageData() async{
