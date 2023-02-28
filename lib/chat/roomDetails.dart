@@ -129,6 +129,33 @@ class _roomDetailsState extends State<roomDetails> {
             },
             child: const Text('Profilbild ändern'),
           ),
+          SizedBox(
+            height: 200,
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: _handleEventImageUpload,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.grey,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: roomImg.isNotEmpty
+                    ? Image.network(roomImg)
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.upload, size: 48),
+                          Text("Bild auswählen"),
+                        ],
+                      ),
+              ),
+            ),
+          ),
           const SizedBox(height: 80),
           TextFormField(
             controller: roomNameController,
