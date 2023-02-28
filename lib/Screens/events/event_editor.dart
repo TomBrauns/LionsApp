@@ -213,7 +213,7 @@ class _EventEditorState extends State<EventEditor> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.documentId == null ? "Event anlegen" : "Event bearbeiten"),
+          title: Text(widget.documentId == null ? "Aktivität erstellen" : "Aktivität bearbeiten"),
         ),
         body: SingleChildScrollView(
           child: Container(
