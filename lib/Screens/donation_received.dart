@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -225,24 +226,14 @@ class _ReceiptState extends State<Receipt> {
     await OpenFilex.open(tempFile.path);
   }
 
-
   void _handleWebDownloadButtonPressed() async{
     List<int> bytes = await _createPDF();
 
-    final blob = html.Blob([bytes], 'application/pdf');
-
-    final url = html.Url.createObjectUrlFromBlob(blob);
-
-    html.window.open(url, '_blank');
-
-    html.Url.revokeObjectUrl(url);
+    html.AnchorElement(
+      href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    ..setAttribute("download", "spendenquittung.pdf")
+    ..click();
   }
-
-
-
-
-
-
 
 }
 
