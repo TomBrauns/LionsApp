@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
@@ -87,8 +86,6 @@ class _PaymethodeState extends State<Paymethode> {
                       stripeOnPressApp(amount, eventId, context);
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                       stripeOnPressWeb(amount, eventId, context);
-                      //retrieved Payment Object
-                      print(await retrieveCheckoutId());
                     }
                   },
                   child: const Text("Stripe"),

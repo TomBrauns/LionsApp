@@ -45,7 +45,7 @@ class _DonationReceivedState extends State<DonationReceived> {
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
               icon: const Icon(
-                Icons.receipt,
+                Icons.contact_support,
                 size: 24.0,
               ),
               label: const Text('Kontaktformular'),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:lionsapp/Screens/payment/payment_sidefunc.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:lionsapp/Screens/payment/paymethode.dart';
@@ -26,6 +27,11 @@ Future<void> stripeOnPressApp(double amount, eventId, context) async {
   try {
     // STEP 1: Create Payment Intent
     paymentIntent = await createPaymentIntent(amountInCents.toString(), 'EUR');
+
+    // Get the paymentintentObject
+    String paymentIntentId = paymentIntent!['id'];
+    print('Payment Intent ID: $paymentIntentId');
+    //List<String> PaymentIntentObject = await retrievePaymentIntent(paymentIntentId);
 
     // STEP 2: Initialize Payment Sheet
     await Stripe.instance
