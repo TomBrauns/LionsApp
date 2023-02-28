@@ -27,7 +27,7 @@ class _RoomsPageState extends State<RoomsPage> {
   User? _user;
   void signUpForChatUser() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final collectionRef = FirebaseFirestore.instance.collection('users_chat');
+    final collectionRef = FirebaseFirestore.instance.collection('user_chat');
     final docRef = collectionRef.doc(userId);
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;
@@ -39,7 +39,6 @@ class _RoomsPageState extends State<RoomsPage> {
         final imageUrl = documentSnapshot.data()?['image_url'];
         final firstname = documentSnapshot.data()?['firstname'];
         final lastname = documentSnapshot.data()?['lastname'];
-        final email = documentSnapshot.data()?['email'];
         await FirebaseChatCore.instance.createUserInFirestore(
           types.User(
             id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication

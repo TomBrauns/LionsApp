@@ -33,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: Text(widget.room.name!),
+          title: const Text('Chat'),
           actions: [
             IconButton(
               onPressed: () {

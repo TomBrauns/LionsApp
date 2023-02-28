@@ -1,6 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
@@ -85,6 +86,9 @@ class _CalendarState extends State<Calendar> {
         if (currentView == "Monat")
           Expanded(
               child: MonthView(
+                  headerStringBuilder: (dateTime, {secondaryDate}) {
+                    return DateFormat("LLLL yyyy").format(dateTime);
+                  },
                   controller: _eventController,
                   onEventTap: (e, d) => _handleEventClicked(e))),
         if (currentView == "Woche")
