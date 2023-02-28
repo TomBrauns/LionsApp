@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart'
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
 double amount = 10.00;
+String eventId = "evenid test";
 
 var _paymentItems = [
   PaymentItem(
@@ -84,7 +85,7 @@ class _PaymethodeState extends State<Paymethode> {
                     if (GetPlatform.currentPlatform != GetPlatform.web) {
                       stripeOnPressApp(amount, context);
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(amount, context);
+                      stripeOnPressWeb(amount, eventId, context);
                     }
                   },
                   child: const Text("Stripe"),

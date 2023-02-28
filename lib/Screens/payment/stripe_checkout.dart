@@ -5,15 +5,16 @@ import 'package:js/js.dart'
     if (dart.library.io) ''
     if (dart.library.html) 'package:js/js.dart';
 
-void stripeWebCheckout(context, Productid) async {
+void stripeWebCheckout(context, productId) async {
   final stripe = Stripe(
       "pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cBn9EmypeyJ92nC7mJpCwWHg1ZexBY8V00BAEi7S8t");
 
   stripe.redirectToCheckout(CheckoutOptions(
-    lineItems: [LineItem(price: Productid, quantity: 1)],
+    lineItems: [LineItem(price: productId, quantity: 1)],
     mode: "payment",
-    successUrl: "http://localhost:8000/#/success",
-    cancelUrl: "http://localhost:8000/#/cancel",
+    //TODO: URLs ersetzen durch richtige
+    successUrl: "http://localhost:60941/#/Donations/UserType/PayMethode",
+    cancelUrl: "http://localhost:60941/#/Donations/UserType/PayMethode",
   ));
 }
 
