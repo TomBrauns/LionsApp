@@ -12,7 +12,7 @@ class UserInList {
   final String firstName;
   final String lastName;
   final String documentId;
-  bool isSelected;
+  bool isSelected = false;
 
   UserInList({required this.firstName, required this.lastName, required this.documentId, this.isSelected = false});
 }
@@ -44,6 +44,15 @@ class _roomDetailsState extends State<roomDetails> {
           },
         );
     getUsers();
+  }
+
+  Future<List<String>> getttUserIdsFromRoom() async {
+    final querySnapshot = await FirebaseFirestore.instance.collection('rooms').doc(widget.roomId).get();
+
+    final data = querySnapshot.data()!;
+    final userIds = List<String>.from(data['userIds']); // Convert the list to a List<String>
+    print(userIds);
+    return userIds;
   }
 
   void getUsers() async {
@@ -89,6 +98,8 @@ class _roomDetailsState extends State<roomDetails> {
     }
   }
 
+  void checkIfUserIsSelected() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +128,33 @@ class _roomDetailsState extends State<roomDetails> {
               }
             },
             child: const Text('Profilbild ändern'),
+          ),
+          SizedBox(
+            height: 200,
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: _handleEventImageUpload,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.grey,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: roomImg.isNotEmpty
+                    ? Image.network(roomImg)
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.upload, size: 48),
+                          Text("Bild auswählen"),
+                        ],
+                      ),
+              ),
+            ),
           ),
           const SizedBox(height: 80),
           TextFormField(
@@ -149,22 +187,32 @@ class _roomDetailsState extends State<roomDetails> {
           const SizedBox(height: 20),
           Expanded(
             child: SizedBox(
-              child: ListView.builder(
-                itemCount: _users.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Row(
-                      children: [
-                        const Icon(Icons.person),
-                        const SizedBox(width: 10),
-                        Text('${_users[index].firstName} ${_users[index].lastName}'),
-                      ],
-                    ),
-                    value: _users[index].isSelected,
-                    onChanged: (bool? value) {
-                      setState(
-                        () {
-                          _users[index].isSelected = value!;
+              child: FutureBuilder<List<String>>(
+                future: _getUserIdsFromFirestore(),
+                builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final userIds = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: _users.length,
+                    itemBuilder: (context, index) {
+                      bool isChecked = userIds.contains(_users[index].documentId);
+                      return CheckboxListTile(
+                        title: Row(
+                          children: [
+                            const Icon(Icons.person),
+                            const SizedBox(width: 10),
+                            Text('${_users[index].firstName} ${_users[index].lastName} ${_users[index].documentId}'),
+                          ],
+                        ),
+                        value: _users[index].isSelected = isChecked,
+                        onChanged: (bool? value) {
+                          setState(
+                            () {
+                              _users[index].isSelected = value!;
+                            },
+                          );
                         },
                       );
                     },
@@ -180,11 +228,13 @@ class _roomDetailsState extends State<roomDetails> {
         onPressed: () async {
           List<UserInList> selectedUsers = getSelectedUsers();
           List<User> userList = selectedUsers
-              .map((user) => User(
-                    id: user.documentId,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                  ))
+              .map(
+                (user) => User(
+                  id: user.documentId,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                ),
+              )
               .toList();
           updateRoom(roomNameController.text, roomDescriptionController.text);
           Navigator.pushReplacement(
@@ -264,5 +314,11 @@ class _roomDetailsState extends State<roomDetails> {
         ),
       );
     }
+  }
+
+  Future<List<String>> _getUserIdsFromFirestore() async {
+    final docSnapshot = await FirebaseFirestore.instance.collection('rooms').doc(widget.roomId).get();
+    final userIds = List<String>.from(docSnapshot.get('userIds'));
+    return userIds;
   }
 }

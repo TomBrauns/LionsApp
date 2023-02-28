@@ -1,13 +1,28 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
+
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:open_filex/open_filex.dart';
+
+import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:universal_html/html.dart' as html;
+import 'package:path_provider/path_provider.dart';
 
 // Test Values
 // ignore: non_constant_identifier_names
@@ -34,7 +49,7 @@ class _DonationReceivedState extends State<DonationReceived> {
             margin: const EdgeInsets.all(40),
             padding: const EdgeInsets.all(40.0),
             decoration: BoxDecoration(
-                color: Color.fromARGB(156, 141, 196, 241),
+                color: const Color.fromARGB(156, 141, 196, 241),
                 border: Border.all(color: Colors.blueAccent)),
             child: Text(
                 "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
@@ -45,7 +60,7 @@ class _DonationReceivedState extends State<DonationReceived> {
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
               icon: const Icon(
-                Icons.contact_support,
+                Icons.receipt,
                 size: 24.0,
               ),
               label: const Text('Kontaktformular'),
@@ -128,11 +143,13 @@ class Receipt extends StatefulWidget {
 }
 
 class _ReceiptState extends State<Receipt> {
+  List<int>? _bytes;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Quittung"),
+          title: const Text("Spendenquittung"),
         ),
         body: Center(
             child: Column(children: <Widget>[
@@ -149,7 +166,15 @@ class _ReceiptState extends State<Receipt> {
                 backgroundColor: Colors.blue,
                 elevation: 0,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                print("Button gedrückt");
+                if (kIsWeb) {
+                  _handleWebDownloadButtonPressed();
+                  print("Web erkannt");
+                } else {
+                  _handleDownloadButtonPressed();
+                }
+              },
             ),
           ),
           Container(
@@ -171,10 +196,53 @@ class _ReceiptState extends State<Receipt> {
           Container(
             margin: const EdgeInsets.all(40),
             height: 50,
-            child: Text(
+            child: const Text(
                 "Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
           ),
         ])));
+  }
+
+  Future<List<int>> _createPDF() async {
+    PdfDocument document = PdfDocument();
+    final page = document.pages.add();
+
+    page.graphics.drawImage(
+        PdfBitmap(await _readImageData()),
+        Rect.fromLTWH(
+            0, 0, page.getClientSize().width, page.getClientSize().height));
+
+    List<int> bytes = await document.save();
+    document.dispose();
+
+    return bytes;
+  }
+
+  Future<Uint8List> _readImageData() async {
+    final data = await rootBundle.load(
+        '/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spenden/spendenquittung.jpg');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  //Download in App
+  void _handleDownloadButtonPressed() async {
+    List<int> pdfBytes = await _createPDF();
+
+    Directory tempDir = await getTemporaryDirectory();
+    File tempFile = File('${tempDir.path}/spendenquittung.pdf');
+    await tempFile.writeAsBytes(pdfBytes);
+
+    await OpenFilex.open(tempFile.path);
+  }
+
+  //Download im Web
+  void _handleWebDownloadButtonPressed() async {
+    List<int> bytes = await _createPDF();
+
+    html.AnchorElement(
+        href:
+            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+      ..setAttribute("download", "spendenquittung.pdf")
+      ..click();
   }
 }
 
@@ -197,7 +265,7 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Quittung"),
+          title: const Text("Spendenquittung"),
         ),
         body: Center(
             child: SizedBox(
@@ -284,7 +352,7 @@ class _ShareDonationState extends State<ShareDonation> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -345,7 +413,7 @@ class _ReceiptdataState extends State<Receiptdata> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Quittung"),
+          title: const Text("Spendenquittung"),
         ),
         body: Center(
             child: SizedBox(
@@ -358,7 +426,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                     ),
                     TextField(
                       controller: myController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Vor-/Nachname',
                       ),
                       obscureText: false,
@@ -369,7 +437,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                     ),
                     TextField(
                       controller: myController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Postleitzahl u. Ort',
                       ),
                       obscureText: false,
@@ -380,7 +448,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                     ),
                     TextField(
                       controller: myController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Straße u. Hausnummer',
                       ),
                       obscureText: false,
@@ -389,8 +457,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                     Container(
                       margin: const EdgeInsets.all(15),
                     ),
-                    Container(
-                        child: Row(children: <Widget>[
+                    Row(children: <Widget>[
                       Checkbox(
                         value: isChecked,
                         onChanged: (bool? value) {
@@ -402,11 +469,11 @@ class _ReceiptdataState extends State<Receiptdata> {
                       const Text(
                         "Daten speichern?",
                       ),
-                    ])),
+                    ]),
                     Container(
-                      margin: EdgeInsets.all(25),
+                      margin: const EdgeInsets.all(25),
                       child: ElevatedButton(
-                        child: Text("Weiter"),
+                        child: const Text("Weiter"),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
                           elevation: 0,

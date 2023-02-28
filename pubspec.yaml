@@ -36,8 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   syncfusion_flutter_datepicker: ^20.4.49
-  intl: ^0.17.0
   currency_text_input_formatter: ^2.1.8
+  intl: ^0.17.0
 
   firebase_core: ^2.5.0
   cloud_firestore: ^4.4.2
@@ -82,6 +82,10 @@ dependencies:
   flutter_localization: any
   webview_flutter: ^4.0.5
   dio: ^5.0.1
+
+  syncfusion_flutter_pdf: ^20.4.51
+  universal_io: ^2.2.0
+  permission_handler: ^10.2.0
 
 dependency_overrides:
   intl: ^0.18.0 
