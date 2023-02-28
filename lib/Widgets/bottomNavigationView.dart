@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
 
@@ -22,67 +23,39 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Tooltip(
-                message: "User Verwaltung",
-                decoration: BoxDecoration(color: Colors.blue),
-                child: IconButton(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  onPressed: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
+              message: "User Verwaltung",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
 
-                    Navigator.pushNamed(context, '/User');
-                  },
-                  icon: const Icon(Icons.badge),
-                )),
+                  Navigator.pushNamed(context, '/User');
+                },
+                icon: const Icon(Icons.badge),
+              ),
+            ),
             Tooltip(
-                message: "Spenden",
-                decoration: BoxDecoration(color: Colors.blue),
-                child: IconButton(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  onPressed: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
+              message: "Chat",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
 
-                    Navigator.pushNamed(context, '/Donations');
-                  },
-                  icon: const Icon(Icons.card_giftcard),
-                )),
+                  Navigator.pushNamed(context, '/Chat');
+                },
+                icon: const Icon(Icons.chat),
+              ),
+            ),
             if (Privileges.privilege == "Admin" ||
                 Privileges.privilege == "Member")
               Tooltip(
-                  message: "Chat",
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: IconButton(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-
-                      Navigator.pushNamed(context, '/Chat');
-                    },
-                    icon: const Icon(Icons.chat),
-                  )),
-            if (Privileges.privilege == "Admin" ||
-                Privileges.privilege == "Member")
-              Tooltip(
-                  message: "Kalender",
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: IconButton(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    onPressed: () {
-                      // Update State of App
-                      Navigator.pop(context);
-                      // Push to Screen
-
-                      Navigator.pushNamed(context, '/Calendar');
-                    },
-                    icon: const Icon(Icons.calendar_month_rounded),
-                  )),
-            Tooltip(
-                message: "Katalog",
+                message: "Kalender",
                 decoration: BoxDecoration(color: Colors.blue),
                 child: IconButton(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -91,24 +64,42 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     Navigator.pop(context);
                     // Push to Screen
 
-                    Navigator.pushNamed(context, '/Catalogue');
+                    Navigator.pushNamed(context, '/Calendar');
                   },
-                  icon: const Icon(Icons.book),
-                )),
+                  icon: const Icon(Icons.calendar_month_rounded),
+                ),
+              ),
             Tooltip(
-                message: "Aktivitäten",
-                decoration: BoxDecoration(color: Colors.blue),
-                child: IconButton(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  onPressed: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
+              message: "Katalog",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
 
-                    Navigator.pushNamed(context, '/Events');
-                  },
-                  icon: const Icon(Icons.event),
-                )),
+                  Navigator.pushNamed(context, '/Catalogue');
+                },
+                icon: const Icon(Icons.book),
+              ),
+            ),
+            Tooltip(
+              message: "Aktivitäten",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
+
+                  Navigator.pushNamed(context, '/Events');
+                },
+                icon: const Icon(Icons.event),
+              ),
+            ),
+
           ],
         ));
   }
