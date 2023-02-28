@@ -27,7 +27,7 @@ class _RoomsPageState extends State<RoomsPage> {
   User? _user;
   void signUpForChatUser() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final collectionRef = FirebaseFirestore.instance.collection('my_collection');
+    final collectionRef = FirebaseFirestore.instance.collection('users_chat');
     final docRef = collectionRef.doc(userId);
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;

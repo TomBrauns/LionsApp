@@ -37,10 +37,8 @@ class _RoomCreatorState extends State<RoomCreator> {
   void getUsers() async {
     // Get the current user ID
     String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
-
     // Get the list of users from Firestore
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users_chat').get();
-
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('user_chat').get();
     // Filter the list to remove the current user
     List<UserInList> filteredUsers = snapshot.docs.where((document) => document.id != currentUserId).map(
       (DocumentSnapshot document) {
@@ -51,10 +49,11 @@ class _RoomCreatorState extends State<RoomCreator> {
         );
       },
     ).toList();
-
-    setState(() {
-      _users = filteredUsers;
-    });
+    setState(
+      () {
+        _users = filteredUsers;
+      },
+    );
   }
 
   List<UserInList> getSelectedUsers() {
@@ -69,9 +68,11 @@ class _RoomCreatorState extends State<RoomCreator> {
       final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
       final String? imgUrl = await ImageUpload.uploadImage(file, "room_images", "", uniqueFilename);
       if (imgUrl != null) {
-        setState(() {
-          roomImg = imgUrl;
-        });
+        setState(
+          () {
+            roomImg = imgUrl;
+          },
+        );
       }
     }
   }
