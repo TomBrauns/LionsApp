@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:lionsapp/Screens/payment/paymethode.dart';
 
 Map<String, dynamic>? paymentIntent;
 
@@ -19,7 +20,7 @@ void stripeSettings() {
 // Calculate amount in cents
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<void> stripeOnPressApp(double amount, context) async {
+Future<void> stripeOnPressApp(double amount, eventId, context) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   try {
@@ -60,6 +61,7 @@ Future<Map<String, dynamic>> createPaymentIntent(
     final body = {
       'amount': amount,
       'currency': currency,
+      'description': eventId,
     };
 
     // Make post request to Stripe

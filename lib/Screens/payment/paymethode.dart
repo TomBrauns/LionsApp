@@ -4,6 +4,7 @@ import 'package:lionsapp/Screens/donation_received.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
+import 'payment_sidefunc.dart';
 
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
@@ -83,9 +84,11 @@ class _PaymethodeState extends State<Paymethode> {
                   ),
                   onPressed: () async {
                     if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      stripeOnPressApp(amount, context);
+                      stripeOnPressApp(amount, eventId, context);
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                       stripeOnPressWeb(amount, eventId, context);
+                      //retrieved Payment Object
+                      print(await retrieveCheckoutId());
                     }
                   },
                   child: const Text("Stripe"),

@@ -13,8 +13,10 @@ void stripeWebCheckout(context, productId) async {
     lineItems: [LineItem(price: productId, quantity: 1)],
     mode: "payment",
     //TODO: URLs ersetzen durch richtige
-    successUrl: "http://localhost:60941/#/Donations/UserType/PayMethode",
-    cancelUrl: "http://localhost:60941/#/Donations/UserType/PayMethode",
+    //successUrl: "https://marc-wieland.de/#/Donations/UserType/PayMethode",
+    //cancelUrl: "https://marc-wieland.de/#/Donations/UserType/PayMethode",
+    successUrl: "http://localhost:53272/#/Donations/UserType/PayMethode",
+    cancelUrl: "http://localhost:53272/#/Donations/UserType/PayMethode",
   ));
 }
 
