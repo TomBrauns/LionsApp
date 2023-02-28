@@ -1,6 +1,8 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,6 +33,7 @@ class _EventEditorState extends State<EventEditor> {
   String textValue = 'Privat';
   String eventImgUrl = "";
   String sponsorImgUrl = "";
+  String? chatRoomId;
   bool isSwitched = false;
   late bool _hasDonationTarget = true;
   late bool _hasProject = true;
@@ -50,7 +53,7 @@ class _EventEditorState extends State<EventEditor> {
     }
   }
 
-  void _handleSubmit() {
+  void _handleSubmit() async {
     if (_eventNameController.text.isEmpty) {
       print("EventName empty");
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -66,6 +69,22 @@ class _EventEditorState extends State<EventEditor> {
       } else {
         endDate = null;
       }
+      final String? roomId;
+      if (widget.documentId == null) {
+        if (_createChat) {
+          final Room room = await FirebaseChatCore.instance.createGroupRoom(
+            imageUrl: eventImgUrl,
+            name: _eventNameController.text,
+            users: [],
+            metadata: {"Beschreibung": "Chatraum für ${_eventNameController.text}"},
+          );
+          roomId = room.id;
+        } else {
+          roomId = null;
+        }
+      } else {
+        roomId = chatRoomId;
+      }
       final collection = FirebaseFirestore.instance.collection('events');
       final String userId = FirebaseAuth.instance.currentUser!.uid;
       final event = {
@@ -74,7 +93,7 @@ class _EventEditorState extends State<EventEditor> {
         'eventInfo': _eventDescriptionController.text,
         'spendenZiel': _hasDonationTarget ? _donationTargetController.text : null,
         'ort': _locationController.text,
-        'chat': _createChat,
+        'chat_room': roomId,
         'projekt': _hasProject ? _selectedProject : null,
         'eventName': _eventNameController.text,
         'image_url': eventImgUrl,
@@ -83,9 +102,9 @@ class _EventEditorState extends State<EventEditor> {
         'creator': userId
       };
       if (widget.documentId == null) {
-        collection.add(event);
+        await collection.add(event);
       } else {
-        collection.doc(widget.documentId).set(event);
+        await collection.doc(widget.documentId).set(event);
       }
       Navigator.pop(context);
     }
@@ -201,7 +220,9 @@ class _EventEditorState extends State<EventEditor> {
         if (project.data()!.containsKey("sponsor_img_url")) {
           sponsorImgUrl = project.get("sponsor_img_url");
         }
-        _createChat = project.get("chat");
+        if (project.data()!.containsKey("chat_room")) {
+          chatRoomId = project.get("chat_room");
+        }
         _hasDonationTarget = project.get("spendenZiel").toString().isNotEmpty;
         _selectedProject = project.get("projekt");
         _hasProject = _selectedProject != null && _selectedProject!.isNotEmpty;
@@ -372,15 +393,16 @@ class _EventEditorState extends State<EventEditor> {
                       Expanded(child: _hasProject ? const ProjectDropdown() : Container()),
                     ],
                   ),
-                  CheckboxListTile(
-                    title: Text("Chat erstellen:"),
-                    value: _createChat,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _createChat = value!;
-                      });
-                    },
-                  ),
+                  if (widget.documentId == null)
+                    CheckboxListTile(
+                      title: Text("Chat erstellen:"),
+                      value: _createChat,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _createChat = value!;
+                        });
+                      },
+                    ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _sponsorController,
