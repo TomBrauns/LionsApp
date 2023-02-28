@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
@@ -209,13 +210,23 @@ class _ReceiptState extends State<Receipt> {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawString("Test PDF", PdfStandardFont(PdfFontFamily.helvetica, 30));
+    page.graphics.drawImage(PdfBitmap(await _readImageData()), Rect.fromLTWH(0, 0, page.getClientSize().width, page.getClientSize().height));
+
     List<int> bytes = await document.save();
     document.dispose();
 
     return bytes;
   }
 
+  Future<Uint8List> _readImageData() async{
+    final data = await rootBundle.load('/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spenden/spendenquittung.jpg');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+
+
+
+  //Download in App
   void _handleDownloadButtonPressed() async{
     List<int> pdfBytes = await _createPDF();
 
@@ -226,6 +237,8 @@ class _ReceiptState extends State<Receipt> {
     await OpenFilex.open(tempFile.path);
   }
 
+
+  //Download im Web
   void _handleWebDownloadButtonPressed() async{
     List<int> bytes = await _createPDF();
 
