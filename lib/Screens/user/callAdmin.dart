@@ -19,77 +19,69 @@ class _callAdminState extends State<callAdmin> {
         drawer: const BurgerMenu(),
         appBar: const MyAppBar(title: "Rollen Verwalten"),
         bottomNavigationBar: BottomNavigation(),
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(height: 50),
-              Text("Alle Nutzer: "),
-              listAllUsersWidget(),
-            ],
-          ),
-        ));
+        body: const UserRoleList());
   }
 }
 
-// Function to list all users stored in Firestore
-Future<List> listUsers() async {
-  try {
-    final usersRef = FirebaseFirestore.instance.collection('users');
-    final usersSnapshot = await usersRef.get();
-    final users = [];
-    usersSnapshot.docs.forEach((doc) {
-      final userData = doc.data();
-      users.add(userData);
-    });
-    return users;
-  } catch (error) {
-    print('Error listing users: $error');
-    return [];
-  }
-}
+class UserRoleList extends StatefulWidget {
+  const UserRoleList({Key? key}) : super(key: key);
 
-class listAllUsersWidget extends StatefulWidget {
-  const listAllUsersWidget({super.key});
   @override
-  State<listAllUsersWidget> createState() => _listAllUsersWidgetState();
+  State<UserRoleList> createState() => _UserRoleListState();
 }
 
-class _listAllUsersWidgetState extends State<listAllUsersWidget> {
+class _UserRoleListState extends State<UserRoleList> {
   final List<String> _roleOptions = ['Friend', 'Member', 'Admin'];
-  Map<String, String?> _selectedRoles = {};
+  final _userStream = FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) => snapshot.docs);
+  String _searchQuery = "";
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      future: FirebaseFirestore.instance.collection('users').get(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-          final users = snapshot.data!.docs;
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          onChanged: (value) {
+            setState(() {
+              _searchQuery = value;
+            });
+          },
+          decoration:
+              const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+        ),
+      ),
+      Expanded(
+          child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+              stream: _userStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                }
 
-          return DataTable(
-            columns: const [
-              DataColumn(label: Text('Email')),
-              DataColumn(
-                label: Text('Rolle'),
-                numeric: false,
-                tooltip: 'Rolle auswählen',
-              ),
-            ],
-            rows: [
-              for (var user in users)
-                DataRow(
-                  cells: [
-                    DataCell(
-                      Text('${user['email']}'),
-                    ),
-                    DataCell(
-                      DropdownButton<String>(
-                        value: _selectedRoles[user.id] ?? user['rool'],
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final users = snapshot.data!.where((user) =>
+                    (user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                    (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                    (user.get("lastname") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+
+                return ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    final user = users.elementAt(index);
+                    return ListTile(
+                      title: Text("${user["firstname"]} ${user["lastname"]}"),
+                      subtitle: Text(user["email"]),
+                      trailing: DropdownButton<String>(
+                        value: user['rool'],
                         onChanged: (String? newValue) {
-                          // Update the user's role in Firestore
                           user.reference.update({'rool': newValue});
-                          setState(() {
-                            _selectedRoles[user.id] = newValue;
-                          });
                         },
                         items: _roleOptions.map(
                           (String option) {
@@ -100,17 +92,10 @@ class _listAllUsersWidgetState extends State<listAllUsersWidget> {
                           },
                         ).toList(),
                       ),
-                    ),
-                  ],
-                ),
-            ],
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
+                    );
+                  },
+                );
+              }))
+    ]);
   }
 }
