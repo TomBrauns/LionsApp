@@ -9,12 +9,12 @@ class UserTypeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'User Type'),
-      backgroundColor: Colors.blue, // set the background color to blue
+      backgroundColor:
+          Color.fromARGB(255, 29, 89, 167), // set the background color to blue
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
