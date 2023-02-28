@@ -6,6 +6,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 
 import '../Widgets/appbar.dart';
+import '../util/color.dart';
 import 'events/event_details_page.dart';
 
 class Calendar extends StatefulWidget {
@@ -38,6 +39,7 @@ class _CalendarState extends State<Calendar> {
                   startTime: (event.get("startDate") as Timestamp).toDate(),
                   endTime: (event.get("endDate") as Timestamp).toDate(),
                   date: (event.get("startDate") as Timestamp).toDate(),
+                  color: ColorUtils.primaryColor,
                   endDate: (event.get("endDate") as Timestamp).toDate()))
               .toList())
         });
@@ -98,6 +100,7 @@ class _CalendarState extends State<Calendar> {
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _handleAddEvent,
+        backgroundColor: ColorUtils.secondaryColor,
         child: const Icon(Icons.add),
       ),
     );
