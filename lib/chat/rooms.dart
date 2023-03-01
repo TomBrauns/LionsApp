@@ -242,3 +242,24 @@ class _RoomsPageState extends State<RoomsPage> {
     );
   }
 }
+
+class ScrollToUnreadOptions {
+  const ScrollToUnreadOptions({this.lastReadMessageId, this.scrollDelay = const Duration(milliseconds: 150), this.scrollDuration = ScrollDragController.momentumRetainStationaryDurationThreshold, this.scrollOnOpen = false, this.customBanner});
+
+  /// Will show an unread messages header after this message if there are more
+  /// messages to come and will scroll to this header on
+  /// [ChatState.scrollToUnreadHeader].
+  final String? lastReadMessageId;
+
+  /// Duration to wait after open until the scrolling starts.
+  final Duration scrollDelay;
+
+  /// Duration for the animation of the scrolling.
+  final Duration scrollDuration;
+
+  /// Whether to scroll to the first unread message on open.
+  final bool scrollOnOpen;
+
+  /// Returns an optional custom override for presenting the unread banner.
+  final Widget? customBanner;
+}
