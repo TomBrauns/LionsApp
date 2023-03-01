@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
@@ -13,6 +14,8 @@ import 'package:flutter/foundation.dart'
 
 double amount = 10.00;
 String eventId = "evenid test";
+
+bool paymentSuccess = false;
 
 var _paymentItems = [
   PaymentItem(
@@ -31,10 +34,12 @@ class Paymethode extends StatefulWidget {
 
 class _PaymethodeState extends State<Paymethode> {
   void onApplePayResult(paymentResult) {
+    print(paymentResult);
     // Send the resulting Apple Pay token to your server / PSP
   }
 
   void onGooglePayResult(paymentResult) {
+    print(paymentResult);
     // Send the resulting Google Pay token to your server / PSP
   }
 
@@ -66,7 +71,7 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    paypalOnPress(amount);
+                    paypalOnPress(amount, eventId);
                   },
                   child: const Text("Paypal"),
                 ),
@@ -83,7 +88,13 @@ class _PaymethodeState extends State<Paymethode> {
                   ),
                   onPressed: () async {
                     if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      stripeOnPressApp(amount, eventId, context);
+                      paymentSuccess =
+                          (await stripeOnPressApp(amount, eventId, context))!;
+                      if (paymentSuccess == false) {
+                        showErrorSnackbar(context);
+                      } else if (paymentSuccess == true) {
+                        showSuccessSnackbar(context);
+                      }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                       stripeOnPressWeb(amount, eventId, context);
                     }
@@ -121,23 +132,33 @@ class _PaymethodeState extends State<Paymethode> {
                             ),
                           )
                         : const SizedBox.shrink()),
-              Container(
-                  height: 50,
-                  width: 350,
-                  padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.all(15),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/ThankYou');
-                    },
-                    child: const Text("Skip"),
-                  )),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  void showErrorSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Zahlung abgebrochen'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 4),
+      ),
+    );
+  }
+
+  void showSuccessSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Zahlung erfolgreich'),
+        backgroundColor: Colors.green,
+        action: SnackBarAction(
+          label: 'weiter',
+          onPressed: () {
+            Navigator.pushNamed(context, '/ThankYou');
+          },
         ),
       ),
     );

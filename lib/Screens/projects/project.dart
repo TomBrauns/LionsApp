@@ -53,7 +53,7 @@ class _ProjectState extends State<Project> {
   }
 
   void _handleDonation() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.documentId)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(projectId: widget.documentId)));
   }
 
   @override

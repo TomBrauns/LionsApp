@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/donation_user_screen.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
@@ -314,24 +313,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const UserManagement()),
-                    );
-                  },
-                )
-              : Container(),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
-              ? ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text('New Donations'),
-                  onTap: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DonationsUser()),
                     );
                   },
                 )

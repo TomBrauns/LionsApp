@@ -96,8 +96,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           final String creatorId = data['creator'] ?? "";
 
           // Condition for showing the edit button: user must be member + creator OR user must be admin
-          final String userId = FirebaseAuth.instance.currentUser!.uid;
-          final bool showEditButton = (Privileges.privilege == "Member" && creatorId == userId) || Privileges.privilege == "Admin";
+          final String? userId = FirebaseAuth.instance.currentUser?.uid;
+          final bool showEditButton = userId != null && (Privileges.privilege == "Member" && creatorId == userId) || Privileges.privilege == "Admin";
 
           return Scaffold(
               appBar: AppBar(

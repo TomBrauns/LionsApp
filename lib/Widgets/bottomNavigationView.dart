@@ -34,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/User');
                 },
-                icon: const Icon(Icons.badge),
+                icon: const Icon(Icons.badge, color: Colors.white),
               ),
             ),
             Tooltip(
@@ -49,7 +49,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/Chat');
                 },
-                icon: const Icon(Icons.chat),
+                icon: const Icon(Icons.chat, color: Colors.white),
               ),
             ),
             if (Privileges.privilege == "Admin" ||
@@ -66,7 +66,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                     Navigator.pushNamed(context, '/Calendar');
                   },
-                  icon: const Icon(Icons.calendar_month_rounded),
+                  icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
                 ),
               ),
             Tooltip(
@@ -81,7 +81,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/Catalogue');
                 },
-                icon: const Icon(Icons.book),
+                icon: const Icon(Icons.book, color: Colors.white),
               ),
             ),
             Tooltip(
@@ -96,7 +96,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                   Navigator.pushNamed(context, '/Events');
                 },
-                icon: const Icon(Icons.event),
+                icon: const Icon(Icons.event, color: Colors.white),
               ),
             ),
 
