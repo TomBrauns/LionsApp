@@ -146,10 +146,16 @@ class _DonationsState extends State<Donations> {
                                 Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
                                 DualLinearProgressIndicator(
                                   maxValue: _parseEuroStringToDouble(donationTarget),
+                                  progressValue: spendenCounter.toDouble(),
+                                  addValue: _donationInput,
+
+                                )
+                                /*DualLinearProgressIndicator(
+                                  maxValue: _parseEuroStringToDouble(donationTarget),
                                   // TODO show actual progressValue not that random value:
                                   progressValue: _parseEuroStringToDouble(donationTarget) * 0.35,
                                   addValue: _donationInput,
-                                ),
+                                ),*/
                               ]),
                             )
                           else
@@ -192,6 +198,8 @@ class _DonationsState extends State<Donations> {
                                   // onPressed: _handleSubmit,
                                   onPressed: () async {
                                     int currentDonationValue = _getCurrentValue();
+                                    _inputController.text = "";
+                                    _handleAdd(0);
                                     int newDonationValue = spendenCounter + currentDonationValue;
                                     await _updateDonationValue(newDonationValue);
 
