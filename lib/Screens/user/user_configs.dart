@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/callAdmin.dart';
+import 'package:lionsapp/Screens/user/changePassword.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
@@ -96,6 +97,38 @@ class _UserState extends State<User> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Update()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Sie müssen sich zuerst anmelden!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(25),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.lock_open_rounded,
+                        size: 24.0,
+                      ),
+                      label: const Text('Passwort ändern'),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                      ),
+                      onPressed: () {
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => changePw()),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -300,13 +333,13 @@ class _UserState extends State<User> {
 }
 
 Future<void> deleteAcc() async {
-  Privileges.privilege = "gast";
+  Privileges.privilege = "Guest";
   await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
-  FirebaseAuth.instance.currentUser!.delete();
+  await FirebaseAuth.instance.currentUser!.delete();
 }
 
 Future<void> signOut() async {
-  Privileges.privilege = "gast";
+  Privileges.privilege = "Guest";
   await FirebaseAuth.instance.signOut();
 }
 

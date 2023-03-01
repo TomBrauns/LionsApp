@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/confirmMailForPwReset.dart';
+import 'package:lionsapp/login/apple/apple_sign_in_button.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,6 +15,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lionsapp/login/register.dart' as test;
 
 class LoginPage extends StatefulWidget {
+  final String? prefilledEmail;
+  const LoginPage({super.key, this.prefilledEmail});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -22,13 +26,23 @@ class _LoginPageState extends State<LoginPage> {
   /* TEST */
   bool isLoggedIN = false;
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+
   /* ENDE */
   bool _isObscure3 = true;
-  bool visible = false;
+  bool _isLoading = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.prefilledEmail != null) {
+      emailController.text = widget.prefilledEmail!;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             setState(
                               () {
-                                visible = true;
+                                _isLoading = true;
                               },
                             );
                             signIn(emailController.text, passwordController.text);
@@ -197,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                             maintainSize: true,
                             maintainAnimation: true,
                             maintainState: true,
-                            visible: visible,
+                            visible: _isLoading,
                             child: Container(
                                 child: const CircularProgressIndicator(
                               color: Colors.white,
@@ -218,7 +232,22 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                         ),
-
+                        // Apple testing
+                        /* FutureBuilder(
+                          future: Authentication.initializeFirebase(context: context),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Error initializing Firebase');
+                            } else if (snapshot.connectionState == ConnectionState.done) {
+                              return AppleSignInButton();
+                            }
+                            return const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.orange,
+                              ),
+                            );
+                          },
+                        ), */
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -274,69 +303,34 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void route() {
-    User? user = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "Admin") {
-          Privileges.privilege = "Admin";
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Donations(),
-            ),
-          );
-        } else {
-          Privileges.privilege = "Friend";
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Donations(),
-            ),
-          );
-        }
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
-  }
-
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
+        //if (!cred.user!.emailVerified) {
         //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-
-        // if (userCredential.user!.emailVerified) {
-        route();
-        // } else {
-        //  ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //      content: Text('Bitte bestätigen sie zu erst ihre Email Adresse'),
-        //     ),
-        //   );
-        //  }
-      } catch (e) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("etwas is falsch gelaufen - Versuchen Sie es erneut!"),
-              actions: <Widget>[
-                MaterialButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        //ScaffoldMessenger.of(context).showSnackBar(
+        //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+        //);
+        //} else {
+        checkRool().then((_) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Donations(),
+              ));
+          setState(() {
+            _isLoading = false;
+          });
+        });
+        //}
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
         );
-      }
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
   }
 }

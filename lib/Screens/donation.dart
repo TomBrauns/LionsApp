@@ -123,6 +123,7 @@ class _DonationsState extends State<Donations> {
 
               Future<void> _updateDonationValue(int newDonationValue) async {
                 try {
+                  print("Hier in Funktion");
                   // Get a reference to the document that needs to be updated
                   final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
@@ -200,15 +201,18 @@ class _DonationsState extends State<Donations> {
                                   // onPressed: _handleSubmit,
                                   onPressed: () async {
                                     int currentDonationValue = _getCurrentValue();
-                                    _inputController.text = "";
-                                    _handleAdd(0);
+
                                     int newDonationValue = spendenCounter + currentDonationValue;
 
-                                    if(_inputController.text == ""){
+                                    // TODO Hier muss noch eine schönere Variante eingebaut werden, die checkt, ob das Feld gefüllt ist / größer 0 ist
+                                    if(_inputController.text != "" && double.parse(_inputController.text) > 0){
                                       await _updateDonationValue(newDonationValue);
+                                      _inputController.text = "";
+                                      _handleAdd(0);
+
+                                      Navigator.pushNamed(context, '/Donations/UserType');
                                     }
 
-                                    Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),

@@ -1,11 +1,13 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lionsapp/Screens/events/event_details_page.dart';
 
 import '../../util/image_upload.dart';
 
@@ -87,6 +89,7 @@ class _EventEditorState extends State<EventEditor> {
       }
       final collection = FirebaseFirestore.instance.collection('events');
       final String userId = FirebaseAuth.instance.currentUser!.uid;
+      final String? eventId;
       final event = {
         'startDate': startDate,
         'endDate': endDate,
@@ -103,11 +106,23 @@ class _EventEditorState extends State<EventEditor> {
         'currentDonationValue': 0,
       };
       if (widget.documentId == null) {
-        await collection.add(event);
+        final createdEvent = await collection.add(event);
+        eventId = createdEvent.id;
       } else {
         await collection.doc(widget.documentId).set(event);
+        eventId = widget.documentId;
       }
-      Navigator.pop(context);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.pop(context);
+        if (widget.documentId == null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EventDetailsPage(eventId: eventId!),
+            ),
+          );
+        }
+      });
     }
   }
 
