@@ -20,23 +20,16 @@ class BurgerMenu extends StatefulWidget {
 
 class _BurgerMenuState extends State<BurgerMenu> {
   var scrollcontroller = ScrollController();
-  int _selectedMenuIndex = AppData.selected;
 
-  @override
-  void initState() {
-    super.initState();
-    AppData.selected = 10;
-    print(AppData.selected);
-  }
+  Color selectedColor = Colors.limeAccent;
 
-  
+
   bool isMenuSelected(int index){
-    return index == _selectedMenuIndex;
+    return index == AppData.selected;
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Hier kommt die AppDat ${AppData.selected}");
     return Drawer(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -65,21 +58,26 @@ class _BurgerMenuState extends State<BurgerMenu> {
             leading: const Icon(Icons.home),
             title: const Text('Startseite'),
             selected: isMenuSelected(0),
-            selectedTileColor: Colors.green,
+            selectedTileColor: selectedColor,
             onTap: () {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/');
               setState(() {
-                _selectedMenuIndex = 0;
+                AppData.selected = 0;
               });
             },
           ),
           ListTile(
             leading: const Icon(Icons.card_giftcard),
             title: const Text('Spenden'),
+            selected: isMenuSelected(1),
+            selectedTileColor: selectedColor,
             onTap: () {
+              setState(() {
+                AppData.selected = 1;
+              });
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
@@ -92,7 +90,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.badge),
                   title: const Text('Benutzer'),
+                  selected: isMenuSelected(2),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 2;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -106,7 +109,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.calendar_month_rounded),
                   title: const Text('Kalender'),
+                  selected: isMenuSelected(3),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 3;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -120,7 +128,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.event),
                   title: const Text('Aktivitäten'),
+                  selected: isMenuSelected(4),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 4;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -134,7 +147,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.book),
                   title: const Text('Katalog'),
+                  selected: isMenuSelected(5),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 5;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -146,7 +164,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.chat),
                   title: const Text('Chat'),
+                  selected: isMenuSelected(6),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 6;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -162,7 +185,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ListTile(
             leading: const Icon(Icons.contact_support),
             title: const Text('Kontakt'),
+            selected: isMenuSelected(7),
+            selectedTileColor: selectedColor,
             onTap: () {
+              setState(() {
+                AppData.selected = 7;
+              });
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
@@ -172,7 +200,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ListTile(
             leading: const Icon(Icons.format_align_justify_outlined),
             title: const Text('Impressum'),
+            selected: isMenuSelected(8),
+            selectedTileColor: selectedColor,
             onTap: () {
+              setState(() {
+                AppData.selected = 8;
+              });
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
@@ -182,7 +215,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ListTile(
             leading: const Icon(Icons.check_box),
             title: const Text("AGB's"),
+            selected: isMenuSelected(9),
+            selectedTileColor: selectedColor,
             onTap: () {
+              setState(() {
+                AppData.selected = 9;
+              });
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
@@ -199,7 +237,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.app_registration),
                   title: const Text('Registrierung'),
+                  selected: isMenuSelected(10),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 10;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -212,7 +255,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.login),
                   title: const Text('Login'),
+                  selected: isMenuSelected(11),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 11;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -227,7 +275,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Log Out'),
+                  selected: isMenuSelected(12),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 12;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -257,7 +310,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
                   title: const Text('Aktivität erstellen'),
+                  selected: isMenuSelected(13),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 13;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -285,7 +343,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.qr_code),
                   title: const Text('QRCode-Test'),
+                  selected: isMenuSelected(14),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 14;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
@@ -304,7 +367,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
                   title: const Text('Nutzerverwaltung'),
+                  selected: isMenuSelected(15),
+                  selectedTileColor: selectedColor,
                   onTap: () {
+                    setState(() {
+                      AppData.selected = 15;
+                    });
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
