@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
   /* ENDE */
   bool _isObscure3 = true;
-  bool visible = false;
+  bool _isLoading = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             setState(
                               () {
-                                visible = true;
+                                _isLoading = true;
                               },
                             );
                             signIn(emailController.text, passwordController.text);
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                             maintainSize: true,
                             maintainAnimation: true,
                             maintainState: true,
-                            visible: visible,
+                            visible: _isLoading,
                             child: Container(
                                 child: const CircularProgressIndicator(
                               color: Colors.white,
@@ -296,30 +296,24 @@ class _LoginPageState extends State<LoginPage> {
           //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
           //);
         //} else {
-          checkRool();
+        checkRool().then((_) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => Donations(),
               ));
+          setState(() {
+            _isLoading = false;
+          });
+        });
         //}
       }).catchError((error) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("etwas is falsch gelaufen - Versuchen Sie es erneut!"),
-              actions: <Widget>[
-                MaterialButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
         );
+        setState(() {
+          _isLoading = false;
+        });
       });
     }
   }
