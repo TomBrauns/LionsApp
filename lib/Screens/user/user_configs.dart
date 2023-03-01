@@ -300,13 +300,13 @@ class _UserState extends State<User> {
 }
 
 Future<void> deleteAcc() async {
-  Privileges.privilege = "gast";
+  Privileges.privilege = "Guest";
   await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
-  FirebaseAuth.instance.currentUser!.delete();
+  await FirebaseAuth.instance.currentUser!.delete();
 }
 
 Future<void> signOut() async {
-  Privileges.privilege = "gast";
+  Privileges.privilege = "Guest";
   await FirebaseAuth.instance.signOut();
 }
 
