@@ -31,14 +31,14 @@ class _RoomsPageState extends State<RoomsPage> {
     final docRef = collectionRef.doc(userId);
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;
+    final user = FirebaseAuth.instance.currentUser!;
+    final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    final imageUrl = documentSnapshot.data()?['image_url'];
+    final firstname = documentSnapshot.data()?['firstname'];
+    final lastname = documentSnapshot.data()?['lastname'];
 
     try {
       if (!docExists) {
-        final user = FirebaseAuth.instance.currentUser!;
-        final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-        final imageUrl = documentSnapshot.data()?['image_url'];
-        final firstname = documentSnapshot.data()?['firstname'];
-        final lastname = documentSnapshot.data()?['lastname'];
         await FirebaseChatCore.instance.createUserInFirestore(
           types.User(
             id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
@@ -47,6 +47,8 @@ class _RoomsPageState extends State<RoomsPage> {
             lastName: lastname,
           ),
         );
+      } else {
+        updateUserWhenJoiningChat(firstname, lastname);
       }
     } catch (e) {}
   }
@@ -151,6 +153,7 @@ class _RoomsPageState extends State<RoomsPage> {
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
                               room: room,
+                              name: room.name,
                             ),
                           ),
                         );
@@ -173,6 +176,16 @@ class _RoomsPageState extends State<RoomsPage> {
               },
             ),
     );
+  }
+
+  Future<void> updateUserWhenJoiningChat(
+    String? newFirstName,
+    String? newLastName,
+  ) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance.collection('user_chat').doc(user!.uid).update({"firstName": newFirstName});
+    await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"lastName": newLastName});
   }
 
   void initializeFlutterFire() async {
@@ -228,4 +241,25 @@ class _RoomsPageState extends State<RoomsPage> {
       ),
     );
   }
+}
+
+class ScrollToUnreadOptions {
+  const ScrollToUnreadOptions({this.lastReadMessageId, this.scrollDelay = const Duration(milliseconds: 150), this.scrollDuration = ScrollDragController.momentumRetainStationaryDurationThreshold, this.scrollOnOpen = false, this.customBanner});
+
+  /// Will show an unread messages header after this message if there are more
+  /// messages to come and will scroll to this header on
+  /// [ChatState.scrollToUnreadHeader].
+  final String? lastReadMessageId;
+
+  /// Duration to wait after open until the scrolling starts.
+  final Duration scrollDelay;
+
+  /// Duration for the animation of the scrolling.
+  final Duration scrollDuration;
+
+  /// Whether to scroll to the first unread message on open.
+  final bool scrollOnOpen;
+
+  /// Returns an optional custom override for presenting the unread banner.
+  final Widget? customBanner;
 }

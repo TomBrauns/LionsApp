@@ -99,7 +99,8 @@ class _EventEditorState extends State<EventEditor> {
         'image_url': eventImgUrl,
         'sponsor': _sponsorController.text,
         'sponsor_img_url': sponsorImgUrl,
-        'creator': userId
+        'creator': userId,
+        'currentDonationValue': 0,
       };
       if (widget.documentId == null) {
         await collection.add(event);
@@ -446,7 +447,8 @@ class _EventEditorState extends State<EventEditor> {
                             ]),
                           ))),
                 ],
-              )),
+              )
+          ),
         ));
   }
 }
@@ -469,7 +471,7 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
       stream: FirebaseFirestore.instance.collection('projects').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
-          return Container(); // Rückgabe eines leeren Containers
+          return Container(); // If the snap doesnt have any Data, an empty container is returned.
         }
         List<DropdownMenuItem> projectItems = [];
         for (var doc in snapshot.data!.docs) {

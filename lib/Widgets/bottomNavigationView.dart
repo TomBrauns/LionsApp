@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
 
@@ -21,31 +22,25 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              onPressed: () {
-                // Update State of App
-                Navigator.pop(context);
-                // Push to Screen
+            Tooltip(
+              message: "User Verwaltung",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
 
-                Navigator.pushNamed(context, '/User');
-              },
-              icon: const Icon(Icons.badge, color: Colors.white),
+                  Navigator.pushNamed(context, '/User');
+                },
+                icon: const Icon(Icons.badge, color: Colors.white),
+              ),
             ),
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              onPressed: () {
-                // Update State of App
-                Navigator.pop(context);
-                // Push to Screen
-
-                Navigator.pushNamed(context, '/Donations');
-              },
-              icon: const Icon(Icons.card_giftcard, color: Colors.white),
-            ),
-            if (Privileges.privilege == "Admin" ||
-                Privileges.privilege == "Member")
-              IconButton(
+            Tooltip(
+              message: "Chat",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
@@ -56,41 +51,55 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 },
                 icon: const Icon(Icons.chat, color: Colors.white),
               ),
+            ),
             if (Privileges.privilege == "Admin" ||
                 Privileges.privilege == "Member")
-              IconButton(
+              Tooltip(
+                message: "Kalender",
+                decoration: BoxDecoration(color: Colors.blue),
+                child: IconButton(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  onPressed: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+
+                    Navigator.pushNamed(context, '/Calendar');
+                  },
+                  icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
+                ),
+              ),
+            Tooltip(
+              message: "Katalog",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
 
-                  Navigator.pushNamed(context, '/Calendar');
+                  Navigator.pushNamed(context, '/Catalogue');
                 },
-                icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
+                icon: const Icon(Icons.book, color: Colors.white),
               ),
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              onPressed: () {
-                // Update State of App
-                Navigator.pop(context);
-                // Push to Screen
-
-                Navigator.pushNamed(context, '/Catalogue');
-              },
-              icon: const Icon(Icons.book, color: Colors.white),
             ),
-            IconButton(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              onPressed: () {
-                // Update State of App
-                Navigator.pop(context);
-                // Push to Screen
+            Tooltip(
+              message: "Aktivitäten",
+              decoration: BoxDecoration(color: Colors.blue),
+              child: IconButton(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                onPressed: () {
+                  // Update State of App
+                  Navigator.pop(context);
+                  // Push to Screen
 
-                Navigator.pushNamed(context, '/Events');
-              },
-              icon: const Icon(Icons.event, color: Colors.white),
+                  Navigator.pushNamed(context, '/Events');
+                },
+                icon: const Icon(Icons.event, color: Colors.white),
+              ),
             ),
+
           ],
         ));
   }

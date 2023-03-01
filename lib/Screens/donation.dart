@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
@@ -10,8 +9,9 @@ import '../Widgets/dual_progress_bar.dart';
 
 class Donations extends StatefulWidget {
   final String? interneId;
+  final String? projectId;
 
-  Donations({Key? key, this.interneId}) : super(key: key);
+  const Donations({Key? key, this.interneId, this.projectId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();
@@ -21,6 +21,7 @@ class _DonationsState extends State<Donations> {
   var _documentStream;
 
   String? eventId;
+  String? projectId;
   double _donationInput = 0.0;
 
   // BAB with Priviledge
@@ -33,20 +34,22 @@ class _DonationsState extends State<Donations> {
     }
   }
 
-  // and use Function for Fab in Scaffold
-
   @override
   void initState() {
     super.initState();
 
     //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
     eventId = widget.interneId;
+    projectId = widget.projectId;
 
     print("Hier EventID: $eventId");
+    print("Hier ProjectID: $projectId");
     print("Hier widget id: ${widget.interneId}");
 
-    if (eventId != "") {
+    if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
+    } else if (projectId != null && projectId!.isNotEmpty) {
+      _documentStream = FirebaseFirestore.instance.collection("projects").doc(projectId).snapshots();
     }
   }
 
@@ -88,25 +91,49 @@ class _DonationsState extends State<Donations> {
 
               String donationTitle = "Kein Event gefunden.";
               String? sponsor, sponsorImgUrl, donationTarget;
+              int spendenCounter = 0;
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
-                if (data != null) {
-                  if (data.containsKey("spendenZiel")) {
-                    donationTarget = data["spendenZiel"] as String?;
+                if (eventId != null && eventId!.isNotEmpty) {
+                  if (data != null) {
+                    if (data.containsKey("spendenZiel")) {
+                      donationTarget = data["spendenZiel"] as String?;
+                    }
+                    if (data.containsKey('eventName')) {
+                      donationTitle = data['eventName'] as String;
+                    }
+                    if (data.containsKey("sponsor")) {
+                      sponsor = data["sponsor"] as String?;
+                    }
+                    if (data.containsKey("sponsor_img_url")) {
+                      sponsorImgUrl = data["sponsor_img_url"] as String?;
+                    }
+                    if (data.containsKey("currentDonationValue")) {
+                      spendenCounter = data["currentDonationValue"];
+                      print(spendenCounter);
+                    }
                   }
-                  if (data.containsKey('eventName')) {
-                    donationTitle = data['eventName'] as String;
-                  }
-                  if (data.containsKey("sponsor")) {
-                    sponsor = data["sponsor"] as String?;
-                  }
-                  if (data.containsKey("sponsor_img_url")) {
-                    sponsorImgUrl = data["sponsor_img_url"] as String?;
+                } else if (projectId != null && projectId!.isNotEmpty) {
+                  if (data != null) {
+                    donationTitle = data["name"] as String;
                   }
                 }
               }
 
+              Future<void> _updateDonationValue(int newDonationValue) async {
+                try {
+                  // Get a reference to the document that needs to be updated
+                  final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
+
+                  // Update the value of the 'currentDonationValue' field with the new value
+                  await documentReference.update({'currentDonationValue': newDonationValue});
+
+                  print('Donation value updated successfully');
+                } catch (e) {
+                  print('Error updating donation value: $e');
+                }
+              }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
@@ -124,13 +151,13 @@ class _DonationsState extends State<Donations> {
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: $donationTarget", style: const TextStyle(fontSize: 16)),
+                                Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
                                 DualLinearProgressIndicator(
                                   maxValue: _parseEuroStringToDouble(donationTarget),
-                                  // TODO show actual progressValue not that random value:
-                                  progressValue: _parseEuroStringToDouble(donationTarget) * 0.35,
+                                  progressValue: spendenCounter.toDouble(),
                                   addValue: _donationInput,
-                                ),
+
+                                )
                               ]),
                             )
                           else
@@ -171,7 +198,16 @@ class _DonationsState extends State<Donations> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    int currentDonationValue = _getCurrentValue();
+                                    _inputController.text = "";
+                                    _handleAdd(0);
+                                    int newDonationValue = spendenCounter + currentDonationValue;
+
+                                    if(_inputController.text == ""){
+                                      await _updateDonationValue(newDonationValue);
+                                    }
+
                                     Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
@@ -203,6 +239,7 @@ class _DonationsState extends State<Donations> {
     _inputController.text = (_getCurrentValue() + value).toString();
     setState(() {
       _donationInput = _parseEuroStringToDouble(_inputController.text);
+      print(_donationInput);
     });
   }
 

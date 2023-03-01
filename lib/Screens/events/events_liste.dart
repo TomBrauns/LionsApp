@@ -114,8 +114,7 @@ class _EventListState extends State<EventList> {
                     );
                   }
 
-                  final filteredEvents = snapshot.data!.docs
-                      .where((event) => event['eventName'].toLowerCase().contains(_searchQuery.toLowerCase()));
+                  final filteredEvents = snapshot.data!.docs.where((event) => event['eventName'].toLowerCase().contains(_searchQuery.toLowerCase()));
 
                   return ListView.builder(
                     itemCount: filteredEvents.length,
@@ -123,71 +122,80 @@ class _EventListState extends State<EventList> {
                       final event = filteredEvents.elementAt(index);
                       final String eventId = event.id;
 
-                      return GestureDetector(
-                          onTap: () {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EventDetailsPage(eventId: eventId),
+                            ),
+                          );
+                        },
+                        child: GestureDetector(
+                          onLongPress: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EventDetailsPage(eventId: eventId),
+                                builder: (context) =>
+                                    QrCodeWithImage(link: 'www.marc-wieland.de/#/Donations', documentId: eventId),
                               ),
                             );
                           },
-                          onLongPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      QrCodeWithImage(link: 'www.marc-wieland.de/#/Donations', documentId: eventId),
-                                ));
-                          },
                           child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: SizedBox(
-                                  height: 128,
-                                  width: double.infinity,
-                                  child: Row(children: [
-                                    if (event["image_url"] != null && (event["image_url"] as String).isNotEmpty)
-                                      Image.network(
-                                        event["image_url"],
-                                        width: 128,
-                                        height: 128,
-                                        fit: BoxFit.cover,
-                                      )
-                                    else
-                                      Container(width: 128, height: 128, color: Colors.grey),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(event['eventName'],
-                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis),
-                                          if (event["eventInfo"] != null)
-                                            Text(event['eventInfo'], maxLines: 3, overflow: TextOverflow.ellipsis),
-                                          Expanded(child: Container()),
-                                          if (event["ort"] != null)
-                                            Row(children: [
-                                              const Icon(Icons.location_on, size: 16),
-                                              const SizedBox(width: 4),
-                                              Text(event['ort']),
-                                            ]),
-                                          if (event["startDate"] != null)
-                                            Row(children: [
-                                              const Icon(Icons.calendar_month, size: 16),
-                                              const SizedBox(width: 4),
-                                              Text(dateFormat.format((event['startDate'] as Timestamp).toDate())),
-                                            ]),
-                                          const SizedBox(height: 4),
-                                        ],
-                                      ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: SizedBox(
+                              height: 128,
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  if (event["image_url"] != null && (event["image_url"] as String).isNotEmpty)
+                                    Image.network(
+                                      event["image_url"],
+                                      width: 128,
+                                      height: 128,
+                                      fit: BoxFit.cover,
                                     )
-                                  ]))));
+                                  else
+                                    Container(width: 128, height: 128, color: Colors.grey),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(event['eventName'],
+                                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                        if (event["eventInfo"] != null)
+                                          Text(event['eventInfo'], maxLines: 3, overflow: TextOverflow.ellipsis),
+                                        Expanded(child: Container()),
+                                        if (event["ort"] != null)
+                                          Row(children: [
+                                            const Icon(Icons.location_on, size: 16),
+                                            const SizedBox(width: 4),
+                                            Text(event['ort']),
+                                          ]),
+                                        if (event["startDate"] != null)
+                                          Row(children: [
+                                            const Icon(Icons.calendar_month, size: 16),
+                                            const SizedBox(width: 4),
+                                            Text(dateFormat.format((event['startDate'] as Timestamp).toDate())),
+                                          ]),
+                                        const SizedBox(height: 4),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   );
-                }))
+                })
+        )
       ],
     );
   }

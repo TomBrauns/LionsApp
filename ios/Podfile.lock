@@ -140,6 +140,8 @@ PODS:
     - FlutterMacOS
   - pay_ios (0.0.1):
     - Flutter
+  - permission_handler_apple (9.0.4):
+    - Flutter
   - PromisesObjC (2.1.1)
   - SDWebImage (5.15.2):
     - SDWebImage/Core (= 5.15.2)
@@ -206,6 +208,7 @@ DEPENDENCIES:
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - pay_ios (from `.symlinks/plugins/pay_ios/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
@@ -272,6 +275,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
   pay_ios:
     :path: ".symlinks/plugins/pay_ios/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences_foundation:
@@ -319,6 +324,7 @@ SPEC CHECKSUMS:
   open_filex: 6e26e659846ec990262224a12ef1c528bb4edbe4
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   pay_ios: 8c7beb9c61d885f3f51b61f75f8793023fc8843a
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SDWebImage: 8ab87d4b3e5cc4927bd47f78db6ceb0b94442577
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410

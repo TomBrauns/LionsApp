@@ -57,7 +57,6 @@ class _CalendarState extends State<Calendar> {
 
   void _handleEventClicked(CalendarEventData<Object?> event) {
     final String eventId = event.event as String;
-    print(eventId);
     Navigator.push(
       context,
       MaterialPageRoute(
