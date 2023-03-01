@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lionsapp/chat/rooms.dart';
 
 import '../util/image_upload.dart';
 
@@ -28,7 +27,7 @@ class roomDetails extends StatefulWidget {
 class _roomDetailsState extends State<roomDetails> {
   List<UserInList> _users = [];
 
-  Room currentRoom = Room(id: '', type: null, users: []);
+  Room currentRoom = Room(id: '', type: null, users: const []);
   final TextEditingController roomNameController = TextEditingController();
   final TextEditingController roomDescriptionController = TextEditingController();
   String imgURL = '';
@@ -146,7 +145,7 @@ class _roomDetailsState extends State<roomDetails> {
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(Icons.upload, size: 48),
                           Text("Bild auswählen"),
                         ],
