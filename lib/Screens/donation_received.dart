@@ -45,93 +45,93 @@ class _DonationReceivedState extends State<DonationReceived> {
         drawer: const BurgerMenu(),
         body: Center(
             child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(40),
-            padding: const EdgeInsets.all(40.0),
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(156, 141, 196, 241),
-                border: Border.all(color: Colors.blueAccent)),
-            child: Text(
-                "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
-                "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
-                "über das Kontaktformular zu erreichen."),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.receipt,
-                size: 24.0,
+              Container(
+                margin: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(40.0),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(156, 141, 196, 241),
+                    border: Border.all(color: Colors.blueAccent)),
+                child: Text(
+                    "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
+                        "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
+                        "über das Kontaktformular zu erreichen."),
               ),
-              label: const Text('Kontaktformular'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.receipt,
+                    size: 24.0,
+                  ),
+                  label: const Text('Kontaktformular'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/Contact');
+                  },
+                ),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Contact');
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.receipt,
-                size: 24.0,
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.receipt,
+                    size: 24.0,
+                  ),
+                  label: const Text('Quittung'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/ThankYou/Receipt');
+                  },
+                ),
               ),
-              label: const Text('Quittung'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.share,
+                    size: 24.0,
+                  ),
+                  label: const Text('Teilen'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/ThankYou/ShareDonation');
+                  },
+                ),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ThankYou/Receipt');
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.share,
-                size: 24.0,
-              ),
-              label: const Text('Teilen'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ThankYou/ShareDonation');
-              },
-            ),
-          ),
-          ButtonBar(
-            mainAxisSize: MainAxisSize.min,
-            // this will take space as minimum as possible(to center)
-            children: <Widget>[
-              ElevatedButton(
-                child: const Text('Zurück zum Spenden'),
-                onPressed: () {
-                  // Push to Screen
-                  Navigator.pushNamed(context, '/Donations');
-                },
-              ),
+              ButtonBar(
+                mainAxisSize: MainAxisSize.min,
+                // this will take space as minimum as possible(to center)
+                children: <Widget>[
+                  ElevatedButton(
+                    child: const Text('Zurück zum Spenden'),
+                    onPressed: () {
+                      // Push to Screen
+                      Navigator.pushNamed(context, '/Donations');
+                    },
+                  ),
 
-              // TODO: Right now this button is only supposed to show for Friends / Members / Admins, Guests are not supposed to see this
-              ElevatedButton(
-                child: const Text('Weitere Events'),
-                onPressed: () {
-                  // Update State of App
-                  Navigator.pop(context);
-                  // Push to Screen
-                  Navigator.pushNamed(context, '/Events');
-                },
+                  // TODO: Right now this button is only supposed to show for Friends / Members / Admins, Guests are not supposed to see this
+                  ElevatedButton(
+                    child: const Text('Weitere Events'),
+                    onPressed: () {
+                      // Update State of App
+                      Navigator.pop(context);
+                      // Push to Screen
+                      Navigator.pushNamed(context, '/Events');
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
-        ])));
+            ])));
   }
 }
 
@@ -145,6 +145,7 @@ class Receipt extends StatefulWidget {
 class _ReceiptState extends State<Receipt> {
   List<int>? _bytes;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,63 +154,63 @@ class _ReceiptState extends State<Receipt> {
         ),
         body: Center(
             child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.download,
-                size: 24.0,
+              Container(
+                margin: const EdgeInsets.all(40),
+                height: 50,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.download,
+                    size: 24.0,
+                  ),
+                  label: const Text('PDF herunterladen'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () async{
+                    print("Button gedrückt");
+                    if(kIsWeb){
+                      _handleWebDownloadButtonPressed();
+                      print("Web erkannt");
+                    }else{
+                      _handleDownloadButtonPressed();
+                    }
+                  },
+                ),
               ),
-              label: const Text('PDF herunterladen'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
+              Container(
+                margin: const EdgeInsets.all(40),
+                height: 50,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.cloud_upload,
+                    size: 24.0,
+                  ),
+                  label: const Text('Cloud hochladen'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
+                  ),
+                  onPressed: () {},
+                ),
               ),
-              onPressed: () async {
-                print("Button gedrückt");
-                if (kIsWeb) {
-                  _handleWebDownloadButtonPressed();
-                  print("Web erkannt");
-                } else {
-                  _handleDownloadButtonPressed();
-                }
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.cloud_upload,
-                size: 24.0,
+              Container(
+                margin: const EdgeInsets.all(40),
+                height: 50,
+                child: const Text(
+                    "Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
               ),
-              label: const Text('Cloud hochladen'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 0,
-              ),
-              onPressed: () {},
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: const Text(
-                "Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
-          ),
-        ])));
+            ]
+            )
+        )
+    );
   }
 
-  Future<List<int>> _createPDF() async {
+  Future<List<int>> _createPDF() async{
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawImage(
-        PdfBitmap(await _readImageData()),
-        Rect.fromLTWH(
-            0, 0, page.getClientSize().width, page.getClientSize().height));
+    page.graphics.drawImage(PdfBitmap(await _readImageData()), Rect.fromLTWH(0, 0, page.getClientSize().width, page.getClientSize().height));
 
     List<int> bytes = await document.save();
     document.dispose();
@@ -217,14 +218,16 @@ class _ReceiptState extends State<Receipt> {
     return bytes;
   }
 
-  Future<Uint8List> _readImageData() async {
-    final data = await rootBundle.load(
-        '/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spenden/spendenquittung.jpg');
+  Future<Uint8List> _readImageData() async{
+    final data = await rootBundle.load('/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spenden/spendenquittung.jpg');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
+
+
+
   //Download in App
-  void _handleDownloadButtonPressed() async {
+  void _handleDownloadButtonPressed() async{
     List<int> pdfBytes = await _createPDF();
 
     Directory tempDir = await getTemporaryDirectory();
@@ -234,16 +237,17 @@ class _ReceiptState extends State<Receipt> {
     await OpenFilex.open(tempFile.path);
   }
 
+
   //Download im Web
-  void _handleWebDownloadButtonPressed() async {
+  void _handleWebDownloadButtonPressed() async{
     List<int> bytes = await _createPDF();
 
     html.AnchorElement(
-        href:
-            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "spendenquittung.pdf")
-      ..click();
+      href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    ..setAttribute("download", "spendenquittung.pdf")
+    ..click();
   }
+
 }
 
 // The Following ReceiptEmail-Class is deprecated and is no longer in use due to
@@ -486,7 +490,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const DonationReceived()));
+                                  const DonationReceived()));
                         },
                       ),
                     ),
@@ -510,12 +514,12 @@ class GetPlatform {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'GetPlatform have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'GetPlatform have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(

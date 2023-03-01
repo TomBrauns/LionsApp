@@ -33,6 +33,7 @@ class _DonationsState extends State<Donations> {
     }
   }
 
+
   // and use Function for Fab in Scaffold
 
   @override
@@ -88,6 +89,7 @@ class _DonationsState extends State<Donations> {
 
               String donationTitle = "Kein Event gefunden.";
               String? sponsor, sponsorImgUrl, donationTarget;
+              int spendenCounter = 0;
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
@@ -104,6 +106,9 @@ class _DonationsState extends State<Donations> {
                   if (data.containsKey("sponsor_img_url")) {
                     sponsorImgUrl = data["sponsor_img_url"] as String?;
                   }
+                  /*if(data.containsKey("spendenCounter")){
+                    spendenCounter = data["spendenCounter"];
+                  }*/
                 }
               }
 
@@ -124,7 +129,7 @@ class _DonationsState extends State<Donations> {
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: $donationTarget", style: const TextStyle(fontSize: 16)),
+                                Text("Spendenziel: $spendenCounter / $donationTarget", style: const TextStyle(fontSize: 16)),
                                 DualLinearProgressIndicator(
                                   maxValue: _parseEuroStringToDouble(donationTarget),
                                   // TODO show actual progressValue not that random value:
@@ -172,6 +177,8 @@ class _DonationsState extends State<Donations> {
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
                                   onPressed: () {
+                                    spendenCounter += _getCurrentValue();
+                                    print(spendenCounter);
                                     Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
@@ -203,6 +210,7 @@ class _DonationsState extends State<Donations> {
     _inputController.text = (_getCurrentValue() + value).toString();
     setState(() {
       _donationInput = _parseEuroStringToDouble(_inputController.text);
+      print(_donationInput);
     });
   }
 

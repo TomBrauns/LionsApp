@@ -99,7 +99,8 @@ class _EventEditorState extends State<EventEditor> {
         'image_url': eventImgUrl,
         'sponsor': _sponsorController.text,
         'sponsor_img_url': sponsorImgUrl,
-        'creator': userId
+        'creator': userId,
+        'currentDonationValue': 0,
       };
       if (widget.documentId == null) {
         await collection.add(event);
