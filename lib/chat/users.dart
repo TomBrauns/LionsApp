@@ -86,6 +86,7 @@ class UsersPage extends StatelessWidget {
     await navigator.push(
       MaterialPageRoute(
         builder: (context) => ChatPage(
+          name: '${otherUser.firstName!} ${otherUser.lastName!}',
           room: room,
         ),
       ),

@@ -18,10 +18,11 @@ class ChatPage extends StatefulWidget {
   const ChatPage({
     super.key,
     required this.room,
+    this.name,
   });
 
   final types.Room room;
-
+  final String? name;
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
@@ -33,21 +34,22 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: const Text("Chat"),
+          title: Text(widget.room.type == types.RoomType.direct ? widget.name! : widget.room.name!),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => roomDetails(
-                      roomId: widget.room.id,
+            if (widget.room.type == types.RoomType.group)
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => roomDetails(
+                        roomId: widget.room.id,
+                      ),
                     ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.edit),
-            ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
+              ),
           ],
         ),
         body: StreamBuilder<types.Room>(

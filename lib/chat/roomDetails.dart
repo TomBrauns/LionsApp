@@ -225,7 +225,11 @@ class _roomDetailsState extends State<roomDetails> {
                 ),
               )
               .toList();
-          userList.add(User(id: firebase.FirebaseAuth.instance.currentUser!.uid, firstName: firebase.FirebaseAuth.instance.currentUser!.displayName));
+          userList.add(
+            User(
+              id: firebase.FirebaseAuth.instance.currentUser!.uid,
+            ),
+          );
           currentRoom.users.clear();
           currentRoom.users.addAll(userList);
           final name = roomNameController.text.trim();

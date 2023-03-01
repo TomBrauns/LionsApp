@@ -153,6 +153,7 @@ class _RoomsPageState extends State<RoomsPage> {
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
                               room: room,
+                              name: room.name,
                             ),
                           ),
                         );
