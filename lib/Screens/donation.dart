@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/user_type.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
@@ -33,8 +32,6 @@ class _DonationsState extends State<Donations> {
     }
   }
 
-
-  // and use Function for Fab in Scaffold
 
   @override
   void initState() {
