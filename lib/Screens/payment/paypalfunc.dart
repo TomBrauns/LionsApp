@@ -4,10 +4,11 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> paypalOnPress(double amount, eventId) async {
+Future<void> paypalOnPress(double amount, eventId, paymethodesite) async {
   var _url;
   final token = await paypalAuth();
-  List<String> PaypalObject = await makePaypalPayment(amount, token, eventId);
+  List<String> PaypalObject =
+      await makePaypalPayment(amount, token, eventId, paymethodesite);
   _url = Uri.parse(PaypalObject[0]);
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
@@ -43,7 +44,7 @@ Future<String> paypalAuth() async {
 }
 
 Future<List<String>> makePaypalPayment(
-    double amount, String token, eventId) async {
+    double amount, String token, eventId, paymethodesite) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -69,8 +70,8 @@ Future<List<String>> makePaypalPayment(
       },
     ],
     'redirect_urls': {
-      'return_url': 'https://example.com/success',
-      'cancel_url': 'https://example.com/cancel',
+      'return_url': '$paymethodesite/success',
+      'cancel_url': '$paymethodesite/cancel',
     },
   });
 

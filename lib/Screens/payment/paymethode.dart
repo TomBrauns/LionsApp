@@ -5,6 +5,7 @@ import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
 import 'payment_sidefunc.dart';
+import 'dart:core';
 
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
@@ -33,9 +34,10 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-  void onApplePayResult(paymentResult) {
-    print(paymentResult);
-    // Send the resulting Apple Pay token to your server / PSP
+  @override
+  void initState() {
+    super.initState();
+    urlPaymentVerify(context);
   }
 
   void onGooglePayResult(paymentResult) {
@@ -43,8 +45,6 @@ class _PaymethodeState extends State<Paymethode> {
     // Send the resulting Google Pay token to your server / PSP
   }
 
-  final Future<PaymentConfiguration> _applePayConfigFuture =
-      PaymentConfiguration.fromAsset('default_payment_profile_apple_pay.json');
   final Future<PaymentConfiguration> _googlePayConfigFuture =
       PaymentConfiguration.fromAsset('default_payment_profile_google_pay.json');
 
@@ -71,7 +71,7 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    paypalOnPress(amount, eventId);
+                    paypalOnPress(amount, eventId, Uri.base.toString());
                   },
                   child: const Text("Paypal"),
                 ),
@@ -96,27 +96,13 @@ class _PaymethodeState extends State<Paymethode> {
                         showSuccessSnackbar(context);
                       }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(amount, eventId, context);
+                      stripeOnPressWeb(
+                          amount, eventId, context, Uri.base.toString());
                     }
                   },
                   child: const Text("Stripe"),
                 ),
               ),
-              if (GetPlatform.currentPlatform != GetPlatform.web)
-                FutureBuilder<PaymentConfiguration>(
-                    future: _applePayConfigFuture,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? ApplePayButton(
-                            paymentConfiguration: snapshot.data!,
-                            paymentItems: _paymentItems,
-                            type: ApplePayButtonType.donate,
-                            margin: const EdgeInsets.only(top: 15.0),
-                            onPaymentResult: onApplePayResult,
-                            loadingIndicator: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : const SizedBox.shrink()),
               if (GetPlatform.currentPlatform != GetPlatform.web)
                 FutureBuilder<PaymentConfiguration>(
                     future: _googlePayConfigFuture,
@@ -162,6 +148,26 @@ class _PaymethodeState extends State<Paymethode> {
         ),
       ),
     );
+  }
+
+  void urlPaymentVerify(context) {
+    final uri = Uri.base;
+    final url = uri.toString();
+    final regex = RegExp('(success|cancel)\$');
+    final match = regex.firstMatch(url);
+
+    if (match != null) {
+      final result = match.group(0);
+      if (result == 'success') {
+        print(true); // Output: true
+        showSuccessSnackbar(context);
+      } else if (result == 'cancel') {
+        print(false); // Output: false
+        showErrorSnackbar(context);
+      }
+    } else {
+      print('No match found.');
+    }
   }
 }
 
