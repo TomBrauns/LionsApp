@@ -131,7 +131,9 @@ class _DonationReceivedState extends State<DonationReceived> {
                   ),
                 ],
               ),
-            ])));
+            ])
+        )
+    );
   }
 }
 
@@ -144,7 +146,6 @@ class Receipt extends StatefulWidget {
 
 class _ReceiptState extends State<Receipt> {
   List<int>? _bytes;
-
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +212,7 @@ class _ReceiptState extends State<Receipt> {
     final page = document.pages.add();
 
     page.graphics.drawImage(PdfBitmap(await _readImageData()), Rect.fromLTWH(0, 0, page.getClientSize().width, page.getClientSize().height));
+    page.graphics.drawString("Test", PdfStandardFont(PdfFontFamily.helvetica, 10));
 
     List<int> bytes = await document.save();
     document.dispose();
@@ -219,7 +221,7 @@ class _ReceiptState extends State<Receipt> {
   }
 
   Future<Uint8List> _readImageData() async{
-    final data = await rootBundle.load('/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spenden/spendenquittung.jpg');
+    final data = await rootBundle.load('/Users/marcwieland/Uni/TOP/lionsapp/assets/images/spendenquittung.jpg');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 

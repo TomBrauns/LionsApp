@@ -201,7 +201,10 @@ class _DonationsState extends State<Donations> {
                                     _inputController.text = "";
                                     _handleAdd(0);
                                     int newDonationValue = spendenCounter + currentDonationValue;
-                                    await _updateDonationValue(newDonationValue);
+
+                                    if(_inputController.text == ""){
+                                      await _updateDonationValue(newDonationValue);
+                                    }
 
                                     Navigator.pushNamed(context, '/Donations/UserType');
                                   },
