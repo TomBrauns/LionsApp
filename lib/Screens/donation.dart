@@ -9,8 +9,9 @@ import '../Widgets/dual_progress_bar.dart';
 
 class Donations extends StatefulWidget {
   final String? interneId;
+  final String? projectId;
 
-  Donations({Key? key, this.interneId}) : super(key: key);
+  const Donations({Key? key, this.interneId, this.projectId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();
@@ -20,6 +21,7 @@ class _DonationsState extends State<Donations> {
   var _documentStream;
 
   String? eventId;
+  String? projectId;
   double _donationInput = 0.0;
 
   // BAB with Priviledge
@@ -38,12 +40,16 @@ class _DonationsState extends State<Donations> {
 
     //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
     eventId = widget.interneId;
+    projectId = widget.projectId;
 
     print("Hier EventID: $eventId");
+    print("Hier ProjectID: $projectId");
     print("Hier widget id: ${widget.interneId}");
 
-    if (eventId != "") {
+    if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
+    } else if (projectId != null && projectId!.isNotEmpty) {
+      _documentStream = FirebaseFirestore.instance.collection("projects").doc(projectId).snapshots();
     }
   }
 
@@ -89,22 +95,28 @@ class _DonationsState extends State<Donations> {
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
-                if (data != null) {
-                  if (data.containsKey("spendenZiel")) {
-                    donationTarget = data["spendenZiel"] as String?;
+                if (eventId != null && eventId!.isNotEmpty) {
+                  if (data != null) {
+                    if (data.containsKey("spendenZiel")) {
+                      donationTarget = data["spendenZiel"] as String?;
+                    }
+                    if (data.containsKey('eventName')) {
+                      donationTitle = data['eventName'] as String;
+                    }
+                    if (data.containsKey("sponsor")) {
+                      sponsor = data["sponsor"] as String?;
+                    }
+                    if (data.containsKey("sponsor_img_url")) {
+                      sponsorImgUrl = data["sponsor_img_url"] as String?;
+                    }
+                    if (data.containsKey("currentDonationValue")) {
+                      spendenCounter = data["currentDonationValue"];
+                      print(spendenCounter);
+                    }
                   }
-                  if (data.containsKey('eventName')) {
-                    donationTitle = data['eventName'] as String;
-                  }
-                  if (data.containsKey("sponsor")) {
-                    sponsor = data["sponsor"] as String?;
-                  }
-                  if (data.containsKey("sponsor_img_url")) {
-                    sponsorImgUrl = data["sponsor_img_url"] as String?;
-                  }
-                  if(data.containsKey("currentDonationValue")){
-                    spendenCounter = data["currentDonationValue"];
-                    print(spendenCounter);
+                } else if (projectId != null && projectId!.isNotEmpty) {
+                  if (data != null) {
+                    donationTitle = data["name"] as String;
                   }
                 }
               }
