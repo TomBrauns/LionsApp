@@ -102,7 +102,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                 ),
                 child: roomImg.isNotEmpty
                     ? Image.network(roomImg)
-                    :  Column(
+                    : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -175,11 +175,13 @@ class _RoomCreatorState extends State<RoomCreator> {
         onPressed: () async {
           List<UserInList> selectedUsers = getSelectedUsers();
           List<User> userList = selectedUsers
-              .map((user) => User(
-                    id: user.documentId,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                  ))
+              .map(
+                (user) => User(
+                  id: user.documentId,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                ),
+              )
               .toList();
           final name = roomNameController.text.trim();
           if (name.isNotEmpty && userList.isNotEmpty) {
