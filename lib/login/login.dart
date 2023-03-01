@@ -15,6 +15,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lionsapp/login/register.dart' as test;
 
 class LoginPage extends StatefulWidget {
+  final String? prefilledEmail;
+  const LoginPage({super.key, this.prefilledEmail});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -23,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   /* TEST */
   bool isLoggedIN = false;
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+
   /* ENDE */
   bool _isObscure3 = true;
   bool visible = false;
@@ -30,6 +34,15 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.prefilledEmail != null) {
+      emailController.text = widget.prefilledEmail!;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -290,52 +303,23 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void route() {
-    User? user = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance.collection('users').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "Admin") {
-          Privileges.privilege = "Admin";
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Donations(),
-            ),
-          );
-        } else {
-          Privileges.privilege = "Friend";
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Donations(),
-            ),
-          );
-        }
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
-  }
-
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-
-        // if (userCredential.user!.emailVerified) {
-        route();
-        // } else {
-        //  ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //      content: Text('Bitte bestätigen sie zu erst ihre Email Adresse'),
-        //     ),
-        //   );
-        //  }
-      } catch (e) {
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
+        //if (!cred.user!.emailVerified) {
+          //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+          //ScaffoldMessenger.of(context).showSnackBar(
+          //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+          //);
+        //} else {
+          checkRool();
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Donations(),
+              ));
+        //}
+      }).catchError((error) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -352,7 +336,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           },
         );
-      }
+      });
     }
   }
 }
