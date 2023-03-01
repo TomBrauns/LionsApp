@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/payment/payment_sidefunc.dart';
 
 import 'package:http/http.dart' as http;
@@ -21,9 +22,10 @@ void stripeSettings() {
 // Calculate amount in cents
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<void> stripeOnPressApp(double amount, eventId, context) async {
+Future<bool?> stripeOnPressApp(double amount, eventId, context) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
+  bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
     paymentIntent = await createPaymentIntent(amountInCents.toString(), 'EUR');
@@ -31,7 +33,6 @@ Future<void> stripeOnPressApp(double amount, eventId, context) async {
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
     print('Payment Intent ID: $paymentIntentId');
-    //List<String> PaymentIntentObject = await retrievePaymentIntent(paymentIntentId);
 
     // STEP 2: Initialize Payment Sheet
     await Stripe.instance
@@ -45,19 +46,16 @@ Future<void> stripeOnPressApp(double amount, eventId, context) async {
 
     // STEP 3: Display Payment sheet
     await displayPaymentSheet();
+    returnvalue = true;
+  } catch (e) {
+    print('Payment cancelled by user: ${e}');
+    returnvalue = false;
   } catch (e, stackTrace) {
-    if (e is Exception) {
-      // Handle the cancellation of the payment flow
-      if (e is StripeException &&
-          e.error.localizedMessage == 'The payment flow has been canceled') {
-        // Display a message to the user indicating that the payment has been canceled
-      } else {
-        // Handle other exceptions
-        print('Error occurred: $e');
-        print(stackTrace);
-      }
-    }
+    print('Error occurred: $e');
+    print(stackTrace);
+    returnvalue = false;
   }
+  return returnvalue;
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
@@ -87,11 +85,17 @@ Future<Map<String, dynamic>> createPaymentIntent(
 }
 
 Future<void> displayPaymentSheet() async {
-  await Stripe.instance.presentPaymentSheet().then((_) {
-    // Clear paymentIntent variable after successful payment
-    paymentIntent = null;
-  }).catchError((error, stackTrace) {
-    print('Error occurred: $error');
+  try {
+    await Stripe.instance.presentPaymentSheet().then((_) {
+      // Clear paymentIntent variable after successful payment
+      paymentIntent = null;
+    });
+  } catch (e) {
+    print('Payment cancelled by user: ${e}');
+    // Handle the cancellation of the payment flow
+    throw e;
+  } catch (e, stackTrace) {
+    print('Error occurred: $e');
     print(stackTrace);
-  });
+  }
 }

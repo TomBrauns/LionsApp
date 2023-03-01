@@ -106,8 +106,10 @@ Future<List<String>> stripeWebCheckout(priceId) async {
     'mode': "payment",
     'line_items[0][price]': priceId,
     'line_items[0][quantity]': '1',
-    'success_url': 'https://example.com/success',
-    'cancel_url': 'https://example.com/cancel'
+    'success_url':
+        'http://localhost:62158/#/Donations/UserType/PayMethode/success',
+    'cancel_url':
+        'http://localhost:62158/#/Donations/UserType/PayMethode/cancel'
   };
 
   // Make post request to Stripe
