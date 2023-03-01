@@ -8,6 +8,10 @@ import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../util/color.dart';
 
+class AppData{
+  static int selected = -1;
+}
+
 class BurgerMenu extends StatefulWidget {
   const BurgerMenu({Key? key}) : super(key: key);
 
@@ -17,9 +21,23 @@ class BurgerMenu extends StatefulWidget {
 
 class _BurgerMenuState extends State<BurgerMenu> {
   var scrollcontroller = ScrollController();
+  int _selectedMenuIndex = AppData.selected;
+
+  @override
+  void initState() {
+    super.initState();
+    AppData.selected = 10;
+    print(AppData.selected);
+  }
+
+
+  bool isMenuSelected(int index){
+    return index == _selectedMenuIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("Hier kommt die AppDat ${AppData.selected}");
     return Drawer(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -48,11 +66,16 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Startseite'),
+            selected: isMenuSelected(0),
+            selectedTileColor: Colors.green,
             onTap: () {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
               Navigator.pushNamed(context, '/');
+              setState(() {
+                _selectedMenuIndex = 0;
+              });
             },
           ),
           ListTile(
