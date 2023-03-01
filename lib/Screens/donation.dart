@@ -32,7 +32,6 @@ class _DonationsState extends State<Donations> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -147,12 +146,6 @@ class _DonationsState extends State<Donations> {
                                   addValue: _donationInput,
 
                                 )
-                                /*DualLinearProgressIndicator(
-                                  maxValue: _parseEuroStringToDouble(donationTarget),
-                                  // TODO show actual progressValue not that random value:
-                                  progressValue: _parseEuroStringToDouble(donationTarget) * 0.35,
-                                  addValue: _donationInput,
-                                ),*/
                               ]),
                             )
                           else
