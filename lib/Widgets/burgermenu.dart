@@ -28,6 +28,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
     AppData.selected = 10;
     print(AppData.selected);
   }
+
   
   bool isMenuSelected(int index){
     return index == _selectedMenuIndex;
