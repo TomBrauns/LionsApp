@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/payment/paymethode.dart';
-import 'package:lionsapp/login/login.dart';
 import '../../Widgets/appbar.dart';
-import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class UserTypeScreen extends StatelessWidget {
   @override
@@ -35,7 +32,7 @@ class UserTypeScreen extends StatelessWidget {
                 primary: Colors.white, // set button color to white
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/Login');
