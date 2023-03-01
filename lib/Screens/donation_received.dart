@@ -1,14 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Screens/contact.dart';
-import 'package:lionsapp/Screens/events/events_liste.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
-
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,12 +11,8 @@ import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:open_filex/open_filex.dart';
-
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'package:universal_html/html.dart' as html;
-import 'package:path_provider/path_provider.dart';
 
 // Test Values
 // ignore: non_constant_identifier_names
@@ -225,9 +215,6 @@ class _ReceiptState extends State<Receipt> {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-
-
-
   //Download in App
   void _handleDownloadButtonPressed() async{
     List<int> pdfBytes = await _createPDF();
@@ -238,7 +225,6 @@ class _ReceiptState extends State<Receipt> {
 
     await OpenFilex.open(tempFile.path);
   }
-
 
   //Download im Web
   void _handleWebDownloadButtonPressed() async{
