@@ -233,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        FutureBuilder(
+                        /* FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -247,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                        ),
+                        ), */
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -307,10 +307,10 @@ class _LoginPageState extends State<LoginPage> {
     if (_formkey.currentState!.validate()) {
       FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
         //if (!cred.user!.emailVerified) {
-          //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-          //ScaffoldMessenger.of(context).showSnackBar(
-          //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
-          //);
+        //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+        //ScaffoldMessenger.of(context).showSnackBar(
+        //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+        //);
         //} else {
         checkRool().then((_) {
           Navigator.pushReplacement(
