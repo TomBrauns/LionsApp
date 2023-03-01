@@ -106,12 +106,26 @@ class _DonationsState extends State<Donations> {
                   if (data.containsKey("sponsor_img_url")) {
                     sponsorImgUrl = data["sponsor_img_url"] as String?;
                   }
-                  /*if(data.containsKey("spendenCounter")){
-                    spendenCounter = data["spendenCounter"];
-                  }*/
+                  if(data.containsKey("currentDonationValue")){
+                    spendenCounter = data["currentDonationValue"];
+                    print(spendenCounter);
+                  }
                 }
               }
 
+              Future<void> _updateDonationValue(int newDonationValue) async {
+                try {
+                  // Get a reference to the document that needs to be updated
+                  final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
+
+                  // Update the value of the 'currentDonationValue' field with the new value
+                  await documentReference.update({'currentDonationValue': newDonationValue});
+
+                  print('Donation value updated successfully');
+                } catch (e) {
+                  print('Error updating donation value: $e');
+                }
+              }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return Container(
@@ -129,7 +143,7 @@ class _DonationsState extends State<Donations> {
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: $spendenCounter / $donationTarget", style: const TextStyle(fontSize: 16)),
+                                Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
                                 DualLinearProgressIndicator(
                                   maxValue: _parseEuroStringToDouble(donationTarget),
                                   // TODO show actual progressValue not that random value:
@@ -176,9 +190,11 @@ class _DonationsState extends State<Donations> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   // onPressed: _handleSubmit,
-                                  onPressed: () {
-                                    spendenCounter += _getCurrentValue();
-                                    print(spendenCounter);
+                                  onPressed: () async {
+                                    int currentDonationValue = _getCurrentValue();
+                                    int newDonationValue = spendenCounter + currentDonationValue;
+                                    await _updateDonationValue(newDonationValue);
+
                                     Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
