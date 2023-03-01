@@ -140,7 +140,7 @@ class _DonationsState extends State<Donations> {
                               child: Text(donationTitle,
                                   textAlign: TextAlign.center, style: const TextStyle(fontSize: 24))),
                           if (donationTarget != null)
-                            Container(//
+                            Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                 Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
