@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/user/confirmMailForPwReset.dart';
+import 'package:lionsapp/login/apple/apple_sign_in_button.dart';
 import 'register.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -218,7 +219,22 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                         ),
-
+                        // Apple testing
+                        FutureBuilder(
+                          future: Authentication.initializeFirebase(context: context),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Error initializing Firebase');
+                            } else if (snapshot.connectionState == ConnectionState.done) {
+                              return AppleSignInButton();
+                            }
+                            return const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.orange,
+                              ),
+                            );
+                          },
+                        ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
