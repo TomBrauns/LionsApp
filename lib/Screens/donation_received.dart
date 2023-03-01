@@ -483,7 +483,10 @@ class _ReceiptdataState extends State<Receiptdata> {
                       ),
                     ),
                   ],
-                ))));
+                )
+            )
+        )
+    );
   }
 }
 
