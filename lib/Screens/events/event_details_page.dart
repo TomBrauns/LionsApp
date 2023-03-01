@@ -105,102 +105,104 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ),
               floatingActionButton: showEditButton
                   ? Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                          FloatingActionButton(
-                            onPressed: _handleDelete,
-                            backgroundColor: ColorUtils.secondaryColor,
-                            child: const Icon(Icons.delete),
-                          ),
-                          const SizedBox(height: 16),
-                          FloatingActionButton(
-                            onPressed: _handleEdit,
-                            backgroundColor: ColorUtils.secondaryColor,
-                            child: const Icon(Icons.edit),
-                          ),
-                        ])
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: _handleDelete,
+                      backgroundColor: ColorUtils.secondaryColor,
+                      child: const Icon(Icons.delete),
+                    ),
+                    const SizedBox(height: 16),
+                    FloatingActionButton(
+                      onPressed: _handleEdit,
+                      backgroundColor: ColorUtils.secondaryColor,
+                      child: const Icon(Icons.edit),
+                    ),
+                  ])
                   : null,
               body: SingleChildScrollView(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                if (imgUri.isNotEmpty) Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
-                Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: const [
-                              Icon(
-                                Icons.calendar_month,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Datum")
+                    if (imgUri.isNotEmpty) Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
+                    Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(children: [
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                        title: Row(children: const [
+                                          Icon(
+                                            Icons.calendar_month,
+                                            size: 16,
+                                            color: Colors.black,
+                                          ),
+                                          Text("Datum")
+                                        ]),
+                                        subtitle: Text(date, maxLines: 1),
+                                      ))),
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                        title: Row(children: const [
+                                          Icon(
+                                            Icons.location_on,
+                                            size: 16,
+                                            color: Colors.black,
+                                          ),
+                                          Text("Ort")
+                                        ]),
+                                        subtitle: Text(location, maxLines: 1),
+                                      ))),
                             ]),
-                            subtitle: Text(date, maxLines: 1),
-                          ))),
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: const [
-                              Icon(
-                                Icons.location_on,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Ort")
+                            Row(children: [
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                        title: Row(children: const [
+                                          Icon(
+                                            Icons.supervised_user_circle,
+                                            size: 16,
+                                            color: Colors.black,
+                                          ),
+                                          Text("Zweck")
+                                        ]),
+                                        subtitle: Text(project, maxLines: 1),
+                                      ))),
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                        title: Row(children: const [
+                                          Icon(
+                                            Icons.crisis_alert,
+                                            size: 16,
+                                            color: Colors.black,
+                                          ),
+                                          Text("Ziel")
+                                        ]),
+                                        subtitle: Text(target, maxLines: 1),
+                                      ))),
                             ]),
-                            subtitle: Text(location, maxLines: 1),
-                          ))),
-                        ]),
-                        Row(children: [
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: const [
-                              Icon(
-                                Icons.supervised_user_circle,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Zweck")
-                            ]),
-                            subtitle: Text(project, maxLines: 1),
-                          ))),
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: const [
-                              Icon(
-                                Icons.crisis_alert,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Ziel")
-                            ]),
-                            subtitle: Text(target, maxLines: 1),
-                          ))),
-                        ]),
-                        const SizedBox(height: 16),
-                        Text("Was machen wir?", style: _headlineStyle),
-                        const SizedBox(height: 4),
-                        Text(description, style: _textStyle),
-                        const SizedBox(height: 32),
-                        Center(
-                            child: ElevatedButton(
-                          onPressed: _handleDonation,
-                          child: const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-                              child: Text("Spenden", style: TextStyle(fontSize: 22))),
-                        )),
-                        const SizedBox(height: 32),
-                      ],
-                    ))
-              ])));
+                            const SizedBox(height: 16),
+                            Text("Was machen wir?", style: _headlineStyle),
+                            const SizedBox(height: 4),
+                            Text(description, style: _textStyle),
+                            const SizedBox(height: 32),
+                            Center(
+                                child: ElevatedButton(
+                                  onPressed: _handleDonation,
+                                  child: const Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
+                                      child: Text("Spenden", style: TextStyle(fontSize: 22))),
+                                )),
+                            const SizedBox(height: 32),
+                          ],
+                        ))
+                  ])
+              )
+          );
         });
   }
 }
