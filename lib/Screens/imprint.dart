@@ -596,7 +596,7 @@ class ImprintTextS extends StatelessWidget {
         textAlign: TextAlign.start,
         style: TextStyle(
           decoration:
-              (underline) ? TextDecoration.underline : TextDecoration.none,
+          (underline) ? TextDecoration.underline : TextDecoration.none,
           fontSize: 18.0,
           color: const Color(0xFF00338D),
           fontFamily: 'Inter',
