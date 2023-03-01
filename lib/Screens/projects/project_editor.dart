@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lionsapp/Screens/projects/project.dart';
 import 'package:lionsapp/util/image_upload.dart';
+import '../events/event_details_page.dart';
 import 'category.dart';
 
 class ProjectEditor extends StatefulWidget {
@@ -38,22 +41,24 @@ class _ProjectEditorState extends State<ProjectEditor> {
     }
   }
 
-  void _handleSubmit() {
+  void _handleSubmit() async {
     final name = _nameInputController.value.text;
     final background = _backgroundInputController.value.text;
     final support = _supportInputController.value.text;
+    final String? projectId;
     if (name.isEmpty || background.isEmpty || support.isEmpty) {
       return;
     } else {
       final collection = FirebaseFirestore.instance.collection("projects");
       if (widget.documentId == null) {
-        collection.add({
+        final createdEvent = await collection.add({
           'name': name,
           'background': background,
           'support': support,
           'category': selectedCategory,
           'image_url': imgUrl,
         });
+        projectId = createdEvent.id;
       } else {
         collection.doc(widget.documentId).set({
           'name': name,
@@ -62,8 +67,19 @@ class _ProjectEditorState extends State<ProjectEditor> {
           'category': selectedCategory,
           'image_url': imgUrl,
         });
+        projectId = widget.documentId;
       }
-      Navigator.pop(context);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.pop(context);
+        if (widget.documentId == null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Project(documentId: projectId!),
+            ),
+          );
+        }
+      });
     }
   }
 
