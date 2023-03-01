@@ -116,7 +116,7 @@ class _UserState extends State<User> {
                     margin: const EdgeInsets.all(25),
                     child: ElevatedButton.icon(
                       icon: const Icon(
-                        Icons.badge,
+                        Icons.lock_open_rounded,
                         size: 24.0,
                       ),
                       label: const Text('Passwort ändern'),
