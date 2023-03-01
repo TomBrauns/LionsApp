@@ -21,7 +21,7 @@ class BurgerMenu extends StatefulWidget {
 class _BurgerMenuState extends State<BurgerMenu> {
   var scrollcontroller = ScrollController();
 
-  Color selectedColor = Colors.limeAccent;
+  Color selectedColor = Color(0xFFFFC72C);
 
 
   bool isMenuSelected(int index){
