@@ -447,7 +447,8 @@ class _EventEditorState extends State<EventEditor> {
                             ]),
                           ))),
                 ],
-              )),
+              )
+          ),
         ));
   }
 }
