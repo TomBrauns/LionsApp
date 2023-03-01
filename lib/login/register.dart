@@ -477,6 +477,15 @@ class _RegisterState extends State<Register> {
                                             ));
                                       } else {
                                         // TODO: Show error message
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Nochmal versuchen!',
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
                                       }
                                     });
                                   } else {
