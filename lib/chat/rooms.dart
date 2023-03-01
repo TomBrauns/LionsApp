@@ -31,14 +31,14 @@ class _RoomsPageState extends State<RoomsPage> {
     final docRef = collectionRef.doc(userId);
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;
+    final user = FirebaseAuth.instance.currentUser!;
+    final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    final imageUrl = documentSnapshot.data()?['image_url'];
+    final firstname = documentSnapshot.data()?['firstname'];
+    final lastname = documentSnapshot.data()?['lastname'];
 
     try {
       if (!docExists) {
-        final user = FirebaseAuth.instance.currentUser!;
-        final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-        final imageUrl = documentSnapshot.data()?['image_url'];
-        final firstname = documentSnapshot.data()?['firstname'];
-        final lastname = documentSnapshot.data()?['lastname'];
         await FirebaseChatCore.instance.createUserInFirestore(
           types.User(
             id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
@@ -47,6 +47,8 @@ class _RoomsPageState extends State<RoomsPage> {
             lastName: lastname,
           ),
         );
+      } else {
+        updateUserWhenJoiningChat(firstname, lastname);
       }
     } catch (e) {}
   }
@@ -173,6 +175,16 @@ class _RoomsPageState extends State<RoomsPage> {
               },
             ),
     );
+  }
+
+  Future<void> updateUserWhenJoiningChat(
+    String? newFirstName,
+    String? newLastName,
+  ) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance.collection('user_chat').doc(user!.uid).update({"firstName": newFirstName});
+    await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"lastName": newLastName});
   }
 
   void initializeFlutterFire() async {
