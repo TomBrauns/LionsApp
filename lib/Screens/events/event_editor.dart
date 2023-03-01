@@ -470,7 +470,7 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
       stream: FirebaseFirestore.instance.collection('projects').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
-          return Container(); // Rückgabe eines leeren Containers
+          return Container(); // If the snap doesnt have any Data, an empty container is returned.
         }
         List<DropdownMenuItem> projectItems = [];
         for (var doc in snapshot.data!.docs) {
