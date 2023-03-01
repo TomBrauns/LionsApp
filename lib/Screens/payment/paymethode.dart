@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 
+import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
@@ -17,6 +18,8 @@ double amount = 10.00;
 String eventId = "evenid test";
 
 bool paymentSuccess = false;
+
+String returnUrl = Uri.base.toString();
 
 var _paymentItems = [
   PaymentItem(
@@ -71,7 +74,19 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    paypalOnPress(amount, eventId, Uri.base.toString());
+                    //TODO: implement Paypal Paysheet for App
+                    /*if (GetPlatform.currentPlatform != GetPlatform.web) {
+                      paymentSuccess =
+                          (await paypalOnPressApp(amount, eventId, returnUrl))!;
+                      if (paymentSuccess == false) {
+                        showErrorSnackbar(context);
+                      } else if (paymentSuccess == true) {
+                        showSuccessSnackbar(context);
+                      }
+                    } else if (GetPlatform.currentPlatform == GetPlatform.web) {*/
+                    //TODO: get fix for return url
+                    paypalOnPressWeb(amount, eventId, returnUrl);
+                    //}
                   },
                   child: const Text("Paypal"),
                 ),
@@ -96,13 +111,13 @@ class _PaymethodeState extends State<Paymethode> {
                         showSuccessSnackbar(context);
                       }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(
-                          amount, eventId, context, Uri.base.toString());
+                      stripeOnPressWeb(amount, eventId, context, returnUrl);
                     }
                   },
                   child: const Text("Stripe"),
                 ),
               ),
+              //TODO: make it functional
               if (GetPlatform.currentPlatform != GetPlatform.web)
                 FutureBuilder<PaymentConfiguration>(
                     future: _googlePayConfigFuture,
@@ -150,11 +165,11 @@ class _PaymethodeState extends State<Paymethode> {
     );
   }
 
-  void urlPaymentVerify(context) {
+  void urlPaymentVerify(context) async {
     final uri = Uri.base;
     final url = uri.toString();
-    final regex = RegExp('(success|cancel)\$');
-    final match = regex.firstMatch(url);
+    final regex = await RegExp('(success|cancel)\$');
+    final match = await regex.firstMatch(url);
 
     if (match != null) {
       final result = match.group(0);

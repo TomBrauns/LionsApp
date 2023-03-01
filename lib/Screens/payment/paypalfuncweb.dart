@@ -4,7 +4,7 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> paypalOnPressApp(double amount, eventId, paymethodesite) async {
+Future<void> paypalOnPressWeb(double amount, eventId, paymethodesite) async {
   var _url;
   final token = await paypalAuth();
   List<String> PaypalObject =
