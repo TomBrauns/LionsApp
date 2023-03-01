@@ -456,26 +456,40 @@ class _RegisterState extends State<Register> {
                                     ),
                                   );
                                 } else {
-                                  signUp(
-                                    firstnameController.text,
-                                    lastnameController.text,
-                                    emailController.text,
-                                    passwordController.text,
-                                    postalcodeController.text,
-                                    cityController.text,
-                                    streetController.text,
-                                    streetnrController.text,
-                                    rool,
-                                  );
+                                  if (_formkey.currentState!.validate()) {
+                                    signUp(
+                                      firstnameController.text,
+                                      lastnameController.text,
+                                      emailController.text,
+                                      passwordController.text,
+                                      postalcodeController.text,
+                                      cityController.text,
+                                      streetController.text,
+                                      streetnrController.text,
+                                      rool,
+                                    ).then((success) {
+                                      if (success) {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => LoginPage(prefilledEmail: emailController.text),
+                                            ));
+                                      } else {
+                                        // TODO: Show error message
+                                      }
+                                    });
+                                  } else {
+                                    // TODO: Show validation error message
+                                  }
                                 }
                               },
+                              color: Colors.white,
                               child: const Text(
                                 "Registrieren",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
                               ),
-                              color: Colors.white,
                             ),
                           ],
                         ),
@@ -491,30 +505,28 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
-    const CircularProgressIndicator();
-
-    if (_formkey.currentState!.validate()) {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password).then(
-        (result) async {
-          await result.user!.sendEmailVerification();
-          postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
-        },
-      ).catchError(
-        (e) {
-          // Handle error
-          print(e);
-        },
-      );
-    }
+  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode,
+      String? cityname, String? streetname, String? streetnumber, String rool) async {
+    return _auth.createUserWithEmailAndPassword(email: email, password: password).then(
+      (result) async {
+        await result.user!.sendEmailVerification();
+        await postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
+        return true;
+      },
+    ).catchError(
+      (e) {
+        // Handle error
+        print(e);
+        return false;
+      },
+    );
   }
 
-  void postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  Future<void> postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
 
-    ref.doc(user!.uid).set(
+    return ref.doc(user!.uid).set(
       {
         'firstname': firstname,
         'lastname': lastname,
@@ -525,12 +537,6 @@ class _RegisterState extends State<Register> {
         'streetnumber': streetnumber,
         'rool': rool,
       },
-    );
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Donations(),
-      ),
     );
   }
 
