@@ -68,7 +68,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-
                     AppData.selected = 3;
 
                     Navigator.pushNamed(context, '/Calendar');
