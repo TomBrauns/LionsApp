@@ -22,7 +22,7 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "Contact"),
+      appBar: const MyAppBar(title: "Contact"),
       drawer: BurgerMenu(),
       body: SingleChildScrollView(
         child: Padding(

@@ -34,7 +34,7 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
                 const Text('Der eingegebene Authentifizierungscode ist ungültig.'),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

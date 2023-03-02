@@ -16,7 +16,7 @@ class _CalendarState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: BurgerMenu(),
-      appBar: MyAppBar(title: "Chat"),
+      appBar: const MyAppBar(title: "Chat"),
       bottomNavigationBar: BottomNavigation(),
     );
   }

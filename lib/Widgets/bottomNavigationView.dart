@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
 
@@ -24,7 +23,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           children: <Widget>[
             Tooltip(
               message: "User Verwaltung",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -39,7 +38,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Chat",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -56,7 +55,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 Privileges.privilege == "Member")
               Tooltip(
                 message: "Kalender",
-                decoration: BoxDecoration(color: Colors.blue),
+                decoration: const BoxDecoration(color: Colors.blue),
                 child: IconButton(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                   onPressed: () {
@@ -71,7 +70,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               ),
             Tooltip(
               message: "Katalog",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -86,7 +85,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Aktivitäten",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
