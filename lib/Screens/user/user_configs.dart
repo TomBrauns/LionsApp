@@ -236,7 +236,7 @@ class _UserState extends State<User> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          content: const SingleChildScrollView(
+          content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('Wollen Sie Ihren Account wirklich löschen?'),

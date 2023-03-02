@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
+import 'package:lionsapp/util/color.dart';
 
 import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
@@ -60,19 +61,15 @@ class _PaymethodeState extends State<Paymethode> {
         title: const Text("Zahlungsmethode"),
       ),
       body: Center(
-        child: SizedBox(
-          width: 250,
-          height: 500,
-          child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: 100,
-                width: 350,
                 padding: const EdgeInsets.all(15.0),
                 margin: const EdgeInsets.all(15),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () async {
@@ -88,17 +85,23 @@ class _PaymethodeState extends State<Paymethode> {
                     paypalOnPressWeb(amount, eventId, returnUrl, context);
                     //}
                   },
-                  child: const Text("Paypal"),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.paypal),
+                      SizedBox(width: 8),
+                      const Text("Paypal"),
+                    ],
+                  ),
+
                 ),
               ),
               Container(
-                height: 100,
-                width: 350,
                 padding: const EdgeInsets.all(15.0),
                 margin: const EdgeInsets.all(15),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () async {
@@ -114,7 +117,15 @@ class _PaymethodeState extends State<Paymethode> {
                       stripeOnPressWeb(amount, eventId, context, returnUrl);
                     }
                   },
-                  child: const Text("Stripe"),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.payment),
+                      SizedBox(width: 8),
+                      Text("Stripe"),
+                    ],
+                  ),
+
                 ),
               ),
               //TODO: make it functional
@@ -136,8 +147,7 @@ class _PaymethodeState extends State<Paymethode> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   void showErrorSnackbar(BuildContext context) {
