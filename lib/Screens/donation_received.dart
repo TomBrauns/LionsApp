@@ -154,7 +154,7 @@ class _ReceiptState extends State<Receipt> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Spendenquittung"),
+          title: const Text("Spendenquittung2"),
         ),
         body: Center(
             child: Column(children: <Widget>[
