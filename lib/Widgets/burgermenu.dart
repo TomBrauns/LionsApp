@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../util/color.dart';
 
-class AppData{
+class AppData {
   static int selected = -1;
 }
 
@@ -23,8 +24,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
 
   Color selectedColor = Color(0xFFFFC72C);
 
-
-  bool isMenuSelected(int index){
+  bool isMenuSelected(int index) {
     return index == AppData.selected;
   }
 
@@ -84,9 +84,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/Donations');
             },
           ),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.badge),
                   title: const Text('Benutzer'),
@@ -103,9 +101,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.calendar_month_rounded),
                   title: const Text('Kalender'),
@@ -122,9 +118,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Friend" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Admin"
+          Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"
               ? ListTile(
                   leading: const Icon(Icons.event),
                   title: const Text('Aktivitäten'),
@@ -141,9 +135,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.book),
                   title: const Text('Katalog'),
@@ -178,8 +170,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           const ListTile(
-            title: Text('Info Seiten',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Info Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
@@ -228,8 +219,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
           const ListTile(
-            title: Text('Konto Seiten',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Konto Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
 
@@ -269,9 +259,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
 
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Log Out'),
@@ -294,9 +282,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
 
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend"
               ? const ListTile(
                   title: Text(
                     'Member Seiten',
@@ -321,8 +307,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const EventEditor()),
+                      MaterialPageRoute(builder: (context) => const EventEditor()),
                     );
                   },
                 )
@@ -354,10 +339,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => QrCodeWithImage(
-                              link: 'www.google.de?param:',
-                              documentId: '12jdksl2342')),
+                      MaterialPageRoute(builder: (context) => QrCodeWithImage(link: 'www.google.de?param:', documentId: '12jdksl2342')),
                     );
                   },
                 )
@@ -378,8 +360,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserManagement()),
+                      MaterialPageRoute(builder: (context) => callAdmin()),
                     );
                   },
                 )
