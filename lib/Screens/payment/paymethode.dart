@@ -67,96 +67,95 @@ class _PaymethodeState extends State<Paymethode> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorUtils.primaryColor,
-                    elevation: 0,
-                  ),
-                  onPressed: () async {
-                    /*if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      paymentSuccess = (paypalOnPressWeb(
-                          amount, eventId, returnUrl, context,baseUrl))!;
-                      if (paymentSuccess == false) {
-                        showErrorSnackbar(context);
-                      } else if (paymentSuccess == true) {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/ThankYou');
-                      }
-                    } else if (GetPlatform.currentPlatform == GetPlatform.web) {*/
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(15.0),
+              margin: const EdgeInsets.all(15),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorUtils.primaryColor,
+                  elevation: 0,
+                ),
+                onPressed: () async {
+                  if (GetPlatform.currentPlatform != GetPlatform.web) {
+                    //paymentSuccess = (paypalOnPressApp(
+                    //    amount, eventId, returnUrl, context, baseUrl))!;
+                    if (paymentSuccess == false) {
+                      showErrorSnackbar(context);
+                    } else if (paymentSuccess == true) {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                          context, '/ThankYou?amount=$amount?eventId=$eventId');
+                    }
+                  } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     paypalOnPressWeb(
                         amount, eventId, context, returnUrl, baseUrl);
-                    //}
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.paypal),
-                      SizedBox(width: 8),
-                      const Text("Paypal"),
-                    ],
-                  ),
-
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.paypal),
+                    SizedBox(width: 8),
+                    const Text("Paypal"),
+                  ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorUtils.primaryColor,
-                    elevation: 0,
-                  ),
-                  onPressed: () async {
-                    if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      paymentSuccess =
-                          (await stripeOnPressApp(amount, eventId, context))!;
-                      if (paymentSuccess == false) {
-                        showErrorSnackbar(context);
-                      } else if (paymentSuccess == true) {
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context,
-                            '/ThankYou?amount=$amount?eventId=$eventId');
-                      }
-                    } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(
-                          amount, eventId, context, returnUrl, baseUrl);
+            ),
+            Container(
+              padding: const EdgeInsets.all(15.0),
+              margin: const EdgeInsets.all(15),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorUtils.primaryColor,
+                  elevation: 0,
+                ),
+                onPressed: () async {
+                  if (GetPlatform.currentPlatform != GetPlatform.web) {
+                    paymentSuccess =
+                        (await stripeOnPressApp(amount, eventId, context))!;
+                    if (paymentSuccess == false) {
+                      showErrorSnackbar(context);
+                    } else if (paymentSuccess == true) {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                          context, '/ThankYou?amount=$amount?eventId=$eventId');
                     }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.payment),
-                      SizedBox(width: 8),
-                      Text("Stripe"),
-                    ],
-                  ),
-
+                  } else if (GetPlatform.currentPlatform == GetPlatform.web) {
+                    stripeOnPressWeb(
+                        amount, eventId, context, returnUrl, baseUrl);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.payment),
+                    SizedBox(width: 8),
+                    Text("Stripe"),
+                  ],
                 ),
               ),
-              //TODO: make it functional
-              if (GetPlatform.currentPlatform != GetPlatform.web)
-                FutureBuilder<PaymentConfiguration>(
-                    future: _googlePayConfigFuture,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? GooglePayButton(
-                            paymentConfiguration: snapshot.data!,
-                            paymentItems: _paymentItems,
-                            type: GooglePayButtonType.donate,
-                            margin: const EdgeInsets.only(top: 15.0),
-                            onPaymentResult: onGooglePayResult,
-                            loadingIndicator: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : const SizedBox.shrink()),
-            ],
-          ),
+            ),
+            //TODO: make it functional
+            if (GetPlatform.currentPlatform != GetPlatform.web)
+              FutureBuilder<PaymentConfiguration>(
+                  future: _googlePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? GooglePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: GooglePayButtonType.donate,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onGooglePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+          ],
         ),
-      );
+      ),
+    );
   }
 
   void showErrorSnackbar(BuildContext context) {

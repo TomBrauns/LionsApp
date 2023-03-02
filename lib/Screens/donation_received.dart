@@ -344,7 +344,7 @@ Future<void> shareToFacebook(String url) async {
       //print("Could not launch URL");
     }
   } else {
-    if (!await canLaunchUrl(
+    if (await canLaunchUrl(
         Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
       await launchUrl(
           Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
@@ -356,14 +356,15 @@ Future<void> shareToFacebook(String url) async {
 
 Future<void> shareToTwitter(String url) async {
   if (GetPlatform.currentPlatform == GetPlatform.web) {
-    if (await canLaunchUrl(
-        Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
+    if (await canLaunchUrl(Uri.parse(
+      "https://twitter.com/intent/tweet?url=$url",
+    ))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
       //print("Could not launch URL");
     }
   } else {
-    if (!await canLaunchUrl(
+    if (await canLaunchUrl(
         Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
