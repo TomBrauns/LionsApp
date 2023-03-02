@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../util/color.dart';
 
-class AppData{
+class AppData {
   static int selected = -1;
 }
 
@@ -21,10 +22,9 @@ class BurgerMenu extends StatefulWidget {
 class _BurgerMenuState extends State<BurgerMenu> {
   var scrollcontroller = ScrollController();
 
-  Color selectedColor = Color(0xFFFFC72C);
+  Color selectedColor = ColorUtils.secondaryColor;
 
-
-  bool isMenuSelected(int index){
+  bool isMenuSelected(int index) {
     return index == AppData.selected;
   }
 
@@ -40,10 +40,22 @@ class _BurgerMenuState extends State<BurgerMenu> {
             decoration: const BoxDecoration(
               color: ColorUtils.primaryColor,
             ),
+/*
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(ColorUtils.secondaryColor, BlendMode.srcIn),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
+                ),
+              ),
+            ),
+*/
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
-                child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
+                child: Image.asset("assets/appicon/lions_white.png",
+                    fit: BoxFit.contain),
               ),
             ),
           ),
@@ -378,8 +390,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserManagement()),
+                      MaterialPageRoute(builder: (context) => callAdmin()),
                     );
                   },
                 )

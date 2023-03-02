@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lionsapp/util/color.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -52,7 +53,9 @@ class _DonationReceivedState extends State<DonationReceived> {
             padding: const EdgeInsets.all(40.0),
             decoration: BoxDecoration(
                 color: const Color.fromARGB(156, 141, 196, 241),
-                border: Border.all(color: Colors.blueAccent)),
+                border: Border.all(
+                  color: ColorUtils.primaryColor,
+                )),
             child: Text(
                 "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
                 "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
@@ -67,7 +70,7 @@ class _DonationReceivedState extends State<DonationReceived> {
               ),
               label: const Text('Kontaktformular'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
               ),
               onPressed: () {
@@ -84,7 +87,7 @@ class _DonationReceivedState extends State<DonationReceived> {
               ),
               label: const Text('Quittung'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
               ),
               onPressed: () {
@@ -165,7 +168,29 @@ class _ReceiptState extends State<Receipt> {
               ),
               label: const Text('PDF herunterladen'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorUtils.primaryColor,
+                elevation: 0,
+              ),
+              onPressed: () async {
+                if (kIsWeb) {
+                  _handleWebDownloadButtonPressed();
+                } else {
+                  _handleDownloadButtonPressed();
+                }
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(40),
+            height: 50,
+            child: ElevatedButton.icon(
+              icon: const Icon(
+                Icons.cloud_upload,
+                size: 24.0,
+              ),
+              label: const Text('Cloud hochladen'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
               ),
               onPressed: () async {
@@ -289,7 +314,7 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
                       margin: const EdgeInsets.all(25),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: ColorUtils.primaryColor,
                           elevation: 0,
                         ),
                         onPressed: () {},
@@ -316,7 +341,7 @@ Future<void> shareToFacebook(String url) async {
       await launchUrl(
           Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   } else {
     if (!await canLaunchUrl(
@@ -324,7 +349,7 @@ Future<void> shareToFacebook(String url) async {
       await launchUrl(
           Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   }
 }
@@ -335,14 +360,14 @@ Future<void> shareToTwitter(String url) async {
         Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   } else {
     if (!await canLaunchUrl(
         Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   }
 }
@@ -366,7 +391,7 @@ class _ShareDonationState extends State<ShareDonation> {
                   try {
                     await shareToFacebook('https://marc-wieland.de');
                   } catch (e) {
-                    print("Failed to share to Facebook: $e");
+                    //print("Failed to share to Facebook: $e");
                   }
                 },
                 title: "Auf Facebook teilen",
@@ -384,7 +409,7 @@ class _ShareDonationState extends State<ShareDonation> {
                     await shareToTwitter(
                         'https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
                   } catch (e) {
-                    print("Failed to share to Twitter: $e");
+                    //print("Failed to share to Twitter: $e");
                   }
                 },
                 title: "Auf Twitter teilen",
@@ -479,7 +504,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                       child: ElevatedButton(
                         child: const Text("Weiter"),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: ColorUtils.primaryColor,
                           elevation: 0,
                         ),
                         onPressed: () {

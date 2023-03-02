@@ -24,226 +24,210 @@ class _UserState extends State<User> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Benutzer"),
-        ),
-        bottomNavigationBar: BottomNavigation(),
-        drawer: const BurgerMenu(),
-        resizeToAvoidBottomInset: false,
-        body: Center(
-            child: Scrollbar(
-                thickness: 5.0,
-                thumbVisibility: false,
-                radius: const Radius.circular(360),
-                child: ListView(children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        child: buildImageFromFirebase(),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 10),
-                        ),
-                        onPressed: () async {
-                          final user = FirebaseAuth.instance.currentUser;
-                          if (user != null) {
-                            final XFile? file = await ImageUpload.selectImage();
-                            if (file != null) {
-                              final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-                              final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
-                              if (imageUrl != null) {
-                                await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
-                                await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"imageUrl": imageUrl});
-                              }
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Sie müssen sich zuerst anmelden!',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
+      appBar: AppBar(
+        title: const Text("Benutzer"),
+      ),
+      bottomNavigationBar: BottomNavigation(),
+      drawer: const BurgerMenu(),
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: Scrollbar(
+          thickness: 5.0,
+          thumbVisibility: false,
+          radius: const Radius.circular(360),
+          child: ListView(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    child: buildImageFromFirebase(),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 10),
+                    ),
+                    onPressed: () async {
+                      final user = FirebaseAuth.instance.currentUser;
+                      if (user != null) {
+                        final XFile? file = await ImageUpload.selectImage();
+                        if (file != null) {
+                          final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                          final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
+                          if (imageUrl != null) {
+                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                            await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"imageUrl": imageUrl});
                           }
-                        },
-                        child: const Text('Profilbild ändern'),
-                      ),
-                      if (user != null)
-                        UserDataWidget()
-                      else
-                        Text(
-                          'Sie müssen sich zuerst anmelden!',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.badge,
-                        size: 24.0,
-                      ),
-                      label: const Text('Nutzerdaten ändern'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        final user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Update()),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Sie müssen sich zuerst anmelden!',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
                         }
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.lock_open_rounded,
-                        size: 24.0,
-                      ),
-                      label: const Text('Passwort ändern'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        final user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => changePw()),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Sie müssen sich zuerst anmelden!',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.red,
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Sie müssen sich zuerst anmelden!',
+                              style: TextStyle(color: Colors.white),
                             ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.card_membership,
-                        size: 24.0,
-                      ),
-                      label: const Text('Abos Verwalten'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Subs()),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.accessibility_new,
-                        size: 24.0,
-                      ),
-                      label: const Text('Bedienungshilfe'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Accessibility()),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.logout,
-                        size: 24.0,
-                      ),
-                      label: const Text('Ausloggen'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        signOut();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const LogOut()),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(25),
-                    child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.delete,
-                        size: 24.0,
-                      ),
-                      label: const Text('Account löschen'),
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                      ),
-                      onPressed: () {
-                        if (FirebaseAuth.instance.currentUser!.uid == null) {
-                          return;
-                        } else {
-                          showMyDialog();
-                        }
-                      },
-                    ),
-                  ),
-                  Privileges.privilege == "Admin"
-                      ? Container(
-                          margin: const EdgeInsets.all(25),
-                          child: ElevatedButton.icon(
-                            icon: const Icon(
-                              Icons.admin_panel_settings,
-                              size: 24.0,
-                            ),
-                            label: const Text('Rollen Verwalten'),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => callAdmin()),
-                              );
-                            },
+                            backgroundColor: Colors.red,
                           ),
-                        )
-                      : Container(),
-                ]))));
+                        );
+                      }
+                    },
+                    child: const Text('Profilbild ändern'),
+                  ),
+                  if (user != null)
+                    UserDataWidget()
+                  else
+                    const Text(
+                      'Sie müssen sich zuerst anmelden!',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.badge,
+                    size: 24.0,
+                  ),
+                  label: const Text('Nutzerdaten ändern'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Update()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sie müssen sich zuerst anmelden!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.lock_open_rounded,
+                    size: 24.0,
+                  ),
+                  label: const Text('Passwort ändern'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => changePw()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sie müssen sich zuerst anmelden!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.card_membership,
+                    size: 24.0,
+                  ),
+                  label: const Text('Abos Verwalten'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Subs()),
+                    );
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.accessibility_new,
+                    size: 24.0,
+                  ),
+                  label: const Text('Bedienungshilfe'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Accessibility()),
+                    );
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.logout,
+                    size: 24.0,
+                  ),
+                  label: const Text('Ausloggen'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogOut()),
+                    );
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 24.0,
+                  ),
+                  label: const Text('Account löschen'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    if (FirebaseAuth.instance.currentUser!.uid == null) {
+                      return;
+                    } else {
+                      showMyDialog();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> showMyDialog() async {
@@ -254,7 +238,7 @@ class _UserState extends State<User> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
                 Text('Wollen Sie Ihren Account wirklich löschen?'),
                 Text('Die Vorgang kann nicht rückgängig gemacht werden'),
               ],
@@ -285,7 +269,7 @@ class _UserState extends State<User> {
                 );
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Donations()),
+                  MaterialPageRoute(builder: (context) => const Donations()),
                 );
               },
             ),
@@ -302,10 +286,10 @@ class _UserState extends State<User> {
         stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             print('Error: ${snapshot.error}');
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           } else {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('image_url')) {
@@ -322,7 +306,7 @@ class _UserState extends State<User> {
                 );
               }
             }
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           }
         },
       );
@@ -473,7 +457,7 @@ class _LogOutState extends State<LogOut> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Donations()),
+                MaterialPageRoute(builder: (context) => const Donations()),
               );
             },
           ),
@@ -489,7 +473,7 @@ class UserDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (userId == null || userId.isEmpty) {
-      return Text('gerade niemand eingeloggt');
+      return const Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
@@ -508,7 +492,7 @@ class UserDataWidget extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         },
       );

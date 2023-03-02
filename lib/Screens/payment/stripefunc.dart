@@ -28,7 +28,7 @@ Future<bool?> stripeOnPressApp(double amount, eventId, context) async {
   bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
-    paymentIntent = await createPaymentIntent(amountInCents.toString(), 'EUR');
+    paymentIntent = await createPaymentIntent(amountInCents.toString(), 'EUR', eventId);
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -59,7 +59,7 @@ Future<bool?> stripeOnPressApp(double amount, eventId, context) async {
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
-    String amount, String currency) async {
+    String amount, String currency, eventId) async {
   try {
     // Request body
     final body = {
