@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lionsapp/util/color.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -40,7 +41,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                 padding: const EdgeInsets.all(40.0),
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(156, 141, 196, 241),
-                    border: Border.all(color: Colors.blueAccent)),
+                    border: Border.all(color: ColorUtils.primaryColor,)),
                 child: Text(
                     "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
                         "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
@@ -55,7 +56,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   ),
                   label: const Text('Kontaktformular'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () {
@@ -72,7 +73,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   ),
                   label: const Text('Quittung'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () {
@@ -89,7 +90,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   ),
                   label: const Text('Teilen'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () {
@@ -155,7 +156,7 @@ class _ReceiptState extends State<Receipt> {
                   ),
                   label: const Text('PDF herunterladen'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () async{
@@ -177,7 +178,7 @@ class _ReceiptState extends State<Receipt> {
                   ),
                   label: const Text('Cloud hochladen'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
                   onPressed: () {},
@@ -275,7 +276,7 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
                       margin: const EdgeInsets.all(25),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: ColorUtils.primaryColor,
                           elevation: 0,
                         ),
                         onPressed: () {},
@@ -465,7 +466,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                       child: ElevatedButton(
                         child: const Text("Weiter"),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: ColorUtils.primaryColor,
                           elevation: 0,
                         ),
                         onPressed: () {
