@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'package:lionsapp/util/color.dart';
 import 'firebase_options.dart';
@@ -60,26 +61,46 @@ class _MyAppState extends State<MyApp> {
         // Überprüfe, ob die Route mit "/Donations" beginnt
         if (uri.path == '/Donations') {
           // Extrahiere den Parameter aus der Query-String-Variable "interneId"
-          final uri = Uri.parse(settings.name!);
           var interneId = uri.queryParameters['interneId'];
           // Erstelle die Donations-Seite mit dem Parameter
           //interneId = 'HWWbzQyOsVSbH7rS4BHR';
           return MaterialPageRoute(
               builder: (context) => Donations(interneId: interneId));
         } else if (uri.path == '/Donations/UserType/PayMethode/success') {
-          final int? id = int.tryParse(uri.queryParameters[''] ?? '');
+          final List<String> Paypalreturn = [
+            uri.queryParameters['paymentId'] ?? '',
+            uri.queryParameters['token'] ?? '',
+            uri.queryParameters['PayerID'] ?? ''
+          ];
           return MaterialPageRoute(
             builder: (_) => Paymethode(),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
-          final int? id = int.tryParse(uri.queryParameters['token'] ?? '');
+          final String? token = uri.queryParameters['token'];
           return MaterialPageRoute(
-            builder: (_) => Paymethode(),
+            builder: (_) => Paymethode(token: token),
+          );
+        } else if (uri.path == '/ThankYou') {
+          final List<String> Paypalreturn = [
+            uri.queryParameters['paymentId'] ?? '',
+            uri.queryParameters['token'] ?? '',
+            uri.queryParameters['PayerID'] ?? '',
+            uri.queryParameters['amount'] ?? '',
+            uri.queryParameters['eventId'] ?? '',
+          ];
+          return MaterialPageRoute(
+            builder: (_) => DonationReceived(
+                paymentId: Paypalreturn[0],
+                token: Paypalreturn[1],
+                PayerID: Paypalreturn[2],
+                amount: Paypalreturn[3],
+                eventId: Paypalreturn[4]),
           );
         }
 
         // Rückgabe einer Standardroute, falls keine passende Route gefunden wurde
         //return MaterialPageRoute(builder: (context) => HomePage());
+        return MaterialPageRoute(builder: (context) => Container());
       },
     );
   }

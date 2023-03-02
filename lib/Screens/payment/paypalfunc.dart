@@ -5,11 +5,13 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> paypalOnPressApp(
-    double amount, eventId, paymethodesite, context) async {
+    double amount, eventId, paymethodesite, context, baseUrl) async {
   var _url;
   final token = await paypalAuth();
+
   List<String> PaypalObject =
-      await makePaypalPayment(amount, token, eventId, paymethodesite);
+      await makePaypalPayment(amount, token, eventId, paymethodesite, baseUrl);
+  print(PaypalObject);
   _url = Uri.parse(PaypalObject[0]);
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
@@ -38,6 +40,8 @@ Future<String> paypalAuth() async {
     'grant_type': 'client_credentials'
   });
 
+  print(response.body);
+
   if (response.statusCode == 200) {
     final body = jsonDecode(response.body);
     return body['access_token'];
@@ -48,7 +52,7 @@ Future<String> paypalAuth() async {
 }
 
 Future<List<String>> makePaypalPayment(
-    double amount, String token, eventId, paymethodesite) async {
+    double amount, String token, eventId, paymethodesite, baseUrl) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -74,13 +78,13 @@ Future<List<String>> makePaypalPayment(
       },
     ],
     'redirect_urls': {
-      'return_url': '$paymethodesite/success',
-      'cancel_url': '$paymethodesite/cancel',
+      'return_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
+      'cancel_url': '$baseUrl/Donations/UserType/PayMethode/cancel',
     },
   });
 
   final response = await http.post(apiUrl, headers: headers, body: requestBody);
-
+  print(response.body);
   final responseData = jsonDecode(response.body);
   final approvalUrl = responseData['links'][1]['href'];
   print('Payment created successfully: $approvalUrl');

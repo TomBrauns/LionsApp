@@ -15,9 +15,10 @@ import 'package:flutter/foundation.dart'
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
 double amount = 10.00;
-String eventId = "evenid test";
+String eventId = "evenid";
 
 bool paymentSuccess = false;
+String? baseUrl = getBaseUrl();
 
 String returnUrl = Uri.base.toString();
 
@@ -30,9 +31,12 @@ var _paymentItems = [
 ];
 
 class Paymethode extends StatefulWidget {
-  final String? transactionId;
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
 
-  const Paymethode({Key? key, this.transactionId}) : super(key: key);
+  const Paymethode({Key? key, this.token, this.paymentId, this.PayerID})
+      : super(key: key);
 
   @override
   State<Paymethode> createState() => _PaymethodeState();
@@ -42,7 +46,7 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
-    urlPaymentVerify(context);
+    urlPaymentValidate(context);
   }
 
   void onGooglePayResult(paymentResult) {
@@ -78,14 +82,16 @@ class _PaymethodeState extends State<Paymethode> {
                   onPressed: () async {
                     /*if (GetPlatform.currentPlatform != GetPlatform.web) {
                       paymentSuccess = (paypalOnPressWeb(
-                          amount, eventId, returnUrl, context))!;
+                          amount, eventId, returnUrl, context,baseUrl))!;
                       if (paymentSuccess == false) {
                         showErrorSnackbar(context);
                       } else if (paymentSuccess == true) {
-                        showSuccessSnackbar(context);
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/ThankYou');
                       }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {*/
-                    paypalOnPressWeb(amount, eventId, returnUrl, context);
+                    paypalOnPressWeb(
+                        amount, eventId, context, returnUrl, baseUrl);
                     //}
                   },
                   child: const Text("Paypal"),
@@ -108,10 +114,13 @@ class _PaymethodeState extends State<Paymethode> {
                       if (paymentSuccess == false) {
                         showErrorSnackbar(context);
                       } else if (paymentSuccess == true) {
-                        showSuccessSnackbar(context);
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context,
+                            '/ThankYou?amount=$amount?eventId=$eventId');
                       }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(amount, eventId, context, returnUrl);
+                      stripeOnPressWeb(
+                          amount, eventId, context, returnUrl, baseUrl);
                     }
                   },
                   child: const Text("Stripe"),
@@ -150,40 +159,31 @@ class _PaymethodeState extends State<Paymethode> {
     );
   }
 
-  void showSuccessSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Zahlung erfolgreich'),
-        backgroundColor: Colors.green,
-        action: SnackBarAction(
-          label: 'weiter',
-          onPressed: () {
-            Navigator.pushNamed(context, '/ThankYou');
-          },
-        ),
-      ),
-    );
-  }
-
-  void urlPaymentVerify(context) async {
+  /*
+  final List<String> Paypalreturn = [
+            uri.queryParameters['paymentId'] ?? '',
+            uri.queryParameters['token'] ?? '',
+            uri.queryParameters['PayerID'] ?? ''
+  */
+  void urlPaymentValidate(context) async {
+    print("current URL:");
+    print(Uri.base);
     final uri = Uri.base;
     final url = uri.toString();
-    final regex = await RegExp('(success|cancel)\$');
-    final match = await regex.firstMatch(url);
-
-    if (match != null) {
-      final result = match.group(0);
-      if (result == 'success') {
-        print(true); // Output: true
-        showSuccessSnackbar(context);
-      } else if (result == 'cancel') {
-        print(false); // Output: false
-        showErrorSnackbar(context);
-      }
-    } else {
-      print('No match found.');
+    if (await url.contains('cancel') == true) {
+      showErrorSnackbar(context);
+    } else if (url.contains('cancel') == false) {
+      print('default Page');
     }
   }
+}
+
+String? getBaseUrl() {
+  final url = Uri.base.toString();
+  final regex = RegExp(r'^.+?\/\/[^\/#]+(?:[\/#]|$)#');
+  final match = regex.firstMatch(url);
+  final extractedUrl = match!.group(0);
+  return extractedUrl;
 }
 
 class GetPlatform {
