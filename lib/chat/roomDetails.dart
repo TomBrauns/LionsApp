@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lionsapp/chat/rooms.dart';
 
 import '../util/image_upload.dart';
 
@@ -27,7 +28,7 @@ class roomDetails extends StatefulWidget {
 class _roomDetailsState extends State<roomDetails> {
   List<UserInList> _users = [];
 
-  Room currentRoom = Room(id: '', type: null, users: const []);
+  Room currentRoom = const Room(id: '', type: null, users: []);
   final TextEditingController roomNameController = TextEditingController();
   final TextEditingController roomDescriptionController = TextEditingController();
   String imgURL = '';
@@ -42,7 +43,7 @@ class _roomDetailsState extends State<roomDetails> {
         roomDescriptionController.text = room.metadata!["Beschreibung"];
 
         currentRoom = room;
-// Get the current user ID
+        // Get the current user ID
         String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
         // Get the list of users from Firestore
         FirebaseFirestore.instance.collection('user_chat').get().then((snapshot) {
@@ -94,6 +95,20 @@ class _roomDetailsState extends State<roomDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${roomNameController.text} bearbeiten"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseChatCore.instance.deleteRoom(widget.roomId!);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RoomsPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.delete_forever),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -142,10 +157,10 @@ class _roomDetailsState extends State<roomDetails> {
                 ),
                 child: roomImg.isNotEmpty
                     ? Image.network(roomImg)
-                    : Column(
+                    : const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.upload, size: 48),
                           Text("Bild auswählen"),
                         ],
@@ -246,10 +261,10 @@ class _roomDetailsState extends State<roomDetails> {
         stream: FirebaseFirestore.instance.collection('rooms').doc(currentRoom.id).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             print('Error: ${snapshot.error}');
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           } else {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('imageUrl')) {
@@ -266,7 +281,7 @@ class _roomDetailsState extends State<roomDetails> {
                 );
               }
             }
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           }
         },
       );
