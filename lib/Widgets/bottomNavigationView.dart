@@ -3,8 +3,6 @@ import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
-import 'burgermenu.dart';
-
 class BottomNavigation extends StatefulWidget {
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
