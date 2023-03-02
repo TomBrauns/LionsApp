@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
+
+import 'burgermenu.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -8,6 +11,7 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -30,6 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 2;
 
                   Navigator.pushNamed(context, '/User');
                 },
@@ -45,6 +50,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 6;
 
                   Navigator.pushNamed(context, '/Chat');
                 },
@@ -63,6 +69,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     Navigator.pop(context);
                     // Push to Screen
 
+                    AppData.selected = 3;
+
                     Navigator.pushNamed(context, '/Calendar');
                   },
                   icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
@@ -78,6 +86,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   Navigator.pop(context);
                   // Push to Screen
 
+                  AppData.selected = 5;
+
                   Navigator.pushNamed(context, '/Catalogue');
                 },
                 icon: const Icon(Icons.book, color: Colors.white),
@@ -92,6 +102,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+
+                  AppData.selected = 4;
 
                   Navigator.pushNamed(context, '/Events');
                 },

@@ -16,7 +16,14 @@ class HomePage extends StatelessWidget {
       drawer: const BurgerMenu(),
       bottomNavigationBar: BottomNavigation(),
       body: const Center(
-        child: Text('Ei Gude und herzlich willkumme beim Lions Club! Mir sinn e gude Haufe vun Leit, die sich für unseri Gemeinschaft engagiere und unsere Region unterstütze. Schau dich gerne emol uff unsere Seit um und lern uns besser kenne. Mer freue uns uff dich!'),
+        child: Text('Ei Gude und herzlich willkumme beim Lions Club! Mir sinn e gude Haufe vun Leit, die sich für unseri Gemeinschaft engagiere und unsere Region unterstütze. Schau dich gerne emol uff unsere Seit um und lern uns besser kenne. Mer freue uns uff dich!',
+        style: TextStyle(
+          fontSize: 24,
+          color: Colors.blueGrey,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+        ),
       ),
     );
   }
