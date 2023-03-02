@@ -30,7 +30,9 @@ var _paymentItems = [
 ];
 
 class Paymethode extends StatefulWidget {
-  const Paymethode({Key? key}) : super(key: key);
+  final String? transactionId;
+
+  const Paymethode({Key? key, this.transactionId}) : super(key: key);
 
   @override
   State<Paymethode> createState() => _PaymethodeState();
@@ -74,18 +76,16 @@ class _PaymethodeState extends State<Paymethode> {
                     elevation: 0,
                   ),
                   onPressed: () async {
-                    //TODO: implement Paypal Paysheet for App
                     /*if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      paymentSuccess =
-                          (await paypalOnPressApp(amount, eventId, returnUrl))!;
+                      paymentSuccess = (paypalOnPressWeb(
+                          amount, eventId, returnUrl, context))!;
                       if (paymentSuccess == false) {
                         showErrorSnackbar(context);
                       } else if (paymentSuccess == true) {
                         showSuccessSnackbar(context);
                       }
                     } else if (GetPlatform.currentPlatform == GetPlatform.web) {*/
-                    //TODO: get fix for return url
-                    paypalOnPressWeb(amount, eventId, returnUrl);
+                    paypalOnPressWeb(amount, eventId, returnUrl, context);
                     //}
                   },
                   child: const Text("Paypal"),

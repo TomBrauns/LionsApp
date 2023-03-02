@@ -4,7 +4,8 @@ import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> paypalOnPressApp(double amount, eventId, paymethodesite) async {
+Future<void> paypalOnPressApp(
+    double amount, eventId, paymethodesite, context) async {
   var _url;
   final token = await paypalAuth();
   List<String> PaypalObject =
@@ -13,6 +14,9 @@ Future<void> paypalOnPressApp(double amount, eventId, paymethodesite) async {
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
   }
+  /*bool result =
+      await makePayPalPayment(amount, eventId, paymethodesite, context);
+  return result;*/
 }
 
 Future<String> paypalAuth() async {
@@ -89,3 +93,6 @@ Future<List<String>> makePaypalPayment(
   return paypalObject;
   // Open the approvalUrl in a web view to allow the user to approve the payment
 }
+
+/*Future<bool> makePayPalPayment(
+    amount, eventId, paymethodesite, context) async {}*/
