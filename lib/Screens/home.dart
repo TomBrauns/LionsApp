@@ -12,11 +12,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: "Startseite"),
-      drawer: BurgerMenu(),
+      appBar: const MyAppBar(title: "Startseite"),
+      drawer: const BurgerMenu(),
       bottomNavigationBar: BottomNavigation(),
-      body: Center(
-        child: Text('Ich bin eine Homepage, füll mich!'),
+      body: const Center(
+        child: Text('Ei Gude und herzlich willkumme beim Lions Club! Mir sinn e gude Haufe vun Leit, die sich für unseri Gemeinschaft engagiere und unsere Region unterstütze. Schau dich gerne emol uff unsere Seit um und lern uns besser kenne. Mer freue uns uff dich!'),
       ),
     );
   }

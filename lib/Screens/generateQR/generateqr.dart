@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:share/share.dart';
 
 import 'package:universal_html/html.dart' as html;
-import 'package:universal_html/controller.dart' as controller;
 
 class QrCodeWithImage extends StatefulWidget {
   final String link;
@@ -38,7 +37,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('QR Code with Image'),
+        title: const Text('QR Code with Image'),
       ),
       body: Center(
         child: Container(
@@ -56,7 +55,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
                   padding: EdgeInsets.zero,
-                  embeddedImage: AssetImage(imagePath),
+                  embeddedImage: const AssetImage(imagePath),
                   embeddedImageStyle: QrEmbeddedImageStyle(
                     size: const Size(60, 60),
                   ),
@@ -75,15 +74,13 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  print("Button gedrückt");
                   if(kIsWeb){
                     _handleWebDownloadButtonPressed();
-                    print("Web erkannt");
                   }else{
                     _handleDownloadButtonPressed();
                   }
                 },
-                child: Text('Download'),
+                child: const Text('Download'),
               ),
             ),
           ),
@@ -100,7 +97,6 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData?.buffer.asUint8List();
     } catch (e) {
-      print('Error capturing QR code: $e');
       return null;
     }
   }
@@ -112,7 +108,6 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
       await file.writeAsBytes(bytes);
       return file.path;
     } catch (e) {
-      print('Error saving QR code: $e');
       return null;
     }
   }

@@ -159,10 +159,8 @@ class _ReceiptState extends State<Receipt> {
                     elevation: 0,
                   ),
                   onPressed: () async{
-                    print("Button gedrückt");
                     if(kIsWeb){
                       _handleWebDownloadButtonPressed();
-                      print("Web erkannt");
                     }else{
                       _handleDownloadButtonPressed();
                     }
@@ -304,7 +302,7 @@ Future<void> shareToFacebook(String url) async {
       await launchUrl(
           Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   } else {
     if (!await canLaunchUrl(
@@ -312,7 +310,7 @@ Future<void> shareToFacebook(String url) async {
       await launchUrl(
           Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   }
 }
@@ -323,14 +321,14 @@ Future<void> shareToTwitter(String url) async {
         Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   } else {
     if (!await canLaunchUrl(
         Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
-      print("Could not launch URL");
+      //print("Could not launch URL");
     }
   }
 }
@@ -354,7 +352,7 @@ class _ShareDonationState extends State<ShareDonation> {
                   try {
                     await shareToFacebook('https://marc-wieland.de');
                   } catch (e) {
-                    print("Failed to share to Facebook: $e");
+                    //print("Failed to share to Facebook: $e");
                   }
                 },
                 title: "Auf Facebook teilen",
@@ -372,7 +370,7 @@ class _ShareDonationState extends State<ShareDonation> {
                     await shareToTwitter(
                         'https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
                   } catch (e) {
-                    print("Failed to share to Twitter: $e");
+                    //print("Failed to share to Twitter: $e");
                   }
                 },
                 title: "Auf Twitter teilen",

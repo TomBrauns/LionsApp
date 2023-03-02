@@ -42,9 +42,9 @@ class _DonationsState extends State<Donations> {
     eventId = widget.interneId;
     projectId = widget.projectId;
 
-    print("Hier EventID: $eventId");
-    print("Hier ProjectID: $projectId");
-    print("Hier widget id: ${widget.interneId}");
+    //print("Hier EventID: $eventId");
+    //print("Hier ProjectID: $projectId");
+    //print("Hier widget id: ${widget.interneId}");
 
     if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
@@ -111,7 +111,7 @@ class _DonationsState extends State<Donations> {
                     }
                     if (data.containsKey("currentDonationValue")) {
                       spendenCounter = data["currentDonationValue"];
-                      print(spendenCounter);
+                      //print(spendenCounter);
                     }
                   }
                 } else if (projectId != null && projectId!.isNotEmpty) {
@@ -123,16 +123,12 @@ class _DonationsState extends State<Donations> {
 
               Future<void> _updateDonationValue(int newDonationValue) async {
                 try {
-                  print("Hier in Funktion");
-                  // Get a reference to the document that needs to be updated
                   final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
-                  // Update the value of the 'currentDonationValue' field with the new value
                   await documentReference.update({'currentDonationValue': newDonationValue});
 
-                  print('Donation value updated successfully');
                 } catch (e) {
-                  print('Error updating donation value: $e');
+                  return null;
                 }
               }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";

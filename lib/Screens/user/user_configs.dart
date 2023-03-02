@@ -238,7 +238,7 @@ class _UserState extends State<User> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
                 Text('Wollen Sie Ihren Account wirklich löschen?'),
                 Text('Die Vorgang kann nicht rückgängig gemacht werden'),
               ],
