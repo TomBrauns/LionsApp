@@ -60,10 +60,8 @@ class _PaymethodeState extends State<Paymethode> {
         title: const Text("Zahlungsmethode"),
       ),
       body: Center(
-        child: SizedBox(
-          width: 250,
-          height: 500,
-          child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 height: 100,
@@ -136,8 +134,7 @@ class _PaymethodeState extends State<Paymethode> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   void showErrorSnackbar(BuildContext context) {
