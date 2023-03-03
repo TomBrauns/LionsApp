@@ -98,13 +98,7 @@ class _roomDetailsState extends State<roomDetails> {
         actions: [
           IconButton(
             onPressed: () {
-              FirebaseChatCore.instance.deleteRoom(widget.roomId!);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RoomsPage(),
-                ),
-              );
+              showMyDialog();
             },
             icon: const Icon(Icons.delete_forever),
           ),
@@ -321,5 +315,51 @@ class _roomDetailsState extends State<roomDetails> {
         ),
       );
     }
+  }
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Wollen Sie den Chatraum wirklich löschen?'),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Abbrechen'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Bestätigen'),
+              onPressed: () {
+                FirebaseChatCore.instance.deleteRoom(widget.roomId!);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Ihr Chatraum wurde gelöscht',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RoomsPage()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
