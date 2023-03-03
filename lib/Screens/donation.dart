@@ -205,8 +205,14 @@ class _DonationsState extends State<Donations> {
                                       await _updateDonationValue(newDonationValue);
                                       _inputController.text = "";
                                       _handleAdd(0);
+                                      if(Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"){
+                                        Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+                                      }
 
-                                      Navigator.pushNamed(context, '/Donations/UserType');
+                                        else {
+                                        Navigator.pushNamed(
+                                            context, '/Donations/UserType');
+                                      }
                                     }
 
                                   },
