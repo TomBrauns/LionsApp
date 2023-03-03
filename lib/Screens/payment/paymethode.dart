@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/util/color.dart';
@@ -7,6 +9,7 @@ import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
 import 'payment_sidefunc.dart';
+import 'payfunc.dart';
 import 'dart:core';
 
 import 'package:pay/pay.dart';
@@ -15,7 +18,7 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-double amount = 10.00;
+double amount = 50.00;
 String eventId = "evenid";
 
 bool paymentSuccess = false;
@@ -55,7 +58,13 @@ class _PaymethodeState extends State<Paymethode> {
   }
 
   void onGooglePayResult(paymentResult) {
+    print(paymentResult.runtimeType);
     print(paymentResult);
+    print(jsonDecode(
+        paymentResult['paymentMethodData']['tokenizationData']['token']['id']));
+
+    //payProcessing(tokenId, amount, eventId); //DA HIN MUSS ES
+    //TODO: bekomme id zur function
     // Send the resulting Google Pay token to your server / PSP
   }
 
@@ -75,6 +84,10 @@ class _PaymethodeState extends State<Paymethode> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              '$amount€ Spende',
+              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+            ),
             Container(
               padding: const EdgeInsets.all(20.0),
               margin: const EdgeInsets.symmetric(horizontal: 100),
@@ -181,6 +194,23 @@ class _PaymethodeState extends State<Paymethode> {
     );
   }
 
+/*
+void showSuccessSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Zahlung erfolgreich'),
+        backgroundColor: Colors.green,
+        action: SnackBarAction(
+          label: 'weiter',
+          onPressed: () {
+            Navigator.pushNamed(context, '/ThankYou');
+          },
+        ),
+      ),
+    );
+  }
+
+*/
   void showErrorSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
