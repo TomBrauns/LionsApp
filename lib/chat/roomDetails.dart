@@ -154,7 +154,7 @@ class _roomDetailsState extends State<roomDetails> {
                     :  Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(Icons.upload, size: 48),
                           Text("Bild auswählen"),
                         ],
