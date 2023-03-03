@@ -62,19 +62,38 @@ class _MyAppState extends State<MyApp> {
           //interneId = 'HWWbzQyOsVSbH7rS4BHR';
           return MaterialPageRoute(
               builder: (context) => Donations(interneId: interneId));
-        } else if (uri.path == '/Donations/UserType/PayMethode/success') {
-          final List<String> Paypalreturn = [
+        } else if (uri.path == '/Donations/UserType/PayMethode') {
+          final List<String> Paymethodereturn = [
+            uri.queryParameters['amount'] ?? '',
+            uri.queryParameters['eventId'] ?? '',
+          ];
+          return MaterialPageRoute(
+            builder: (_) => Paymethode(
+                amount: Paymethodereturn[0], eventId: Paymethodereturn[1]),
+          );
+        } /*else if (uri.path == '/Donations/UserType/PayMethode/success') {
+          final List<String> Paymethodereturn = [
+            uri.queryParameters['amount'] ?? '',
+            uri.queryParameters['eventId'] ?? '',
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? ''
           ];
           return MaterialPageRoute(
-            builder: (_) => const Paymethode(),
-          );
-        } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
-          final String? token = uri.queryParameters['token'];
+            builder: (_) => Paymethode(),
+          )/ // there for testing purposes
+        }*/
+        else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
+          final List<String> Paymethodereturn = [
+            uri.queryParameters['amount'] ?? '',
+            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['token'] ?? ''
+          ];
           return MaterialPageRoute(
-            builder: (_) => Paymethode(token: token),
+            builder: (_) => Paymethode(
+                amount: Paymethodereturn[0],
+                eventId: Paymethodereturn[1],
+                token: Paymethodereturn[2]),
           );
         } else if (uri.path == '/ThankYou') {
           final List<String> Paypalreturn = [

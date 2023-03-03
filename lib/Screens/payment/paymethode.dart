@@ -38,8 +38,16 @@ class Paymethode extends StatefulWidget {
   final String? token;
   final String? paymentId;
   final String? PayerID;
+  final String amount;
+  final String eventId;
 
-  const Paymethode({Key? key, this.token, this.paymentId, this.PayerID})
+  const Paymethode(
+      {Key? key,
+      this.token,
+      this.paymentId,
+      this.PayerID,
+      required this.amount,
+      required this.eventId})
       : super(key: key);
 
   @override
@@ -139,7 +147,7 @@ class _PaymethodeState extends State<Paymethode> {
                     } else if (paymentSuccess == true) {
                       Navigator.pop(context);
                       Navigator.pushNamed(
-                          context, '/ThankYou?amount=$amount?eventId=$eventId');
+                          context, '/ThankYou?amount=$amount&eventId=$eventId');
                     }
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     stripeOnPressWeb(

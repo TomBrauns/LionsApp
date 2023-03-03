@@ -28,12 +28,24 @@ var routes = <String, WidgetBuilder>{
   '/Donations': (context) => const Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login': (context) => const LoginPage(),
-  '/Donations/UserType/PayMethode': (context) => const Paymethode(),
-  '/Donations/UserType/PayMethode/success': (context) => const Paymethode(),
-  '/Donations/UserType/PayMethode/cancel': (context) => const Paymethode(),
+  '/Donations/UserType/PayMethode': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
+  '/Donations/UserType/PayMethode/success': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
+  '/Donations/UserType/PayMethode/cancel': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
-  '/ThankYou': (context) => const DonationReceived(),
+  '/ThankYou': (context) => DonationReceived(
+        amount: "",
+        eventId: "",
+      ),
   '/ThankYou/ShareDonation': (context) => const ShareDonation(),
   '/ThankYou/Receipt': (context) => const Receipt(),
   // TODO: Chaträume

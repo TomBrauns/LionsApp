@@ -21,26 +21,21 @@ String DonationProjectName = "Test Projekt";
 // ignore: non_constant_identifier_names
 var DonationAmount = 1;
 
-class DonationReceived extends StatefulWidget {
+class DonationReceived extends StatelessWidget {
   final String? token;
   final String? paymentId;
   final String? PayerID;
-  final String? amount;
-  final String? eventId;
+  final String amount;
+  final String eventId;
 
-  const DonationReceived(
+  DonationReceived(
       {super.key,
       this.token,
       this.paymentId,
       this.PayerID,
-      this.amount,
-      this.eventId});
+      required this.amount,
+      required this.eventId});
 
-  @override
-  State<DonationReceived> createState() => _DonationReceivedState();
-}
-
-class _DonationReceivedState extends State<DonationReceived> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +51,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                 border: Border.all(
                   color: ColorUtils.primaryColor,
                 )),
-            child: Text(
-                "Danke für ihre Spende von $DonationAmount€ an $DonationProjectName ."
+            child: Text("Danke für ihre Spende von $amount€ an $eventId ."
                 "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
                 "über das Kontaktformular zu erreichen."),
           ),
@@ -499,11 +493,7 @@ class _ReceiptdataState extends State<Receiptdata> {
                           //
                           // Submit missing
                           //
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DonationReceived()));
+                          Navigator.pushNamed(context, '/ThankYou');
                         },
                       ),
                     ),

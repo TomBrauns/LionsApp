@@ -106,7 +106,8 @@ Future<List<String>> stripeWebCheckout(
     'line_items[0][price]': priceId,
     'line_items[0][quantity]': '1',
     'success_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
-    'cancel_url': '$baseUrl/Donations/UserType/PayMethode/cancel'
+    'cancel_url':
+        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId'
   };
 
   // Make post request to Stripe

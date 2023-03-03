@@ -79,7 +79,8 @@ Future<List<String>> makePaypalPayment(
     ],
     'redirect_urls': {
       'return_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
-      'cancel_url': '$baseUrl/Donations/UserType/PayMethode/cancel',
+      'cancel_url':
+          '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId',
     },
   });
 
