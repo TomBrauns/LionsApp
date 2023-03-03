@@ -50,10 +50,17 @@ class _PaymethodeState extends State<Paymethode> {
     urlPaymentValidate(context);
   }
 
+  void onApplePayResult(paymentResult) {
+    // Send the resulting Apple Pay token to your server / PSP
+  }
+
   void onGooglePayResult(paymentResult) {
     print(paymentResult);
     // Send the resulting Google Pay token to your server / PSP
   }
+
+  final Future<PaymentConfiguration> _applePayConfigFuture =
+      PaymentConfiguration.fromAsset('default_payment_profile_apple_pay.json');
 
   final Future<PaymentConfiguration> _googlePayConfigFuture =
       PaymentConfiguration.fromAsset('default_payment_profile_google_pay.json');
@@ -69,24 +76,20 @@ class _PaymethodeState extends State<Paymethode> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(15.0),
-              margin: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.symmetric(horizontal: 100),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorUtils.primaryColor,
-                  elevation: 0,
-                ),
+                    backgroundColor: ColorUtils.primaryColor,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    )),
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
-                    //paymentSuccess = (paypalOnPressApp(
-                    //    amount, eventId, returnUrl, context, baseUrl))!;
-                    if (paymentSuccess == false) {
-                      showErrorSnackbar(context);
-                    } else if (paymentSuccess == true) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(
-                          context, '/ThankYou?amount=$amount?eventId=$eventId');
-                    }
+                    paypalOnPressApp(
+                        amount, eventId, context, returnUrl, baseUrl);
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     paypalOnPressWeb(
                         amount, eventId, context, returnUrl, baseUrl);
@@ -103,12 +106,16 @@ class _PaymethodeState extends State<Paymethode> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(15.0),
-              margin: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.symmetric(horizontal: 100),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorUtils.primaryColor,
+                  padding: const EdgeInsets.all(10),
                   elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
@@ -131,12 +138,28 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
-                    Text("Stripe"),
+                    Text("Kartenzahlung"),
                   ],
                 ),
               ),
             ),
             //TODO: make it functional
+            if (GetPlatform.currentPlatform != GetPlatform.web)
+              FutureBuilder<PaymentConfiguration>(
+                  future: _applePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? ApplePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: ApplePayButtonType.donate,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onApplePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+
             if (GetPlatform.currentPlatform != GetPlatform.web)
               FutureBuilder<PaymentConfiguration>(
                   future: _googlePayConfigFuture,

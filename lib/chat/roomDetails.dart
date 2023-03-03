@@ -151,7 +151,7 @@ class _roomDetailsState extends State<roomDetails> {
                 ),
                 child: roomImg.isNotEmpty
                     ? Image.network(roomImg)
-                    :  Column(
+                    : const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -323,9 +323,9 @@ class _roomDetailsState extends State<roomDetails> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          content:  SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text('Wollen Sie den Chatraum wirklich löschen?'),
                 Text('Die Vorgang kann nicht rückgängig gemacht werden'),
               ],

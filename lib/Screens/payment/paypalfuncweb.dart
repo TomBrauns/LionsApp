@@ -13,7 +13,7 @@ Future<void> paypalOnPressWeb(
       await makePaypalPayment(amount, token, eventId, paymethodesite, baseUrl);
   print(PaypalObject);
   _url = Uri.parse(PaypalObject[0]);
-  if (!await launchUrl(_url)) {
+  if (!await launchUrl(_url, webOnlyWindowName: '_self')) {
     throw Exception('Could not launch $_url');
   }
   /*bool result =
