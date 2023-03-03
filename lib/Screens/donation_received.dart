@@ -15,6 +15,8 @@ import 'package:open_filex/open_filex.dart';
 import 'dart:io';
 import 'package:universal_html/html.dart' as html;
 
+//Wieso erhöht sich der Commit Counter nicht, obwohl ich fleißig am Committen bin?
+
 // Test Values
 // ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
@@ -150,8 +152,6 @@ class Receipt extends StatefulWidget {
 
 class _ReceiptState extends State<Receipt> {
   List<int>? _bytes;
-
-  //Test test test
 
   @override
   Widget build(BuildContext context) {
