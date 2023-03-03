@@ -1,13 +1,16 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<void> payProcessing(token, amount, eventId) async {
-  payprocessPostRequest(token, amount, eventId);
+Future<Map<String, dynamic>> payProcessing(token, amount, eventId) async {
+  Map<String, dynamic> result =
+      await payprocessPostRequest(token, amount, eventId);
+  return result;
 }
 
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<void> payprocessPostRequest(token, amount, eventId) async {
+Future<Map<String, dynamic>> payprocessPostRequest(
+    token, amount, eventId) async {
   final body = {
     'amount': calculateAmount(amount).toString(),
     'currency': 'eur',
@@ -29,4 +32,5 @@ Future<void> payprocessPostRequest(token, amount, eventId) async {
 
   var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
   print(jsonResponse);
+  return jsonResponse;
 }

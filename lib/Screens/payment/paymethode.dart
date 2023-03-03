@@ -65,15 +65,18 @@ class _PaymethodeState extends State<Paymethode> {
     // Send the resulting Apple Pay token to your server / PSP
   }
 
-  void onGooglePayResult(paymentResult) {
-    print(paymentResult.runtimeType);
-    print(paymentResult);
-    print(jsonDecode(
-        paymentResult['paymentMethodData']['tokenizationData']['token']['id']));
-
-    //payProcessing(tokenId, amount, eventId); //DA HIN MUSS ES
-    //TODO: bekomme id zur function
-    // Send the resulting Google Pay token to your server / PSP
+  void onGooglePayResult(paymentResult) async {
+    String tokenString =
+        paymentResult['paymentMethodData']['tokenizationData']['token'];
+    Map<String, dynamic> tokenData = json.decode(tokenString);
+    String tokenId = tokenData['id'];
+    print(tokenId);
+    Map<String, dynamic> result = await payProcessing(tokenId, amount, eventId);
+    if (result['outcome']['seller_message'] == "Payment complete.") {
+      Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
+    } else {
+      showErrorSnackbar(context);
+    }
   }
 
   final Future<PaymentConfiguration> _applePayConfigFuture =
