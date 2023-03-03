@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -150,42 +151,70 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleImageSelection() async {
-    final result = await ImagePicker().pickImage(
-      imageQuality: 70,
-      maxWidth: 1440,
-      source: ImageSource.gallery,
-    );
+    if (kIsWeb) {
+      final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final name = file!.name;
+      final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
+      //Web
+      final bytes = await file!.readAsBytes();
+      await reference.putData(bytes);
 
-    if (result != null) {
-      _setAttachmentUploading(true);
-      final file = File(result.path);
-      final size = file.lengthSync();
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-      final name = result.name;
+      final uri = await reference.getDownloadURL();
+      /* Size */
+      final size = await file.length();
 
-      try {
-        final reference = FirebaseStorage.instance.ref(name);
-        await reference.putFile(file);
-        final uri = await reference.getDownloadURL();
+      //MSG SENDING
+      final message = types.PartialImage(
+        name: name,
+        size: size,
+        uri: uri,
+      );
 
-        final message = types.PartialImage(
-          height: image.height.toDouble(),
-          name: name,
-          size: size,
-          uri: uri,
-          width: image.width.toDouble(),
-        );
+      FirebaseChatCore.instance.sendMessage(
+        message,
+        widget.room.id,
+      );
+    } else {
+      //HANDY
+      final result = await ImagePicker().pickImage(
+        imageQuality: 70,
+        maxWidth: 1440,
+        source: ImageSource.gallery,
+      );
 
-        FirebaseChatCore.instance.sendMessage(
-          message,
-          widget.room.id,
-        );
-        _setAttachmentUploading(false);
-      } finally {
-        _setAttachmentUploading(false);
+      if (result != null) {
+        _setAttachmentUploading(true);
+        final file = File(result.path);
+        final size = file.lengthSync();
+        final bytes = await result.readAsBytes();
+        final image = await decodeImageFromList(bytes);
+        final name = result.name;
+
+        try {
+          final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
+          await reference.putFile(file);
+          final uri = await reference.getDownloadURL();
+
+          final message = types.PartialImage(
+            height: image.height.toDouble(),
+            name: name,
+            size: size,
+            uri: uri,
+            width: image.width.toDouble(),
+          );
+
+          FirebaseChatCore.instance.sendMessage(
+            message,
+            widget.room.id,
+          );
+          _setAttachmentUploading(false);
+        } finally {
+          _setAttachmentUploading(false);
+        }
       }
     }
+
+    _setAttachmentUploading(false);
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
