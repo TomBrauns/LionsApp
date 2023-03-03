@@ -32,28 +32,12 @@ class _EventEditorState extends State<EventEditor> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _sponsorController = TextEditingController();
 
-  String textValue = 'Privat';
   String eventImgUrl = "";
   String sponsorImgUrl = "";
   String? chatRoomId;
-  bool isSwitched = false;
   late bool _hasDonationTarget = true;
   late bool _hasProject = true;
   late bool _createChat = false;
-
-  void toggleSwitch(bool value) {
-    if (isSwitched == false) {
-      setState(() {
-        isSwitched = true;
-        textValue = 'Öffentlich';
-      });
-    } else {
-      setState(() {
-        isSwitched = false;
-        textValue = 'Privat';
-      });
-    }
-  }
 
   void _handleSubmit() async {
     if (_eventNameController.text.isEmpty) {
@@ -284,27 +268,6 @@ class _EventEditorState extends State<EventEditor> {
                         border: OutlineInputBorder(),
                         labelText: 'Name',
                         floatingLabelBehavior: FloatingLabelBehavior.always),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // TODO: actually do something with the Toggle state ^^
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Switch(
-                          value: isSwitched,
-                          onChanged: toggleSwitch,
-                          activeTrackColor: Colors.yellow,
-                          activeColor: Colors.orangeAccent,
-                        ),
-                      ),
-                      Text(
-                        textValue,
-                        style: const TextStyle(fontSize: 18),
-                      )
-                    ],
                   ),
                   const SizedBox(height: 16),
                   Row(
