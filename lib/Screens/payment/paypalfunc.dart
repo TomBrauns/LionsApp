@@ -5,20 +5,16 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> paypalOnPressApp(
-    double amount, eventId, paymethodesite, context, baseUrl) async {
+    amount, eventId, context, returnUrl, baseUrl) async {
+  var url;
   var _url;
   final token = await paypalAuth();
-
-  List<String> PaypalObject =
-      await makePaypalPayment(amount, token, eventId, paymethodesite, baseUrl);
-  print(PaypalObject);
-  _url = Uri.parse(PaypalObject[0]);
+  url = await makePaypalPayment(
+      amount, token, eventId, context, returnUrl, baseUrl);
+  _url = Uri.parse(url);
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
   }
-  /*bool result =
-      await makePayPalPayment(amount, eventId, paymethodesite, context);
-  return result;*/
 }
 
 Future<String> paypalAuth() async {
@@ -40,8 +36,6 @@ Future<String> paypalAuth() async {
     'grant_type': 'client_credentials'
   });
 
-  print(response.body);
-
   if (response.statusCode == 200) {
     final body = jsonDecode(response.body);
     return body['access_token'];
@@ -51,8 +45,8 @@ Future<String> paypalAuth() async {
   }
 }
 
-Future<List<String>> makePaypalPayment(
-    double amount, String token, eventId, paymethodesite, baseUrl) async {
+Future<String?> makePaypalPayment(
+    amount, token, eventId, context, returnUrl, baseUrl) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -78,25 +72,20 @@ Future<List<String>> makePaypalPayment(
       },
     ],
     'redirect_urls': {
-      'return_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
-      'cancel_url': '$baseUrl/Donations/UserType/PayMethode/cancel',
+      'return_url': '/ThankYou?amount=$amount&eventId=$eventId',
+      'cancel_url': '/Donations/UserType/PayMethode/cancel',
     },
   });
 
   final response = await http.post(apiUrl, headers: headers, body: requestBody);
-  print(response.body);
-  final responseData = jsonDecode(response.body);
-  final approvalUrl = responseData['links'][1]['href'];
-  print('Payment created successfully: $approvalUrl');
-  List<String> paypalObject = [
-    responseData['links'][1]['href'],
-    responseData["transactions"][0]['description'],
-    responseData["transactions"][0]['amount']['total']
-  ];
-  print(paypalObject);
-  return paypalObject;
-  // Open the approvalUrl in a web view to allow the user to approve the payment
-}
 
-/*Future<bool> makePayPalPayment(
-    amount, eventId, paymethodesite, context) async {}*/
+  if (response.statusCode == 201) {
+    final responseData = jsonDecode(response.body);
+    final approvalUrl = responseData['links'][1]['href'];
+    print('Payment created successfully: $approvalUrl');
+    return approvalUrl;
+    // Open the approvalUrl in a web view to allow the user to approve the payment
+  } else {
+    print('Failed to create payment: ${response.body}');
+  }
+}
