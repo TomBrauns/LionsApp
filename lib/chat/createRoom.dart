@@ -184,7 +184,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               )
               .toList();
           final name = roomNameController.text.trim();
-          if (name.isNotEmpty && userList.isNotEmpty) {
+          if (name.isNotEmpty) {
             await FirebaseChatCore.instance.createGroupRoom(
               imageUrl: roomImg,
               name: name,
