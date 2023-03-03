@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
+import 'package:lionsapp/util/color.dart';
 
 import '../../util/image_upload.dart';
 
@@ -27,8 +28,10 @@ class _EventEditorState extends State<EventEditor> {
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _eventDescriptionController = TextEditingController();
-  final TextEditingController _donationTargetController = TextEditingController();
+  final TextEditingController _eventDescriptionController =
+      TextEditingController();
+  final TextEditingController _donationTargetController =
+      TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _sponsorController = TextEditingController();
 
@@ -62,7 +65,9 @@ class _EventEditorState extends State<EventEditor> {
             imageUrl: eventImgUrl,
             name: _eventNameController.text,
             users: [],
-            metadata: {"Beschreibung": "Chatraum für ${_eventNameController.text}"},
+            metadata: {
+              "Beschreibung": "Chatraum für ${_eventNameController.text}"
+            },
           );
           roomId = room.id;
         } else {
@@ -78,7 +83,8 @@ class _EventEditorState extends State<EventEditor> {
         'startDate': startDate,
         'endDate': endDate,
         'eventInfo': _eventDescriptionController.text,
-        'spendenZiel': _hasDonationTarget ? _donationTargetController.text : null,
+        'spendenZiel':
+            _hasDonationTarget ? _donationTargetController.text : null,
         'ort': _locationController.text,
         'chat_room': roomId,
         'projekt': _hasProject ? _selectedProject : null,
@@ -113,8 +119,10 @@ class _EventEditorState extends State<EventEditor> {
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(file, "event_images", "", uniqueFilename);
+      final String uniqueFilename =
+          DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(
+          file, "event_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
           eventImgUrl = imgUrl;
@@ -126,8 +134,10 @@ class _EventEditorState extends State<EventEditor> {
   void _handleSponsorImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(file, "sponsor_images", "", uniqueFilename);
+      final String uniqueFilename =
+          DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(
+          file, "sponsor_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
           sponsorImgUrl = imgUrl;
@@ -152,10 +162,14 @@ class _EventEditorState extends State<EventEditor> {
             firstDate: DateTime(2020),
             lastDate: DateTime(2100))
         .then((pickedDate) => {
-              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 15, minute: 0))
+              showTimePicker(
+                      context: context,
+                      initialTime:
+                          currentTime ?? const TimeOfDay(hour: 15, minute: 0))
                   .then((pickedTime) {
                 if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final Duration duration = Duration(
+                      hours: pickedTime.hour, minutes: pickedTime.minute);
                   final DateTime completeDate = pickedDate.add(duration);
                   _startDateController.text = dateFormat.format(completeDate);
                 }
@@ -184,10 +198,14 @@ class _EventEditorState extends State<EventEditor> {
             firstDate: currentStartDate ?? DateTime(2020),
             lastDate: DateTime(2100))
         .then((pickedDate) => {
-              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 18, minute: 0))
+              showTimePicker(
+                      context: context,
+                      initialTime:
+                          currentTime ?? const TimeOfDay(hour: 18, minute: 0))
                   .then((pickedTime) {
                 if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final Duration duration = Duration(
+                      hours: pickedTime.hour, minutes: pickedTime.minute);
                   final DateTime completeDate = pickedDate.add(duration);
                   _endDateController.text = dateFormat.format(completeDate);
                 }
@@ -199,7 +217,11 @@ class _EventEditorState extends State<EventEditor> {
   void initState() {
     super.initState();
     if (widget.documentId == null) return;
-    FirebaseFirestore.instance.collection("events").doc(widget.documentId).get().then((project) {
+    FirebaseFirestore.instance
+        .collection("events")
+        .doc(widget.documentId)
+        .get()
+        .then((project) {
       _eventNameController.text = project.get("eventName");
       _eventDescriptionController.text = project.get("eventInfo") ?? "";
       _donationTargetController.text = project.get("spendenZiel") ?? "";
@@ -208,10 +230,12 @@ class _EventEditorState extends State<EventEditor> {
         _sponsorController.text = project.get("sponsor") ?? "";
       }
       if (project.get("startDate") != null) {
-        _startDateController.text = dateFormat.format((project.get("startDate") as Timestamp).toDate());
+        _startDateController.text =
+            dateFormat.format((project.get("startDate") as Timestamp).toDate());
       }
       if (project.get("endDate") != null) {
-        _endDateController.text = dateFormat.format((project.get("endDate") as Timestamp).toDate());
+        _endDateController.text =
+            dateFormat.format((project.get("endDate") as Timestamp).toDate());
       }
       setState(() {
         if (project.data()!.containsKey("image_url")) {
@@ -230,11 +254,25 @@ class _EventEditorState extends State<EventEditor> {
     });
   }
 
+  void showSuccessSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Chat erfolgreich erstellt'),
+        backgroundColor: ColorUtils.secondaryColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(top: 64),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.documentId == null ? "Aktivität erstellen" : "Aktivität bearbeiten"),
+          title: Text(widget.documentId == null
+              ? "Aktivität erstellen"
+              : "Aktivität bearbeiten"),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -258,9 +296,14 @@ class _EventEditorState extends State<EventEditor> {
                               child: eventImgUrl.isNotEmpty
                                   ? Image.network(eventImgUrl)
                                   : Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [Icon(Icons.upload, size: 48), Text("Bild auswählen")])))),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: const [
+                                          Icon(Icons.upload, size: 48),
+                                          Text("Bild auswählen")
+                                        ])))),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _eventNameController,
@@ -279,7 +322,8 @@ class _EventEditorState extends State<EventEditor> {
                           decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.calendar_today),
                               labelText: "Start",
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                               border: OutlineInputBorder()),
                           readOnly: false,
                           onTap: _handleStartTimeTap,
@@ -324,7 +368,8 @@ class _EventEditorState extends State<EventEditor> {
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Beschreibung',
-                            floatingLabelBehavior: FloatingLabelBehavior.always),
+                            floatingLabelBehavior:
+                                FloatingLabelBehavior.always),
                       )),
                   const SizedBox(height: 16),
                   Row(
@@ -344,12 +389,16 @@ class _EventEditorState extends State<EventEditor> {
                       Expanded(
                           child: _hasDonationTarget
                               ? TextField(
-                                  inputFormatters: [CurrencyTextInputFormatter(locale: 'eu', symbol: '€')],
+                                  inputFormatters: [
+                                    CurrencyTextInputFormatter(
+                                        locale: 'eu', symbol: '€')
+                                  ],
                                   controller: _donationTargetController,
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
                                       labelText: 'Ziel',
-                                      floatingLabelBehavior: FloatingLabelBehavior.always),
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.always),
                                 )
                               : Container()),
                     ],
@@ -369,7 +418,10 @@ class _EventEditorState extends State<EventEditor> {
                             },
                           )),
                       const SizedBox(width: 16),
-                      Expanded(child: _hasProject ? const ProjectDropdown() : Container()),
+                      Expanded(
+                          child: _hasProject
+                              ? const ProjectDropdown()
+                              : Container()),
                     ],
                   ),
                   if (widget.documentId == null)
@@ -408,28 +460,53 @@ class _EventEditorState extends State<EventEditor> {
                               child: sponsorImgUrl.isNotEmpty
                                   ? Image.network(sponsorImgUrl)
                                   : Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [Icon(Icons.upload, size: 48), Text("Bild auswählen")])))),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: const [
+                                          Icon(Icons.upload, size: 48),
+                                          Text("Bild auswählen")
+                                        ])))),
                   const SizedBox(height: 16),
                   SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: _handleSubmit,
+                          onPressed: () {
+                            _handleSubmit();
+                            if (_createChat == true) {
+                              print("worked");
+                              showSuccessSnackbar(context);
+                              // call the function
+                            }
+                          },
+
+
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-                              Icon(Icons.save),
-                              SizedBox(width: 4),
-                              Text("Speichern", style: TextStyle(fontSize: 18))
-                            ]),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.save),
+                                  SizedBox(width: 4),
+                                  Text("Speichern",
+                                      style: TextStyle(fontSize: 18))
+                                ]),
                           ))),
                 ],
-              )
-          ),
+              )),
         ));
   }
 }
+
+//onPressed: () {
+//if (_createChat == true) {
+//print("worked");
+//showSuccessSnackbar(context);
+//_handleSubmit;
+//}
+//;
+//},
 
 const snackBar = SnackBar(
   content: Text("Bitte einen Eventnamen eingeben"),
@@ -465,14 +542,19 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
           ));
         }
 
-        if (_selectedProject != null && !snapshot.data!.docs.map((doc) => doc["name"]).contains(_selectedProject)) {
+        if (_selectedProject != null &&
+            !snapshot.data!.docs
+                .map((doc) => doc["name"])
+                .contains(_selectedProject)) {
           _selectedProject = null;
         }
 
         return DropdownButtonFormField(
           value: _selectedProject,
           decoration: const InputDecoration(
-              labelText: "Zweck", floatingLabelBehavior: FloatingLabelBehavior.always, border: OutlineInputBorder()),
+              labelText: "Zweck",
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              border: OutlineInputBorder()),
           onChanged: (value) {
             setState(() {
               _selectedProject = value;
