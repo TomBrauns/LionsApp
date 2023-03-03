@@ -158,7 +158,7 @@ class _roomDetailsState extends State<roomDetails> {
                           Icon(Icons.upload, size: 48),
                           Text("Bild auswählen"),
                         ],
-                      ),
+                ),
               ),
             ),
           ),
