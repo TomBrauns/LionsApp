@@ -15,7 +15,12 @@ class callAdmin extends StatefulWidget {
 class _callAdminState extends State<callAdmin> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: const BurgerMenu(), appBar: const MyAppBar(title: "Rollen Verwalten"), bottomNavigationBar: BottomNavigation(), body: const UserRoleList());
+    return Scaffold(
+      drawer: const BurgerMenu(),
+      appBar: const MyAppBar(title: "Rollen Verwalten"),
+      bottomNavigationBar: BottomNavigation(),
+      body: const UserRoleList(),
+    );
   }
 }
 
@@ -43,7 +48,11 @@ class _UserRoleListState extends State<UserRoleList> {
                 _searchQuery = value;
               });
             },
-            decoration: const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+            decoration: const InputDecoration(
+              hintText: 'Suchen',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search),
+            ),
           ),
         ),
         Expanded(

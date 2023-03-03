@@ -61,6 +61,8 @@ class _RoomCreatorState extends State<RoomCreator> {
   }
 
   String roomImg = "";
+  final _userStream = FirebaseFirestore.instance.collection('user_chat').snapshots().map((snapshot) => snapshot.docs);
+  String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
@@ -116,7 +118,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
@@ -136,8 +138,8 @@ class _RoomCreatorState extends State<RoomCreator> {
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
               controller: descriptionController,
-              minLines: 7,
-              maxLines: 15,
+              minLines: 5,
+              maxLines: 5,
               decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -149,7 +151,23 @@ class _RoomCreatorState extends State<RoomCreator> {
               keyboardType: TextInputType.text,
             ),
           ),
-          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(
+                  () {
+                    _searchQuery = value;
+                  },
+                );
+              },
+              decoration: const InputDecoration(
+                hintText: 'Lions suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: SizedBox(
               child: ListView.builder(
@@ -176,7 +194,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               ),
             ),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 90),
         ],
       ),
       floatingActionButton: FloatingActionButton(
