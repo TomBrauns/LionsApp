@@ -85,61 +85,69 @@ class _RoomCreatorState extends State<RoomCreator> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 50),
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: GestureDetector(
-              onTap: _handleEventImageUpload,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: _handleEventImageUpload,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                      style: BorderStyle.solid,
+                    ),
                   ),
+                  child: roomImg.isNotEmpty
+                      ? Image.network(roomImg)
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.upload, size: 48),
+                            Text("Bild auswählen"),
+                          ],
+                        ),
                 ),
-                child: roomImg.isNotEmpty
-                    ? Image.network(roomImg)
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.upload, size: 48),
-                          Text("Bild auswählen"),
-                        ],
-                      ),
               ),
             ),
           ),
-          const SizedBox(height: 80),
-          TextFormField(
-            controller: roomNameController,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Name der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomNameController,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Name der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 60),
-          TextFormField(
-            controller: descriptionController,
-            minLines: 7,
-            maxLines: 15,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Beschreibung der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: descriptionController,
+              minLines: 7,
+              maxLines: 15,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Beschreibung der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -150,8 +158,8 @@ class _RoomCreatorState extends State<RoomCreator> {
                   return CheckboxListTile(
                     title: Row(
                       children: [
-                        Icon(Icons.person),
-                        SizedBox(width: 10),
+                        const Icon(Icons.person),
+                        const SizedBox(width: 10),
                         Text('${_users[index].firstName} ${_users[index].lastName}'),
                       ],
                     ),
@@ -168,7 +176,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 80),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -194,7 +202,7 @@ class _RoomCreatorState extends State<RoomCreator> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => RoomsPage(),
+                builder: (context) => const RoomsPage(),
               ),
             );
           } else {
