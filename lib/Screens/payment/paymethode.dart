@@ -73,6 +73,7 @@ class _PaymethodeState extends State<Paymethode> {
     print(tokenId);
     Map<String, dynamic> result = await payProcessing(tokenId, amount, eventId);
     if (result['outcome']['seller_message'] == "Payment complete.") {
+      Navigator.pop(context);
       Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
     } else {
       showErrorSnackbar(context);
