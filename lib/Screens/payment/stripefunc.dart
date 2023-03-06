@@ -22,13 +22,25 @@ void stripeSettings() {
 // Calculate amount in cents
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<bool?> stripeOnPressApp(double amount, eventId, context) async {
+Future<bool?> stripeOnPressApp(
+    double amount, eventId, context, TEST, Endpoint) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
-    paymentIntent = await createPaymentIntent(amountInCents.toString(), 'EUR', eventId);
+
+    switch (TEST) {
+      case true:
+        Map<String, dynamic> result = paymentIntent =
+            await createPaymentIntentTest(
+                amountInCents.toString(), 'EUR', eventId);
+        break;
+      case false:
+        Map<String, dynamic> result = paymentIntent = await createPaymentIntent(
+            amountInCents.toString(), 'EUR', eventId, Endpoint);
+        break;
+    }
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -58,7 +70,8 @@ Future<bool?> stripeOnPressApp(double amount, eventId, context) async {
   return returnvalue;
 }
 
-Future<Map<String, dynamic>> createPaymentIntent(
+//TODO: Test Function to be removed before release
+Future<Map<String, dynamic>> createPaymentIntentTest(
     String amount, String currency, eventId) async {
   try {
     // Request body
@@ -78,6 +91,30 @@ Future<Map<String, dynamic>> createPaymentIntent(
       },
       body: body,
     );
+    return json.decode(response.body);
+  } catch (err, stackTrace) {
+    throw Exception('Failed to create payment intent: $err');
+  }
+}
+
+Future<Map<String, dynamic>> createPaymentIntent(
+    String amount, String currency, eventId, Endpoint) async {
+  try {
+    // Request body
+    final body = {
+      'amount': amount,
+      'currency': currency,
+      'description': eventId,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripePaymentIntent'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
     return json.decode(response.body);
   } catch (err, stackTrace) {
     throw Exception('Failed to create payment intent: $err');

@@ -1,6 +1,8 @@
 import json
 import stripe
 import requests
+from requests.auth import HTTPBasicAuth
+
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -9,6 +11,9 @@ StripePub = 'pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cB
 stripe.api_key = 'sk_test_51Mf6KIGgaqubfEkYS7pbs6IfLklaHU6aXN0nb0tLBfkQvF0OOKrohYNpevT8eYJxAclTOlT3L2hU4aHrMjFsKUwU00O9gO7YOK'
 PaypalClient = 'ASWc84JED5XEgNRkOo2_f3JJP94KrXOwcQwig7WQ8HUeGN3Bqwi0xFuHMF1TQ3uEOnNB4IXgFrPw3SKh'
 PaypalSec = 'EEXhrXIRxgz5yoyXBNHoSKcXfiZMW0AeNC-YHTjfvRlVDmR-colaC1nZKXW0j3y8sKcdVRzTvNrno-b7'
+
+#switch with live before release
+Paypaldomain = 'http://api.sandbox.paypal.com'
 
 @app.route('/', methods=['GET','POST'])
 def rootresp():
@@ -29,18 +34,38 @@ def StripePaymentIntent():
         automatic_payment_methods={"enabled": True},
     )
     
+    print(paymentintent)
     return paymentintent
+
+@app.route('/StripeCharge', methods=['POST'])
+def StripeCharge():
+    amount = request.form.get('amount')
+    currency = request.form.get('currency')
+    source = request.form.get('source')
+    description = request.form.get('description')
+
+    charge = stripe.Charge.create(
+                amount=amount,
+                currency=currency,
+                source=source,
+                description=description,
+            )
+    
+    print(charge)
+    return charge
 
 
 @app.route('/StripeCreateProduct', methods=['POST'])
 def StripeCreateProduct():
     name = request.form.get('name')
     description = request.form.get('description')
+
     product = stripe.Product.create(
         name=name,
         description=description
     )
 
+    print(product)
     return product
 
 @app.route('/StripeCreatePrice', methods=['POST'])
@@ -48,12 +73,14 @@ def StripeCreatePrice():
     currency = request.form.get('currency')
     unit_amount = request.form.get('unit_amount')
     product = request.form.get('product')
+    
     price = stripe.Price.create(
         unit_amount=unit_amount,
         currency=currency,
         product=product,
     )
 
+    print(price)
     return price
 
 @app.route('/StripeUpdateProduct', methods=['POST'])
@@ -66,6 +93,7 @@ def StripeUpdateProduct():
         price=price
     )
     
+    print(product)
     return product
 
 @app.route('/StripeCreateCheckoutSession', methods=['POST'])
@@ -88,30 +116,37 @@ def StripeCreateCheckoutSession():
         mode=mode,
     )
     
+    print(checkoutSession)
     return checkoutSession
 
 @app.route('/PaypalAuthenticate', methods=['POST'])
 def PaypalAuthenticate():
-    url = '/v1/oauth2/token'
-    header = {
-        'Accept': 'application/json',
-        'Accept-Language': 'en_US',
-    }
+    url = Paypaldomain + '/v1/oauth2/token'
+    #header = {
+    #    'Accept': 'application/json',
+    #    'Accept-Language': 'en_US',
+    #}
     body = {
         'grant_type': 'client_credentials'
     }
-    auth = (PaypalClient, PaypalSec)
+
+    headers = {
+    'Accept': 'application/json',
+    'Accept-Language': 'en_US'}
+
+    basic = HTTPBasicAuth(PaypalClient, PaypalSec)
+
     requestData = requests.post(
                 url=url,
-                auth=auth,
-                header=header,
-                body=body
+                auth=basic,
+                headers=headers,
+                data=body
             )
     
-    print(requestData.status)
-    print(requestData.content)
+    requestDatadict = json.load(requestData)
 
-    return requestData
+    print(requestDatadict)
+    return requestDatadict
 
 @app.route('/PaypalPayment', methods=['POST'])
 def PaypalPayment():
@@ -122,8 +157,8 @@ def PaypalPayment():
     cancel_url = request.form.get('cancel_url')
     currency = request.form.get('currency')
 
-    url = '/v1/payments/payment'
-    header = {
+    url = Paypaldomain + '/v1/payments/payment'
+    headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + auth_token,
     }
@@ -149,14 +184,14 @@ def PaypalPayment():
     
     requestData = requests.post(
                 url=url,
-                header=header,
-                body=body
+                headers=headers,
+                data=body
             )
     
-    print(requestData.status)
-    print(requestData.content)
+    requestDatadict = json.load(requestData)
 
-    return requestData
+    print(requestDatadict)
+    return requestDatadict
 
 
 
