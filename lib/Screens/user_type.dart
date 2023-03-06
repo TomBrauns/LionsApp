@@ -1,7 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/appbar.dart';
 
-class UserTypeScreen extends StatelessWidget {
+class UserTypeScreen extends StatefulWidget{
+  const UserTypeScreen({Key? key}) : super(key: key);
+
+  @override
+  _UserTypeScreenState createState() => _UserTypeScreenState();
+}
+
+
+class _UserTypeScreenState extends State<UserTypeScreen> {
+  String? get eventId{
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['eventId'];
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +29,7 @@ class UserTypeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+                Navigator.pushNamed(context, '/Donations/UserType/PayMethode', arguments: {'eventId': eventId});
               },
               child: const Text(
                 'Als Gast fortfahren',

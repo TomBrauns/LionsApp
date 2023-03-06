@@ -213,7 +213,7 @@ class _DonationsState extends State<Donations> {
 
                                         else {
                                         Navigator.pushNamed(
-                                            context, '/Donations/UserType');
+                                            context, '/Donations/UserType', arguments: {'eventId': eventId});
                                       }
                                     }
 
