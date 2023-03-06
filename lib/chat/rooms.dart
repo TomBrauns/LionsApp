@@ -179,6 +179,10 @@ class _RoomsPageState extends State<RoomsPage> {
     if (msg.hasData && msg.data!.length == 1 && msg.data!.first != null) {
       if (msg.data!.first.type == types.MessageType.text) {
         return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName}: ${(msg.data!.first as types.TextMessage).text}');
+      } else if (msg.data!.first.type == types.MessageType.image) {
+        return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName} hat ein Bild geschickt');
+      } else {
+        return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName} hat eine Datei geschickt');
       }
     }
     return '';
