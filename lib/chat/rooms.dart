@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fbAuth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/chat/createRoom.dart';
@@ -24,7 +26,7 @@ class RoomsPage extends StatefulWidget {
 class _RoomsPageState extends State<RoomsPage> {
   bool _error = false;
   bool _initialized = false;
-  User? _user;
+  fbAuth.User? _user;
   void signUpForChatUser() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
     final collectionRef = FirebaseFirestore.instance.collection('user_chat');
@@ -36,7 +38,6 @@ class _RoomsPageState extends State<RoomsPage> {
     final imageUrl = documentSnapshot.data()?['image_url'];
     final firstname = documentSnapshot.data()?['firstname'];
     final lastname = documentSnapshot.data()?['lastname'];
-
     try {
       if (!docExists) {
         await FirebaseChatCore.instance.createUserInFirestore(
@@ -146,28 +147,24 @@ class _RoomsPageState extends State<RoomsPage> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final room = snapshot.data![index];
-
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(
-                              room: room,
-                              name: room.name,
+                    return StreamBuilder<List<types.Message>>(
+                      initialData: const [],
+                      stream: FirebaseChatCore.instance.messages(room, limit: 1),
+                      builder: (context, msg) => InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                room: room,
+                                name: room.name,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          children: [
-                            _buildAvatar(room),
-                            Text(room.name ?? ''),
-                          ],
+                          );
+                        },
+                        child: ListTile(
+                          title: Text(room.name ?? ''),
+                          subtitle: Text(getLastMessageText(msg)),
+                          leading: _buildAvatar(room),
                         ),
                       ),
                     );
@@ -176,6 +173,15 @@ class _RoomsPageState extends State<RoomsPage> {
               },
             ),
     );
+  }
+
+  String getLastMessageText(AsyncSnapshot<List<Message>> msg) {
+    if (msg.hasData && msg.data!.length == 1 && msg.data!.first != null) {
+      if (msg.data!.first.type == types.MessageType.text) {
+        return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName}: ${(msg.data!.first as types.TextMessage).text}');
+      }
+    }
+    return '';
   }
 
   Future<void> updateUserWhenJoiningChat(
@@ -193,7 +199,7 @@ class _RoomsPageState extends State<RoomsPage> {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      FirebaseAuth.instance.authStateChanges().listen((user) {
         setState(() {
           _user = user;
         });
@@ -226,19 +232,16 @@ class _RoomsPageState extends State<RoomsPage> {
     final hasImage = room.imageUrl != null;
     final name = room.name ?? '';
 
-    return Container(
-      margin: const EdgeInsets.only(right: 16),
-      child: CircleAvatar(
-        backgroundColor: hasImage ? Colors.transparent : color,
-        backgroundImage: hasImage ? NetworkImage(room.imageUrl!) : null,
-        radius: 20,
-        child: !hasImage
-            ? Text(
-                name.isEmpty ? '' : name[0].toUpperCase(),
-                style: const TextStyle(color: Colors.white),
-              )
-            : null,
-      ),
+    return CircleAvatar(
+      backgroundColor: hasImage ? Colors.transparent : color,
+      backgroundImage: hasImage ? NetworkImage(room.imageUrl!) : null,
+      radius: 20,
+      child: !hasImage
+          ? Text(
+              name.isEmpty ? '' : name[0].toUpperCase(),
+              style: const TextStyle(color: Colors.white),
+            )
+          : null,
     );
   }
 }
