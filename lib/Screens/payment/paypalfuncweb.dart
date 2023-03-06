@@ -12,13 +12,12 @@ Future<void> paypalOnPressWeb(
   List<String> PaypalObject =
       await makePaypalPayment(amount, token, eventId, paymethodesite, baseUrl);
   print(PaypalObject);
-  _url = Uri.parse(PaypalObject[0]);
-  if (!await launchUrl(_url, webOnlyWindowName: '_self')) {
-    throw Exception('Could not launch $_url');
+
+  if (await canLaunchUrl(_url = Uri.parse(PaypalObject[0]))) {
+    await launchUrl(_url = Uri.parse(PaypalObject[0]));
+  } else {
+    //print("Could not launch URL");
   }
-  /*bool result =
-      await makePayPalPayment(amount, eventId, paymethodesite, context);
-  return result;*/
 }
 
 Future<String> paypalAuth() async {
@@ -98,6 +97,3 @@ Future<List<String>> makePaypalPayment(
   return paypalObject;
   // Open the approvalUrl in a web view to allow the user to approve the payment
 }
-
-/*Future<bool> makePayPalPayment(
-    amount, eventId, paymethodesite, context) async {}*/

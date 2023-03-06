@@ -18,7 +18,7 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-double amount = 50.00;
+double amount = 40.00;
 String eventId = "evenid";
 
 bool paymentSuccess = false;
@@ -113,8 +113,7 @@ class _PaymethodeState extends State<Paymethode> {
                     )),
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
-                    paypalOnPressApp(
-                        amount, eventId, context, returnUrl, baseUrl);
+                    paypalOnPressApp(amount, eventId, context);
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     paypalOnPressWeb(
                         amount, eventId, context, returnUrl, baseUrl);
