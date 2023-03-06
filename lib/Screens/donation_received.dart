@@ -98,11 +98,13 @@ class DonationReceived extends StatelessWidget {
               ),
               label: const Text('Teilen'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/ThankYou/ShareDonation');
+                print("Rufe Share Button mit eventId auf: $eventId");
+                Navigator.pushNamed(context, '/ThankYou/ShareDonation',
+                arguments: {'eventId': eventId});
               },
             ),
           ),
@@ -306,9 +308,9 @@ class _ReceiptEmailState extends State<ReceiptEmail> {
 
 //Social Media missing
 class ShareDonation extends StatefulWidget {
-  final String? eventId;
 
-  const ShareDonation({Key? key, this.eventId}) : super(key: key);
+
+  const ShareDonation({Key? key}) : super(key: key);
 
   @override
   State<ShareDonation> createState() => _ShareDonationState();
@@ -354,8 +356,16 @@ Future<void> shareToTwitter(String url) async {
 }
 
 class _ShareDonationState extends State<ShareDonation> {
+
+  String? get eventId{
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['eventId'];
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    print(eventId);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Teile deine Spende"),
@@ -371,7 +381,7 @@ class _ShareDonationState extends State<ShareDonation> {
                 onTap: () async {
                   try {
                     await shareToFacebook(
-                        'https://marc-wieland.de/#/Donations?interneId=');
+                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Facebook: $e");
                   }
@@ -389,7 +399,7 @@ class _ShareDonationState extends State<ShareDonation> {
                 onTap: () async {
                   try {
                     await shareToTwitter(
-                        'https://marc-wieland.de&text=Schaut%20bitte%20auf%20dieser%20Website%20vorbei%20um%20für%20einen%20guten%20Zweck%20zu%20spenden%21');
+                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Twitter: $e");
                   }

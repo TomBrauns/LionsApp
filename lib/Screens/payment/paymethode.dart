@@ -57,6 +57,12 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
+
+  String? get eventId {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['eventId'];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -151,6 +157,7 @@ class _PaymethodeState extends State<Paymethode> {
                     if (paymentSuccess == false) {
                       showErrorSnackbar(context);
                     } else if (paymentSuccess == true) {
+                      print(eventId);
                       Navigator.pop(context);
                       Navigator.pushNamed(
                           context, '/ThankYou?amount=$amount&eventId=$eventId');
@@ -162,7 +169,7 @@ class _PaymethodeState extends State<Paymethode> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
                     Text("Kartenzahlung"),

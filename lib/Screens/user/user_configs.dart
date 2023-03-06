@@ -11,6 +11,7 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
 
@@ -400,7 +401,7 @@ class Accessibility extends StatefulWidget {
 
 class _AccessibilityState extends State<Accessibility> {
   String dropdownValue = list.first;
-  double _currentSliderValue = 20.0;
+  double _currentSliderValue = 20;
   double _textSize = 20.0; // store the current text size here
 
 
@@ -410,20 +411,19 @@ class _AccessibilityState extends State<Accessibility> {
         appBar: AppBar(
           title: Text("Bedienungshilfe"),
         ),
-        body: Center(
+        body: Builder(
+        builder: (context) => DefaultTextStyle(
+        style: TextStyle(fontSize: _textSize),
+        child:Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              Text("Fontgröße"),
-              Text(
-                "Textgröße: ${_currentSliderValue.round()}",
-                style: TextStyle(fontSize: _textSize),
-              ),
+              Text("Fontgröße: ${_currentSliderValue.round()}"),
               Slider(
                 value: _currentSliderValue,
-                min: 10,
-                max: 50,
-                divisions: 8,
+                min: 14,
+                max: 30,
+                divisions: 16,
                 label: _currentSliderValue.round().toString(),
                 onChanged: (double value) {
                   setState(() {
@@ -431,7 +431,7 @@ class _AccessibilityState extends State<Accessibility> {
                   });
                 },
               ),
-              Text("Farbenblindheitsmodus",style: TextStyle(fontSize: _textSize),),
+              Text("Farbenblindheitsmodus"),
               DropdownButton<String>(
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_downward),
@@ -450,20 +450,18 @@ class _AccessibilityState extends State<Accessibility> {
                 items: list.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value,style: TextStyle(fontSize: _textSize),),
+                    child: Text(value),
                   );
                 }).toList(),
               ),
               Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton(
-                  child: Text("Bestätigen",style: TextStyle(fontSize: _textSize)
-                  ),
+                  child: Text("Bestätigen"),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                    primary: ColorUtils.primaryColor,
                     elevation: 0,
                   ),
-
                     onPressed: () {
                       // update the text size when the button is pressed
                       setState(() {
@@ -473,7 +471,8 @@ class _AccessibilityState extends State<Accessibility> {
 
                 ),
               ),
-            ])));
+            ]))),
+    ));
   }
 }
 
@@ -497,8 +496,8 @@ class _LogOutState extends State<LogOut> {
           margin: const EdgeInsets.all(40),
           padding: const EdgeInsets.all(40.0),
           decoration: BoxDecoration(
-            color: Colors.amber,
-            border: Border.all(color: Colors.amber),
+            color: ColorUtils.secondaryColor,
+            border: Border.all(color: ColorUtils.primaryColor),
             borderRadius: BorderRadius.circular(10),
           ),
           child: const Text("Schade, dass du dich ausgeloggt hast. "
@@ -513,7 +512,7 @@ class _LogOutState extends State<LogOut> {
             ),
             label: const Text('Zurück zum Start'),
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue,
+              primary: ColorUtils.primaryColor,
               elevation: 0,
             ),
             onPressed: () {
