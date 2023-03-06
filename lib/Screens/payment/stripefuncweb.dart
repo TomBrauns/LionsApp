@@ -6,16 +6,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-//import 'stripe_checkout.dart'
-//    if (dart.library.io) 'stripedummyfile.dart'
-//    if (dart.library.html) 'stripe_checkout.dart';
-
-Future<void> stripeOnPressWeb(double amount, String eventId, context) async {
+Future<void> stripeOnPressWeb(
+    amount, eventId, context, paymethodsite, baseUrl) async {
   List<String> ProductObject = await createProduct(eventId, amount);
-  List<String> CheckoutObject = await stripeWebCheckout(ProductObject[1]);
+  List<String> CheckoutObject = await stripeWebCheckout(
+      ProductObject[1], paymethodsite, baseUrl, amount, eventId);
   var _url = CheckoutObject[2];
   if (await canLaunchUrl(Uri.parse(_url))) {
-    await launchUrl(Uri.parse(_url));
+    await launchUrl(Uri.parse(_url), webOnlyWindowName: '_self');
   } else {
     print("Could not launch URL");
   }
@@ -101,15 +99,15 @@ void updateProduct(priceId, productId) async {
   //print(response.body);
 }
 
-Future<List<String>> stripeWebCheckout(priceId) async {
+Future<List<String>> stripeWebCheckout(
+    priceId, paymethodesite, baseUrl, amount, eventId) async {
   final body = {
     'mode': "payment",
     'line_items[0][price]': priceId,
     'line_items[0][quantity]': '1',
-    'success_url':
-        'http://localhost:62158/#/Donations/UserType/PayMethode/success',
+    'success_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
     'cancel_url':
-        'http://localhost:62158/#/Donations/UserType/PayMethode/cancel'
+        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId'
   };
 
   // Make post request to Stripe

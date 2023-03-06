@@ -26,7 +26,7 @@ class _ImprintState extends State<Imprint> {
           child: ListView(
               scrollDirection: Axis.vertical,
               controller: scrollcontroller,
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               children: const <Widget>[
                 ImprintMainHeadlineTextS("Support"),
                 ImprintTextS(

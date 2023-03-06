@@ -42,9 +42,9 @@ class _DonationsState extends State<Donations> {
     eventId = widget.interneId;
     projectId = widget.projectId;
 
-    print("Hier EventID: $eventId");
-    print("Hier ProjectID: $projectId");
-    print("Hier widget id: ${widget.interneId}");
+    //print("Hier EventID: $eventId");
+    //print("Hier ProjectID: $projectId");
+    //print("Hier widget id: ${widget.interneId}");
 
     if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
@@ -89,7 +89,7 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = "Kein Event gefunden.";
+              String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               int spendenCounter = 0;
 
@@ -111,7 +111,7 @@ class _DonationsState extends State<Donations> {
                     }
                     if (data.containsKey("currentDonationValue")) {
                       spendenCounter = data["currentDonationValue"];
-                      print(spendenCounter);
+                      //print(spendenCounter);
                     }
                   }
                 } else if (projectId != null && projectId!.isNotEmpty) {
@@ -123,15 +123,12 @@ class _DonationsState extends State<Donations> {
 
               Future<void> _updateDonationValue(int newDonationValue) async {
                 try {
-                  // Get a reference to the document that needs to be updated
                   final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
-                  // Update the value of the 'currentDonationValue' field with the new value
                   await documentReference.update({'currentDonationValue': newDonationValue});
 
-                  print('Donation value updated successfully');
                 } catch (e) {
-                  print('Error updating donation value: $e');
+                  return null;
                 }
               }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
@@ -200,15 +197,26 @@ class _DonationsState extends State<Donations> {
                                   // onPressed: _handleSubmit,
                                   onPressed: () async {
                                     int currentDonationValue = _getCurrentValue();
-                                    _inputController.text = "";
-                                    _handleAdd(0);
+
                                     int newDonationValue = spendenCounter + currentDonationValue;
 
-                                    if(_inputController.text == ""){
+                                    // TODO Hier muss noch eine schönere Variante eingebaut werden, die checkt, ob das Feld gefüllt ist / größer 0 ist
+                                    if(_inputController.text != "" && double.parse(_inputController.text) > 0){
                                       await _updateDonationValue(newDonationValue);
+                                      _inputController.text = "";
+                                      _handleAdd(0);
+
+                                      // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
+                                      if(Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"){
+                                        Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+                                      }
+
+                                        else {
+                                        Navigator.pushNamed(
+                                            context, '/Donations/UserType', arguments: {'eventId': eventId});
+                                      }
                                     }
 
-                                    Navigator.pushNamed(context, '/Donations/UserType');
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),
@@ -247,110 +255,3 @@ class _DonationsState extends State<Donations> {
     int value = _getCurrentValue();
   }
 }
-
-/*@override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        drawer: const BurgerMenu(),
-        appBar: AppBar(
-            title: const Text("Spenden"),
-            // User Icon in AppBar
-            actions: <Widget>[
-              privilege == "Member" || privilege == "Friend"
-                  ? IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => User()),
-                    );
-                  })
-                  : Container(),
-              // End User Icon
-            ]),
-        bottomNavigationBar: const BottomNavigation(),
-        body: Container(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        width: double.infinity,
-                        child: Text("Erdbebenhilfe in der Türkei",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 24))),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text("Spendenziel: 10.000€"),
-                            LinearProgressIndicator(
-                                value: 0.42, minHeight: 24.0),
-                          ]),
-                    ),
-                    DropdownButtonFormField(
-                      value: selectedSubscription,
-                      items: subscriptions
-                          .map<DropdownMenuItem<String>>(((sub) =>
-                          DropdownMenuItem(value: sub, child: Text(sub))))
-                          .toList(),
-                      onChanged: _handleSubscriptionChange,
-                      decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _inputController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Betrag",
-                          suffix: Text("€")),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [5, 10, 25, 50, 100]
-                                .map((int amount) =>
-                                FilledButton(
-                                    onPressed: () => _handleAdd(amount),
-                                    child: Text("+ $amount€")))
-                                .toList())),
-                    const SizedBox(height: 24),
-                    Row(children: [
-                      Checkbox(
-                        value: _isReceiptChecked,
-                        onChanged: (checked) =>
-                            setState(() {
-                              _isReceiptChecked = checked ?? false;
-                            }),
-                      ),
-                      const Text("Ich möchte eine Quittung erhalten.")
-                    ]),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            onPressed: _handleSubmit,
-                            child: Container(
-                                padding: const EdgeInsets.all(8.0),
-                                child: const Text("Spenden",
-                                    style: TextStyle(fontSize: 18))))),
-                    Expanded(child: Container()),
-                    const Text("Gesponsort von: Rewe"),
-                    SizedBox(
-                        width: double.infinity,
-                        height: 128,
-                        child: Container(
-                          decoration: const BoxDecoration(color: Colors.grey),
-                        ))
-                  ],
-                )
-            )
-        )
-    );*/

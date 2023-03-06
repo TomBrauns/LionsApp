@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/chat/chat.dart';
 import 'package:lionsapp/chat/rooms.dart';
 import 'package:lionsapp/login/agb.dart';
-import 'package:lionsapp/Screens/calendar.dart';
+import 'package:lionsapp/Screens/meetings/calendar.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
@@ -20,37 +21,52 @@ import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Screens/events/events_liste.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (context) => HomePage(),
-  '/User': (context) => User(),
+  '/': (context) => const HomePage(),
+  '/User': (context) => const User(),
   '/User/Data': (context) => Update(),
-  '/User/Accessibility': (context) => Accessibility(),
-  '/User/Subs': (context) => Subs(),
-  '/Donations': (context) => Donations(),
+  '/User/Accessibility': (context) => const Accessibility(),
+  '/User/Subs': (context) => const Subs(),
+  '/ChangeRole': (context) => callAdmin(),
+  '/Donations': (context) => const Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
-  '/Donations/UserType/Login': (context) => LoginPage(),
-  '/Donations/UserType/PayMethode': (context) => Paymethode(),
+  '/Donations/UserType/Login': (context) => const LoginPage(),
+  '/Donations/UserType/PayMethode': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
+  '/Donations/UserType/PayMethode/success': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
+  '/Donations/UserType/PayMethode/cancel': (context) => const Paymethode(
+        amount: "",
+        eventId: "",
+      ),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
-  '/ThankYou': (context) => DonationReceived(),
-  '/ThankYou/ShareDonation': (context) => ShareDonation(),
-  '/ThankYou/Receipt': (context) => Receipt(),
+  '/ThankYou': (context) => DonationReceived(
+        amount: "",
+        eventId: "",
+      ),
+  '/ThankYou/ShareDonation': (context) => const ShareDonation(),
+  '/ThankYou/Receipt': (context) => const Receipt(),
   // TODO: Chaträume
-  '/Chat': (context) => RoomsPage(),
+  '/Chat': (context) => const RoomsPage(),
   //'/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
   //'/Chat/Chatroom' + Chatroom.roomId + "/Settings": (context) => ChatroomSettings(chatroomId: chatroomId)
-  '/Calendar': (context) => Calendar(),
-  '/Events': (context) => Events(),
-  '/Events/EventEditor': (context) => EventEditor(),
+  '/Calendar': (context) => const Calendar(),
+  '/Events': (context) => const Events(),
+  '/Events/EventEditor': (context) => const EventEditor(),
   //'/Events/EventDetailsPage' + EventDetailsPage.eventId: (context) => EventDetailsPage(eventId: EventDetailsPage.eventId,),
   //'/Events/EditDocumentPage' + Events.documentId: (context) => EditDocumentPage(documentId: Events.documentId),
   // TODO: Route for Catalogue
-  '/Catalogue': (context) => Catalogue(),
-  '/Catalogue/ProjectEditor': (context) => ProjectEditor(),
+  '/Catalogue': (context) => const Catalogue(),
+  '/Catalogue/ProjectEditor': (context) => const ProjectEditor(),
   //'/Catalogue/Project' + Project.documentId: (context) => Project(documentId: documentId),
-  '/Imprint': (context) => Imprint(),
-  '/Contact': (context) => Contact(),
-  '/EULA': (context) => AGB(),
-  '/Login': (context) => LoginPage(),
+  '/Imprint': (context) => const Imprint(),
+  '/Contact': (context) => const Contact(),
+  '/EULA': (context) => const AGB(),
+  '/Login': (context) => const LoginPage(),
   '/Register': (context) => Register(),
-  '/LogOut': (context) => LogOut(),
+  '/LogOut': (context) => const LogOut(),
 };

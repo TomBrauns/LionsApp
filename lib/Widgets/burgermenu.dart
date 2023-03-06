@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
+import 'package:lionsapp/Screens/newPassword.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
-import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../util/color.dart';
 
-class AppData{
+class AppData {
   static int selected = -1;
 }
 
@@ -21,10 +22,9 @@ class BurgerMenu extends StatefulWidget {
 class _BurgerMenuState extends State<BurgerMenu> {
   var scrollcontroller = ScrollController();
 
-  Color selectedColor = Colors.limeAccent;
+  Color selectedColor = ColorUtils.secondaryColor;
 
-
-  bool isMenuSelected(int index){
+  bool isMenuSelected(int index) {
     return index == AppData.selected;
   }
 
@@ -40,10 +40,24 @@ class _BurgerMenuState extends State<BurgerMenu> {
             decoration: const BoxDecoration(
               color: ColorUtils.primaryColor,
             ),
+/*
+            Silly attempt to make the logo yellow ( all the white pixels turned to our secondary colour:
+
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(ColorUtils.secondaryColor, BlendMode.srcIn),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
+                ),
+              ),
+            ),
+*/
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
-                child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
+                child: Image.asset("assets/appicon/lions_white.png",
+                    fit: BoxFit.contain),
               ),
             ),
           ),
@@ -338,31 +352,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   tileColor: Color.fromARGB(255, 211, 211, 211),
                 )
               : Container(),
-
-          Privileges.privilege == "Admin"
-              ? ListTile(
-                  leading: const Icon(Icons.qr_code),
-                  title: const Text('QRCode-Test'),
-                  selected: isMenuSelected(14),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 14;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QrCodeWithImage(
-                              link: 'www.google.de?param:',
-                              documentId: '12jdksl2342')),
-                    );
-                  },
-                )
-              : Container(),
-
           Privileges.privilege == "Admin"
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
@@ -376,11 +365,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserManagement()),
-                    );
+                    Navigator.pushNamed(context,'/ChangeRole');
                   },
                 )
               : Container(),

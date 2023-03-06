@@ -1,0 +1,27 @@
+stages:
+  - build
+  - deploy
+
+build:
+  image: cirrusci/flutter:stable
+  stage: build
+  script:
+    - flutter pub get
+    - flutter build web
+  artifacts:
+    paths:
+      - build/web/
+
+#deploy:
+#  stage: deploy
+#  script:
+#    - echo "$SSH_PRIVATE_KEY" > ssh_key
+#    - chmod 600 ssh_key
+#    - scp -r -i ssh_key build/web student@l4c.projekte.it.hs-worms.de:/var/www/html
+
+deploy:
+  image: node:18-alpine
+  stage: deploy
+  script:
+    - npm install firebase-tools
+    - npx firebase deploy --token $FIREBASE_TOKEN

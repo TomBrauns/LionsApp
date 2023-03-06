@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
+import 'package:lionsapp/util/color.dart';
 
+import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
 import 'payment_sidefunc.dart';
+import 'payfunc.dart';
+import 'dart:core';
 
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
@@ -12,10 +18,13 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-double amount = 10.00;
-String eventId = "evenid test";
+double amount = 40.00;
+String eventId = "evenid";
 
 bool paymentSuccess = false;
+String? baseUrl = getBaseUrl();
+
+String returnUrl = Uri.base.toString();
 
 var _paymentItems = [
   PaymentItem(
@@ -26,25 +35,60 @@ var _paymentItems = [
 ];
 
 class Paymethode extends StatefulWidget {
-  const Paymethode({Key? key}) : super(key: key);
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
+  final String amount;
+  final String eventId;
+
+  const Paymethode(
+      {Key? key,
+      this.token,
+      this.paymentId,
+      this.PayerID,
+      required this.amount,
+      required this.eventId})
+      : super(key: key);
 
   @override
   State<Paymethode> createState() => _PaymethodeState();
 }
 
 class _PaymethodeState extends State<Paymethode> {
+
+  String? get eventId {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['eventId'];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    urlPaymentValidate(context);
+  }
+
   void onApplePayResult(paymentResult) {
-    print(paymentResult);
     // Send the resulting Apple Pay token to your server / PSP
   }
 
-  void onGooglePayResult(paymentResult) {
-    print(paymentResult);
-    // Send the resulting Google Pay token to your server / PSP
+  void onGooglePayResult(paymentResult) async {
+    String tokenString =
+        paymentResult['paymentMethodData']['tokenizationData']['token'];
+    Map<String, dynamic> tokenData = json.decode(tokenString);
+    String tokenId = tokenData['id'];
+    print(tokenId);
+    Map<String, dynamic> result = await payProcessing(tokenId, amount, eventId);
+    if (result['outcome']['seller_message'] == "Payment complete.") {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
+    } else {
+      showErrorSnackbar(context);
+    }
   }
 
   final Future<PaymentConfiguration> _applePayConfigFuture =
       PaymentConfiguration.fromAsset('default_payment_profile_apple_pay.json');
+
   final Future<PaymentConfiguration> _googlePayConfigFuture =
       PaymentConfiguration.fromAsset('default_payment_profile_google_pay.json');
 
@@ -55,101 +99,121 @@ class _PaymethodeState extends State<Paymethode> {
         title: const Text("Zahlungsmethode"),
       ),
       body: Center(
-        child: SizedBox(
-          width: 250,
-          height: 500,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100,
-                width: 350,
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '$amount€ Spende',
+              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+            ),
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.symmetric(horizontal: 100),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.primaryColor,
                     elevation: 0,
-                  ),
-                  onPressed: () async {
-                    paypalOnPress(amount, eventId);
-                  },
-                  child: const Text("Paypal"),
+                    padding: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    )),
+                onPressed: () async {
+                  if (GetPlatform.currentPlatform != GetPlatform.web) {
+                    paypalOnPressApp(amount, eventId, context);
+                  } else if (GetPlatform.currentPlatform == GetPlatform.web) {
+                    paypalOnPressWeb(
+                        amount, eventId, context, returnUrl, baseUrl);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.paypal),
+                    SizedBox(width: 8),
+                    const Text("Paypal"),
+                  ],
                 ),
               ),
-              Container(
-                height: 100,
-                width: 350,
-                padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
+            ),
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.symmetric(horizontal: 100),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorUtils.primaryColor,
+                  padding: const EdgeInsets.all(10),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  onPressed: () async {
-                    if (GetPlatform.currentPlatform != GetPlatform.web) {
-                      paymentSuccess =
-                          (await stripeOnPressApp(amount, eventId, context))!;
-                      if (paymentSuccess == false) {
-                        showErrorSnackbar(context);
-                      } else if (paymentSuccess == true) {
-                        showSuccessSnackbar(context);
-                      }
-                    } else if (GetPlatform.currentPlatform == GetPlatform.web) {
-                      stripeOnPressWeb(amount, eventId, context);
+                ),
+                onPressed: () async {
+                  if (GetPlatform.currentPlatform != GetPlatform.web) {
+                    paymentSuccess =
+                        (await stripeOnPressApp(amount, eventId, context))!;
+                    if (paymentSuccess == false) {
+                      showErrorSnackbar(context);
+                    } else if (paymentSuccess == true) {
+                      print(eventId);
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                          context, '/ThankYou?amount=$amount&eventId=$eventId');
                     }
-                  },
-                  child: const Text("Stripe"),
+                  } else if (GetPlatform.currentPlatform == GetPlatform.web) {
+                    stripeOnPressWeb(
+                        amount, eventId, context, returnUrl, baseUrl);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.payment),
+                    SizedBox(width: 8),
+                    Text("Kartenzahlung"),
+                  ],
                 ),
               ),
-              if (GetPlatform.currentPlatform != GetPlatform.web)
-                FutureBuilder<PaymentConfiguration>(
-                    future: _applePayConfigFuture,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? ApplePayButton(
-                            paymentConfiguration: snapshot.data!,
-                            paymentItems: _paymentItems,
-                            type: ApplePayButtonType.donate,
-                            margin: const EdgeInsets.only(top: 15.0),
-                            onPaymentResult: onApplePayResult,
-                            loadingIndicator: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : const SizedBox.shrink()),
-              if (GetPlatform.currentPlatform != GetPlatform.web)
-                FutureBuilder<PaymentConfiguration>(
-                    future: _googlePayConfigFuture,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? GooglePayButton(
-                            paymentConfiguration: snapshot.data!,
-                            paymentItems: _paymentItems,
-                            type: GooglePayButtonType.donate,
-                            margin: const EdgeInsets.only(top: 15.0),
-                            onPaymentResult: onGooglePayResult,
-                            loadingIndicator: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        : const SizedBox.shrink()),
-            ],
-          ),
+            ),
+            //TODO: make it functional
+            if (GetPlatform.currentPlatform != GetPlatform.web)
+              FutureBuilder<PaymentConfiguration>(
+                  future: _applePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? ApplePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: ApplePayButtonType.donate,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onApplePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+
+            if (GetPlatform.currentPlatform != GetPlatform.web)
+              FutureBuilder<PaymentConfiguration>(
+                  future: _googlePayConfigFuture,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? GooglePayButton(
+                          paymentConfiguration: snapshot.data!,
+                          paymentItems: _paymentItems,
+                          type: GooglePayButtonType.donate,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: onGooglePayResult,
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+          ],
         ),
       ),
     );
   }
 
-  void showErrorSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Zahlung abgebrochen'),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 4),
-      ),
-    );
-  }
-
-  void showSuccessSnackbar(BuildContext context) {
+/*
+void showSuccessSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Zahlung erfolgreich'),
@@ -163,6 +227,43 @@ class _PaymethodeState extends State<Paymethode> {
       ),
     );
   }
+
+*/
+  void showErrorSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Zahlung abgebrochen'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 4),
+      ),
+    );
+  }
+
+  /*
+  final List<String> Paypalreturn = [
+            uri.queryParameters['paymentId'] ?? '',
+            uri.queryParameters['token'] ?? '',
+            uri.queryParameters['PayerID'] ?? ''
+  */
+  void urlPaymentValidate(context) async {
+    print("current URL:");
+    print(Uri.base);
+    final uri = Uri.base;
+    final url = uri.toString();
+    if (await url.contains('cancel') == true) {
+      showErrorSnackbar(context);
+    } else if (url.contains('cancel') == false) {
+      print('default Page');
+    }
+  }
+}
+
+String? getBaseUrl() {
+  final url = Uri.base.toString();
+  final regex = RegExp(r'^.+?\/\/[^\/#]+(?:[\/#]|$)#');
+  final match = regex.firstMatch(url);
+  final extractedUrl = match!.group(0);
+  return extractedUrl;
 }
 
 class GetPlatform {

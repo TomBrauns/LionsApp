@@ -16,10 +16,11 @@ class _callAdminState extends State<callAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const BurgerMenu(),
-        appBar: const MyAppBar(title: "Rollen Verwalten"),
-        bottomNavigationBar: BottomNavigation(),
-        body: const UserRoleList());
+      drawer: const BurgerMenu(),
+      appBar: const MyAppBar(title: "Rollen Verwalten"),
+      bottomNavigationBar: BottomNavigation(),
+      body: const UserRoleList(),
+    );
   }
 }
 
@@ -37,65 +38,69 @@ class _UserRoleListState extends State<UserRoleList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-          decoration:
-              const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            decoration: const InputDecoration(
+              hintText: 'Suchen',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
         ),
-      ),
-      Expanded(
+        Expanded(
           child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-              stream: _userStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                final users = snapshot.data!.where((user) =>
-                    (user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                    (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                    (user.get("lastname") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
-
-                return ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    final user = users.elementAt(index);
-                    return ListTile(
-                      title: Text("${user["firstname"]} ${user["lastname"]}"),
-                      subtitle: Text(user["email"]),
-                      trailing: DropdownButton<String>(
-                        value: user['rool'],
-                        onChanged: (String? newValue) {
-                          user.reference.update({'rool': newValue});
-                        },
-                        items: _roleOptions.map(
-                          (String option) {
-                            return DropdownMenuItem<String>(
-                              value: option,
-                              child: Text(option),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    );
-                  },
+            stream: _userStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
                 );
-              }))
-    ]);
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final users = snapshot.data!.where((user) => (user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) || (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) || (user.get("lastname") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+
+              return ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  final user = users.elementAt(index);
+                  return ListTile(
+                    title: Text("${user["firstname"]} ${user["lastname"]}"),
+                    subtitle: Text(user["email"]),
+                    trailing: DropdownButton<String>(
+                      value: user['rool'],
+                      onChanged: (String? newValue) {
+                        user.reference.update({'rool': newValue});
+                      },
+                      items: _roleOptions.map(
+                        (String option) {
+                          return DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        )
+      ],
+    );
   }
 }

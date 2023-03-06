@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lionsapp/chat/rooms.dart';
 
 import '../util/image_upload.dart';
 
@@ -27,7 +28,7 @@ class roomDetails extends StatefulWidget {
 class _roomDetailsState extends State<roomDetails> {
   List<UserInList> _users = [];
 
-  Room currentRoom = Room(id: '', type: null, users: const []);
+  Room currentRoom = const Room(id: '', type: null, users: []);
   final TextEditingController roomNameController = TextEditingController();
   final TextEditingController roomDescriptionController = TextEditingController();
   String imgURL = '';
@@ -42,7 +43,7 @@ class _roomDetailsState extends State<roomDetails> {
         roomDescriptionController.text = room.metadata!["Beschreibung"];
 
         currentRoom = room;
-// Get the current user ID
+        // Get the current user ID
         String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
         // Get the list of users from Firestore
         FirebaseFirestore.instance.collection('user_chat').get().then((snapshot) {
@@ -72,7 +73,12 @@ class _roomDetailsState extends State<roomDetails> {
     return _users.where((user) => user.isSelected).toList();
   }
 
+  List<UserInList> _filteredUsers() {
+    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+  }
+
   String roomImg = "";
+  String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
@@ -94,107 +100,112 @@ class _roomDetailsState extends State<roomDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${roomNameController.text} bearbeiten"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showMyDialog();
+            },
+            icon: const Icon(Icons.delete_forever),
+          ),
+        ],
       ),
       body: Column(
         children: [
-          const SizedBox(height: 50),
-          if (currentRoom.imageUrl != null)
-            Image.network(
-              imgURL,
-              width: 100,
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
               height: 100,
-              fit: BoxFit.cover,
-            ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 10),
-            ),
-            onPressed: () async {
-              final XFile? file = await ImageUpload.selectImage();
-              if (file != null) {
-                final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-                final String? imageUrl = await ImageUpload.uploadImage(file, "room_images", currentRoom.id, uniqueFilename);
-                if (imageUrl != null) {
-                  await FirebaseFirestore.instance.collection('rooms').doc(currentRoom.id).update(
-                    {"imageUrl": imageUrl},
-                  );
-                  setState(() {
-                    imgURL = imageUrl;
-                  });
-                }
-              }
-            },
-            child: const Text('Profilbild ändern'),
-          ),
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: GestureDetector(
-              onTap: _handleEventImageUpload,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: _handleEventImageUpload,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                      style: BorderStyle.solid,
+                    ),
                   ),
+                  child: roomImg.isNotEmpty
+                      ? Image.network(roomImg)
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.upload, size: 48),
+                            Text("Bild auswählen"),
+                          ],
+                        ),
                 ),
-                child: roomImg.isNotEmpty
-                    ? Image.network(roomImg)
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.upload, size: 48),
-                          Text("Bild auswählen"),
-                        ],
-                      ),
               ),
             ),
           ),
-          const SizedBox(height: 80),
-          TextFormField(
-            controller: roomNameController,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Name der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomNameController,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Name der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 60),
-          TextFormField(
-            controller: roomDescriptionController,
-            minLines: 7,
-            maxLines: 15,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Beschreibung der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomDescriptionController,
+              minLines: 5,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Beschreibung der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: const InputDecoration(
+                hintText: 'Lions suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: SizedBox(
               child: ListView.builder(
-                itemCount: _users.length,
+                itemCount: _filteredUsers().length,
                 itemBuilder: (context, index) {
+                  final user = _filteredUsers()[index];
+
                   /* _users[index].isSelected = currentRoom.users.map((user) => user.id).contains(_users[index].documentId);*/
                   return CheckboxListTile(
-                    value: _users[index].isSelected,
+                    value: user.isSelected,
                     title: Row(
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${_users[index].firstName} ${_users[index].lastName}'),
+                        Text('${user.firstName} ${user.lastName}'),
                       ],
                     ),
                     onChanged: (newValue) {
@@ -209,7 +220,7 @@ class _roomDetailsState extends State<roomDetails> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 90),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -246,10 +257,10 @@ class _roomDetailsState extends State<roomDetails> {
         stream: FirebaseFirestore.instance.collection('rooms').doc(currentRoom.id).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             print('Error: ${snapshot.error}');
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           } else {
             final data = snapshot.data?.data() as Map<String, dynamic>?;
             if (data != null && data.containsKey('imageUrl')) {
@@ -266,7 +277,7 @@ class _roomDetailsState extends State<roomDetails> {
                 );
               }
             }
-            return Icon(Icons.person, size: 50);
+            return const Icon(Icons.person, size: 50);
           }
         },
       );
@@ -306,5 +317,51 @@ class _roomDetailsState extends State<roomDetails> {
         ),
       );
     }
+  }
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Wollen Sie den Chatraum wirklich löschen?'),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Abbrechen'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Bestätigen'),
+              onPressed: () {
+                FirebaseChatCore.instance.deleteRoom(widget.roomId!);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Ihr Chatraum wurde gelöscht',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RoomsPage()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

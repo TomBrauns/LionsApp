@@ -60,7 +60,13 @@ class _RoomCreatorState extends State<RoomCreator> {
     return _users.where((user) => user.isSelected).toList();
   }
 
+  List<UserInList> _filteredUsers() {
+    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+  }
+
   String roomImg = "";
+  final _userStream = FirebaseFirestore.instance.collection('user_chat').snapshots().map((snapshot) => snapshot.docs);
+  String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
@@ -85,90 +91,112 @@ class _RoomCreatorState extends State<RoomCreator> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 50),
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: GestureDetector(
-              onTap: _handleEventImageUpload,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: _handleEventImageUpload,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                      style: BorderStyle.solid,
+                    ),
                   ),
+                  child: roomImg.isNotEmpty
+                      ? Image.network(roomImg)
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.upload, size: 48),
+                            Text("Bild auswählen"),
+                          ],
+                        ),
                 ),
-                child: roomImg.isNotEmpty
-                    ? Image.network(roomImg)
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.upload, size: 48),
-                          Text("Bild auswählen"),
-                        ],
-                      ),
               ),
             ),
           ),
-          const SizedBox(height: 80),
-          TextFormField(
-            controller: roomNameController,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Name der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomNameController,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Name der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 60),
-          TextFormField(
-            controller: descriptionController,
-            minLines: 7,
-            maxLines: 15,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Beschreibung der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: descriptionController,
+              minLines: 5,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Beschreibung der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: const InputDecoration(
+                hintText: 'Lions suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: SizedBox(
               child: ListView.builder(
-                itemCount: _users.length,
+                itemCount: _filteredUsers().length,
                 itemBuilder: (context, index) {
+                  final user = _filteredUsers()[index];
                   return CheckboxListTile(
                     title: Row(
                       children: [
-                        Icon(Icons.person),
-                        SizedBox(width: 10),
-                        Text('${_users[index].firstName} ${_users[index].lastName}'),
+                        const Icon(Icons.person),
+                        const SizedBox(width: 10),
+                        Text('${user.firstName} ${user.lastName}'),
                       ],
                     ),
-                    value: _users[index].isSelected,
+                    value: user.isSelected,
                     onChanged: (bool? value) {
-                      setState(
-                        () {
-                          _users[index].isSelected = value!;
-                        },
-                      );
+                      setState(() {
+                        user.isSelected = value!;
+                      });
                     },
                   );
                 },
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 90),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -184,7 +212,7 @@ class _RoomCreatorState extends State<RoomCreator> {
               )
               .toList();
           final name = roomNameController.text.trim();
-          if (name.isNotEmpty && userList.isNotEmpty) {
+          if (name.isNotEmpty) {
             await FirebaseChatCore.instance.createGroupRoom(
               imageUrl: roomImg,
               name: name,
@@ -194,7 +222,7 @@ class _RoomCreatorState extends State<RoomCreator> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => RoomsPage(),
+                builder: (context) => const RoomsPage(),
               ),
             );
           } else {

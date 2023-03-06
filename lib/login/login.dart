@@ -10,9 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lionsapp/login/google/authentication.dart';
 import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/Widgets/burgermenu.dart' as constant;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lionsapp/login/register.dart' as test;
+
 
 class LoginPage extends StatefulWidget {
   final String? prefilledEmail;
@@ -233,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        FutureBuilder(
+                        /* FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -247,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                        ),
+                        ), */
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -307,20 +305,20 @@ class _LoginPageState extends State<LoginPage> {
     if (_formkey.currentState!.validate()) {
       FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
         //if (!cred.user!.emailVerified) {
-          //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-          //ScaffoldMessenger.of(context).showSnackBar(
-          //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
-          //);
+        //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+        //ScaffoldMessenger.of(context).showSnackBar(
+        //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+        //);
         //} else {
         checkRool().then((_) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Donations(),
-              ));
-          setState(() {
-            _isLoading = false;
-          });
+          if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
+            Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+          }else {
+            Navigator.pushNamed(context, '/Donations');
+            setState(() {
+              _isLoading = false;
+            });
+          }
         });
         //}
       }).catchError((error) {
@@ -342,3 +340,57 @@ Future<void> checkRool() async {
   Privileges.privilege = documentSnapshot.get('rool');
   print(Privileges.privilege);
 }
+
+
+
+/*
+This is the reworked signIn function that should fix the navigation in the Login, but for some reason, checkRool fucks me ...
+
+void signIn(String email, String password) async {
+  if (_formkey.currentState!.validate()) {
+    FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
+      //if (!cred.user!.emailVerified) {
+      //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+      //ScaffoldMessenger.of(context).showSnackBar(
+      //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+      //);
+      //} else {
+      checkRool().then((_) {
+
+        setState(() {
+          _isLoading = false;
+        });
+        if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
+          Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+          // Do something if the current route is Donations
+        }
+        else{
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Donations(),
+              )
+          );
+        }
+      });
+      // }
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+}
+
+
+Future<void> checkRool() async {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+  Privileges.privilege = documentSnapshot.get('rool');
+  print(Privileges.privilege);
+}
+*/

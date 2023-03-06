@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -24,13 +24,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
           children: <Widget>[
             Tooltip(
               message: "User Verwaltung",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 2;
 
                   Navigator.pushNamed(context, '/User');
                 },
@@ -39,13 +40,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Chat",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 6;
 
                   Navigator.pushNamed(context, '/Chat');
                 },
@@ -56,13 +58,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 Privileges.privilege == "Member")
               Tooltip(
                 message: "Kalender",
-                decoration: BoxDecoration(color: Colors.blue),
+                decoration: const BoxDecoration(color: Colors.blue),
                 child: IconButton(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                   onPressed: () {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
+                    AppData.selected = 3;
 
                     Navigator.pushNamed(context, '/Calendar');
                   },
@@ -71,13 +74,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
               ),
             Tooltip(
               message: "Katalog",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 5;
 
                   Navigator.pushNamed(context, '/Catalogue');
                 },
@@ -86,13 +90,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Aktivitäten",
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
                   // Push to Screen
+                  AppData.selected = 4;
 
                   Navigator.pushNamed(context, '/Events');
                 },
@@ -101,6 +106,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
 
           ],
-        ));
+        )
+    );
   }
 }

@@ -167,12 +167,13 @@ class _RegisterState extends State<Register> {
                           controller: passwordController,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                }),
+                              icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Passwort',
@@ -476,6 +477,15 @@ class _RegisterState extends State<Register> {
                                             ));
                                       } else {
                                         // TODO: Show error message
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Nochmal versuchen!',
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
                                       }
                                     });
                                   } else {
@@ -505,8 +515,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode,
-      String? cityname, String? streetname, String? streetnumber, String rool) async {
+  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     return _auth.createUserWithEmailAndPassword(email: email, password: password).then(
       (result) async {
         await result.user!.sendEmailVerification();
