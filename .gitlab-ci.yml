@@ -8,6 +8,9 @@ build:
   script:
     - flutter pub get
     - flutter build web
+  artifacts:
+    paths:
+      - build/web/
 
 #deploy:
 #  stage: deploy
