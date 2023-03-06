@@ -208,7 +208,7 @@ class _DonationsState extends State<Donations> {
 
                                       // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                       if(Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"){
-                                        Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+                                        Navigator.pushNamed(context, '/Donations/UserType/PayMethode', arguments: {'eventId': eventId});
                                       }
 
                                         else {
