@@ -73,7 +73,12 @@ class _roomDetailsState extends State<roomDetails> {
     return _users.where((user) => user.isSelected).toList();
   }
 
+  List<UserInList> _filteredUsers() {
+    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+  }
+
   String roomImg = "";
+  String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
@@ -106,104 +111,101 @@ class _roomDetailsState extends State<roomDetails> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 50),
-          if (currentRoom.imageUrl != null)
-            Image.network(
-              imgURL,
-              width: 100,
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
               height: 100,
-              fit: BoxFit.cover,
-            ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 10),
-            ),
-            onPressed: () async {
-              final XFile? file = await ImageUpload.selectImage();
-              if (file != null) {
-                final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-                final String? imageUrl = await ImageUpload.uploadImage(file, "room_images", currentRoom.id, uniqueFilename);
-                if (imageUrl != null) {
-                  await FirebaseFirestore.instance.collection('rooms').doc(currentRoom.id).update(
-                    {"imageUrl": imageUrl},
-                  );
-                  setState(() {
-                    imgURL = imageUrl;
-                  });
-                }
-              }
-            },
-            child: const Text('Profilbild ändern'),
-          ),
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: GestureDetector(
-              onTap: _handleEventImageUpload,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: _handleEventImageUpload,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                      style: BorderStyle.solid,
+                    ),
                   ),
-                ),
-                child: roomImg.isNotEmpty
-                    ? Image.network(roomImg)
-                    :  Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.upload, size: 48),
-                          Text("Bild auswählen"),
-                        ],
+                  child: roomImg.isNotEmpty
+                      ? Image.network(roomImg)
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.upload, size: 48),
+                            Text("Bild auswählen"),
+                          ],
+                        ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 80),
-          TextFormField(
-            controller: roomNameController,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Name der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomNameController,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Name der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 60),
-          TextFormField(
-            controller: roomDescriptionController,
-            minLines: 7,
-            maxLines: 15,
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Beschreibung der Gruppe',
-              enabled: true,
-              contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextFormField(
+              controller: roomDescriptionController,
+              minLines: 5,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Beschreibung der Gruppe',
+                enabled: true,
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              ),
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
             ),
-            onChanged: (value) {},
-            keyboardType: TextInputType.text,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: const InputDecoration(
+                hintText: 'Lions suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: SizedBox(
               child: ListView.builder(
-                itemCount: _users.length,
+                itemCount: _filteredUsers().length,
                 itemBuilder: (context, index) {
+                  final user = _filteredUsers()[index];
+
                   /* _users[index].isSelected = currentRoom.users.map((user) => user.id).contains(_users[index].documentId);*/
                   return CheckboxListTile(
-                    value: _users[index].isSelected,
+                    value: user.isSelected,
                     title: Row(
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${_users[index].firstName} ${_users[index].lastName}'),
+                        Text('${user.firstName} ${user.lastName}'),
                       ],
                     ),
                     onChanged: (newValue) {
@@ -218,7 +220,7 @@ class _roomDetailsState extends State<roomDetails> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 90),
         ],
       ),
       floatingActionButton: FloatingActionButton(
