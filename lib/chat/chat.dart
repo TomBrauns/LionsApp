@@ -188,17 +188,12 @@ class _ChatPageState extends State<ChatPage> {
       );
     } else {
       //HANDY
-      if (!_permissionGranted) {
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
         await _checkPermission();
       }
-
-      if (_permissionGranted) {
         //final result = await _picker.getImage(source: ImageSource.gallery),;
 
         final result = await _picker.getImage(source: ImageSource.gallery);
-
-
-
 
          /*var result = await ImagePicker().pickImage(
             imageQuality: 70,
@@ -244,7 +239,7 @@ class _ChatPageState extends State<ChatPage> {
 
       _setAttachmentUploading(false);
     }
-  }
+
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
     if (message is types.FileMessage) {
