@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/donation.dart';
@@ -13,6 +14,8 @@ import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
 
+import 'package:permission_handler/permission_handler.dart';
+
 class User extends StatefulWidget {
   const User({super.key});
 
@@ -21,6 +24,18 @@ class User extends StatefulWidget {
 }
 
 class _UserState extends State<User> {
+
+  bool _permissionGranted = false;
+
+  Future<void> _checkPermission() async{
+    final status = await Permission.photos.request();
+    setState(() {
+      _permissionGranted = status == PermissionStatus.granted;
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -48,6 +63,11 @@ class _UserState extends State<User> {
                       textStyle: const TextStyle(fontSize: 10),
                     ),
                     onPressed: () async {
+
+                      if (defaultTargetPlatform == TargetPlatform.iOS) {
+                        await _checkPermission();
+                      }
+
                       final user = FirebaseAuth.instance.currentUser;
                       if (user != null) {
                         final XFile? file = await ImageUpload.selectImage();

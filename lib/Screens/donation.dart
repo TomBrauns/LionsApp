@@ -89,7 +89,7 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = "Kein Event gefunden.";
+              String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               int spendenCounter = 0;
 
