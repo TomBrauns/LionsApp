@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/chat/chat.dart';
 import 'package:lionsapp/chat/rooms.dart';
 import 'package:lionsapp/login/agb.dart';
@@ -25,6 +26,7 @@ var routes = <String, WidgetBuilder>{
   '/User/Data': (context) => Update(),
   '/User/Accessibility': (context) => const Accessibility(),
   '/User/Subs': (context) => const Subs(),
+  '/ChangeRole': (context) => callAdmin(),
   '/Donations': (context) => const Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login': (context) => const LoginPage(),

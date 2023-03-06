@@ -3,7 +3,6 @@ import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
-import 'package:lionsapp/Screens/user_management.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../util/color.dart';
@@ -365,10 +364,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => callAdmin()),
-                    );
+                    Navigator.pushNamed(context,'/ChangeRole');
                   },
                 )
               : Container(),

@@ -312,7 +312,6 @@ class _LoginPageState extends State<LoginPage> {
         //} else {
         checkRool().then((_) {
           if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
-            print("Mami ich bin kacke");
             Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
           }else {
             Navigator.pushNamed(context, '/Donations');
