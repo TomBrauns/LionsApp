@@ -1,18 +1,24 @@
-image: cirrusci/flutter:stable
-
 stages:
   - build
   - deploy
 
 build:
+  image: cirrusci/flutter:stable
   stage: build
   script:
     - flutter pub get
     - flutter build web
 
+#deploy:
+#  stage: deploy
+#  script:
+#    - echo "$SSH_PRIVATE_KEY" > ssh_key
+#    - chmod 600 ssh_key
+#    - scp -r -i ssh_key build/web student@l4c.projekte.it.hs-worms.de:/var/www/html
+
 deploy:
+  image: node:12.13.0-alpine
   stage: deploy
   script:
-    - echo "$SSH_PRIVATE_KEY" > ssh_key
-    - chmod 600 ssh_key
-    - scp -r -i ssh_key build/web student@l4c.projekte.it.hs-worms.de:/var/www/html
+    - npm install -g firebase-tools
+    - firebase deploy --token $FIREBASE_TOKEN
