@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
-import 'package:lionsapp/main.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
+
+import '../util/color.dart';
 
 class Contact extends StatefulWidget {
   const Contact({Key? key}) : super(key: key);
@@ -19,10 +19,35 @@ class _ContactState extends State<Contact> {
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
 
+  void _handleSubmit() {
+    String text = "Sie haben eine neue Nachricht von:\n";
+    text += "Name: ${_nameController.text}\n";
+    text += "E-Mail: ${_emailController.text}\n";
+    text += "\n";
+    text += _messageController.text;
+    FirebaseFirestore.instance.collection("mail").add({
+      "to": "teamlions@web.de",
+      "message": {"subject": _subjectController.text, "text": text}
+    }).then((_) {
+      _nameController.text = "";
+      _emailController.text = "";
+      _subjectController.text = "";
+      _messageController.text = "";
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Ihre Kontaktanfrage wurde versendet!'),
+          backgroundColor: ColorUtils.secondaryColor,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(top: 64),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Contact"),
+      appBar: const MyAppBar(title: "Kontakt"),
       drawer: BurgerMenu(),
       body: SingleChildScrollView(
         child: Padding(
@@ -36,13 +61,15 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    labelText: 'Bitte tragen Sie hier ihren Namen ein, damit wir einen besseren Bezug zu ihrer Nachricht bekommen.',
-                    hintText: 'Vor und Nachnamen eingeben',
+                    helperText: 'Mit diesem Namen werden Sie zukünftig ansprechen.',
+                    labelText: 'Vor- und Nachname',
+                    helperMaxLines: 10,
+                    errorMaxLines: 10,
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Vor und Nachnamen eingeben';
+                      return 'Mit diesem Namen werden Sie zukünftig ansprechen.';
                     }
                     return null;
                   },
@@ -51,13 +78,15 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    labelText: 'Bitte Email eingeben, über die wir mit Ihnen in Kontakt treten können.',
-                    hintText: 'E-Mail eingeben',
+                    helperText: 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
+                    helperMaxLines: 10,
+                    errorMaxLines: 10,
+                    labelText: 'E-Mail-Adresse',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Email eingeben ';
+                      return 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.';
                     }
                     return null;
                   },
@@ -67,12 +96,14 @@ class _ContactState extends State<Contact> {
                   controller: _subjectController,
                   decoration: const InputDecoration(
                     labelText: 'Betreff',
-                    hintText: 'Betreff eingeben',
+                    helperText: 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    helperMaxLines: 10,
+                    errorMaxLines: 10,
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Betreff eingeben';
+                      return 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.';
                     }
                     return null;
                   },
@@ -81,77 +112,35 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _messageController,
                   maxLines: 6,
+                  textAlign: TextAlign.start,
+                  textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
-                    labelText: 'Hier bitte die Nachricht eintragen, die Sie uns mitgeben möchten.',
-                    hintText: 'Nachricht tippen',
+                    labelText: 'Ihre Nachricht',
                     border: OutlineInputBorder(),
+                    helperMaxLines: 10,
+                    errorMaxLines: 10,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Text tippen';
+                      return 'Bitte geben Sie Ihre Nachricht ein.';
                     }
                     return null;
                   },
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: const Text("Weitere Daten"),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [Text("Datei zum Hochladen hier reinziehen"), Icon(Icons.upload)],
-                  ),
-                ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 32),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        //sendEmail();
-                        sendMail(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
-                      }
-                    },
-                    child: const Text('Senden'),
-                  ),
-                ),
-                const Center(
-                  child: Divider(),
-                ),
+                    child: ElevatedButton(
+                  onPressed: _handleSubmit,
+                  child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
+                      child: Text("Senden", style: TextStyle(fontSize: 22))),
+                )),
+                const SizedBox(height: 32),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  //works only for Android
-  void sendMail(String name, String email, String subject, String msg) async {
-    String username = "qimuweb2023@gmail.com";
-    String password = 'ojsggwapxmckvusi';
-    final smtpServer = gmail(username, password);
-
-    final message = Message()
-      ..from = Address(username, 'Team Lions')
-      //TODO: Empfänger angeben
-      ..recipients.add('')
-      //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
-      //..bccRecipients.add(Address('bccAddress@example.com'))
-      ..subject = '$subject :: 😀 :: ${DateTime.now()}'
-      //..text = 'This is the plain text.\nThis is line 2 of the text part.'
-      ..html = "<h1>Nachricht von $name mit dem email Adresse $email</h1>\n<p>$msg</p>";
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
-    }
   }
 }
