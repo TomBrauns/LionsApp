@@ -200,6 +200,7 @@ class _ChatPageState extends State<ChatPage> {
             maxWidth: 1440,
             source: ImageSource.camera
         );*/
+      //Rejecta
 
         if (result != null) {
           _setAttachmentUploading(true);
