@@ -98,7 +98,7 @@ class DonationReceived extends StatelessWidget {
               ),
               label: const Text('Teilen'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
               ),
               onPressed: () {
