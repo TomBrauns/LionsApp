@@ -2,14 +2,11 @@ import json
 import stripe
 import requests
 from requests.auth import HTTPBasicAuth
-from socketserver import ThreadingMixIn
 
 from flask import Flask, request
 from flask import jsonify
 
-class ThreadedServer(ThreadingMixIn, Flask):
-    pass
-app = ThreadedServer(__name__)  
+app = Flask(__name__)
 
 StripePub = 'pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cBn9EmypeyJ92nC7mJpCwWHg1ZexBY8V00BAEi7S8t'
 stripe.api_key = 'sk_test_51Mf6KIGgaqubfEkYS7pbs6IfLklaHU6aXN0nb0tLBfkQvF0OOKrohYNpevT8eYJxAclTOlT3L2hU4aHrMjFsKUwU00O9gO7YOK'
