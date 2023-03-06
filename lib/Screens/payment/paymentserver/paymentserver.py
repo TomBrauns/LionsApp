@@ -2,10 +2,14 @@ import json
 import stripe
 import requests
 from requests.auth import HTTPBasicAuth
+from socketserver import ThreadingMixIn
 
 from flask import Flask, request
+from flask import jsonify
 
-app = Flask(__name__)
+class ThreadedServer(ThreadingMixIn, Flask):
+    pass
+app = ThreadedServer(__name__)  
 
 StripePub = 'pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cBn9EmypeyJ92nC7mJpCwWHg1ZexBY8V00BAEi7S8t'
 stripe.api_key = 'sk_test_51Mf6KIGgaqubfEkYS7pbs6IfLklaHU6aXN0nb0tLBfkQvF0OOKrohYNpevT8eYJxAclTOlT3L2hU4aHrMjFsKUwU00O9gO7YOK'
@@ -13,13 +17,12 @@ PaypalClient = 'ASWc84JED5XEgNRkOo2_f3JJP94KrXOwcQwig7WQ8HUeGN3Bqwi0xFuHMF1TQ3uE
 PaypalSec = 'EEXhrXIRxgz5yoyXBNHoSKcXfiZMW0AeNC-YHTjfvRlVDmR-colaC1nZKXW0j3y8sKcdVRzTvNrno-b7'
 
 #switch with live before release
-Paypaldomain = 'http://api.sandbox.paypal.com'
+Paypaldomain = 'https://api-m.sandbox.paypal.com'
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET'])
 def rootresp():
-    print('request reached root')
-    return {'requestdir': '/',
-            'test':'test'}
+    print('request reached flask')
+    return 'Hello, World!'
 
 @app.route('/StripePaymentIntent', methods=['POST'])
 def StripePaymentIntent():
@@ -122,28 +125,25 @@ def StripeCreateCheckoutSession():
 @app.route('/PaypalAuthenticate', methods=['POST'])
 def PaypalAuthenticate():
     url = Paypaldomain + '/v1/oauth2/token'
-    #header = {
-    #    'Accept': 'application/json',
-    #    'Accept-Language': 'en_US',
-    #}
+
     body = {
         'grant_type': 'client_credentials'
     }
 
     headers = {
-    'Accept': 'application/json',
-    'Accept-Language': 'en_US'}
+        'Accept': 'application/json',
+        'Accept-Language': 'en_US'}
 
-    basic = HTTPBasicAuth(PaypalClient, PaypalSec)
+    auth = (PaypalClient, PaypalSec)
 
     requestData = requests.post(
                 url=url,
-                auth=basic,
                 headers=headers,
+                auth=auth,
                 data=body
             )
     
-    requestDatadict = json.load(requestData)
+    requestDatadict = requestData.json()
 
     print(requestDatadict)
     return requestDatadict
@@ -188,7 +188,7 @@ def PaypalPayment():
                 data=body
             )
     
-    requestDatadict = json.load(requestData)
+    requestDatadict = requestData.json()
 
     print(requestDatadict)
     return requestDatadict
@@ -198,3 +198,7 @@ def PaypalPayment():
 @app.teardown_request
 def show_teardown(exception):
     print('request teardown')
+
+
+if __name__ == '__main__':
+    app.run(threaded=True)

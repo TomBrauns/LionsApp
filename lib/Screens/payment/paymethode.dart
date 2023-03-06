@@ -20,8 +20,9 @@ import 'package:flutter/foundation.dart'
 
 double amount = 40.00;
 String eventId = "evenid";
-bool TEST = true;
-String Endpoint = "https://fb3e-143-93-182-79.eu.ngrok.io";
+bool TEST = false;
+String Endpoint =
+    "https://675d-2003-e5-7f47-d700-945a-1dc1-de6c-e1ca.eu.ngrok.io";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -57,9 +58,9 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-
   String? get eventId {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
