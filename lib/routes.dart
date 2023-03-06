@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/chat/chat.dart';
 import 'package:lionsapp/chat/rooms.dart';
 import 'package:lionsapp/login/agb.dart';
-import 'package:lionsapp/Screens/calendar.dart';
+import 'package:lionsapp/Screens/meetings/calendar.dart';
 import 'package:lionsapp/Screens/contact.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';

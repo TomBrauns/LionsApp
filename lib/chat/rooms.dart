@@ -147,7 +147,7 @@ class _RoomsPageState extends State<RoomsPage> {
                   itemBuilder: (context, index) {
                     final room = snapshot.data![index];
 
-                    return GestureDetector(
+                    return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

@@ -14,6 +14,7 @@ import 'package:lionsapp/chat/roomDetails.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -64,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
               showUserAvatars: true,
               isAttachmentUploading: _isAttachmentUploading,
               messages: snapshot.data ?? [],
-              onAttachmentPressed: _handleAtachmentPressed,
+              onAttachmentPressed: _handleAttachmentPressed,
               onMessageTap: _handleMessageTap,
               onPreviewDataFetched: _handlePreviewDataFetched,
               onSendPressed: _handleSendPressed,
@@ -76,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
 
-  void _handleAtachmentPressed() {
+  void _handleAttachmentPressed() {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) => SafeArea(
@@ -150,7 +151,18 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _handleImageSelection() async {
+  bool _permissionGranted = false;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _checkPermission() async{
+    final status = await Permission.photos.request();
+    setState(() {
+      _permissionGranted = status == PermissionStatus.granted;
+    });
+  }
+
+
+  Future<void> _handleImageSelection() async {
     if (kIsWeb) {
       final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
       final name = file!.name;
@@ -176,46 +188,58 @@ class _ChatPageState extends State<ChatPage> {
       );
     } else {
       //HANDY
-      final result = await ImagePicker().pickImage(
-        imageQuality: 70,
-        maxWidth: 1440,
-        source: ImageSource.gallery,
-      );
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        await _checkPermission();
+      }
+        //final result = await _picker.getImage(source: ImageSource.gallery),;
 
-      if (result != null) {
-        _setAttachmentUploading(true);
-        final file = File(result.path);
-        final size = file.lengthSync();
-        final bytes = await result.readAsBytes();
-        final image = await decodeImageFromList(bytes);
-        final name = result.name;
+        final result = await _picker.getImage(source: ImageSource.gallery);
 
-        try {
-          final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
-          await reference.putFile(file);
-          final uri = await reference.getDownloadURL();
+         /*var result = await ImagePicker().pickImage(
+            imageQuality: 70,
+            maxWidth: 1440,
+            source: ImageSource.camera
+        );*/
 
-          final message = types.PartialImage(
-            height: image.height.toDouble(),
-            name: name,
-            size: size,
-            uri: uri,
-            width: image.width.toDouble(),
-          );
+        if (result != null) {
+          _setAttachmentUploading(true);
+          final file = File(result.path);
+          final size = file.lengthSync();
+          final bytes = await result.readAsBytes();
+          final image = await decodeImageFromList(bytes);
+          final name = "Test";
+          //final name = result.name;
 
-          FirebaseChatCore.instance.sendMessage(
-            message,
-            widget.room.id,
-          );
-          _setAttachmentUploading(false);
-        } finally {
-          _setAttachmentUploading(false);
+          try {
+            final reference = FirebaseStorage.instance.ref(
+                'images_sent_in_rooms').child(widget.room.id).child(name);
+            await reference.putFile(file);
+            final uri = await reference.getDownloadURL();
+
+            final message = types.PartialImage(
+              height: image.height.toDouble(),
+              name: name,
+              size: size,
+              uri: uri,
+              width: image.width.toDouble(),
+            );
+
+            FirebaseChatCore.instance.sendMessage(
+              message,
+              widget.room.id,
+            );
+            _setAttachmentUploading(false);
+          } finally {
+            _setAttachmentUploading(false);
+          }
+        }else{
+          print("Kein Bild ausgewählt");
         }
       }
+
+      _setAttachmentUploading(false);
     }
 
-    _setAttachmentUploading(false);
-  }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
     if (message is types.FileMessage) {

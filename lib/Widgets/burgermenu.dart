@@ -41,6 +41,8 @@ class _BurgerMenuState extends State<BurgerMenu> {
               color: ColorUtils.primaryColor,
             ),
 /*
+            Silly attempt to make the logo yellow ( all the white pixels turned to our secondary colour:
+
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(ColorUtils.secondaryColor, BlendMode.srcIn),
               child: Padding(
@@ -350,31 +352,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   tileColor: Color.fromARGB(255, 211, 211, 211),
                 )
               : Container(),
-
-          Privileges.privilege == "Admin"
-              ? ListTile(
-                  leading: const Icon(Icons.qr_code),
-                  title: const Text('QRCode-Test'),
-                  selected: isMenuSelected(14),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 14;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QrCodeWithImage(
-                              link: 'www.google.de?param:',
-                              documentId: '12jdksl2342')),
-                    );
-                  },
-                )
-              : Container(),
-
           Privileges.privilege == "Admin"
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),

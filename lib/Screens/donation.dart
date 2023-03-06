@@ -89,7 +89,7 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = "Kein Event gefunden.";
+              String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               int spendenCounter = 0;
 
@@ -205,6 +205,8 @@ class _DonationsState extends State<Donations> {
                                       await _updateDonationValue(newDonationValue);
                                       _inputController.text = "";
                                       _handleAdd(0);
+
+                                      // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                       if(Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"){
                                         Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
                                       }
