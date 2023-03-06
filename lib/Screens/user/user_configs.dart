@@ -400,7 +400,7 @@ class Accessibility extends StatefulWidget {
 
 class _AccessibilityState extends State<Accessibility> {
   String dropdownValue = list.first;
-  double _currentSliderValue = 20.0;
+  double _currentSliderValue = 20;
   double _textSize = 20.0; // store the current text size here
 
 
@@ -414,16 +414,12 @@ class _AccessibilityState extends State<Accessibility> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              Text("Fontgröße"),
-              Text(
-                "Textgröße: ${_currentSliderValue.round()}",
-                style: TextStyle(fontSize: _textSize),
-              ),
+              Text("Fontgröße: ${_currentSliderValue.round()}",style: TextStyle(fontSize: _textSize)),
               Slider(
                 value: _currentSliderValue,
-                min: 10,
-                max: 50,
-                divisions: 8,
+                min: 14,
+                max: 30,
+                divisions: 16,
                 label: _currentSliderValue.round().toString(),
                 onChanged: (double value) {
                   setState(() {
@@ -463,7 +459,6 @@ class _AccessibilityState extends State<Accessibility> {
                     primary: Colors.blue,
                     elevation: 0,
                   ),
-
                     onPressed: () {
                       // update the text size when the button is pressed
                       setState(() {
