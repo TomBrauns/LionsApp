@@ -14,11 +14,7 @@ class UserInList {
   final String documentId;
   bool isSelected;
 
-  UserInList(
-      {required this.firstName,
-      required this.lastName,
-      required this.documentId,
-      this.isSelected = false});
+  UserInList({required this.firstName, required this.lastName, required this.documentId, this.isSelected = false});
 }
 
 class RoomCreator extends StatefulWidget {
@@ -42,11 +38,9 @@ class _RoomCreatorState extends State<RoomCreator> {
     // Get the current user ID
     String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
     // Get the list of users from Firestore
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('user_chat').get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('user_chat').get();
     // Filter the list to remove the current user
-    List<UserInList> filteredUsers =
-        snapshot.docs.where((document) => document.id != currentUserId).map(
+    List<UserInList> filteredUsers = snapshot.docs.where((document) => document.id != currentUserId).map(
       (DocumentSnapshot document) {
         return UserInList(
           firstName: document.get('firstName'),
@@ -66,20 +60,19 @@ class _RoomCreatorState extends State<RoomCreator> {
     return _users.where((user) => user.isSelected).toList();
   }
 
+  List<UserInList> _filteredUsers() {
+    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+  }
+
   String roomImg = "";
-  final _userStream = FirebaseFirestore.instance
-      .collection('user_chat')
-      .snapshots()
-      .map((snapshot) => snapshot.docs);
+  final _userStream = FirebaseFirestore.instance.collection('user_chat').snapshots().map((snapshot) => snapshot.docs);
   String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename =
-          DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(
-          file, "room_images", "", uniqueFilename);
+      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(file, "room_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(
           () {
@@ -98,7 +91,7 @@ class _RoomCreatorState extends State<RoomCreator> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SizedBox(
@@ -139,8 +132,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                 fillColor: Colors.white,
                 hintText: 'Name der Gruppe',
                 enabled: true,
-                contentPadding:
-                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
@@ -157,22 +149,20 @@ class _RoomCreatorState extends State<RoomCreator> {
                 fillColor: Colors.white,
                 hintText: 'Beschreibung der Gruppe',
                 enabled: true,
-                contentPadding:
-                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
             ),
           ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextField(
               onChanged: (value) {
-                setState(
-                  () {
-                    _searchQuery = value;
-                  },
-                );
+                setState(() {
+                  _searchQuery = value;
+                });
               },
               decoration: const InputDecoration(
                 hintText: 'Lions suchen',
@@ -184,24 +174,22 @@ class _RoomCreatorState extends State<RoomCreator> {
           Expanded(
             child: SizedBox(
               child: ListView.builder(
-                itemCount: _users.length,
+                itemCount: _filteredUsers().length,
                 itemBuilder: (context, index) {
+                  final user = _filteredUsers()[index];
                   return CheckboxListTile(
                     title: Row(
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text(
-                            '${_users[index].firstName} ${_users[index].lastName}'),
+                        Text('${user.firstName} ${user.lastName}'),
                       ],
                     ),
-                    value: _users[index].isSelected,
+                    value: user.isSelected,
                     onChanged: (bool? value) {
-                      setState(
-                        () {
-                          _users[index].isSelected = value!;
-                        },
-                      );
+                      setState(() {
+                        user.isSelected = value!;
+                      });
                     },
                   );
                 },
