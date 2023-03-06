@@ -95,7 +95,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Photo'),
+                  child: Text('Foto'),
                 ),
               ),
               TextButton(
@@ -105,14 +105,14 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('File'),
+                  child: Text('Datei'),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Cancel'),
+                  child: Text('Abbrechen'),
                 ),
               ),
             ],
