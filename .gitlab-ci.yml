@@ -21,4 +21,4 @@ deploy:
   stage: deploy
   script:
     - npm install firebase-tools
-    - firebase deploy --token $FIREBASE_TOKEN
+    - npx firebase deploy --token $FIREBASE_TOKEN
