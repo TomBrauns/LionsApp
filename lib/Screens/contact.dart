@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Widgets/customTextStyle.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 
 import '../util/color.dart';
 
@@ -132,7 +132,7 @@ class _ContactState extends State<Contact> {
                 Center(
                     child: ElevatedButton(
                   onPressed: _handleSubmit,
-                      child: Text("Senden", style: CustomTextStyles.headlineLarge)),
+                      child: Text("Senden", style: CustomTextSize.large)),
                 ),
                 const SizedBox(height: 32),
               ],
