@@ -17,7 +17,7 @@ build:
 #    - scp -r -i ssh_key build/web student@l4c.projekte.it.hs-worms.de:/var/www/html
 
 deploy:
-  image: node:12.13.0-alpine
+  image: node:18-alpine
   stage: deploy
   script:
     - npm install firebase-tools
