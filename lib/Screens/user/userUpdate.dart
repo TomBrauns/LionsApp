@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
+import '../../Widgets/textSize.dart';
 import '../../login/login.dart';
 
 class Update extends StatefulWidget {
@@ -307,11 +308,8 @@ class UpdateState extends State<Update> {
                                   streetnrController.text,
                                 );
                               },
-                              child: const Text(
-                                "Bestätigen",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                              child: Text(
+                                "Bestätigen" ,style: CustomTextSize.medium
                               ),
                               color: Colors.white,
                             ),

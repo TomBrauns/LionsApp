@@ -4,7 +4,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-
+import 'package:lionsapp/Widgets/textSize.dart';
 import '../Widgets/dual_progress_bar.dart';
 
 class Donations extends StatefulWidget {
@@ -143,12 +143,12 @@ class _DonationsState extends State<Donations> {
                           SizedBox(
                               width: double.infinity,
                               child: Text(donationTitle,
-                                  textAlign: TextAlign.center, style: const TextStyle(fontSize: 24))),
+                                  textAlign: TextAlign.center, style: CustomTextSize.large)),
                           if (donationTarget != null)
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 32),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
+                                Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: CustomTextSize.large),
                                 DualLinearProgressIndicator(
                                   maxValue: _parseEuroStringToDouble(donationTarget),
                                   progressValue: spendenCounter.toDouble(),
@@ -172,7 +172,7 @@ class _DonationsState extends State<Donations> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [5, 10, 25, 50, 100]
                                       .map((int amount) =>
-                                          FilledButton(onPressed: () => _handleAdd(amount), child: Text("+ $amount€")))
+                                          FilledButton(onPressed: () => _handleAdd(amount), child: Text("+ $amount€",style: CustomTextSize.small)))
                                       .toList())),
                           const SizedBox(height: 24),
                           Row(children: [
@@ -188,7 +188,7 @@ class _DonationsState extends State<Donations> {
                                     _isReceiptChecked = !_isReceiptChecked;
                                   });
                                 },
-                                child: const Text("Ich möchte eine Quittung erhalten."))
+                                child: Text("Ich möchte eine Quittung erhalten.", style: CustomTextSize.small))
                           ]),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -220,9 +220,9 @@ class _DonationsState extends State<Donations> {
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: const Text("Spenden", style: TextStyle(fontSize: 18))))),
+                                      child: Text("Spenden", style: CustomTextSize.large)))),
                           Expanded(child: Container()),
-                          if (sponsor != null && sponsor.isNotEmpty) Text("Gesponsort von $sponsor"),
+                          if (sponsor != null && sponsor.isNotEmpty) Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
                           if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
                             Image.network(sponsorImgUrl, height: 128, width: double.infinity, fit: BoxFit.contain)
                         ],

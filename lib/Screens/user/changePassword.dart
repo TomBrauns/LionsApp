@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
+import '../../Widgets/textSize.dart';
 import '../../login/login.dart';
 
 class changePw extends StatefulWidget {
@@ -51,15 +52,12 @@ class changePwState extends State<changePw> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Nutzerdaten ändern",
+                          "Passwort ändern",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             fontSize: 40,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                         const SizedBox(
                           height: 50,
@@ -163,11 +161,9 @@ class changePwState extends State<changePw> {
                                   },
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 "Bestätigen",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                                  style: CustomTextSize.medium
                               ),
                               color: Colors.white,
                             ),

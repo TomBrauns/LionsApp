@@ -272,14 +272,14 @@ class _UserState extends State<User> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.small),
-                Text('Die Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.small),
+                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.medium),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.medium),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen',style: CustomTextSize.small),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -288,7 +288,7 @@ class _UserState extends State<User> {
               },
             ),
             TextButton(
-              child: const Text('Bestätigen'),
+              child: Text('Bestätigen',style: CustomTextSize.small),
               onPressed: () {
                 deleteAcc();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -501,8 +501,8 @@ class _LogOutState extends State<LogOut> {
             border: Border.all(color: ColorUtils.primaryColor),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Text("Schade, dass du dich ausgeloggt hast. "
-              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen."),
+          child: Text("Schade, dass du dich ausgeloggt hast. "
+              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen.",style: CustomTextSize.medium),
         ),
         Container(
           margin: const EdgeInsets.all(25),
@@ -511,7 +511,7 @@ class _LogOutState extends State<LogOut> {
               Icons.keyboard_return,
               size: 24.0,
             ),
-            label: const Text('Zurück zum Start'),
+            label: Text('Zurück zum Start',style: CustomTextSize.medium),
             style: ElevatedButton.styleFrom(
               primary: ColorUtils.primaryColor,
               elevation: 0,
