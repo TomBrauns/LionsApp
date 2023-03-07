@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -20,6 +21,8 @@ class Donations extends StatefulWidget {
 
 class _DonationsState extends State<Donations> {
   var _documentStream;
+
+  final formatter = CurrencyTextInputFormatter(locale: 'eu', symbol: '€');
 
   String? eventId;
   String? projectId;
@@ -92,7 +95,7 @@ class _DonationsState extends State<Donations> {
 
               String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
-              int spendenCounter = 0;
+              double donationCounter = 0.0;
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
@@ -111,8 +114,7 @@ class _DonationsState extends State<Donations> {
                       sponsorImgUrl = data["sponsor_img_url"] as String?;
                     }
                     if (data.containsKey("currentDonationValue")) {
-                      spendenCounter = data["currentDonationValue"];
-                      //print(spendenCounter);
+                      donationCounter = data["currentDonationValue"];
                     }
                   }
                 } else if (projectId != null && projectId!.isNotEmpty) {
@@ -122,7 +124,7 @@ class _DonationsState extends State<Donations> {
                 }
               }
 
-              Future<void> _updateDonationValue(int newDonationValue) async {
+              Future<void> _updateDonationValue(double newDonationValue) async {
                 try {
                   final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
@@ -154,11 +156,12 @@ class _DonationsState extends State<Donations> {
                                       Container(
                                         padding: const EdgeInsets.symmetric(vertical: 32),
                                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                          Text("Spendenziel: ${spendenCounter} € / $donationTarget",
+                                          Text(
+                                              "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * 100).toString())} / $donationTarget",
                                               style: CustomTextSize.large),
                                           DualLinearProgressIndicator(
                                             maxValue: _parseEuroStringToDouble(donationTarget),
-                                            progressValue: spendenCounter.toDouble(),
+                                            progressValue: donationCounter.toDouble(),
                                             addValue: _donationInput,
                                           )
                                         ]),
@@ -169,8 +172,10 @@ class _DonationsState extends State<Donations> {
                                     TextFormField(
                                       controller: _inputController,
                                       onChanged: _handleInputChange,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(), hintText: "Betrag", suffix: Text("€")),
+                                      inputFormatters: [formatter],
+                                      keyboardType: TextInputType.number,
+                                      decoration:
+                                          const InputDecoration(border: OutlineInputBorder(), hintText: "Betrag"),
                                     ),
                                     Container(
                                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -204,14 +209,11 @@ class _DonationsState extends State<Donations> {
                                         child: ElevatedButton(
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
-                                              int currentDonationValue = _getCurrentValue();
-
-                                              int newDonationValue = spendenCounter + currentDonationValue;
-
-                                              // TODO Hier muss noch eine schönere Variante eingebaut werden, die checkt, ob das Feld gefüllt ist / größer 0 ist
-                                              if (_inputController.text != "" &&
-                                                  double.parse(_inputController.text) > 0) {
-                                                await _updateDonationValue(newDonationValue);
+                                              double currentValue = _getCurrentValue();
+                                              double newDonationValue = donationCounter + currentValue;
+                                              if (currentValue > 0.0) {
+                                                await _updateDonationValue(
+                                                    newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
 
@@ -232,8 +234,7 @@ class _DonationsState extends State<Donations> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      if (sponsor != null && sponsor.isNotEmpty)
-                                        const SizedBox(height: 64),
+                                      if (sponsor != null && sponsor.isNotEmpty) const SizedBox(height: 64),
                                       if (sponsor != null && sponsor.isNotEmpty)
                                         Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
                                       if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
@@ -255,19 +256,15 @@ class _DonationsState extends State<Donations> {
   final TextEditingController _inputController = TextEditingController();
   bool _isReceiptChecked = false;
 
-  int _getCurrentValue() {
-    return int.tryParse(_inputController.value.text) ?? 0;
+  double _getCurrentValue() {
+    return _parseEuroStringToDouble(_inputController.text);
   }
 
   void _handleAdd(int value) {
-    _inputController.text = (_getCurrentValue() + value).toString();
+    final String updatedText = formatter.format((_getCurrentValue() * 100 + value * 100).toString());
+    _inputController.text = updatedText;
     setState(() {
-      _donationInput = _parseEuroStringToDouble(_inputController.text);
-      print(_donationInput);
+      _donationInput = _parseEuroStringToDouble(updatedText);
     });
-  }
-
-  void _handleSubmit() {
-    int value = _getCurrentValue();
   }
 }
