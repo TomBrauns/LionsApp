@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
@@ -232,6 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
+                        if(defaultTargetPlatform == TargetPlatform.iOS)
                         FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
