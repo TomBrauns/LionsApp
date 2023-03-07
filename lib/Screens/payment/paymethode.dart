@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/util/color.dart';
 
+import '../../Widgets/textSize.dart';
 import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
@@ -106,10 +107,7 @@ class _PaymethodeState extends State<Paymethode> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '$amount€ Spende',
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-            ),
+            Text('$amount€ Spende', style: CustomTextSize.large),
             Container(
               padding: const EdgeInsets.all(20.0),
               margin: const EdgeInsets.symmetric(horizontal: 100),
@@ -134,7 +132,7 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.paypal),
                     SizedBox(width: 8),
-                    const Text("Paypal"),
+                    Text("Paypal",style: CustomTextSize.large),
                   ],
                 ),
               ),
@@ -170,10 +168,10 @@ class _PaymethodeState extends State<Paymethode> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
-                    Text("Kartenzahlung"),
+                    Text("Kartenzahlung",style: CustomTextSize.large),
                   ],
                 ),
               ),
