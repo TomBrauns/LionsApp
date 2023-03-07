@@ -22,8 +22,7 @@ import 'package:flutter/foundation.dart'
 double amount = 40.00;
 String eventId = "evenid";
 bool TEST = false;
-String Endpoint =
-    "https://675d-2003-e5-7f47-d700-945a-1dc1-de6c-e1ca.eu.ngrok.io";
+String Endpoint = "http://127.0.0.1:5000";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -121,7 +120,7 @@ class _PaymethodeState extends State<Paymethode> {
                     )),
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
-                    paypalOnPressApp(amount, eventId, context);
+                    paypalOnPressApp(amount, eventId, context, TEST, Endpoint);
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     paypalOnPressWeb(
                         amount, eventId, context, baseUrl, TEST, Endpoint);
@@ -132,7 +131,7 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.paypal),
                     SizedBox(width: 8),
-                    Text("Paypal",style: CustomTextSize.large),
+                    Text("Paypal", style: CustomTextSize.large),
                   ],
                 ),
               ),
@@ -171,7 +170,7 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
-                    Text("Kartenzahlung",style: CustomTextSize.large),
+                    Text("Kartenzahlung", style: CustomTextSize.large),
                   ],
                 ),
               ),

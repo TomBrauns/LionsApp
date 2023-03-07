@@ -3,19 +3,40 @@ import 'package:http_auth/http_auth.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert' as convert;
 
-Future<void> paypalOnPressApp(amount, eventId, context) async {
-  var url;
-  var _url;
-  final token = await paypalAuth();
-  url = await makePaypalPayment(amount, token, eventId, context);
-  _url = Uri.parse(url);
-  if (!await launchUrl(_url)) {
-    throw Exception('Could not launch $_url');
+Future<void> paypalOnPressApp(
+    double amount, eventId, context, TEST, Endpoint) async {
+  switch (TEST) {
+    case true:
+      final token = await paypalAuthTest();
+
+      List<dynamic> PaypalObject =
+          await makePaypalPaymentTest(amount, token, eventId);
+      print(PaypalObject);
+
+      if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
+        await launchUrl(Uri.parse(PaypalObject[0]));
+      } else {
+        //print("Could not launch URL");
+      }
+      break;
+    case false:
+      List<dynamic> PaypalObject =
+          await makePaypalPayment(amount, eventId, Endpoint);
+      print(PaypalObject);
+
+      if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
+        await launchUrl(Uri.parse(PaypalObject[0]));
+      } else {
+        //print("Could not launch URL");
+      }
+      break;
   }
 }
 
-Future<String> paypalAuth() async {
+//TODO: Test Function to be removed before release
+Future<String> paypalAuthTest() async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -34,6 +55,8 @@ Future<String> paypalAuth() async {
     'grant_type': 'client_credentials'
   });
 
+  print(response.body);
+
   if (response.statusCode == 200) {
     final body = jsonDecode(response.body);
     return body['access_token'];
@@ -43,7 +66,8 @@ Future<String> paypalAuth() async {
   }
 }
 
-Future<String?> makePaypalPayment(amount, token, eventId, context) async {
+Future<List<String>> makePaypalPaymentTest(
+    double amount, String token, eventId) async {
   const domain = "api.sandbox.paypal.com"; // for sandbox mode
   //  const domain = "api.paypal.com"; // for production mode
 
@@ -68,7 +92,6 @@ Future<String?> makePaypalPayment(amount, token, eventId, context) async {
         'description': eventId,
       },
     ],
-    //TODO: use server url
     'redirect_urls': {
       'return_url': '/ThankYou?amount=$amount&eventId=$eventId',
       'cancel_url':
@@ -77,14 +100,59 @@ Future<String?> makePaypalPayment(amount, token, eventId, context) async {
   });
 
   final response = await http.post(apiUrl, headers: headers, body: requestBody);
+  print(response.body);
+  final responseData = jsonDecode(response.body);
+  final approvalUrl = responseData['links'][1]['href'];
+  print('Payment created successfully: $approvalUrl');
+  List<String> paypalObject = [
+    responseData['links'][1]['href'],
+    responseData["transactions"][0]['description'],
+    responseData["transactions"][0]['amount']['total']
+  ];
+  print(paypalObject);
+  return paypalObject;
+  // Open the approvalUrl in a web view to allow the user to approve the payment
+}
 
-  if (response.statusCode == 201) {
-    final responseData = jsonDecode(response.body);
-    final approvalUrl = responseData['links'][1]['href'];
-    print('Payment created successfully: $approvalUrl');
-    return approvalUrl;
-    // Open the approvalUrl in a web view to allow the user to approve the payment
+Future<String> paypalAuth() async {
+  final response = await http.post(
+    Uri.parse('$Endpoint/PaypalAuthenticate'),
+  );
+  print(response.runtimeType);
+  if (response.statusCode == 200) {
+    final body = convert.jsonDecode(response.body);
+    return body['access_token'];
   } else {
-    print('Failed to create payment: ${response.body}');
+    final body = convert.jsonDecode(response.body);
+    throw Exception("Failed to authenticate: ${body['error_description']}");
   }
+}
+
+Future<List<String>> makePaypalPayment(double amount, eventId, Endpoint) async {
+  String token = await paypalAuth();
+  final body = {
+    'authToken': token,
+    'amount': amount.toString(),
+    'eventId': eventId.toString(),
+    'success_url': '/ThankYou?amount=$amount&eventId=$eventId',
+    'cancel_url':
+        '/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId',
+    'currency': "EUR",
+  };
+
+  final response =
+      await http.post(Uri.parse('$Endpoint/PaypalPayment'), body: body);
+  print(response.runtimeType);
+  print(response.body);
+  final responseData = jsonDecode(response.body);
+  final approvalUrl = responseData['links'][1]['href'];
+  print('Payment created successfully: $approvalUrl');
+  List<String> paypalObject = [
+    responseData['links'][1]['href'],
+    responseData["transactions"][0]['description'],
+    responseData["transactions"][0]['amount']['total']
+  ];
+  print(paypalObject);
+  return paypalObject;
+  // Open the approvalUrl in a web view to allow the user to approve the payment
 }
