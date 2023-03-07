@@ -33,12 +33,11 @@ Future<bool?> stripeOnPressApp(
     switch (TEST) {
       case true:
         Map<String, dynamic> result = paymentIntent =
-            await createPaymentIntentTest(
-                amountInCents.toString(), 'EUR', eventId);
+            await createPaymentIntentTest(amount, 'EUR', eventId);
         break;
       case false:
-        Map<String, dynamic> result = paymentIntent = await createPaymentIntent(
-            amountInCents.toString(), 'EUR', eventId, Endpoint);
+        Map<String, dynamic> result = paymentIntent =
+            await createPaymentIntent(amount, 'EUR', eventId, Endpoint);
         break;
     }
 
@@ -72,11 +71,12 @@ Future<bool?> stripeOnPressApp(
 
 //TODO: Test Function to be removed before release
 Future<Map<String, dynamic>> createPaymentIntentTest(
-    String amount, String currency, eventId) async {
+    double amount, String currency, eventId) async {
+  final amountInCents = calculateAmount(amount);
   try {
     // Request body
     final body = {
-      'amount': amount,
+      'amount': amountInCents.toString(),
       'currency': currency,
       'description': eventId,
     };
@@ -98,11 +98,12 @@ Future<Map<String, dynamic>> createPaymentIntentTest(
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
-    String amount, String currency, eventId, Endpoint) async {
+    amount, String currency, eventId, Endpoint) async {
+  final amountInCents = calculateAmount(amount);
   try {
     // Request body
     final body = {
-      'amount': amount,
+      'amount': amountInCents.toString(),
       'currency': currency,
       'description': eventId,
     };
