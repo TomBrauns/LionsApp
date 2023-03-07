@@ -171,7 +171,7 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
-                    Text("Kartenzahlung",style: CustomTextSize.large),
+                    Text("Karte",style: CustomTextSize.large),
                   ],
                 ),
               ),

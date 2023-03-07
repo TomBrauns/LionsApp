@@ -12,6 +12,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/chat/roomDetails.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
@@ -96,9 +97,9 @@ class _ChatPageState extends State<ChatPage> {
                   Navigator.pop(context);
                   _handleImageSelection();
                 },
-                child: const Align(
+                child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Foto'),
+                  child: Text('Foto',style: CustomTextSize.medium),
                 ),
               ),
               TextButton(
@@ -106,16 +107,16 @@ class _ChatPageState extends State<ChatPage> {
                   Navigator.pop(context);
                   _handleFileSelection();
                 },
-                child: const Align(
+                child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Datei'),
+                  child: Text('Datei',style: CustomTextSize.medium),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Align(
+                child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Abbrechen'),
+                  child: Text('Abbrechen',style: CustomTextSize.medium),
                 ),
               ),
             ],
