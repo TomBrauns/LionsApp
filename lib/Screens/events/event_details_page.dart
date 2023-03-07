@@ -22,7 +22,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
   // Style
   final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = const TextStyle(fontSize: 16);
+  final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleDonation() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.eventId)));
