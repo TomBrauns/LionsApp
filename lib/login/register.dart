@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -533,7 +534,12 @@ class _RegisterState extends State<Register> {
 
   Future<void> postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
     var user = _auth.currentUser;
+    String? deviceToken;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
+
+    if (!kIsWeb) {
+      deviceToken = await FirebaseMessaging.instance.getToken();
+    }
 
     return ref.doc(user!.uid).set(
       {
@@ -545,6 +551,7 @@ class _RegisterState extends State<Register> {
         'streetname': streetname,
         'streetnumber': streetnumber,
         'rool': rool,
+        'device': deviceToken,
       },
     );
   }

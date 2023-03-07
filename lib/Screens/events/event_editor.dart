@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/color.dart';
+import 'package:cloud_functions/cloud_functions.dart' as functions;
 
 import '../../util/image_upload.dart';
 
@@ -29,10 +30,8 @@ class _EventEditorState extends State<EventEditor> {
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _eventDescriptionController =
-      TextEditingController();
-  final TextEditingController _donationTargetController =
-      TextEditingController();
+  final TextEditingController _eventDescriptionController = TextEditingController();
+  final TextEditingController _donationTargetController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _sponsorController = TextEditingController();
 
@@ -66,9 +65,7 @@ class _EventEditorState extends State<EventEditor> {
             imageUrl: eventImgUrl,
             name: _eventNameController.text,
             users: [],
-            metadata: {
-              "Beschreibung": "Chatraum für ${_eventNameController.text}"
-            },
+            metadata: {"Beschreibung": "Chatraum für ${_eventNameController.text}"},
           );
           roomId = room.id;
         } else {
@@ -84,8 +81,7 @@ class _EventEditorState extends State<EventEditor> {
         'startDate': startDate,
         'endDate': endDate,
         'eventInfo': _eventDescriptionController.text,
-        'spendenZiel':
-            _hasDonationTarget ? _donationTargetController.text : null,
+        'spendenZiel': _hasDonationTarget ? _donationTargetController.text : null,
         'ort': _locationController.text,
         'chat_room': roomId,
         'projekt': _hasProject ? _selectedProject : null,
@@ -106,6 +102,15 @@ class _EventEditorState extends State<EventEditor> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(context);
         if (widget.documentId == null) {
+          final functions.HttpsCallable sendNotification = functions.FirebaseFunctions.instance.httpsCallable('sendNotification');
+          try {
+            sendNotification({
+              'title': _eventNameController.text,
+              'body': _eventDescriptionController.text,
+            });
+          } catch (e) {
+            print('Error sending notification: $e');
+          }
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -120,10 +125,8 @@ class _EventEditorState extends State<EventEditor> {
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename =
-          DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(
-          file, "event_images", "", uniqueFilename);
+      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(file, "event_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
           eventImgUrl = imgUrl;
@@ -135,10 +138,8 @@ class _EventEditorState extends State<EventEditor> {
   void _handleSponsorImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename =
-          DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(
-          file, "sponsor_images", "", uniqueFilename);
+      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(file, "sponsor_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(() {
           sponsorImgUrl = imgUrl;
@@ -157,25 +158,15 @@ class _EventEditorState extends State<EventEditor> {
       currentDateTime = null;
       currentTime = null;
     }
-    showDatePicker(
-            context: context,
-            initialDate: currentDateTime ?? DateTime.now(),
-            firstDate: DateTime(2020),
-            lastDate: DateTime(2100))
-        .then((pickedDate) => {
-              showTimePicker(
-                      context: context,
-                      initialTime:
-                          currentTime ?? const TimeOfDay(hour: 15, minute: 0))
-                  .then((pickedTime) {
-                if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(
-                      hours: pickedTime.hour, minutes: pickedTime.minute);
-                  final DateTime completeDate = pickedDate.add(duration);
-                  _startDateController.text = dateFormat.format(completeDate);
-                }
-              })
-            });
+    showDatePicker(context: context, initialDate: currentDateTime ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100)).then((pickedDate) => {
+          showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 15, minute: 0)).then((pickedTime) {
+            if (pickedDate != null && pickedTime != null) {
+              final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+              final DateTime completeDate = pickedDate.add(duration);
+              _startDateController.text = dateFormat.format(completeDate);
+            }
+          })
+        });
   }
 
   void _handleEndTimeTap() {
@@ -193,36 +184,22 @@ class _EventEditorState extends State<EventEditor> {
     } else {
       currentStartDate = null;
     }
-    showDatePicker(
-            context: context,
-            initialDate: currentDateTime ?? currentStartDate ?? DateTime.now(),
-            firstDate: currentStartDate ?? DateTime(2020),
-            lastDate: DateTime(2100))
-        .then((pickedDate) => {
-              showTimePicker(
-                      context: context,
-                      initialTime:
-                          currentTime ?? const TimeOfDay(hour: 18, minute: 0))
-                  .then((pickedTime) {
-                if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(
-                      hours: pickedTime.hour, minutes: pickedTime.minute);
-                  final DateTime completeDate = pickedDate.add(duration);
-                  _endDateController.text = dateFormat.format(completeDate);
-                }
-              })
-            });
+    showDatePicker(context: context, initialDate: currentDateTime ?? currentStartDate ?? DateTime.now(), firstDate: currentStartDate ?? DateTime(2020), lastDate: DateTime(2100)).then((pickedDate) => {
+          showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 18, minute: 0)).then((pickedTime) {
+            if (pickedDate != null && pickedTime != null) {
+              final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+              final DateTime completeDate = pickedDate.add(duration);
+              _endDateController.text = dateFormat.format(completeDate);
+            }
+          })
+        });
   }
 
   @override
   void initState() {
     super.initState();
     if (widget.documentId == null) return;
-    FirebaseFirestore.instance
-        .collection("events")
-        .doc(widget.documentId)
-        .get()
-        .then((project) {
+    FirebaseFirestore.instance.collection("events").doc(widget.documentId).get().then((project) {
       _eventNameController.text = project.get("eventName");
       _eventDescriptionController.text = project.get("eventInfo") ?? "";
       _donationTargetController.text = project.get("spendenZiel") ?? "";
@@ -231,12 +208,10 @@ class _EventEditorState extends State<EventEditor> {
         _sponsorController.text = project.get("sponsor") ?? "";
       }
       if (project.get("startDate") != null) {
-        _startDateController.text =
-            dateFormat.format((project.get("startDate") as Timestamp).toDate());
+        _startDateController.text = dateFormat.format((project.get("startDate") as Timestamp).toDate());
       }
       if (project.get("endDate") != null) {
-        _endDateController.text =
-            dateFormat.format((project.get("endDate") as Timestamp).toDate());
+        _endDateController.text = dateFormat.format((project.get("endDate") as Timestamp).toDate());
       }
       setState(() {
         if (project.data()!.containsKey("image_url")) {
@@ -266,14 +241,11 @@ class _EventEditorState extends State<EventEditor> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.documentId == null
-              ? "Aktivität erstellen"
-              : "Aktivität bearbeiten"),
+          title: Text(widget.documentId == null ? "Aktivität erstellen" : "Aktivität bearbeiten"),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -296,22 +268,14 @@ class _EventEditorState extends State<EventEditor> {
                               ),
                               child: eventImgUrl.isNotEmpty
                                   ? Image.network(eventImgUrl)
-                                  : Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                          Icon(Icons.upload, size: 48),
-                                          Text("Bild auswählen",style: CustomTextSize.small),
-                                        ])))),
+                                  : Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                      Icon(Icons.upload, size: 48),
+                                      Text("Bild auswählen", style: CustomTextSize.small),
+                                    ])))),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _eventNameController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Name',
-                        floatingLabelBehavior: FloatingLabelBehavior.always),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Name', floatingLabelBehavior: FloatingLabelBehavior.always),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -320,12 +284,7 @@ class _EventEditorState extends State<EventEditor> {
                       Expanded(
                         child: TextField(
                           controller: _startDateController,
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.calendar_today),
-                              labelText: "Start",
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              border: OutlineInputBorder()),
+                          decoration: const InputDecoration(prefixIcon: Icon(Icons.calendar_today), labelText: "Start", floatingLabelBehavior: FloatingLabelBehavior.always, border: OutlineInputBorder()),
                           readOnly: false,
                           onTap: _handleStartTimeTap,
                         ),
@@ -334,11 +293,7 @@ class _EventEditorState extends State<EventEditor> {
                       Expanded(
                           child: TextField(
                         controller: _endDateController,
-                        decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_today),
-                            labelText: "Ende",
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            border: OutlineInputBorder()),
+                        decoration: const InputDecoration(prefixIcon: Icon(Icons.calendar_today), labelText: "Ende", floatingLabelBehavior: FloatingLabelBehavior.always, border: OutlineInputBorder()),
                         readOnly: false,
                         onTap: _handleEndTimeTap,
                       ))
@@ -347,11 +302,7 @@ class _EventEditorState extends State<EventEditor> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: _locationController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.location_on),
-                        border: OutlineInputBorder(),
-                        labelText: 'Ort',
-                        floatingLabelBehavior: FloatingLabelBehavior.always),
+                    decoration: const InputDecoration(prefixIcon: Icon(Icons.location_on), border: OutlineInputBorder(), labelText: 'Ort', floatingLabelBehavior: FloatingLabelBehavior.always),
                     autofocus: false,
                     maxLines: null,
                   ),
@@ -366,11 +317,7 @@ class _EventEditorState extends State<EventEditor> {
                         expands: true,
                         textAlign: TextAlign.start,
                         textAlignVertical: TextAlignVertical.top,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Beschreibung',
-                            floatingLabelBehavior:
-                                FloatingLabelBehavior.always),
+                        decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Beschreibung', floatingLabelBehavior: FloatingLabelBehavior.always),
                       )),
                   const SizedBox(height: 16),
                   Row(
@@ -378,7 +325,7 @@ class _EventEditorState extends State<EventEditor> {
                       SizedBox(
                           width: 135,
                           child: CheckboxListTile(
-                            title: Text("Ziel",style: CustomTextSize.small),
+                            title: Text("Ziel", style: CustomTextSize.small),
                             value: _hasDonationTarget,
                             onChanged: (bool? value) {
                               setState(() {
@@ -390,16 +337,9 @@ class _EventEditorState extends State<EventEditor> {
                       Expanded(
                           child: _hasDonationTarget
                               ? TextField(
-                                  inputFormatters: [
-                                    CurrencyTextInputFormatter(
-                                        locale: 'eu', symbol: '€')
-                                  ],
+                                  inputFormatters: [CurrencyTextInputFormatter(locale: 'eu', symbol: '€')],
                                   controller: _donationTargetController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      labelText: 'Ziel',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.always),
+                                  decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Ziel', floatingLabelBehavior: FloatingLabelBehavior.always),
                                 )
                               : Container()),
                     ],
@@ -410,7 +350,7 @@ class _EventEditorState extends State<EventEditor> {
                       SizedBox(
                           width: 135,
                           child: CheckboxListTile(
-                            title: Text("Zweck",style: CustomTextSize.small),
+                            title: Text("Zweck", style: CustomTextSize.small),
                             value: _hasProject,
                             onChanged: (bool? value) {
                               setState(() {
@@ -419,15 +359,12 @@ class _EventEditorState extends State<EventEditor> {
                             },
                           )),
                       const SizedBox(width: 16),
-                      Expanded(
-                          child: _hasProject
-                              ? const ProjectDropdown()
-                              : Container()),
+                      Expanded(child: _hasProject ? const ProjectDropdown() : Container()),
                     ],
                   ),
                   if (widget.documentId == null)
                     CheckboxListTile(
-                      title: Text("Chat erstellen:",style: CustomTextSize.small),
+                      title: Text("Chat erstellen:", style: CustomTextSize.small),
                       value: _createChat,
                       onChanged: (bool? value) {
                         setState(() {
@@ -438,10 +375,7 @@ class _EventEditorState extends State<EventEditor> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: _sponsorController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Sponsor',
-                        floatingLabelBehavior: FloatingLabelBehavior.always),
+                    decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Sponsor', floatingLabelBehavior: FloatingLabelBehavior.always),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -458,17 +392,7 @@ class _EventEditorState extends State<EventEditor> {
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              child: sponsorImgUrl.isNotEmpty
-                                  ? Image.network(sponsorImgUrl)
-                                  : Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children:  [
-                                          Icon(Icons.upload, size: 48),
-                                          Text("Bild auswählen",style: CustomTextSize.small)
-                                        ])))),
+                              child: sponsorImgUrl.isNotEmpty ? Image.network(sponsorImgUrl) : Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [Icon(Icons.upload, size: 48), Text("Bild auswählen", style: CustomTextSize.small)])))),
                   const SizedBox(height: 16),
                   SizedBox(
                       width: double.infinity,
@@ -481,18 +405,9 @@ class _EventEditorState extends State<EventEditor> {
                               // call the function
                             }
                           },
-
-
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.save),
-                                  SizedBox(width: 4),
-                                  Text("Speichern",
-                                      style: CustomTextSize.small)
-                                ]),
+                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.save), SizedBox(width: 4), Text("Speichern", style: CustomTextSize.small)]),
                           ))),
                 ],
               )),
@@ -510,8 +425,8 @@ class _EventEditorState extends State<EventEditor> {
 //},
 
 final snackBar = SnackBar(
-  content: Text("Bitte einen Eventnamen eingeben",style: CustomTextSize.small),
-    backgroundColor: Colors.red,
+  content: Text("Bitte einen Eventnamen eingeben", style: CustomTextSize.small),
+  backgroundColor: Colors.red,
 );
 
 class ProjectDropdown extends StatefulWidget {
@@ -544,19 +459,13 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
           ));
         }
 
-        if (_selectedProject != null &&
-            !snapshot.data!.docs
-                .map((doc) => doc["name"])
-                .contains(_selectedProject)) {
+        if (_selectedProject != null && !snapshot.data!.docs.map((doc) => doc["name"]).contains(_selectedProject)) {
           _selectedProject = null;
         }
 
         return DropdownButtonFormField(
           value: _selectedProject,
-          decoration: const InputDecoration(
-              labelText: "Zweck",
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              border: OutlineInputBorder()),
+          decoration: const InputDecoration(labelText: "Zweck", floatingLabelBehavior: FloatingLabelBehavior.always, border: OutlineInputBorder()),
           onChanged: (value) {
             setState(() {
               _selectedProject = value;
