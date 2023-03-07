@@ -13,7 +13,6 @@ import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 
-
 class LoginPage extends StatefulWidget {
   final String? prefilledEmail;
   const LoginPage({super.key, this.prefilledEmail});
@@ -34,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+
 
   @override
   void initState() {
