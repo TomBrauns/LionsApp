@@ -29,6 +29,7 @@ class _CatalogueState extends State<Catalogue> {
   Widget? _getFAB() {
     if (Privileges.privilege == "Admin") {
       return FloatingActionButton(
+        mini: true,
         backgroundColor: ColorUtils.secondaryColor,
         onPressed: () => _handleAddProject(),
         child: const Icon(Icons.add),

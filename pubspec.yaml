@@ -81,10 +81,12 @@ dependencies:
   flutter_localization: any
   webview_flutter: ^4.0.5
   dio: ^5.0.1
-
+  cloud_functions: ^4.0.11
   syncfusion_flutter_pdf: ^20.4.51
   universal_io: ^2.2.0
   permission_handler: ^10.2.0
+  firebase_admin: ^0.2.0  
+  firebase_messaging: ^14.2.5
 
 
 dependency_overrides:
