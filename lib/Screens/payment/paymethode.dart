@@ -22,7 +22,7 @@ import 'package:flutter/foundation.dart'
 double amount = 40.00;
 String eventId = "evenid";
 bool TEST = false;
-String Endpoint = "http://127.0.0.1:5000";
+String Endpoint = "http://143.93.182.79:5000";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();

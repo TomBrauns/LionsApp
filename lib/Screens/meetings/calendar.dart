@@ -125,6 +125,7 @@ class _CalendarState extends State<Calendar> {
             }),
         floatingActionButton: FloatingActionButton(
           onPressed: _handleAddEvent,
+          mini: true,
           backgroundColor: ColorUtils.secondaryColor,
           child: const Icon(Icons.add),
         ));

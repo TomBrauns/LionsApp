@@ -16,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         shape: const CircularNotchedRectangle(), //shape of notch
         notchMargin: 5,
         elevation: 0,
-        height: 80,
+        height: 60,
         clipBehavior: Clip.none,
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -24,7 +24,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           children: <Widget>[
             Tooltip(
               message: "User Verwaltung",
-              decoration: const BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: ColorUtils.primaryColor),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -40,7 +40,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Chat",
-              decoration: const BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: ColorUtils.primaryColor),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -58,7 +58,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 Privileges.privilege == "Member")
               Tooltip(
                 message: "Kalender",
-                decoration: const BoxDecoration(color: Colors.blue),
+                decoration: const BoxDecoration(color: ColorUtils.primaryColor),
                 child: IconButton(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                   onPressed: () {
@@ -74,7 +74,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               ),
             Tooltip(
               message: "Katalog",
-              decoration: const BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: ColorUtils.primaryColor),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
@@ -90,7 +90,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             Tooltip(
               message: "Aktivitäten",
-              decoration: const BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: ColorUtils.primaryColor),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 onPressed: () {
