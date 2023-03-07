@@ -17,7 +17,9 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'dart:html' as html;
+
+import 'package:universal_html/html.dart' as html;
+
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
