@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
@@ -215,9 +216,7 @@ class _DonationsState extends State<Donations> {
                                                 _handleAdd(0);
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                                if (Privileges.privilege == "Friend" ||
-                                                    Privileges.privilege == "Member" ||
-                                                    Privileges.privilege == "Admin") {
+                                                if (FirebaseAuth.instance.currentUser != null) {
                                                   Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
                                                       arguments: {'eventId': eventId});
                                                 } else {
