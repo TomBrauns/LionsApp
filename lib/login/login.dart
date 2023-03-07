@@ -12,6 +12,7 @@ import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
 
+
 class LoginPage extends StatefulWidget {
   final String? prefilledEmail;
   const LoginPage({super.key, this.prefilledEmail});
@@ -231,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        /* FutureBuilder(
+                        FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -245,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                        ), */
+                        ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(

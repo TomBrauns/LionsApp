@@ -355,8 +355,6 @@ Future<void> shareToTwitter(String url) async {
   }
 }
 
-//Komm Mit
-
 class _ShareDonationState extends State<ShareDonation> {
 
   String? get eventId{
