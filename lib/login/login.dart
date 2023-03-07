@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
@@ -10,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lionsapp/login/google/authentication.dart';
 import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+
 
 
 class LoginPage extends StatefulWidget {
@@ -231,7 +233,8 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        /* FutureBuilder(
+                        if(defaultTargetPlatform == TargetPlatform.iOS)
+                        FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -245,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                        ), */
+                        ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(

@@ -311,7 +311,6 @@ class _ShareDonationState extends State<ShareDonation> {
     return args?['eventId'];
   }
 
-
   @override
   Widget build(BuildContext context) {
     print(eventId);

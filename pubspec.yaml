@@ -86,8 +86,10 @@ dependencies:
   universal_io: ^2.2.0
   permission_handler: ^10.2.0
 
+
 dependency_overrides:
-  intl: ^0.18.0 
+  intl: ^0.18.0
+
 
 
 dev_dependencies:
