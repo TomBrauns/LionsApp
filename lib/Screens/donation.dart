@@ -4,7 +4,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-
+import 'package:lionsapp/Widgets/textSize.dart';
 import '../Widgets/dual_progress_bar.dart';
 
 class Donations extends StatefulWidget {
@@ -126,107 +126,122 @@ class _DonationsState extends State<Donations> {
                   final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
                   await documentReference.update({'currentDonationValue': newDonationValue});
-
                 } catch (e) {
                   return null;
                 }
               }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
-              return Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              width: double.infinity,
-                              child: Text(donationTitle,
-                                  textAlign: TextAlign.center, style: const TextStyle(fontSize: 24))),
-                          if (donationTarget != null)
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 32),
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text("Spendenziel: ${spendenCounter} € / $donationTarget", style: const TextStyle(fontSize: 16)),
-                                DualLinearProgressIndicator(
-                                  maxValue: _parseEuroStringToDouble(donationTarget),
-                                  progressValue: spendenCounter.toDouble(),
-                                  addValue: _donationInput,
+              return SingleChildScrollView(
+                  child: Container(
+                      padding: const EdgeInsets.all(16),
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                              minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height - 32),
+                          child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(children: [
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: Text(donationTitle,
+                                            textAlign: TextAlign.center, style: CustomTextSize.large)),
+                                    if (donationTarget != null)
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 32),
+                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                          Text("Spendenziel: ${spendenCounter} € / $donationTarget",
+                                              style: CustomTextSize.large),
+                                          DualLinearProgressIndicator(
+                                            maxValue: _parseEuroStringToDouble(donationTarget),
+                                            progressValue: spendenCounter.toDouble(),
+                                            addValue: _donationInput,
+                                          )
+                                        ]),
+                                      )
+                                    else
+                                      const SizedBox(height: 64),
+                                    const SizedBox(height: 8),
+                                    TextFormField(
+                                      controller: _inputController,
+                                      onChanged: _handleInputChange,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(), hintText: "Betrag", suffix: Text("€")),
+                                    ),
+                                    Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [5, 10, 25, 50, 100]
+                                                .map((int amount) => FilledButton(
+                                                    onPressed: () => _handleAdd(amount),
+                                                    child: Text("+ $amount€", style: CustomTextSize.small)))
+                                                .toList())),
+                                    const SizedBox(height: 24),
+                                    Row(children: [
+                                      Checkbox(
+                                        value: _isReceiptChecked,
+                                        onChanged: (checked) => setState(() {
+                                          _isReceiptChecked = checked ?? false;
+                                        }),
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _isReceiptChecked = !_isReceiptChecked;
+                                            });
+                                          },
+                                          child:
+                                              Text("Ich möchte eine Quittung erhalten.", style: CustomTextSize.small))
+                                    ]),
+                                    const SizedBox(height: 16),
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                            // onPressed: _handleSubmit,
+                                            onPressed: () async {
+                                              int currentDonationValue = _getCurrentValue();
 
-                                )
-                              ]),
-                            )
-                          else
-                            const SizedBox(height: 64),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _inputController,
-                            onChanged: _handleInputChange,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(), hintText: "Betrag", suffix: Text("€")),
-                          ),
-                          Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [5, 10, 25, 50, 100]
-                                      .map((int amount) =>
-                                          FilledButton(onPressed: () => _handleAdd(amount), child: Text("+ $amount€")))
-                                      .toList())),
-                          const SizedBox(height: 24),
-                          Row(children: [
-                            Checkbox(
-                              value: _isReceiptChecked,
-                              onChanged: (checked) => setState(() {
-                                _isReceiptChecked = checked ?? false;
-                              }),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isReceiptChecked = !_isReceiptChecked;
-                                  });
-                                },
-                                child: const Text("Ich möchte eine Quittung erhalten."))
-                          ]),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  // onPressed: _handleSubmit,
-                                  onPressed: () async {
-                                    int currentDonationValue = _getCurrentValue();
+                                              int newDonationValue = spendenCounter + currentDonationValue;
 
-                                    int newDonationValue = spendenCounter + currentDonationValue;
+                                              // TODO Hier muss noch eine schönere Variante eingebaut werden, die checkt, ob das Feld gefüllt ist / größer 0 ist
+                                              if (_inputController.text != "" &&
+                                                  double.parse(_inputController.text) > 0) {
+                                                await _updateDonationValue(newDonationValue);
+                                                _inputController.text = "";
+                                                _handleAdd(0);
 
-                                    // TODO Hier muss noch eine schönere Variante eingebaut werden, die checkt, ob das Feld gefüllt ist / größer 0 ist
-                                    if(_inputController.text != "" && double.parse(_inputController.text) > 0){
-                                      await _updateDonationValue(newDonationValue);
-                                      _inputController.text = "";
-                                      _handleAdd(0);
-
-                                      // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                      if(Privileges.privilege == "Friend" || Privileges.privilege == "Member" || Privileges.privilege == "Admin"){
-                                        Navigator.pushNamed(context, '/Donations/UserType/PayMethode', arguments: {'eventId': eventId});
-                                      }
-
-                                        else {
-                                        Navigator.pushNamed(
-                                            context, '/Donations/UserType', arguments: {'eventId': eventId});
-                                      }
-                                    }
-
-                                  },
-                                  child: Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: const Text("Spenden", style: TextStyle(fontSize: 18))))),
-                          Expanded(child: Container()),
-                          if (sponsor != null && sponsor.isNotEmpty) Text("Gesponsort von $sponsor"),
-                          if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
-                            Image.network(sponsorImgUrl, height: 128, width: double.infinity, fit: BoxFit.contain)
-                        ],
-                      )));
+                                                // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
+                                                if (Privileges.privilege == "Friend" ||
+                                                    Privileges.privilege == "Member" ||
+                                                    Privileges.privilege == "Admin") {
+                                                  Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
+                                                      arguments: {'eventId': eventId});
+                                                } else {
+                                                  Navigator.pushNamed(context, '/Donations/UserType',
+                                                      arguments: {'eventId': eventId});
+                                                }
+                                              }
+                                            },
+                                            child: Container(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text("Spenden", style: CustomTextSize.large)))),
+                                  ]),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (sponsor != null && sponsor.isNotEmpty)
+                                        Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
+                                      if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
+                                        Image.network(sponsorImgUrl,
+                                            height: 128, width: double.infinity, fit: BoxFit.contain)
+                                    ],
+                                  )
+                                ],
+                              )))));
 
               //return Text('Document data: $data');
             }));

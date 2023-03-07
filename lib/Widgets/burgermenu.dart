@@ -5,6 +5,7 @@ import 'package:lionsapp/Screens/newPassword.dart';
 import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 
 import '../util/color.dart';
 
@@ -70,7 +71,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text('Startseite'),
+            title: Text('Startseite',style: CustomTextSize.small),
             selected: isMenuSelected(0),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -85,7 +86,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.card_giftcard),
-            title: const Text('Spenden'),
+            title: Text('Spenden',style: CustomTextSize.small),
             selected: isMenuSelected(1),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -103,7 +104,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.badge),
-                  title: const Text('Benutzer'),
+                  title: Text('Benutzer',style: CustomTextSize.small),
                   selected: isMenuSelected(2),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -122,7 +123,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.calendar_month_rounded),
-                  title: const Text('Kalender'),
+                  title: Text('Kalender',style: CustomTextSize.small),
                   selected: isMenuSelected(3),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -136,12 +137,9 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == "Friend" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Admin"
-              ? ListTile(
+              ListTile(
                   leading: const Icon(Icons.event),
-                  title: const Text('Aktivitäten'),
+                  title: Text('Aktivitäten',style: CustomTextSize.small),
                   selected: isMenuSelected(4),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -153,14 +151,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.pushNamed(context, '/Events');
                   },
-                )
-              : Container(),
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
-              ? ListTile(
+                ),
+
+              ListTile(
                   leading: const Icon(Icons.book),
-                  title: const Text('Katalog'),
+                  title: Text('Katalog',style: CustomTextSize.small),
                   selected: isMenuSelected(5),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -172,12 +167,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.pushNamed(context, '/Catalogue');
                   },
-                )
-              : Container(),
+                ),
+
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   leading: const Icon(Icons.chat),
-                  title: const Text('Chat'),
+                  title: Text('Chat',style: CustomTextSize.small),
                   selected: isMenuSelected(6),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -191,6 +186,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
+
           const ListTile(
             title: Text('Info Seiten',
                 style: TextStyle(fontWeight: FontWeight.bold)),
@@ -198,7 +194,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.contact_support),
-            title: const Text('Kontakt'),
+            title: Text('Kontakt',style: CustomTextSize.small),
             selected: isMenuSelected(7),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -213,7 +209,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.format_align_justify_outlined),
-            title: const Text('Impressum'),
+            title: Text('Impressum',style: CustomTextSize.small),
             selected: isMenuSelected(8),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -228,7 +224,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.check_box),
-            title: const Text("AGB's"),
+            title: Text("AGB's",style: CustomTextSize.small),
             selected: isMenuSelected(9),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -250,7 +246,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Guest"
               ? ListTile(
                   leading: const Icon(Icons.app_registration),
-                  title: const Text('Registrierung'),
+                  title: Text('Registrierung',style: CustomTextSize.small),
                   selected: isMenuSelected(10),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -268,7 +264,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Guest"
               ? ListTile(
                   leading: const Icon(Icons.login),
-                  title: const Text('Login'),
+                  title: Text('Login',style: CustomTextSize.small),
                   selected: isMenuSelected(11),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -288,7 +284,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == "Friend"
               ? ListTile(
                   leading: const Icon(Icons.logout),
-                  title: const Text('Log Out'),
+                  title: Text('Log Out',style: CustomTextSize.small),
                   selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -323,7 +319,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Admin" || Privileges.privilege == "Member"
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
-                  title: const Text('Aktivität erstellen'),
+                  title: Text('Aktivität erstellen', style: CustomTextSize.small),
                   selected: isMenuSelected(13),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -355,7 +351,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == "Admin"
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
-                  title: const Text('Nutzerverwaltung'),
+                  title: Text('Nutzerverwaltung',style: CustomTextSize.small),
                   selected: isMenuSelected(15),
                   selectedTileColor: selectedColor,
                   onTap: () {

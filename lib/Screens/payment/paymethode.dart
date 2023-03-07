@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/util/color.dart';
 
+import '../../Widgets/textSize.dart';
 import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
@@ -20,8 +21,9 @@ import 'package:flutter/foundation.dart'
 
 double amount = 40.00;
 String eventId = "evenid";
-bool TEST = true;
-String Endpoint = "https://fb3e-143-93-182-79.eu.ngrok.io";
+bool TEST = false;
+String Endpoint =
+    "https://675d-2003-e5-7f47-d700-945a-1dc1-de6c-e1ca.eu.ngrok.io";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -57,9 +59,9 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-
   String? get eventId {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
@@ -105,10 +107,7 @@ class _PaymethodeState extends State<Paymethode> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '$amount€ Spende',
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-            ),
+            Text('$amount€ Spende', style: CustomTextSize.large),
             Container(
               padding: const EdgeInsets.all(20.0),
               margin: const EdgeInsets.symmetric(horizontal: 100),
@@ -133,7 +132,7 @@ class _PaymethodeState extends State<Paymethode> {
                   children: [
                     Icon(Icons.paypal),
                     SizedBox(width: 8),
-                    const Text("Paypal"),
+                    Text("Paypal",style: CustomTextSize.large),
                   ],
                 ),
               ),
@@ -169,10 +168,10 @@ class _PaymethodeState extends State<Paymethode> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(Icons.payment),
                     SizedBox(width: 8),
-                    Text("Kartenzahlung"),
+                    Text("Kartenzahlung",style: CustomTextSize.large),
                   ],
                 ),
               ),

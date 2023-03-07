@@ -11,6 +11,7 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
@@ -61,7 +62,7 @@ class _UserState extends State<User> {
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 10),
+                      textStyle: TextStyle(fontSize: 10),
                     ),
                     onPressed: () async {
 
@@ -101,7 +102,7 @@ class _UserState extends State<User> {
                         );
                       }
                     },
-                    child: const Text('Profilbild ändern'),
+                    child: Text('Profilbild ändern', style: CustomTextSize.small),
                   ),
                   if (user != null)
                     UserDataWidget()
@@ -119,7 +120,7 @@ class _UserState extends State<User> {
                     Icons.badge,
                     size: 24.0,
                   ),
-                  label: const Text('Nutzerdaten ändern'),
+                  label: Text('Nutzerdaten ändern', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -151,7 +152,7 @@ class _UserState extends State<User> {
                     Icons.lock_open_rounded,
                     size: 24.0,
                   ),
-                  label: const Text('Passwort ändern'),
+                  label: Text('Passwort ändern', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -183,7 +184,7 @@ class _UserState extends State<User> {
                     Icons.card_membership,
                     size: 24.0,
                   ),
-                  label: const Text('Abos Verwalten'),
+                  label: Text('Abos Verwalten', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -202,7 +203,7 @@ class _UserState extends State<User> {
                     Icons.accessibility_new,
                     size: 24.0,
                   ),
-                  label: const Text('Bedienungshilfe'),
+                  label: Text('Bedienungshilfe', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -222,7 +223,7 @@ class _UserState extends State<User> {
                     Icons.logout,
                     size: 24.0,
                   ),
-                  label: const Text('Ausloggen'),
+                  label: Text('Ausloggen', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -242,7 +243,7 @@ class _UserState extends State<User> {
                     Icons.delete,
                     size: 24.0,
                   ),
-                  label: const Text('Account löschen'),
+                  label: Text('Account löschen', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -270,15 +271,15 @@ class _UserState extends State<User> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
-                Text('Wollen Sie Ihren Account wirklich löschen?'),
-                Text('Die Vorgang kann nicht rückgängig gemacht werden'),
+              children: <Widget>[
+                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.medium),
+                Text('Die Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.medium),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen',style: CustomTextSize.small),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -287,7 +288,7 @@ class _UserState extends State<User> {
               },
             ),
             TextButton(
-              child: const Text('Bestätigen'),
+              child: Text('Bestätigen',style: CustomTextSize.small),
               onPressed: () {
                 deleteAcc();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -500,8 +501,8 @@ class _LogOutState extends State<LogOut> {
             border: Border.all(color: ColorUtils.primaryColor),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Text("Schade, dass du dich ausgeloggt hast. "
-              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen."),
+          child: Text("Schade, dass du dich ausgeloggt hast. "
+              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen.",style: CustomTextSize.medium),
         ),
         Container(
           margin: const EdgeInsets.all(25),
@@ -510,7 +511,7 @@ class _LogOutState extends State<LogOut> {
               Icons.keyboard_return,
               size: 24.0,
             ),
-            label: const Text('Zurück zum Start'),
+            label: Text('Zurück zum Start',style: CustomTextSize.medium),
             style: ElevatedButton.styleFrom(
               primary: ColorUtils.primaryColor,
               elevation: 0,
