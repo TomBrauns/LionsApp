@@ -7,6 +7,7 @@ import 'package:lionsapp/Screens/meetings/meeting_editor.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import '../../Widgets/appbar.dart';
+import '../../Widgets/textSize.dart';
 import '../../util/color.dart';
 import '../events/event_details_page.dart';
 
@@ -98,7 +99,7 @@ class _CalendarState extends State<Calendar> {
                       DropdownButtonFormField(
                         value: currentView,
                         items: views
-                            .map<DropdownMenuItem<String>>(((c) => DropdownMenuItem(value: c, child: Text(c))))
+                            .map<DropdownMenuItem<String>>(((c) => DropdownMenuItem(value: c, child: Text(c,style: CustomTextSize.small))))
                             .toList(),
                         onChanged: _handleViewChange,
                         decoration: const InputDecoration(border: OutlineInputBorder()),

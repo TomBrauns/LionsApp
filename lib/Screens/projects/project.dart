@@ -18,7 +18,7 @@ class Project extends StatefulWidget {
 
 class _ProjectState extends State<Project> {
   final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = const TextStyle(fontSize: 16);
+  final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleEdit() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectEditor(documentId: widget.documentId)));

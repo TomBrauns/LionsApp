@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import '../events/event_details_page.dart';
 import 'category.dart';
@@ -133,7 +134,7 @@ class _ProjectEditorState extends State<ProjectEditor> {
                                         : Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: const [Icon(Icons.upload, size: 48), Text("Bild auswählen")])))),
+                                            children: [Icon(Icons.upload, size: 48), Text("Bild auswählen",style: CustomTextSize.small)])))),
                         const SizedBox(height: 16),
                         DropdownButtonFormField(
                           value: selectedCategory,
@@ -144,7 +145,7 @@ class _ProjectEditorState extends State<ProjectEditor> {
                                     children: [
                                       Image.asset(c.path, width: 24, height: 24),
                                       const SizedBox(width: 8),
-                                      Text(c.name)
+                                      Text(c.name,style: CustomTextSize.small)
                                     ],
                                   ))))
                               .toList(),
@@ -198,10 +199,10 @@ class _ProjectEditorState extends State<ProjectEditor> {
                                 onPressed: _handleSubmit,
                                 child: Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                                     Icon(Icons.save),
                                     SizedBox(width: 4),
-                                    Text("Speichern", style: TextStyle(fontSize: 18))
+                                    Text("Speichern",style: CustomTextSize.medium)
                                   ]),
                                 ))),
                       ],
