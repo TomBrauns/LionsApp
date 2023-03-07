@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
       drawer: const BurgerMenu(),
       bottomNavigationBar: BottomNavigation(),
       body: const Center(
-        child: Text("Ei Gude und herzlich willkumme beim Lions Club! Mir sinn e gude Haufe vun Leit, die sich für unseri Gemeinschaft engagiere und unsere Region unterstütze. Schau dich gerne emol uff unsere Seit um und lern uns besser kenne. Mer freue uns uff dich!\n\n Juten Tach und herzlich willkommen beim Lions Club! Mir san 'ne jute Truppe von Leuten, die sich für unsre Gemeinschaft engagieren und unsre Region unterstützen. Mach' dir keen Kopp und schau ruhig ma' uff unsre Seit'n, damit du uns besser kennenlernst. Wir freun' uns uff dich, allet jute!",
+        child: Text("Servus beinand, mir frein uns narrisch, dass's auf unserer Homepage vom Lions Club vorbeischaut. Der Lions Club is a Vereinigung vo engagierte Leid, de wo se für a guade Sacha einsetzen und ehrenamtlich was in ihrer Gemeinschaft bewegen woin. Mir hamma a groaßes Herz für unsara bayrische Heimat und legn vui Werta auf Tradition und soziale Verantwortung. Unser Motto is 'we serve' und des is a Grundphilosophie, de wo uns imma antreibt. Mir woin de Wält a bissal besser mocha, oans Projekt nachm andern. Wenn's an Liawand braucht oder wenn's selba wos Gutes tun woin, dann is da Lions Club da richtige Ansprechpartner. Schaut's eich gern um auf unserer Homepage und bei Fragen oder Anregungen san mir immer gern für eich do. Pfiad eich und bis bald beim Lions Club!",
         style: TextStyle(
           fontSize: 24,
           color: Colors.blueGrey,
