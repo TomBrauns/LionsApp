@@ -234,6 +234,8 @@ class _DonationsState extends State<Donations> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       if (sponsor != null && sponsor.isNotEmpty)
+                                        const SizedBox(height: 64),
+                                      if (sponsor != null && sponsor.isNotEmpty)
                                         Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
                                       if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
                                         Image.network(sponsorImgUrl,
