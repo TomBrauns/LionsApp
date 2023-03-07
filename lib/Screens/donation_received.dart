@@ -15,6 +15,8 @@ import 'package:open_filex/open_filex.dart';
 import 'dart:io';
 import 'package:universal_html/html.dart' as html;
 
+import '../Widgets/textSize.dart';
+
 // Test Values
 // ignore: non_constant_identifier_names
 String DonationProjectName = "Test Projekt";
@@ -53,7 +55,7 @@ class DonationReceived extends StatelessWidget {
                 )),
             child: Text("Danke für ihre Spende von $amount€ an $eventId ."
                 "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
-                "über das Kontaktformular zu erreichen."),
+                "über das Kontaktformular zu erreichen.",style: CustomTextSize.small),
           ),
           Container(
             margin: const EdgeInsets.all(25),
@@ -62,7 +64,7 @@ class DonationReceived extends StatelessWidget {
                 Icons.receipt,
                 size: 24.0,
               ),
-              label: const Text('Kontaktformular'),
+              label: Text('Kontaktformular',style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -79,7 +81,7 @@ class DonationReceived extends StatelessWidget {
                 Icons.receipt,
                 size: 24.0,
               ),
-              label: const Text('Quittung'),
+              label: Text('Quittung',style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -96,7 +98,7 @@ class DonationReceived extends StatelessWidget {
                 Icons.share,
                 size: 24.0,
               ),
-              label: const Text('Teilen'),
+              label: Text('Teilen',style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -113,16 +115,15 @@ class DonationReceived extends StatelessWidget {
             // this will take space as minimum as possible(to center)
             children: <Widget>[
               ElevatedButton(
-                child: const Text('Zurück zum Spenden'),
+                child: Text('Zurück zum Spenden',style: CustomTextSize.medium),
                 onPressed: () {
                   // Push to Screen
                   Navigator.pushNamed(context, '/Donations');
                 },
               ),
 
-              // TODO: Right now this button is only supposed to show for Friends / Members / Admins, Guests are not supposed to see this
               ElevatedButton(
-                child: const Text('Weitere Events'),
+                child: Text('Weitere Events',style: CustomTextSize.medium),
                 onPressed: () {
                   // Update State of App
                   Navigator.pop(context);
@@ -150,7 +151,7 @@ class _ReceiptState extends State<Receipt> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Spendenquittung"),
+          title: Text("Spendenquittung",style: CustomTextSize.large),
         ),
         body: Center(
             child: Column(children: <Widget>[
@@ -162,7 +163,7 @@ class _ReceiptState extends State<Receipt> {
                 Icons.download,
                 size: 24.0,
               ),
-              label: const Text('PDF herunterladen'),
+              label: Text('PDF herunterladen',style: CustomTextSize.large),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -184,7 +185,7 @@ class _ReceiptState extends State<Receipt> {
                 Icons.cloud_upload,
                 size: 24.0,
               ),
-              label: const Text('Cloud hochladen'),
+              label: Text('Cloud hochladen',style: CustomTextSize.large),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -203,8 +204,8 @@ class _ReceiptState extends State<Receipt> {
           Container(
             margin: const EdgeInsets.all(40),
             height: 50,
-            child: const Text(
-                "Angemeldete Nutzer erhalten automatisch Quittungen per Mail"),
+            child: Text(
+                "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",style: CustomTextSize.small),
           ),
         ])));
   }
@@ -255,58 +256,6 @@ class _ReceiptState extends State<Receipt> {
   }
 }
 
-// The Following ReceiptEmail-Class is deprecated and is no longer in use due to
-// an user being able to missspelling their Email. Its saver to just open this possibility to
-// Signed in users and by automatizing it
-
-class ReceiptEmail extends StatefulWidget {
-  const ReceiptEmail({super.key});
-
-  @override
-  State<ReceiptEmail> createState() => _ReceiptEmailState();
-}
-
-class _ReceiptEmailState extends State<ReceiptEmail> {
-  String EMail = "";
-  final myController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Spendenquittung"),
-        ),
-        body: Center(
-            child: SizedBox(
-                width: 250,
-                height: 200,
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: myController,
-                      decoration: const InputDecoration(
-                        labelText: 'eMail',
-                      ),
-                      obscureText: false,
-                      onSubmitted: (value) {},
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(25),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorUtils.primaryColor,
-                          elevation: 0,
-                        ),
-                        onPressed: () {},
-                        child: const Text("Bestätigen"),
-                      ),
-                    ),
-                  ],
-                ))));
-  }
-}
-
-//Social Media missing
 class ShareDonation extends StatefulWidget {
 
 

@@ -17,6 +17,7 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:html' as html;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -153,9 +154,11 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _checkPermission() async {
     final status = await Permission.photos.request();
-    setState(() {
-      _permissionGranted = status == PermissionStatus.granted;
-    });
+    setState(
+      () {
+        _permissionGranted = status == PermissionStatus.granted;
+      },
+    );
   }
 
   Future<void> _handleImageSelection() async {
@@ -239,6 +242,11 @@ class _ChatPageState extends State<ChatPage> {
     if (message is types.FileMessage) {
       var localPath = message.uri;
 
+      if (kIsWeb) {
+        print(message.uri);
+        html.window.open(message.uri, 'new tab');
+      }
+
       if (message.uri.startsWith('http')) {
         try {
           final updatedMessage = message.copyWith(isLoading: true);
@@ -287,8 +295,10 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _setAttachmentUploading(bool uploading) {
-    setState(() {
-      _isAttachmentUploading = uploading;
-    });
+    setState(
+      () {
+        _isAttachmentUploading = uploading;
+      },
+    );
   }
 }
