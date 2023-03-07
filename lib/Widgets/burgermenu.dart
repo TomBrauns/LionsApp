@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
+import 'package:lionsapp/Screens/meetings/meeting_editor.dart';
 import 'package:lionsapp/Screens/newPassword.dart';
 import 'package:lionsapp/Screens/user/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
@@ -336,6 +337,28 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     );
                   },
                 )
+              : Container(),
+
+          Privileges.privilege == "Admin" || Privileges.privilege == "Member"
+              ? ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: Text('Meeting erstellen', style: CustomTextSize.small),
+            selected: isMenuSelected(14),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 14;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MeetingEditor()),
+              );
+            },
+          )
               : Container(),
 
           /// Following functions are for Admins only

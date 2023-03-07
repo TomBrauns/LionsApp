@@ -14,6 +14,8 @@ import 'package:share/share.dart';
 
 import 'package:universal_html/html.dart' as html;
 
+import '../../Widgets/textSize.dart';
+
 class QrCodeWithImage extends StatefulWidget {
   final String link;
   final String documentId;
@@ -80,7 +82,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
                     _handleDownloadButtonPressed();
                   }
                 },
-                child: const Text('Download'),
+                child: Text('Download',style: CustomTextSize.medium),
               ),
             ),
           ),
