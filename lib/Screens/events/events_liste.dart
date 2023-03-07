@@ -51,13 +51,25 @@ class _EventsState extends State<Events> {
 
   // and use Function for Fab in Scaffold
 
+
+  // BAB with Priviledge
+  //Copy that
+  Widget? _getBAB() {
+    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend") {
+      return BottomNavigation();
+    } else {
+      return null;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: "Aktivitäten"),
       drawer: const BurgerMenu(),
       body: const EventList(),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: _getBAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _getFAB(),
     );

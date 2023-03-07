@@ -502,7 +502,7 @@ class _LogOutState extends State<LogOut> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text("Schade, dass du dich ausgeloggt hast. "
-              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen.",style: CustomTextSize.medium),
+              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen.",style: CustomTextSize.small),
         ),
         Container(
           margin: const EdgeInsets.all(25),

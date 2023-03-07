@@ -10,6 +10,8 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/chat/createRoom.dart';
 
+import '../Widgets/bottomNavigationView.dart';
+import '../Widgets/privileges.dart';
 import '../firebase_options.dart';
 import 'chat.dart';
 import '../login/login.dart';
@@ -60,7 +62,13 @@ class _RoomsPageState extends State<RoomsPage> {
     super.initState();
     signUpForChatUser();
   }
-
+  Widget? _getBAB() {
+    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member") {
+      return BottomNavigation();
+    } else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     if (_error) {
@@ -72,6 +80,7 @@ class _RoomsPageState extends State<RoomsPage> {
     }
 
     return Scaffold(
+      bottomNavigationBar: _getBAB(),
       appBar: AppBar(
         actions: [
           IconButton(
