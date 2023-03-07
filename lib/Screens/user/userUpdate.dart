@@ -42,6 +42,7 @@ class UpdateState extends State<Update> {
   String? _cityname;
   String? _streetname;
   String? _streetnumber;
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +51,8 @@ class UpdateState extends State<Update> {
 
   void _loadData() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final docSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final userData = docSnapshot.data() as Map<String, dynamic>;
     setState(
       () {
@@ -112,13 +114,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -135,13 +140,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -161,7 +169,8 @@ class UpdateState extends State<Update> {
                             filled: true,
                             fillColor: Colors.white,
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(20),
@@ -190,13 +199,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -213,13 +225,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -243,13 +258,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -266,13 +284,16 @@ class UpdateState extends State<Update> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -291,7 +312,9 @@ class UpdateState extends State<Update> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             MaterialButton(
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
@@ -308,9 +331,7 @@ class UpdateState extends State<Update> {
                                   streetnrController.text,
                                 );
                               },
-                              child: Text(
-                                "Bestätigen" ,style: CustomTextSize.medium
-                              ),
+                              child: Text("Bestätigen", style: CustomTextSize.medium),
                               color: Colors.white,
                             ),
                           ],
@@ -361,9 +382,9 @@ class UpdateState extends State<Update> {
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           backgroundColor: Colors.green,
-          content: Text('Nutzerdaten erfolgreich aktualisiert!'),
+          content: Text('Nutzerdaten erfolgreich aktualisiert!',style: CustomTextSize.small),
         ),
       );
       Navigator.pushNamed(context, '/User');

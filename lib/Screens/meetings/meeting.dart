@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/util/color.dart';
 import '../../Widgets/privileges.dart';
+import '../../Widgets/textSize.dart';
 import 'meeting_editor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,7 +22,7 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
 
   // Style
   final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = const TextStyle(fontSize: 16);
+  final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleEdit() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingEditor(meetingId: widget.meetingId)));
@@ -33,17 +34,17 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Meeting löschen'),
-          content: const Text('Sind Sie sich sicher, dass Sie dieses Meeting löschen möchten?'),
+          title:  Text('Meeting löschen',style: CustomTextSize.medium),
+          content: Text('Sind Sie sich sicher, dass Sie dieses Meeting löschen möchten?',style: CustomTextSize.small),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen',style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: const Text('Löschen'),
+                child: Text('Löschen',style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.meetingId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -127,28 +128,28 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
                           Expanded(
                               child: Card(
                                   child: ListTile(
-                            title: Row(children: const [
-                              Icon(
+                            title: Row(children: [
+                              const Icon(
                                 Icons.calendar_month,
                                 size: 16,
                                 color: Colors.black,
                               ),
-                              Text("Datum")
+                              Text("Datum",style: CustomTextSize.medium)
                             ]),
-                            subtitle: Text(date, maxLines: 1),
+                            subtitle: Text(date, maxLines: 1,style: CustomTextSize.medium),
                           ))),
                           Expanded(
                               child: Card(
                                   child: ListTile(
-                            title: Row(children: const [
+                            title: Row(children: [
                               Icon(
                                 Icons.location_on,
                                 size: 16,
                                 color: Colors.black,
                               ),
-                              Text("Ort")
+                              Text("Ort",style: CustomTextSize.medium)
                             ]),
-                            subtitle: Text(location, maxLines: 1),
+                            subtitle: Text(location, maxLines: 1,style: CustomTextSize.medium),
                           ))),
                         ]),
                         const SizedBox(height: 16),

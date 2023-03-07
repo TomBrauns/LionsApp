@@ -6,6 +6,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/chat/rooms.dart';
 
+import '../Widgets/textSize.dart';
 import '../util/image_upload.dart';
 
 class UserInList {
@@ -115,7 +116,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(Icons.upload, size: 48),
-                            Text("Bild auswählen"),
+                            Text("Bild auswählen",style: CustomTextSize.small),
                           ],
                         ),
                 ),
@@ -182,7 +183,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${user.firstName} ${user.lastName}'),
+                        Text('${user.firstName} ${user.lastName}',style: CustomTextSize.small),
                       ],
                     ),
                     value: user.isSelected,
@@ -227,9 +228,9 @@ class _RoomCreatorState extends State<RoomCreator> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+               SnackBar(
                 backgroundColor: Colors.red,
-                content: Text('Gruppename angeben'),
+                content: Text('Gruppename angeben',style: CustomTextSize.small),
               ),
             );
           }

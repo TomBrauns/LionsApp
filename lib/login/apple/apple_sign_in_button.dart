@@ -7,44 +7,52 @@ class AppleSignInButton extends StatefulWidget {
 }
 
 class _AppleSignInButtonState extends State<AppleSignInButton> {
+
+  Future<void> _handleSignInWithApple() async{
+    try{
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName
+        ]
+      );
+
+      print(credential);
+
+      final String? userIdentifier = credential.userIdentifier;
+      final String? email = credential.email;
+      final String fullName = '${credential.givenName} ${credential.familyName}';
+
+
+
+    }catch (error){
+      print("Sign in fehlgeschlagen");
+    }
+  }
+
   bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 30.0),
       child: _isSigningIn
           ? const CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       )
           : GestureDetector(
-        onTap: () async {
-          setState(() {
-            _isSigningIn = true;
-          });
+            onTap: () async {
 
-          final credential =
-          await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
-          );
+              _handleSignInWithApple();
 
-          print(credential);
-
-          // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-          // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-
-          setState(() {
-            _isSigningIn = false;
-          });
-        },
-        child: SignInWithAppleButton(
-          text: 'Mit Apple anmelden',
-          onPressed: () {},
+            },
+            child: SignInWithAppleButton(
+              text: 'Mit Apple anmelden',
+              onPressed: () {
+                _handleSignInWithApple();
+              },
+            ),
         ),
-      ),
     );
   }
 }

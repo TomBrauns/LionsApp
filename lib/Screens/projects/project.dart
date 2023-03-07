@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
 
 import '../../Widgets/privileges.dart';
+import '../../Widgets/textSize.dart';
 import '../../util/color.dart';
 import '../donation.dart';
 
@@ -17,7 +18,7 @@ class Project extends StatefulWidget {
 
 class _ProjectState extends State<Project> {
   final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = const TextStyle(fontSize: 16);
+  final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleEdit() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectEditor(documentId: widget.documentId)));
@@ -29,17 +30,17 @@ class _ProjectState extends State<Project> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Projekt löschen'),
-          content: const Text('Sind Sie sich sicher, dass Sie dieses Projekt löschen möchten?'),
+          title:  Text('Projekt löschen',style: CustomTextSize.medium),
+          content:  Text('Sind Sie sich sicher, dass Sie dieses Projekt löschen möchten?',style: CustomTextSize.small),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen',style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: const Text('Löschen'),
+                child: Text('Löschen',style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.documentId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -125,9 +126,9 @@ class _ProjectState extends State<Project> {
                       Center(
                           child: ElevatedButton(
                         onPressed: _handleDonation,
-                        child: const Padding(
+                        child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-                            child: Text("Spenden", style: TextStyle(fontSize: 22))),
+                            child: Text("Spenden",style: CustomTextSize.medium)),
                       )),
                       const SizedBox(height: 32),
                     ],

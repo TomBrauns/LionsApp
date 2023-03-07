@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 
 import '../../util/image_upload.dart';
@@ -258,7 +259,7 @@ class _EventEditorState extends State<EventEditor> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Chat erfolgreich erstellt'),
-        backgroundColor: ColorUtils.secondaryColor,
+        backgroundColor: ColorUtils.primaryColor,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.only(top: 64),
       ),
@@ -300,9 +301,9 @@ class _EventEditorState extends State<EventEditor> {
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      children: const [
+                                      children: [
                                           Icon(Icons.upload, size: 48),
-                                          Text("Bild auswählen")
+                                          Text("Bild auswählen",style: CustomTextSize.small),
                                         ])))),
                   const SizedBox(height: 16),
                   TextField(
@@ -377,7 +378,7 @@ class _EventEditorState extends State<EventEditor> {
                       SizedBox(
                           width: 135,
                           child: CheckboxListTile(
-                            title: const Text("Ziel"),
+                            title: Text("Ziel",style: CustomTextSize.small),
                             value: _hasDonationTarget,
                             onChanged: (bool? value) {
                               setState(() {
@@ -409,7 +410,7 @@ class _EventEditorState extends State<EventEditor> {
                       SizedBox(
                           width: 135,
                           child: CheckboxListTile(
-                            title: const Text("Zweck"),
+                            title: Text("Zweck",style: CustomTextSize.small),
                             value: _hasProject,
                             onChanged: (bool? value) {
                               setState(() {
@@ -426,7 +427,7 @@ class _EventEditorState extends State<EventEditor> {
                   ),
                   if (widget.documentId == null)
                     CheckboxListTile(
-                      title: Text("Chat erstellen:"),
+                      title: Text("Chat erstellen:",style: CustomTextSize.small),
                       value: _createChat,
                       onChanged: (bool? value) {
                         setState(() {
@@ -464,9 +465,9 @@ class _EventEditorState extends State<EventEditor> {
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      children: const [
+                                      children:  [
                                           Icon(Icons.upload, size: 48),
-                                          Text("Bild auswählen")
+                                          Text("Bild auswählen",style: CustomTextSize.small)
                                         ])))),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -486,11 +487,11 @@ class _EventEditorState extends State<EventEditor> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(Icons.save),
                                   SizedBox(width: 4),
                                   Text("Speichern",
-                                      style: TextStyle(fontSize: 18))
+                                      style: CustomTextSize.small)
                                 ]),
                           ))),
                 ],
@@ -508,8 +509,9 @@ class _EventEditorState extends State<EventEditor> {
 //;
 //},
 
-const snackBar = SnackBar(
-  content: Text("Bitte einen Eventnamen eingeben"),
+final snackBar = SnackBar(
+  content: Text("Bitte einen Eventnamen eingeben",style: CustomTextSize.small),
+    backgroundColor: Colors.red,
 );
 
 class ProjectDropdown extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import '../../Widgets/privileges.dart';
 import 'event_editor.dart';
@@ -21,7 +22,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
   // Style
   final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = const TextStyle(fontSize: 16);
+  final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleDonation() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.eventId)));
@@ -37,17 +38,17 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Aktivität löschen'),
-          content: const Text('Sind Sie sich sicher, dass Sie diese Aktivität löschen möchten?'),
+          title:  Text('Aktivität löschen',style: CustomTextSize.medium),
+          content: Text('Sind Sie sich sicher, dass Sie diese Aktivität löschen möchten?',style: CustomTextSize.medium),
           actions: <Widget>[
             TextButton(
-              child: const Text('Abbrechen'),
+              child: Text('Abbrechen',style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: const Text('Löschen'),
+                child: Text('Löschen',style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.eventId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -101,7 +102,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
           return Scaffold(
               appBar: AppBar(
-                title: Text(title),
+                title: Text(title,style: CustomTextSize.medium),
               ),
               floatingActionButton: showEditButton
                   ? Column(
@@ -133,56 +134,56 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: const [
+                                        title: Row(children: [
                                           Icon(
                                             Icons.calendar_month,
                                             size: 16,
                                             color: Colors.black,
                                           ),
-                                          Text("Datum")
+                                          Text("Datum",style: CustomTextSize.medium)
                                         ]),
-                                        subtitle: Text(date, maxLines: 1),
+                                        subtitle: Text(date, maxLines: 1,style: CustomTextSize.medium),
                                       ))),
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: const [
+                                        title: Row(children: [
                                           Icon(
                                             Icons.location_on,
                                             size: 16,
                                             color: Colors.black,
                                           ),
-                                          Text("Ort")
+                                          Text("Ort",style: CustomTextSize.medium)
                                         ]),
-                                        subtitle: Text(location, maxLines: 1),
+                                        subtitle: Text(location, maxLines: 1,style: CustomTextSize.medium),
                                       ))),
                             ]),
                             Row(children: [
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: const [
+                                        title: Row(children: [
                                           Icon(
                                             Icons.supervised_user_circle,
                                             size: 16,
                                             color: Colors.black,
                                           ),
-                                          Text("Zweck")
+                                          Text("Zweck",style: CustomTextSize.medium)
                                         ]),
-                                        subtitle: Text(project, maxLines: 1),
+                                        subtitle: Text(project, maxLines: 1,style: CustomTextSize.medium),
                                       ))),
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: const [
+                                        title: Row(children: [
                                           Icon(
                                             Icons.crisis_alert,
                                             size: 16,
                                             color: Colors.black,
                                           ),
-                                          Text("Ziel")
+                                          Text("Ziel",style: CustomTextSize.medium)
                                         ]),
-                                        subtitle: Text(target, maxLines: 1),
+                                        subtitle: Text(target, maxLines: 1,style: CustomTextSize.medium),
                                       ))),
                             ]),
                             const SizedBox(height: 16),
@@ -193,9 +194,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             Center(
                                 child: ElevatedButton(
                                   onPressed: _handleDonation,
-                                  child: const Padding(
+                                  child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-                                      child: Text("Spenden", style: TextStyle(fontSize: 22))),
+                                      child: Text("Spenden",style: CustomTextSize.medium)),
                                 )),
                             const SizedBox(height: 32),
                           ],

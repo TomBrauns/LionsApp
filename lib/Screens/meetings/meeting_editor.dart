@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/meetings/meeting.dart';
 
+import '../../Widgets/textSize.dart';
 import '../../util/image_upload.dart';
 
 class MeetingEditor extends StatefulWidget {
@@ -246,10 +247,10 @@ class _MeetingEditorState extends State<MeetingEditor> {
                           onPressed: _handleSubmit,
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Icon(Icons.save),
                               SizedBox(width: 4),
-                              Text("Speichern", style: TextStyle(fontSize: 18))
+                              Text("Speichern",style: CustomTextSize.medium)
                             ]),
                           ))),
                 ],
@@ -258,6 +259,6 @@ class _MeetingEditorState extends State<MeetingEditor> {
   }
 }
 
-const snackBar = SnackBar(
-  content: Text("Bitte einen Name eingeben."),
+final snackBar = SnackBar(
+  content: Text("Bitte einen Name eingeben.",style: CustomTextSize.small),
 );

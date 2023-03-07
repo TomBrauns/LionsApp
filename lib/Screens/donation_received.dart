@@ -61,7 +61,7 @@ class DonationReceived extends StatelessWidget {
             margin: const EdgeInsets.all(25),
             child: ElevatedButton.icon(
               icon: const Icon(
-                Icons.receipt,
+                Icons.contact_support,
                 size: 24.0,
               ),
               label: Text('Kontaktformular',style: CustomTextSize.medium),
@@ -310,7 +310,6 @@ class _ShareDonationState extends State<ShareDonation> {
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
-
 
   @override
   Widget build(BuildContext context) {
