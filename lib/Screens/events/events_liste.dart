@@ -39,6 +39,7 @@ class _EventsState extends State<Events> {
   Widget? _getFAB() {
     if (Privileges.privilege == "Member" || Privileges.privilege == "Admin") {
       return FloatingActionButton(
+        mini: true,
         onPressed: () => _handleAddEvent(),
         backgroundColor: ColorUtils.secondaryColor,
         child: const Icon(Icons.add),
