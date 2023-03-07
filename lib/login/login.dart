@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/donation.dart';
@@ -32,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+
 
   @override
   void initState() {
@@ -231,7 +233,8 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        /* FutureBuilder(
+                        if(defaultTargetPlatform == TargetPlatform.iOS)
+                        FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
@@ -245,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                        ), */
+                        ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
