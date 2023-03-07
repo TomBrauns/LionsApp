@@ -69,6 +69,7 @@ class _RoomsPageState extends State<RoomsPage> {
       return null;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     if (_error) {
