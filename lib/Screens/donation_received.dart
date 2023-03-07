@@ -355,13 +355,14 @@ Future<void> shareToTwitter(String url) async {
   }
 }
 
+//Komm Mit
+
 class _ShareDonationState extends State<ShareDonation> {
 
   String? get eventId{
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
-
 
   @override
   Widget build(BuildContext context) {
