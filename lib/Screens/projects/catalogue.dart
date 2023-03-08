@@ -27,7 +27,7 @@ class _CatalogueState extends State<Catalogue> {
   // FAB with Priviledge
   //Copy that
   Widget? _getFAB() {
-    if (Privileges.privilege == "Admin") {
+    if (Privileges.privilege == Privilege.admin) {
       return FloatingActionButton(
         mini: true,
         backgroundColor: ColorUtils.secondaryColor,
@@ -43,9 +43,9 @@ class _CatalogueState extends State<Catalogue> {
   // BAB with Privilege
   //Copy that
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" ||
-        Privileges.privilege == "Member" ||
-        Privileges.privilege == "Friend") {
+    if (Privileges.privilege == Privilege.admin ||
+        Privileges.privilege == Privilege.member ||
+        Privileges.privilege == Privilege.friend) {
       return BottomNavigation();
     } else {
       return null;

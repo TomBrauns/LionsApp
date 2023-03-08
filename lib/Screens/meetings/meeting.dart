@@ -92,8 +92,8 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
 
           // Condition for showing the edit button: user must be member + creator OR user must be admin
           final String? userId = FirebaseAuth.instance.currentUser?.uid;
-          final bool showEditButton = userId != null && (Privileges.privilege == "Member" && creatorId == userId) ||
-              Privileges.privilege == "Admin";
+          final bool showEditButton = userId != null && (Privileges.privilege == Privilege.member && creatorId == userId) ||
+              Privileges.privilege == Privilege.admin;
 
           return Scaffold(
               appBar: AppBar(

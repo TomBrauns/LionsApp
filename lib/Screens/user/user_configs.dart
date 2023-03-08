@@ -231,10 +231,10 @@ class _UserState extends State<User> {
                   onPressed: () {
                     signOut();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           backgroundColor: Colors.green,
                           content: Text("Sie sind nun ausgeloggt"),
-                          duration: const Duration(seconds: 3),
+                          duration: Duration(seconds: 3),
                         ),
                       );
                       Navigator.push(
@@ -363,7 +363,7 @@ class _UserState extends State<User> {
 }
 
 Future<void> deleteAcc() async {
-  Privileges.privilege = "Guest";
+  Privileges.privilege = Privilege.guest;
   await FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -372,7 +372,7 @@ Future<void> deleteAcc() async {
 }
 
 Future<void> signOut() async {
-  Privileges.privilege = "Guest";
+  Privileges.privilege = Privilege.guest;
   await FirebaseAuth.instance.signOut();
 }
 

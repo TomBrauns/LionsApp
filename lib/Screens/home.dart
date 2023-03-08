@@ -13,7 +13,9 @@ class HomePage extends StatelessWidget {
   // BAB with Priviledge
   //Copy that
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend") {
+    if (Privileges.privilege == Privilege.admin ||
+        Privileges.privilege == Privilege.member ||
+        Privileges.privilege == Privilege.friend) {
       return BottomNavigation();
     } else {
       return null;

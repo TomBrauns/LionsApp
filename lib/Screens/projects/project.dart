@@ -82,7 +82,7 @@ class _ProjectState extends State<Project> {
         final String? imgUri = data['image_url'] ?? "";
         final String background = data['background'] ?? "";
         final String support = data['support'] ?? "";
-        final bool showEditButton = Privileges.privilege == "Admin";
+        final bool showEditButton = Privileges.privilege == Privilege.admin;
 
         return Scaffold(
             appBar: AppBar(

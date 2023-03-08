@@ -3,9 +3,16 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 //Rollen: Admin, Guest, Member, Friend
 
+enum Privilege {
+  admin,
+  guest,
+  member,
+  friend,
+}
+
 class Privileges extends StatefulWidget {
   const Privileges({super.key});
-  static String privilege = "Guest";
+  static Privilege privilege = Privilege.guest;
   @override
   State<Privileges> createState() => _PrivilegesState();
 }

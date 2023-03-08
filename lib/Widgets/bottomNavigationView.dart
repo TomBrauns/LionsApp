@@ -54,8 +54,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 icon: const Icon(Icons.chat, color: Colors.white),
               ),
             ),
-            if (Privileges.privilege == "Admin" ||
-                Privileges.privilege == "Member")
+            if (Privileges.privilege == Privilege.admin ||
+    Privileges.privilege == Privilege.member)
               Tooltip(
                 message: "Kalender",
                 decoration: const BoxDecoration(color: ColorUtils.primaryColor),

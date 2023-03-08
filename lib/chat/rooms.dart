@@ -63,7 +63,7 @@ class _RoomsPageState extends State<RoomsPage> {
     signUpForChatUser();
   }
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member") {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
       return BottomNavigation();
     } else {
       return null;

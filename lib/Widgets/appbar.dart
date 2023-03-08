@@ -24,13 +24,9 @@ class _MyAppBarState extends State<MyAppBar> {
           icon: const Icon(Icons.person),
           onPressed: () {
             Navigator.pop(context);
-            if (Privileges.privilege == "Member" ||
-                Privileges.privilege == "Friend" ||
-                Privileges.privilege == "Admin") {
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const User()),
-              );*/
+            if (Privileges.privilege == Privilege.admin ||
+                Privileges.privilege == Privilege.member ||
+                Privileges.privilege == Privilege.friend) {
               Navigator.pushNamed(context, '/User');
             } else {
               Navigator.pushNamed(context, '/Login');

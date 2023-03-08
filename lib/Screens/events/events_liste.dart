@@ -37,7 +37,8 @@ class _EventsState extends State<Events> {
   // FAB with Priviledge
   //Copy that
   Widget? _getFAB() {
-    if (Privileges.privilege == "Member" || Privileges.privilege == "Admin") {
+    if (Privileges.privilege == Privilege.admin ||
+        Privileges.privilege == Privilege.member) {
       return FloatingActionButton(
         mini: true,
         onPressed: () => _handleAddEvent(),
@@ -54,7 +55,9 @@ class _EventsState extends State<Events> {
   // BAB with Priviledge
   //Copy that
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend") {
+    if (Privileges.privilege == Privilege.admin ||
+        Privileges.privilege == Privilege.member ||
+        Privileges.privilege == Privilege.friend) {
       return BottomNavigation();
     } else {
       return null;
