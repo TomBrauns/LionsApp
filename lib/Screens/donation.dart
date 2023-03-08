@@ -82,6 +82,7 @@ class _DonationsState extends State<Donations> {
 
   @override
   Widget build(BuildContext context) {
+    print("Die EventId beim Aufruf: $eventId");
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
@@ -228,13 +229,17 @@ class _DonationsState extends State<Donations> {
                                                     newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
-                                                eventId ??=
-                                                    'mwYLrlsbZC5kZNPSEkJB';
+
+                                                if(eventId == "")
+                                                {
+                                                    eventId = '0000000000000000';
+                                                }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                                 if (FirebaseAuth
                                                         .instance.currentUser !=
                                                     null) {
+                                                  print("Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {

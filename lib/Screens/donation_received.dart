@@ -54,13 +54,19 @@ class DonationReceived extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (!snapshot.hasData || !snapshot.data!.exists) {
+            /*if (!snapshot.hasData || !snapshot.data!.exists) {
               return const Center(child: Text('Event nicht gefunden'));
+            }*/
+
+            final eventName;
+
+            if(eventId == '0000000000000000'){
+              eventName = 'Wichtigstes Event';
+            }else{
+              eventName = snapshot.data!.get('eventName');
             }
 
-            final eventName = snapshot.data!.get('eventName');
-            final message =
-                "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+            final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
             return Column(
               children: <Widget>[
