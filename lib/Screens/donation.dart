@@ -49,7 +49,6 @@ class _DonationsState extends State<Donations> {
     eventId = widget.interneId;
     projectId = widget.projectId;
 
-
     if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance
           .collection('events')
@@ -167,7 +166,8 @@ class _DonationsState extends State<Donations> {
                                         child: Text(donationTitle,
                                             textAlign: TextAlign.center,
                                             style: CustomTextSize.large)),
-                                    if (donationTarget != null && donationTarget.isNotEmpty)
+                                    if (donationTarget != null &&
+                                        donationTarget.isNotEmpty)
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 32),
@@ -205,13 +205,23 @@ class _DonationsState extends State<Donations> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
                                         child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: (MediaQuery.of(context).size.width > 400
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: (MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        400
                                                     ? [5, 10, 25, 50, 100]
                                                     : [5, 10, 25, 50])
-                                                .map((int amount) => FilledButton(
-                                                    onPressed: () => _handleAdd(amount),
-                                                    child: Text("+ $amount€", style: CustomTextSize.small)))
+                                                .map((int amount) =>
+                                                    FilledButton(
+                                                        onPressed: () =>
+                                                            _handleAdd(amount),
+                                                        child: Text(
+                                                            "+ $amount€",
+                                                            style:
+                                                                CustomTextSize
+                                                                    .small)))
                                                 .toList())),
                                     const SizedBox(height: 16),
                                     SizedBox(
@@ -230,16 +240,17 @@ class _DonationsState extends State<Donations> {
                                                 _inputController.text = "";
                                                 _handleAdd(0);
 
-                                                if(eventId == "")
-                                                {
-                                                    eventId = '0000000000000000';
+                                                if (eventId == null ||
+                                                    eventId == "") {
+                                                  eventId = '0000000000000000';
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                                 if (FirebaseAuth
                                                         .instance.currentUser !=
                                                     null) {
-                                                  print("Die EventID auf dem Zahl Screen: $eventId");
+                                                  print(
+                                                      "Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
@@ -279,13 +290,8 @@ class _DonationsState extends State<Donations> {
                                     ],
                                   )
                                 ],
-                              )
-                          )
-                      )
-                  )
-              );
-            })
-    );
+                              )))));
+            }));
   }
 
   // Test Value
@@ -307,9 +313,11 @@ class _DonationsState extends State<Donations> {
   void _handleAdd(int value) {
     final String updatedText;
     if (!kIsWeb) {
-      updatedText = formatter.format((_getCurrentValue() * 10 + value * 10).toString());
+      updatedText =
+          formatter.format((_getCurrentValue() * 10 + value * 10).toString());
     } else {
-      updatedText = formatter.format((_getCurrentValue() * 100 + value * 100).toString());
+      updatedText =
+          formatter.format((_getCurrentValue() * 100 + value * 100).toString());
     }
     _inputController.text = updatedText;
     setState(() {

@@ -23,23 +23,15 @@ void stripeSettings() {
 int calculateAmount(double amount) => (amount * 100).toInt();
 
 Future<bool?> stripeOnPressApp(
-    double amount, eventId, context, TEST, Endpoint) async {
+    double amount, eventId, context, Endpoint) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
 
-    switch (TEST) {
-      case true:
-        Map<String, dynamic> result = paymentIntent =
-            await createPaymentIntentTest(amount, 'EUR', eventId);
-        break;
-      case false:
-        Map<String, dynamic> result = paymentIntent =
-            await createPaymentIntent(amount, 'EUR', eventId, Endpoint);
-        break;
-    }
+    Map<String, dynamic> result = paymentIntent =
+        await createPaymentIntent(amount, 'EUR', eventId, Endpoint);
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -67,34 +59,6 @@ Future<bool?> stripeOnPressApp(
     returnvalue = false;
   }
   return returnvalue;
-}
-
-//TODO: Test Function to be removed before release
-Future<Map<String, dynamic>> createPaymentIntentTest(
-    double amount, String currency, eventId) async {
-  final amountInCents = calculateAmount(amount);
-  try {
-    // Request body
-    final body = {
-      'amount': amountInCents.toString(),
-      'currency': currency,
-      'description': eventId,
-    };
-
-    // Make post request to Stripe
-    final response = await http.post(
-      Uri.parse('https://api.stripe.com/v1/payment_intents'),
-      headers: {
-        'Authorization':
-            'Bearer sk_test_51Mf6KIGgaqubfEkYS7pbs6IfLklaHU6aXN0nb0tLBfkQvF0OOKrohYNpevT8eYJxAclTOlT3L2hU4aHrMjFsKUwU00O9gO7YOK',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: body,
-    );
-    return json.decode(response.body);
-  } catch (err, stackTrace) {
-    throw Exception('Failed to create payment intent: $err');
-  }
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
