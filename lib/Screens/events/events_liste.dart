@@ -51,7 +51,6 @@ class _EventsState extends State<Events> {
 
   // and use Function for Fab in Scaffold
 
-
   // BAB with Priviledge
   //Copy that
   Widget? _getBAB() {
@@ -61,7 +60,6 @@ class _EventsState extends State<Events> {
       return null;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -187,13 +185,24 @@ class _EventListState extends State<EventList> {
                                           Row(children: [
                                             const Icon(Icons.location_on, size: 16),
                                             const SizedBox(width: 4),
-                                            Text(event['ort']),
+                                            Expanded(
+                                              child: Text(
+                                                event['ort'],
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            )
                                           ]),
                                         if (event["startDate"] != null)
                                           Row(children: [
                                             const Icon(Icons.calendar_month, size: 16),
                                             const SizedBox(width: 4),
-                                            Text(dateFormat.format((event['startDate'] as Timestamp).toDate())),
+                                            Expanded(
+                                                child: Text(
+                                              dateFormat.format((event['startDate'] as Timestamp).toDate()),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            )),
                                           ]),
                                         const SizedBox(height: 4),
                                       ],
@@ -207,8 +216,7 @@ class _EventListState extends State<EventList> {
                       );
                     },
                   );
-                })
-        )
+                }))
       ],
     );
   }
