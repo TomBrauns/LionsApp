@@ -294,9 +294,6 @@ class _DonationsState extends State<Donations> {
             }));
   }
 
-  // Test Value
-  String privilege = "Member";
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _inputController = TextEditingController();
   bool _isReceiptChecked = false;
@@ -321,7 +318,9 @@ class _DonationsState extends State<Donations> {
     }
     _inputController.text = updatedText;
     setState(() {
-      _donationInput = _parseEuroStringToDouble((value / 100.0 + _getCurrentValue()).toString());
+      _donationInput = _getCurrentValue();
+      print("Test");
     });
+
   }
 }
