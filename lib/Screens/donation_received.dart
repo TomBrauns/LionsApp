@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lionsapp/util/color.dart';
@@ -38,102 +39,120 @@ class DonationReceived extends StatelessWidget {
       required this.amount,
       required this.eventId});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(title: "Danke für ihre Spende"),
         drawer: const BurgerMenu(),
-        body: Center(
-            child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(40),
-            padding: const EdgeInsets.all(40.0),
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(156, 141, 196, 241),
-                border: Border.all(
-                  color: ColorUtils.primaryColor,
-                )),
-            child: Text("Danke für ihre Spende von $amount€ an $eventId ."
-                "Wenn sie uns noch etwas mitteilen wollen, zögern sie nicht uns "
-                "über das Kontaktformular zu erreichen.",style: CustomTextSize.small),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.contact_support,
-                size: 24.0,
-              ),
-              label: Text('Kontaktformular',style: CustomTextSize.medium),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.primaryColor,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Contact');
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.receipt,
-                size: 24.0,
-              ),
-              label: Text('Quittung',style: CustomTextSize.medium),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.primaryColor,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ThankYou/Receipt');
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.share,
-                size: 24.0,
-              ),
-              label: Text('Teilen',style: CustomTextSize.medium),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.primaryColor,
-                elevation: 0,
-              ),
-              onPressed: () {
-                print("Rufe Share Button mit eventId auf: $eventId");
-                Navigator.pushNamed(context, '/ThankYou/ShareDonation',
-                arguments: {'eventId': eventId});
-              },
-            ),
-          ),
-          ButtonBar(
-            mainAxisSize: MainAxisSize.min,
-            // this will take space as minimum as possible(to center)
-            children: <Widget>[
-              ElevatedButton(
-                child: Text('Zurück zum Spenden',style: CustomTextSize.medium),
-                onPressed: () {
-                  // Push to Screen
-                  Navigator.pushNamed(context, '/Donations');
-                },
-              ),
+        body:
+            FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance.collection('events').doc(eventId).get(),
+              builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              ElevatedButton(
-                child: Text('Weitere Events',style: CustomTextSize.medium),
-                onPressed: () {
-                  // Update State of App
-                  Navigator.pop(context);
-                  // Push to Screen
-                  Navigator.pushNamed(context, '/Events');
-                },
-              ),
-            ],
-          ),
-        ])));
+                if(!snapshot.hasData || !snapshot.data!.exists){
+                  return const Center(child: Text('Event nicht gefunden'));
+                }
+
+                final eventName = snapshot.data!.get('eventName');
+                final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+
+                return Center(
+                    child: Column(children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.all(40),
+                        padding: const EdgeInsets.all(40.0),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(156, 141, 196, 241),
+                            border: Border.all(
+                              color: ColorUtils.primaryColor,
+                            )),
+                        child: Text(message,style: CustomTextSize.small),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(25),
+                        child: ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.contact_support,
+                            size: 24.0,
+                          ),
+                          label: Text('Kontaktformular',style: CustomTextSize.medium),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorUtils.primaryColor,
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/Contact');
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(25),
+                        child: ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.receipt,
+                            size: 24.0,
+                          ),
+                          label: Text('Quittung',style: CustomTextSize.medium),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorUtils.primaryColor,
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/ThankYou/Receipt');
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(25),
+                        child: ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.share,
+                            size: 24.0,
+                          ),
+                          label: Text('Teilen',style: CustomTextSize.medium),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorUtils.primaryColor,
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            print("Rufe Share Button mit eventId auf: $eventId");
+                            Navigator.pushNamed(context, '/ThankYou/ShareDonation',
+                                arguments: {'eventId': eventId});
+                          },
+                        ),
+                      ),
+                      ButtonBar(
+                        mainAxisSize: MainAxisSize.min,
+                        // this will take space as minimum as possible(to center)
+                        children: <Widget>[
+                          ElevatedButton(
+                            child: Text('Zurück zum Spenden',style: CustomTextSize.medium),
+                            onPressed: () {
+                              // Push to Screen
+                              Navigator.pushNamed(context, '/Donations');
+                            },
+                          ),
+
+                          ElevatedButton(
+                            child: Text('Weitere Events',style: CustomTextSize.medium),
+                            onPressed: () {
+                              // Update State of App
+                              Navigator.pop(context);
+                              // Push to Screen
+                              Navigator.pushNamed(context, '/Events');
+                            },
+                          ),
+                        ],
+                      ),
+                    ])
+                );
+              },
+            )
+        );
   }
 }
 
