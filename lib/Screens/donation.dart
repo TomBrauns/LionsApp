@@ -186,23 +186,7 @@ class _DonationsState extends State<Donations> {
                                                     onPressed: () => _handleAdd(amount),
                                                     child: Text("+ $amount€", style: CustomTextSize.small)))
                                                 .toList())),
-                                    const SizedBox(height: 24),
-                                    Row(children: [
-                                      Checkbox(
-                                        value: _isReceiptChecked,
-                                        onChanged: (checked) => setState(() {
-                                          _isReceiptChecked = checked ?? false;
-                                        }),
-                                      ),
-                                      InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _isReceiptChecked = !_isReceiptChecked;
-                                            });
-                                          },
-                                          child:
-                                              Text("Ich möchte eine Quittung erhalten.", style: CustomTextSize.small))
-                                    ]),
+
                                     const SizedBox(height: 16),
                                     SizedBox(
                                         width: double.infinity,
