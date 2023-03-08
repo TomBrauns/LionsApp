@@ -39,120 +39,156 @@ class DonationReceived extends StatelessWidget {
       required this.amount,
       required this.eventId});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(title: "Danke für ihre Spende"),
         drawer: const BurgerMenu(),
-        body:
-            FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('events').doc(eventId).get(),
-              builder: (context, snapshot){
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return const Center(child: CircularProgressIndicator());
-                }
+        body: FutureBuilder<DocumentSnapshot>(
+          future: FirebaseFirestore.instance
+              .collection('events')
+              .doc(eventId)
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-                if(!snapshot.hasData || !snapshot.data!.exists){
-                  return const Center(child: Text('Event nicht gefunden'));
-                }
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return const Center(child: Text('Event nicht gefunden'));
+            }
 
-                final eventName = snapshot.data!.get('eventName');
-                final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+            final eventName = snapshot.data!.get('eventName');
+            final message =
+                "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
-                return Center(
-                    child: Column(children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(40),
-                        padding: const EdgeInsets.all(40.0),
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(156, 141, 196, 241),
-                            border: Border.all(
-                              color: ColorUtils.primaryColor,
-                            )),
-                        child: Text(message,style: CustomTextSize.small),
+            return Column(
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(40),
+                  padding: const EdgeInsets.all(40.0),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(156, 141, 196, 241),
+                      border: Border.all(
+                        color: ColorUtils.primaryColor,
                       ),
-                      Container(
-                        margin: const EdgeInsets.all(25),
-                        child: ElevatedButton.icon(
-                          icon: const Icon(
-                            Icons.contact_support,
-                            size: 24.0,
-                          ),
-                          label: Text('Kontaktformular',style: CustomTextSize.medium),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorUtils.primaryColor,
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/Contact');
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(25),
-                        child: ElevatedButton.icon(
-                          icon: const Icon(
-                            Icons.receipt,
-                            size: 24.0,
-                          ),
-                          label: Text('Quittung',style: CustomTextSize.medium),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorUtils.primaryColor,
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/ThankYou/Receipt');
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(25),
-                        child: ElevatedButton.icon(
-                          icon: const Icon(
-                            Icons.share,
-                            size: 24.0,
-                          ),
-                          label: Text('Teilen',style: CustomTextSize.medium),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorUtils.primaryColor,
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            print("Rufe Share Button mit eventId auf: $eventId");
-                            Navigator.pushNamed(context, '/ThankYou/ShareDonation',
-                                arguments: {'eventId': eventId});
-                          },
-                        ),
-                      ),
-                      ButtonBar(
-                        mainAxisSize: MainAxisSize.min,
-                        // this will take space as minimum as possible(to center)
-                        children: <Widget>[
-                          ElevatedButton(
-                            child: Text('Zurück zum Spenden',style: CustomTextSize.medium),
-                            onPressed: () {
-                              // Push to Screen
-                              Navigator.pushNamed(context, '/Donations');
-                            },
-                          ),
-
-                          ElevatedButton(
-                            child: Text('Weitere Events',style: CustomTextSize.medium),
-                            onPressed: () {
-                              // Update State of App
-                              Navigator.pop(context);
-                              // Push to Screen
-                              Navigator.pushNamed(context, '/Events');
-                            },
-                          ),
-                        ],
-                      ),
-                    ])
-                );
-              },
-            )
-        );
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Text(message, style: CustomTextSize.small),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 100),
+                  width: 400,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.contact_support,
+                      size: 24.0,
+                    ),
+                    label:
+                        Text('Kontaktformular', style: CustomTextSize.medium),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorUtils.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/Contact');
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 100),
+                  width: 400,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.receipt,
+                      size: 24.0,
+                    ),
+                    label: Text('Quittung', style: CustomTextSize.medium),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorUtils.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/ThankYou/Receipt');
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 100),
+                  width: 400,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.share,
+                      size: 24.0,
+                    ),
+                    label: Text('Teilen', style: CustomTextSize.medium),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorUtils.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                    onPressed: () {
+                      print("Rufe Share Button mit eventId auf: $eventId");
+                      Navigator.pushNamed(context, '/ThankYou/ShareDonation',
+                          arguments: {'eventId': eventId});
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 100),
+                  width: 400,
+                  child: ElevatedButton(
+                    child: Text('Zurück zum Spenden',
+                        style: CustomTextSize.medium),
+                    onPressed: () {
+                      // Push to Screen
+                      Navigator.pushNamed(context, '/Donations');
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorUtils.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 100),
+                  width: 400,
+                  child: ElevatedButton(
+                    child: Text('Weitere Events', style: CustomTextSize.medium),
+                    onPressed: () {
+                      // Update State of App
+                      Navigator.pop(context);
+                      // Push to Screen
+                      Navigator.pushNamed(context, '/Events');
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorUtils.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                ),
+              ],
+            );
+          },
+        ));
   }
 }
 
@@ -170,7 +206,7 @@ class _ReceiptState extends State<Receipt> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Spendenquittung",style: CustomTextSize.large),
+          title: Text("Spendenquittung", style: CustomTextSize.large),
         ),
         body: Center(
             child: Column(children: <Widget>[
@@ -182,7 +218,7 @@ class _ReceiptState extends State<Receipt> {
                 Icons.download,
                 size: 24.0,
               ),
-              label: Text('PDF herunterladen',style: CustomTextSize.large),
+              label: Text('PDF herunterladen', style: CustomTextSize.large),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -204,7 +240,7 @@ class _ReceiptState extends State<Receipt> {
                 Icons.cloud_upload,
                 size: 24.0,
               ),
-              label: Text('Cloud hochladen',style: CustomTextSize.large),
+              label: Text('Cloud hochladen', style: CustomTextSize.large),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.primaryColor,
                 elevation: 0,
@@ -224,7 +260,8 @@ class _ReceiptState extends State<Receipt> {
             margin: const EdgeInsets.all(40),
             height: 50,
             child: Text(
-                "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",style: CustomTextSize.small),
+                "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",
+                style: CustomTextSize.small),
           ),
         ])));
   }
@@ -276,8 +313,6 @@ class _ReceiptState extends State<Receipt> {
 }
 
 class ShareDonation extends StatefulWidget {
-
-
   const ShareDonation({Key? key}) : super(key: key);
 
   @override
@@ -324,9 +359,9 @@ Future<void> shareToTwitter(String url) async {
 }
 
 class _ShareDonationState extends State<ShareDonation> {
-
-  String? get eventId{
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+  String? get eventId {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
