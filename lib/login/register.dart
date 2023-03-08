@@ -363,10 +363,8 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const AGB()),
-                                );
+                                Navigator.pushNamed(
+                                  context,'/Register/AGB');
                               }),
                         ]),
 

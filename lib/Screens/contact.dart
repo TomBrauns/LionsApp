@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
-import 'package:cloud_functions/cloud_functions.dart' as functions;
+
 import '../util/color.dart';
 
 class Contact extends StatefulWidget {
@@ -22,6 +20,25 @@ class _ContactState extends State<Contact> {
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
 
+  void _handleSubmit() {
+    String text = "Sie haben eine neue Nachricht von:\n";
+    text += "Name: ${_nameController.text}\n";
+    text += "E-Mail: ${_emailController.text}\n";
+    text += "\n";
+    text += _messageController.text;
+    FirebaseFirestore.instance.collection("mail").add({
+      "to": "teamlions@web.de",
+      "message": {"subject": _subjectController.text, "text": text}
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Ihre Kontaktanfrage wurde versendet!'),
+        backgroundColor: ColorUtils.secondaryColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(top: 64),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +56,8 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    helperText: 'Mit diesem Namen werden Sie zukünftig ansprechen.',
+                    helperText:
+                        'Mit diesem Namen werden Sie zukünftig ansprechen.',
                     labelText: 'Vor- und Nachname',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
@@ -56,17 +74,23 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    helperText: 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
+                    helperText:
+                        'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     labelText: 'E-Mail-Adresse',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.';
+                    if (value!.length == 0) {
+                      return "Email darf nicht leer sein";
                     }
-                    return null;
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                        .hasMatch(value)) {
+                      return ("Bitte gültige Email Adresse angeben");
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 const SizedBox(height: 16),
@@ -74,7 +98,8 @@ class _ContactState extends State<Contact> {
                   controller: _subjectController,
                   decoration: const InputDecoration(
                     labelText: 'Betreff',
-                    helperText: 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    helperText:
+                        'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
@@ -107,7 +132,25 @@ class _ContactState extends State<Contact> {
                 ),
                 const SizedBox(height: 32),
                 Center(
-                  child: ElevatedButton(onPressed: _handleSubmit, child: Text("Senden", style: CustomTextSize.large)),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _handleSubmit();
+
+
+
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Bitte überprüfen Sie ihre Eingaben!'),
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(top: 64),
+                          ),
+                          );
+                        }
+                      },
+                      child: Text("Senden", style: CustomTextSize.large)),
                 ),
                 const SizedBox(height: 32),
               ],
@@ -116,30 +159,5 @@ class _ContactState extends State<Contact> {
         ),
       ),
     );
-  }
-
-  void _handleSubmit() {
-    String text = "Sie haben eine neue Nachricht von:\n";
-    text += "Name: ${_nameController.text}\n";
-    text += "E-Mail: ${_emailController.text}\n";
-    text += "\n";
-    text += _messageController.text;
-    FirebaseFirestore.instance.collection("mail").add({
-      "to": "teamlions@web.de",
-      "message": {"subject": _subjectController.text, "text": text}
-    }).then((_) {
-      _nameController.text = "";
-      _emailController.text = "";
-      _subjectController.text = "";
-      _messageController.text = "";
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Ihre Kontaktanfrage wurde versendet!'),
-          backgroundColor: ColorUtils.secondaryColor,
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(top: 64),
-        ),
-      );
-    });
   }
 }
