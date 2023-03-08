@@ -168,7 +168,8 @@ class _ChatPageState extends State<ChatPage> {
     if (kIsWeb) {
       final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
       final name = file!.name;
-      final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
+      final uniqueId = UniqueKey().toString();
+      final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(uniqueId).child(name);
       //Web
       final bytes = await file!.readAsBytes();
       await reference.putData(bytes);
@@ -193,9 +194,12 @@ class _ChatPageState extends State<ChatPage> {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         await _checkPermission();
       }
-      //final result = await _picker.getImage(source: ImageSource.gallery),;
 
-      final result = await _picker.getImage(source: ImageSource.gallery);
+      //final result = await _picker.getImage(source: ImageSource.gallery);
+
+      final result = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
 
       /*var result = await ImagePicker().pickImage(
             imageQuality: 70,
@@ -209,8 +213,7 @@ class _ChatPageState extends State<ChatPage> {
         final size = file.lengthSync();
         final bytes = await result.readAsBytes();
         final image = await decodeImageFromList(bytes);
-        final name = "Test";
-        //final name = result.name;
+        final name = result.name;
 
         try {
           final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
