@@ -322,7 +322,6 @@ class _DonationsState extends State<Donations> {
     _inputController.text = updatedText;
     setState(() {
       _donationInput = _getCurrentValue();
-      print("Test");
     });
 
   }
