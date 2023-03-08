@@ -20,8 +20,6 @@ import 'package:flutter/foundation.dart'
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
 double amount = 40.00;
-String eventId = "evenid";
-bool TEST = false;
 String Endpoint = "http://l4c.projekte.it.hs-worms.de:5000";
 
 bool paymentSuccess = false;
@@ -82,7 +80,7 @@ class _PaymethodeState extends State<Paymethode> {
     String tokenId = tokenData['id'];
     print(tokenId);
     Map<String, dynamic>? result =
-        await payProcessing(tokenId, amount, eventId, TEST, Endpoint);
+        await payProcessing(tokenId, amount, eventId, Endpoint);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
       Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
@@ -121,10 +119,10 @@ class _PaymethodeState extends State<Paymethode> {
                     )),
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
-                    paypalOnPressApp(amount, eventId, context, TEST, Endpoint);
+                    paypalOnPressApp(amount, eventId, context, Endpoint);
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     paypalOnPressWeb(
-                        amount, eventId, context, baseUrl, TEST, Endpoint);
+                        amount, eventId, context, baseUrl, Endpoint);
                   }
                 },
                 child: Row(
@@ -152,7 +150,7 @@ class _PaymethodeState extends State<Paymethode> {
                 onPressed: () async {
                   if (GetPlatform.currentPlatform != GetPlatform.web) {
                     paymentSuccess = (await stripeOnPressApp(
-                        amount, eventId, context, TEST, Endpoint))!;
+                        amount, eventId, context, Endpoint))!;
                     if (paymentSuccess == false) {
                       showErrorSnackbar(context);
                     } else if (paymentSuccess == true) {
@@ -163,7 +161,7 @@ class _PaymethodeState extends State<Paymethode> {
                     }
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     stripeOnPressWeb(
-                        amount, eventId, context, baseUrl, TEST, Endpoint);
+                        amount, eventId, context, baseUrl, Endpoint);
                   }
                 },
                 child: Row(
