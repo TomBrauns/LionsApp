@@ -68,5 +68,4 @@ var routes = <String, WidgetBuilder>{
   '/EULA': (context) => const AGB(),
   '/Login': (context) => const LoginPage(),
   '/Register': (context) => Register(),
-  '/LogOut': (context) => const LogOut(),
 };

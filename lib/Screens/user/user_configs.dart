@@ -216,6 +216,7 @@ class _UserState extends State<User> {
                   },
                 ),
               ),
+
               Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
@@ -229,11 +230,19 @@ class _UserState extends State<User> {
                   ),
                   onPressed: () {
                     signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LogOut()),
-                    );
-                  },
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text("Sie sind nun ausgeloggt"),
+                          duration: const Duration(seconds: 3),
+                        ),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Donations()),
+                      );
+                    },
+
                 ),
               ),
               Container(
@@ -474,58 +483,6 @@ class _AccessibilityState extends State<Accessibility> {
               ),
             ]))),
     ));
-  }
-}
-
-class LogOut extends StatefulWidget {
-  const LogOut({super.key});
-
-  @override
-  State<LogOut> createState() => _LogOutState();
-}
-
-class _LogOutState extends State<LogOut> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ausgeloggt"),
-      ),
-      body: Center(
-          child: Column(children: [
-        Container(
-          margin: const EdgeInsets.all(40),
-          padding: const EdgeInsets.all(40.0),
-          decoration: BoxDecoration(
-            color: ColorUtils.secondaryColor,
-            border: Border.all(color: ColorUtils.primaryColor),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text("Schade, dass du dich ausgeloggt hast. "
-              "Wir hoffen, dich bald wieder, bei den Lions, begrüßen zu dürfen.",style: CustomTextSize.small),
-        ),
-        Container(
-          margin: const EdgeInsets.all(25),
-          child: ElevatedButton.icon(
-            icon: const Icon(
-              Icons.keyboard_return,
-              size: 24.0,
-            ),
-            label: Text('Zurück zum Start',style: CustomTextSize.medium),
-            style: ElevatedButton.styleFrom(
-              primary: ColorUtils.primaryColor,
-              elevation: 0,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Donations()),
-              );
-            },
-          ),
-        ),
-      ])),
-    );
   }
 }
 

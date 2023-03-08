@@ -369,7 +369,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Privileges.privilege == "Friend"
               ? ListTile(
             leading: const Icon(Icons.logout),
-            title: Text('Log Out',style: CustomTextSize.small),
+            title: Text('Ausloggen',style: CustomTextSize.small),
             selected: isMenuSelected(15),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -380,10 +380,14 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pop(context);
               // Push to Screen
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LogOut()),
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text("Sie sind nun ausgeloggt"),
+                  duration: const Duration(seconds: 3),
+                ),
               );
+              Navigator.pushNamed(context, '/Donations');
               signOut();
             },
           )
