@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
+import 'package:lionsapp/login/agb.dart';
 import 'package:lionsapp/util/color.dart';
 import 'firebase_options.dart';
 import 'package:lionsapp/login/login.dart';
@@ -112,6 +113,9 @@ class _MyAppState extends State<MyApp> {
                 amount: Paypalreturn[3] as double,
                 eventId: Paypalreturn[4]),
           );
+        } else if (uri.path == '/AGB') {
+          final bool onRegister = uri.queryParameters['onRegister'] as bool;
+          return MaterialPageRoute(builder: (_) => AGB(onRegister: onRegister));
         }
 
         // Rückgabe einer Standardroute, falls keine passende Route gefunden wurde

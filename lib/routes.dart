@@ -68,5 +68,4 @@ var routes = <String, WidgetBuilder>{
   '/AGB': (context) => const AGB(),
   '/Login': (context) => const LoginPage(),
   '/Register': (context) => Register(),
-  '/Register/AGB': (context) => const AGB(),
 };

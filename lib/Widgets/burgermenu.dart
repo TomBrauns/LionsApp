@@ -72,7 +72,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: Text('Startseite',style: CustomTextSize.small),
+            title: Text('Startseite', style: CustomTextSize.small),
             selected: isMenuSelected(0),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -87,7 +87,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.card_giftcard),
-            title: Text('Spenden',style: CustomTextSize.small),
+            title: Text('Spenden', style: CustomTextSize.small),
             selected: isMenuSelected(1),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -105,7 +105,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == Privilege.friend
               ? ListTile(
                   leading: const Icon(Icons.badge),
-                  title: Text('Benutzer',style: CustomTextSize.small),
+                  title: Text('Benutzer', style: CustomTextSize.small),
                   selected: isMenuSelected(2),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -124,7 +124,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   Privileges.privilege == Privilege.friend
               ? ListTile(
                   leading: const Icon(Icons.calendar_month_rounded),
-                  title: Text('Kalender',style: CustomTextSize.small),
+                  title: Text('Kalender', style: CustomTextSize.small),
                   selected: isMenuSelected(3),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -138,42 +138,43 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-              ListTile(
-                  leading: const Icon(Icons.event),
-                  title: Text('Aktivitäten',style: CustomTextSize.small),
-                  selected: isMenuSelected(4),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 4;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.pushNamed(context, '/Events');
-                  },
-                ),
+          ListTile(
+            leading: const Icon(Icons.event),
+            title: Text('Aktivitäten', style: CustomTextSize.small),
+            selected: isMenuSelected(4),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 4;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.pushNamed(context, '/Events');
+            },
+          ),
 
-              ListTile(
-                  leading: const Icon(Icons.book),
-                  title: Text('Katalog',style: CustomTextSize.small),
-                  selected: isMenuSelected(5),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 5;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.pushNamed(context, '/Catalogue');
-                  },
-                ),
+          ListTile(
+            leading: const Icon(Icons.book),
+            title: Text('Katalog', style: CustomTextSize.small),
+            selected: isMenuSelected(5),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 5;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.pushNamed(context, '/Catalogue');
+            },
+          ),
 
-          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member
+          Privileges.privilege == Privilege.admin ||
+                  Privileges.privilege == Privilege.member
               ? ListTile(
                   leading: const Icon(Icons.chat),
-                  title: Text('Chat',style: CustomTextSize.small),
+                  title: Text('Chat', style: CustomTextSize.small),
                   selected: isMenuSelected(6),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -195,7 +196,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.contact_support),
-            title: Text('Kontakt',style: CustomTextSize.small),
+            title: Text('Kontakt', style: CustomTextSize.small),
             selected: isMenuSelected(7),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -210,7 +211,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.format_align_justify_outlined),
-            title: Text('Impressum',style: CustomTextSize.small),
+            title: Text('Impressum', style: CustomTextSize.small),
             selected: isMenuSelected(8),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -225,7 +226,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.check_box),
-            title: Text("AGB's",style: CustomTextSize.small),
+            title: Text("AGB's", style: CustomTextSize.small),
             selected: isMenuSelected(9),
             selectedTileColor: selectedColor,
             onTap: () {
@@ -235,13 +236,14 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/AGB');
+              Navigator.pushNamed(context, '/AGB',
+                  arguments: {'onRegister': 'false'});
             },
           ),
 
           Privileges.privilege == Privilege.admin ||
-              Privileges.privilege == Privilege.member ||
-              Privileges.privilege == Privilege.friend
+                  Privileges.privilege == Privilege.member ||
+                  Privileges.privilege == Privilege.friend
               ? const ListTile(
                   title: Text(
                     'Member Seiten',
@@ -252,10 +254,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
 
           Privileges.privilege == Privilege.admin ||
-              Privileges.privilege == Privilege.member
+                  Privileges.privilege == Privilege.member
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
-                  title: Text('Aktivität erstellen', style: CustomTextSize.small),
+                  title:
+                      Text('Aktivität erstellen', style: CustomTextSize.small),
                   selected: isMenuSelected(10),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -274,27 +277,26 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           Privileges.privilege == Privilege.admin ||
-              Privileges.privilege == Privilege.member
-
+                  Privileges.privilege == Privilege.member
               ? ListTile(
-            leading: const Icon(Icons.add_circle),
-            title: Text('Meeting erstellen', style: CustomTextSize.small),
-            selected: isMenuSelected(11),
-            selectedTileColor: selectedColor,
-            onTap: () {
-              setState(() {
-                AppData.selected = 11;
-              });
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MeetingEditor()),
-              );
-            },
-          )
+                  leading: const Icon(Icons.add_circle),
+                  title: Text('Meeting erstellen', style: CustomTextSize.small),
+                  selected: isMenuSelected(11),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 11;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MeetingEditor()),
+                    );
+                  },
+                )
               : Container(),
 
           /// Following functions are for Admins only
@@ -310,7 +312,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == Privilege.admin
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
-                  title: Text('Nutzerverwaltung',style: CustomTextSize.small),
+                  title: Text('Nutzerverwaltung', style: CustomTextSize.small),
                   selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -320,7 +322,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context,'/ChangeRole');
+                    Navigator.pushNamed(context, '/ChangeRole');
                   },
                 )
               : Container(),
@@ -332,69 +334,68 @@ class _BurgerMenuState extends State<BurgerMenu> {
 
           Privileges.privilege == Privilege.guest
               ? ListTile(
-            leading: const Icon(Icons.app_registration),
-            title: Text('Registrierung',style: CustomTextSize.small),
-            selected: isMenuSelected(13),
-            selectedTileColor: selectedColor,
-            onTap: () {
-              setState(() {
-                AppData.selected = 13;
-              });
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.pushNamed(context, '/Register');
-            },
-          )
+                  leading: const Icon(Icons.app_registration),
+                  title: Text('Registrierung', style: CustomTextSize.small),
+                  selected: isMenuSelected(13),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 13;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Register');
+                  },
+                )
               : Container(),
 
           Privileges.privilege == Privilege.guest
               ? ListTile(
-            leading: const Icon(Icons.login),
-            title: Text('Login',style: CustomTextSize.small),
-            selected: isMenuSelected(14),
-            selectedTileColor: selectedColor,
-            onTap: () {
-              setState(() {
-                AppData.selected = 14;
-              });
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
-              Navigator.pushNamed(context, '/Login');
-            },
-          )
+                  leading: const Icon(Icons.login),
+                  title: Text('Login', style: CustomTextSize.small),
+                  selected: isMenuSelected(14),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 14;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Login');
+                  },
+                )
               : Container(),
 
           Privileges.privilege == Privilege.admin ||
-              Privileges.privilege == Privilege.member ||
-              Privileges.privilege == Privilege.friend
+                  Privileges.privilege == Privilege.member ||
+                  Privileges.privilege == Privilege.friend
               ? ListTile(
-            leading: const Icon(Icons.logout),
-            title: Text('Ausloggen',style: CustomTextSize.small),
-            selected: isMenuSelected(15),
-            selectedTileColor: selectedColor,
-            onTap: () {
-              setState(() {
-                AppData.selected = 15;
-              });
-              // Update State of App
-              Navigator.pop(context);
-              // Push to Screen
+                  leading: const Icon(Icons.logout),
+                  title: Text('Ausloggen', style: CustomTextSize.small),
+                  selected: isMenuSelected(15),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 15;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  backgroundColor: Colors.green,
-                  content: Text("Sie sind nun ausgeloggt"),
-                  duration: Duration(seconds: 3),
-                ),
-              );
-              Navigator.pushNamed(context, '/Donations');
-              signOut();
-            },
-          )
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Sie sind nun ausgeloggt"),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                    Navigator.pushNamed(context, '/Donations');
+                    signOut();
+                  },
+                )
               : Container(),
-
         ],
       ),
     );

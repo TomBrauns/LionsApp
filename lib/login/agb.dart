@@ -3,7 +3,8 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import '../Widgets/appbar.dart';
 
 class AGB extends StatefulWidget {
-  const AGB({Key? key}) : super(key: key);
+  final bool? onRegister;
+  const AGB({Key? key, this.onRegister}) : super(key: key);
 
   @override
   State<AGB> createState() => _AGBState();
@@ -15,7 +16,7 @@ class _AGBState extends State<AGB> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: "AGB's"),
-      drawer: BurgerMenu(),
+      drawer: widget.onRegister == false ? BurgerMenu() : null,
       body: Scrollbar(
           thickness: 5.0,
           thumbVisibility: false,
