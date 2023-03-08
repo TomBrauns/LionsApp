@@ -169,7 +169,7 @@ class _DonationsState extends State<Donations> {
                                         child: Text(donationTitle,
                                             textAlign: TextAlign.center,
                                             style: CustomTextSize.large)),
-                                    if (donationTarget != null)
+                                    if (donationTarget != null && donationTarget.isNotEmpty)
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 32),
@@ -206,18 +206,13 @@ class _DonationsState extends State<Donations> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
                                         child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [5, 10, 25, 50, 100]
-                                                .map((int amount) =>
-                                                    FilledButton(
-                                                        onPressed: () =>
-                                                            _handleAdd(amount),
-                                                        child: Text(
-                                                            "+ $amount€",
-                                                            style:
-                                                                CustomTextSize
-                                                                    .small)))
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: (MediaQuery.of(context).size.width > 400
+                                                    ? [5, 10, 25, 50, 100]
+                                                    : [5, 10, 25, 50])
+                                                .map((int amount) => FilledButton(
+                                                    onPressed: () => _handleAdd(amount),
+                                                    child: Text("+ $amount€", style: CustomTextSize.small)))
                                                 .toList())),
                                     const SizedBox(height: 16),
                                     SizedBox(
