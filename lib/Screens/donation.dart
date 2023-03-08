@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
@@ -294,8 +295,12 @@ class _DonationsState extends State<Donations> {
   }
 
   void _handleAdd(int value) {
-    final String updatedText =
-        formatter.format((_getCurrentValue() * 10 + value * 10).toString());
+    final String updatedText;
+    if (!kIsWeb) {
+      updatedText = formatter.format((_getCurrentValue() * 10 + value * 10).toString());
+    } else {
+      updatedText = formatter.format((_getCurrentValue() * 100 + value * 100).toString());
+    }
     _inputController.text = updatedText;
     setState(() {
       _donationInput = _parseEuroStringToDouble(updatedText);
