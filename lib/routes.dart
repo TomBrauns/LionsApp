@@ -65,7 +65,7 @@ var routes = <String, WidgetBuilder>{
   //'/Catalogue/Project' + Project.documentId: (context) => Project(documentId: documentId),
   '/Imprint': (context) => const Imprint(),
   '/Contact': (context) => const Contact(),
-  '/AGB': (context) => const AGB(),
+  '/AGB': (context) => AGB(onRegister: false),
   '/Login': (context) => const LoginPage(),
   '/Register': (context) => Register(),
 };

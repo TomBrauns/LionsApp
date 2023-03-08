@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import '../Widgets/appbar.dart';
 
-class AGB extends StatefulWidget {
-  final bool? onRegister;
-  const AGB({Key? key, this.onRegister}) : super(key: key);
+class AGB extends StatelessWidget {
+  final bool onRegister;
+  AGB({Key? key, required this.onRegister}) : super(key: key);
 
-  @override
-  State<AGB> createState() => _AGBState();
-}
-
-class _AGBState extends State<AGB> {
   var scrollcontroller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: "AGB's"),
-      drawer: widget.onRegister == false ? BurgerMenu() : null,
+      drawer: onRegister == false ? BurgerMenu() : null,
       body: Scrollbar(
           thickness: 5.0,
           thumbVisibility: false,

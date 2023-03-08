@@ -114,8 +114,18 @@ class _MyAppState extends State<MyApp> {
                 eventId: Paypalreturn[4]),
           );
         } else if (uri.path == '/AGB') {
-          final bool onRegister = uri.queryParameters['onRegister'] as bool;
-          return MaterialPageRoute(builder: (_) => AGB(onRegister: onRegister));
+          var onRegister = uri.queryParameters['onRegister'];
+          bool onRegisterbool = true;
+          switch (onRegister) {
+            case 'true':
+              onRegisterbool = true;
+              break;
+            case 'false':
+              onRegisterbool = false;
+              break;
+          }
+          return MaterialPageRoute(
+              builder: (_) => AGB(onRegister: onRegisterbool));
         }
 
         // Rückgabe einer Standardroute, falls keine passende Route gefunden wurde

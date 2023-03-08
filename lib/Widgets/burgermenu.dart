@@ -236,8 +236,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/AGB',
-                  arguments: {'onRegister': 'false'});
+              Navigator.pushNamed(context, '/AGB?onRegister=false');
             },
           ),
 

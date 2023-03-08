@@ -393,8 +393,8 @@ class _RegisterState extends State<Register> {
                                     ),
                                   ),
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/AGB',
-                                        arguments: {'onRegister': 'true'});
+                                    Navigator.pushNamed(
+                                        context, '/AGB?onRegister=true');
                                   }),
                             ]),
 
