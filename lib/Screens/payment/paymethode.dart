@@ -67,6 +67,7 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
+
     urlPaymentValidate(context);
   }
 
