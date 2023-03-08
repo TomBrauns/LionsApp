@@ -321,7 +321,9 @@ class _DonationsState extends State<Donations> {
     }
     _inputController.text = updatedText;
     setState(() {
-      _donationInput = _parseEuroStringToDouble((value / 100.0 + _getCurrentValue()).toString());
+      _donationInput = _getCurrentValue();
+      print("Test");
     });
+
   }
 }
