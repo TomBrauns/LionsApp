@@ -235,7 +235,8 @@ class _DonationsState extends State<Donations> {
                                                     newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
-                                                eventId ??= '00000';
+                                                eventId ??=
+                                                    'mwYLrlsbZC5kZNPSEkJB';
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                                 if (FirebaseAuth

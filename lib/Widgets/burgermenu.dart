@@ -238,72 +238,6 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/EULA');
             },
           ),
-          const ListTile(
-            title: Text('Konto Seiten',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            tileColor: Color.fromARGB(255, 211, 211, 211),
-          ),
-
-          Privileges.privilege == "Guest"
-              ? ListTile(
-                  leading: const Icon(Icons.app_registration),
-                  title: Text('Registrierung',style: CustomTextSize.small),
-                  selected: isMenuSelected(10),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 10;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.pushNamed(context, '/Register');
-                  },
-                )
-              : Container(),
-
-          Privileges.privilege == "Guest"
-              ? ListTile(
-                  leading: const Icon(Icons.login),
-                  title: Text('Login',style: CustomTextSize.small),
-                  selected: isMenuSelected(11),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 11;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    Navigator.pushNamed(context, '/Login');
-                  },
-                )
-              : Container(),
-
-          Privileges.privilege == "Admin" ||
-                  Privileges.privilege == "Member" ||
-                  Privileges.privilege == "Friend"
-              ? ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: Text('Log Out',style: CustomTextSize.small),
-                  selected: isMenuSelected(12),
-                  selectedTileColor: selectedColor,
-                  onTap: () {
-                    setState(() {
-                      AppData.selected = 12;
-                    });
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LogOut()),
-                    );
-                    signOut();
-                  },
-                )
-              : Container(),
 
           Privileges.privilege == "Admin" ||
                   Privileges.privilege == "Member" ||
@@ -321,11 +255,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
                   title: Text('Aktivität erstellen', style: CustomTextSize.small),
-                  selected: isMenuSelected(13),
+                  selected: isMenuSelected(10),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 13;
+                      AppData.selected = 10;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -343,11 +277,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
             leading: const Icon(Icons.add_circle),
             title: Text('Meeting erstellen', style: CustomTextSize.small),
-            selected: isMenuSelected(14),
+            selected: isMenuSelected(11),
             selectedTileColor: selectedColor,
             onTap: () {
               setState(() {
-                AppData.selected = 14;
+                AppData.selected = 11;
               });
               // Update State of App
               Navigator.pop(context);
@@ -375,11 +309,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
                   title: Text('Nutzerverwaltung',style: CustomTextSize.small),
-                  selected: isMenuSelected(15),
+                  selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 15;
+                      AppData.selected = 12;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -388,6 +322,77 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
+          const ListTile(
+            title: Text('Konto Seiten',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            tileColor: Color.fromARGB(255, 211, 211, 211),
+          ),
+
+          Privileges.privilege == "Guest"
+              ? ListTile(
+            leading: const Icon(Icons.app_registration),
+            title: Text('Registrierung',style: CustomTextSize.small),
+            selected: isMenuSelected(13),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 13;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.pushNamed(context, '/Register');
+            },
+          )
+              : Container(),
+
+          Privileges.privilege == "Guest"
+              ? ListTile(
+            leading: const Icon(Icons.login),
+            title: Text('Login',style: CustomTextSize.small),
+            selected: isMenuSelected(14),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 14;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+              Navigator.pushNamed(context, '/Login');
+            },
+          )
+              : Container(),
+
+          Privileges.privilege == "Admin" ||
+              Privileges.privilege == "Member" ||
+              Privileges.privilege == "Friend"
+              ? ListTile(
+            leading: const Icon(Icons.logout),
+            title: Text('Ausloggen',style: CustomTextSize.small),
+            selected: isMenuSelected(15),
+            selectedTileColor: selectedColor,
+            onTap: () {
+              setState(() {
+                AppData.selected = 15;
+              });
+              // Update State of App
+              Navigator.pop(context);
+              // Push to Screen
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text("Sie sind nun ausgeloggt"),
+                  duration: const Duration(seconds: 3),
+                ),
+              );
+              Navigator.pushNamed(context, '/Donations');
+              signOut();
+            },
+          )
+              : Container(),
+
         ],
       ),
     );
