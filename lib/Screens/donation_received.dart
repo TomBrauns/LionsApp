@@ -60,13 +60,14 @@ class DonationReceived extends StatelessWidget {
 
             final eventName;
 
-            if(eventId == '0000000000000000'){
+            if (eventId == '0000000000000000') {
               eventName = 'Wichtigstes Event';
-            }else{
+            } else {
               eventName = snapshot.data!.get('eventName');
             }
 
-            final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+            final message =
+                "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
             return Column(
               children: <Widget>[
@@ -83,7 +84,6 @@ class DonationReceived extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 100),
                   width: 400,
                   child: ElevatedButton.icon(
                     icon: const Icon(
@@ -106,7 +106,6 @@ class DonationReceived extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 100),
                   width: 400,
                   child: ElevatedButton.icon(
                     icon: const Icon(
@@ -128,7 +127,6 @@ class DonationReceived extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 100),
                   width: 400,
                   child: ElevatedButton.icon(
                     icon: const Icon(
@@ -152,7 +150,6 @@ class DonationReceived extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 100),
                   width: 400,
                   child: ElevatedButton(
                     child: Text('Zurück zum Spenden',
@@ -172,7 +169,6 @@ class DonationReceived extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 100),
                   width: 400,
                   child: ElevatedButton(
                     child: Text('Weitere Events', style: CustomTextSize.medium),
