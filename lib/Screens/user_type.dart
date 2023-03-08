@@ -18,6 +18,11 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
     return args?['eventId'];
   }
 
+  double get amount {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['amount'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +53,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
-                    arguments: {'eventId': eventId});
+                    arguments: {'eventId': eventId, 'amount': amount});
               },
               child: Text('Als Gast fortfahren', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(

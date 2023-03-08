@@ -19,21 +19,12 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-double amount = 40.00;
 String Endpoint = "http://l4c.projekte.it.hs-worms.de:5000";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
 
 String returnUrl = Uri.base.toString();
-
-var _paymentItems = [
-  PaymentItem(
-    label: 'Spende',
-    amount: amount.toString(),
-    status: PaymentItemStatus.final_price,
-  )
-];
 
 class Paymethode extends StatefulWidget {
   final String? token;
@@ -60,6 +51,11 @@ class _PaymethodeState extends State<Paymethode> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
+  }
+
+  double get amount {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['amount'];
   }
 
   @override
@@ -97,6 +93,13 @@ class _PaymethodeState extends State<Paymethode> {
 
   @override
   Widget build(BuildContext context) {
+    final paymentItems = [
+      PaymentItem(
+        label: 'Spende',
+        amount: amount.toString(),
+        status: PaymentItemStatus.final_price,
+      )
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Zahlungsmethode"),
@@ -181,7 +184,7 @@ class _PaymethodeState extends State<Paymethode> {
                   builder: (context, snapshot) => snapshot.hasData
                       ? ApplePayButton(
                           paymentConfiguration: snapshot.data!,
-                          paymentItems: _paymentItems,
+                          paymentItems: paymentItems,
                           type: ApplePayButtonType.donate,
                           margin: const EdgeInsets.only(top: 15.0),
                           onPaymentResult: onApplePayResult,
@@ -197,7 +200,7 @@ class _PaymethodeState extends State<Paymethode> {
                   builder: (context, snapshot) => snapshot.hasData
                       ? GooglePayButton(
                           paymentConfiguration: snapshot.data!,
-                          paymentItems: _paymentItems,
+                          paymentItems: paymentItems,
                           type: GooglePayButtonType.donate,
                           margin: const EdgeInsets.only(top: 15.0),
                           onPaymentResult: onGooglePayResult,
