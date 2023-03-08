@@ -22,7 +22,7 @@ import 'package:flutter/foundation.dart'
 double amount = 40.00;
 String eventId = "evenid";
 bool TEST = false;
-String Endpoint = "https://6b26-143-93-182-79.eu.ngrok.io";
+String Endpoint = "http://l4c.projekte.it.hs-worms.de:5000";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
