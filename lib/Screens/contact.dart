@@ -57,8 +57,7 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    helperText:
-                        'Mit diesem Namen werden Sie zukünftig ansprechen.',
+                    helperText: 'Mit diesem Namen werden wir Sie zukünftig ansprechen.',
                     labelText: 'Vor- und Nachname',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
@@ -66,7 +65,7 @@ class _ContactState extends State<Contact> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Mit diesem Namen werden Sie zukünftig ansprechen.';
+                      return 'Mit diesem Namen werden wir Sie zukünftig ansprechen.';
                     }
                     return null;
                   },
@@ -75,8 +74,7 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    helperText:
-                        'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
+                    helperText: 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     labelText: 'E-Mail-Adresse',
@@ -86,8 +84,7 @@ class _ContactState extends State<Contact> {
                     if (value!.length == 0) {
                       return "Email darf nicht leer sein";
                     }
-                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                        .hasMatch(value)) {
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
                       return ("Bitte gültige Email Adresse angeben");
                     } else {
                       return null;
@@ -99,8 +96,7 @@ class _ContactState extends State<Contact> {
                   controller: _subjectController,
                   decoration: const InputDecoration(
                     labelText: 'Betreff',
-                    helperText:
-                        'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    helperText: 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
@@ -140,8 +136,7 @@ class _ContactState extends State<Contact> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content:
-                                  Text('Bitte überprüfen Sie ihre Eingaben!'),
+                              content: Text('Bitte überprüfen Sie ihre Eingaben!'),
                               backgroundColor: Colors.red,
                               behavior: SnackBarBehavior.floating,
                               margin: EdgeInsets.only(top: 64),
