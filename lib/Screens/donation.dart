@@ -169,7 +169,7 @@ class _DonationsState extends State<Donations> {
                                         child: Text(donationTitle,
                                             textAlign: TextAlign.center,
                                             style: CustomTextSize.large)),
-                                    if (donationTarget != null)
+                                    if (donationTarget != null && donationTarget.isNotEmpty)
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 32),
