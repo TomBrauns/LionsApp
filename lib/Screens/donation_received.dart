@@ -30,9 +30,6 @@ class DonationReceived extends StatelessWidget {
   DonationReceived({super.key, this.token, this.paymentId, this.PayerID, required this.amount, required this.eventId});
 
   Future<void> sendMailWithReceipt(String eventName) async {
-    /* test */
-
-    /* test */
     final userId = FirebaseAuth.instance.currentUser!.uid;
     final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final userData = docSnapshot.data() as Map<String, dynamic>;
@@ -41,8 +38,6 @@ class DonationReceived extends StatelessWidget {
     String eMail = userData['email'] as String;
 
     var pdf = await _ReceiptState()._handlePdfUpload();
-
-    //
 
     var data = {
       'mailOptions': {
@@ -96,8 +91,10 @@ class DonationReceived extends StatelessWidget {
             }
 
             final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
-            sendMailWithReceipt(eventName);
 
+            if (FirebaseAuth.instance.currentUser != null) {
+              sendMailWithReceipt(eventName);
+            }
             return Column(
               children: <Widget>[
                 Container(
@@ -112,17 +109,39 @@ class DonationReceived extends StatelessWidget {
                   child: Text(message, style: CustomTextSize.small),
                 ),
                 if (amount >= 300)
-                  Container(
-                    margin: const EdgeInsets.all(40),
-                    padding: const EdgeInsets.all(40.0),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(156, 141, 196, 241),
-                        border: Border.all(
-                          color: ColorUtils.primaryColor,
-                        ),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(message, style: CustomTextSize.small),
-                  ),
+                  Column(children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.all(40),
+                      padding: const EdgeInsets.all(40.0),
+                      decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(
+                            color: Colors.amber,
+                          ),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Text('Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Sachzuwendung an den Lions Club Kaiserslautern', style: CustomTextSize.small),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      width: 400,
+                      child: ElevatedButton(
+                        child: Text('zur Zuwendungsbestätigung', style: CustomTextSize.medium),
+                        onPressed: () {
+                          // Update State of App
+                          Navigator.pop(context);
+                          // Push to Screen
+                          Navigator.pushNamed(context, '/ThankYou/Receipt');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.amber,
+                            elevation: 0,
+                            padding: const EdgeInsets.all(10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
+                      ),
+                    ),
+                  ]),
                 Container(
                   padding: const EdgeInsets.all(20.0),
                   width: 400,

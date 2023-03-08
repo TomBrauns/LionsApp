@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:lionsapp/Screens/donation.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/login/login.dart';
 
 import '../../Widgets/burgermenu.dart';
 
@@ -61,7 +62,7 @@ class Authentication {
         FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
           (DocumentSnapshot documentSnapshot) {
             if (documentSnapshot.exists) {
-              Privileges.privilege = documentSnapshot.get('rool');
+              checkRool();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
