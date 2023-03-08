@@ -39,6 +39,7 @@ class _ContactState extends State<Contact> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,17 +137,15 @@ class _ContactState extends State<Contact> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _handleSubmit();
-
-
-
-                        }else{
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Bitte überprüfen Sie ihre Eingaben!'),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.only(top: 64),
-                          ),
+                            const SnackBar(
+                              content:
+                                  Text('Bitte überprüfen Sie ihre Eingaben!'),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.only(top: 64),
+                            ),
                           );
                         }
                       },
