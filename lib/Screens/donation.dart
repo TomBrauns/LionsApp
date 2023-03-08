@@ -82,7 +82,6 @@ class _DonationsState extends State<Donations> {
 
   @override
   Widget build(BuildContext context) {
-    print("Die EventId beim Aufruf: $eventId");
     return Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const BurgerMenu(),
@@ -123,7 +122,7 @@ class _DonationsState extends State<Donations> {
                       sponsorImgUrl = data["sponsor_img_url"] as String?;
                     }
                     if (data.containsKey("currentDonationValue")) {
-                      donationCounter = data["currentDonationValue"];
+                      donationCounter = data["currentDonationValue"].toDouble();
                     }
                   }
                 } else if (projectId != null && projectId!.isNotEmpty) {
@@ -177,7 +176,8 @@ class _DonationsState extends State<Donations> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * 100).toString())} / $donationTarget",
+                                                //Im Web wird mit 100cent = 1€ gerechnet, auf Mobile sind 10ct = 1€
+                                                  "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * (kIsWeb ? 100 : 10)).toString())} / $donationTarget",
                                                   style: CustomTextSize.large),
                                               DualLinearProgressIndicator(
                                                 maxValue:
@@ -296,7 +296,12 @@ class _DonationsState extends State<Donations> {
   bool _isReceiptChecked = false;
 
   double _getCurrentValue() {
-    return _parseEuroStringToDouble(_inputController.text);
+    String text = _inputController.text;
+    if (text.isEmpty) {
+      return 0.0;
+    } else {
+      return _parseEuroStringToDouble(text);
+    }
   }
 
   void _handleAdd(int value) {
@@ -308,7 +313,7 @@ class _DonationsState extends State<Donations> {
     }
     _inputController.text = updatedText;
     setState(() {
-      _donationInput = _parseEuroStringToDouble(updatedText);
+      _donationInput = _parseEuroStringToDouble((value / 100.0 + _getCurrentValue()).toString());
     });
   }
 }
