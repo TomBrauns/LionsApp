@@ -272,8 +272,8 @@ class _UserState extends State<User> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.medium),
-                Text('Die Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.medium),
+                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.small),
+                Text('Der Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.small),
               ],
             ),
           ),
