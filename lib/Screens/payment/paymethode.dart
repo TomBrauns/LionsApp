@@ -39,7 +39,7 @@ class Paymethode extends StatefulWidget {
   final String? token;
   final String? paymentId;
   final String? PayerID;
-  final String amount;
+  final double amount;
   final String eventId;
 
   const Paymethode(
