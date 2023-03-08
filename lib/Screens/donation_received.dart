@@ -53,7 +53,7 @@ class DonationReceived extends StatelessWidget {
     var data = {
       'mailOptions': {
         'from': 'Team Lions',
-        'to': 'willaschekmikulas@gmail.com',
+        'to': eMail,
         'subject': 'Danke für Ihre Spende! Ihre Spendenquittung',
         'text': 'Hallo $firstName $lastName \nWir bedanken uns recht herzlich für Ihre Spende an $eventName in Höhe von $amount!.\n'
             'Damit tust etwas gutes usw.\n'
