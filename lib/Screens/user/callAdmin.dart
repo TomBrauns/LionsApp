@@ -34,6 +34,8 @@ class UserRoleList extends StatefulWidget {
 class _UserRoleListState extends State<UserRoleList> {
   final List<String> _roleOptions = ['Friend', 'Member', 'Admin'];
   final _userStream = FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) => snapshot.docs);
+  final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+
   String _searchQuery = "";
 
   @override
@@ -71,7 +73,19 @@ class _UserRoleListState extends State<UserRoleList> {
                 );
               }
 
-              final users = snapshot.data!.where((user) => (user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) || (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) || (user.get("lastname") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+              final users = snapshot.data!
+                  .where((user) =>
+              user.id != currentUserUid &&
+                  ((user.get("email") as String)
+                      .toLowerCase()
+                      .contains(_searchQuery.toLowerCase()) ||
+                      (user.get("firstname") as String)
+                          .toLowerCase()
+                          .contains(_searchQuery.toLowerCase()) ||
+                      (user.get("lastname") as String)
+                          .toLowerCase()
+                          .contains(_searchQuery.toLowerCase())));
+
 
               return ListView.builder(
                 itemCount: users.length,
