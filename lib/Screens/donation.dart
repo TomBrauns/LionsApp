@@ -48,9 +48,6 @@ class _DonationsState extends State<Donations> {
     eventId = widget.interneId;
     projectId = widget.projectId;
 
-    //print("Hier EventID: $eventId");
-    //print("Hier ProjectID: $projectId");
-    //print("Hier widget id: ${widget.interneId}");
 
     if (eventId != null && eventId!.isNotEmpty) {
       _documentStream = FirebaseFirestore.instance
@@ -276,10 +273,13 @@ class _DonationsState extends State<Donations> {
                                     ],
                                   )
                                 ],
-                              )))));
-
-              //return Text('Document data: $data');
-            }));
+                              )
+                          )
+                      )
+                  )
+              );
+            })
+    );
   }
 
   // Test Value
@@ -295,7 +295,7 @@ class _DonationsState extends State<Donations> {
 
   void _handleAdd(int value) {
     final String updatedText =
-        formatter.format((_getCurrentValue() * 100 + value * 100).toString());
+        formatter.format((_getCurrentValue() * 10 + value * 10).toString());
     _inputController.text = updatedText;
     setState(() {
       _donationInput = _parseEuroStringToDouble(updatedText);
