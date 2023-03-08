@@ -254,13 +254,15 @@ class _DonationsState extends State<Donations> {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
-                                                        'eventId': eventId
+                                                        'eventId': eventId,
+                                                        'amount': currentValue
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType',
                                                       arguments: {
-                                                        'eventId': eventId
+                                                        'eventId': eventId,
+                                                        'amount': currentValue
                                                       });
                                                 }
                                               }
