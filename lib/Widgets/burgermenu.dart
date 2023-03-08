@@ -235,7 +235,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               // Update State of App
               Navigator.pop(context);
               // Push to Screen
-              Navigator.pushNamed(context, '/EULA');
+              Navigator.pushNamed(context, '/AGB');
             },
           ),
 
