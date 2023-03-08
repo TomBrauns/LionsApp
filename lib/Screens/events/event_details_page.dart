@@ -182,7 +182,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                             size: 16,
                                             color: Colors.black,
                                           ),
-                                          Text("Ziel",style: CustomTextSize.medium)
+                                          Text("Spendenziel",style: CustomTextSize.medium)
                                         ]),
                                         subtitle: Text(target, maxLines: 1,style: CustomTextSize.medium),
                                       ))),
