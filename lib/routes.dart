@@ -31,21 +31,21 @@ var routes = <String, WidgetBuilder>{
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login': (context) => const LoginPage(),
   '/Donations/UserType/PayMethode': (context) => const Paymethode(
-        amount: "",
+        amount: 0,
         eventId: "",
       ),
   '/Donations/UserType/PayMethode/success': (context) => const Paymethode(
-        amount: "",
+        amount: 0,
         eventId: "",
       ),
   '/Donations/UserType/PayMethode/cancel': (context) => const Paymethode(
-        amount: "",
+        amount: 0,
         eventId: "",
       ),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(
-        amount: "",
+        amount: 0,
         eventId: "",
       ),
   '/ThankYou/ShareDonation': (context) => const ShareDonation(),

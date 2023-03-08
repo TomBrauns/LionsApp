@@ -18,17 +18,11 @@ import 'package:universal_html/html.dart' as html;
 
 import '../Widgets/textSize.dart';
 
-// Test Values
-// ignore: non_constant_identifier_names
-String DonationProjectName = "Test Projekt";
-// ignore: non_constant_identifier_names
-var DonationAmount = 1;
-
 class DonationReceived extends StatelessWidget {
   final String? token;
   final String? paymentId;
   final String? PayerID;
-  final String amount;
+  final double amount;
   final String eventId;
 
   DonationReceived(
@@ -61,6 +55,7 @@ class DonationReceived extends StatelessWidget {
             final eventName;
 
             if (eventId == '0000000000000000') {
+              print(amount.runtimeType);
               eventName = 'Wichtigstes Event';
             } else {
               eventName = snapshot.data!.get('eventName');
@@ -82,6 +77,18 @@ class DonationReceived extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)),
                   child: Text(message, style: CustomTextSize.small),
                 ),
+                if (amount >= 300)
+                  Container(
+                    margin: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40.0),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(156, 141, 196, 241),
+                        border: Border.all(
+                          color: ColorUtils.primaryColor,
+                        ),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Text(message, style: CustomTextSize.small),
+                  ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
                   width: 400,
