@@ -31,7 +31,9 @@ class _DonationsState extends State<Donations> {
   // BAB with Priviledge
   //Copy that
   Widget? _getBAB() {
-    if (Privileges.privilege == "Admin" || Privileges.privilege == "Member" || Privileges.privilege == "Friend") {
+    if (Privileges.privilege == "Admin" ||
+        Privileges.privilege == "Member" ||
+        Privileges.privilege == "Friend") {
       return BottomNavigation();
     } else {
       return null;
@@ -51,9 +53,15 @@ class _DonationsState extends State<Donations> {
     //print("Hier widget id: ${widget.interneId}");
 
     if (eventId != null && eventId!.isNotEmpty) {
-      _documentStream = FirebaseFirestore.instance.collection('events').doc(eventId).snapshots();
+      _documentStream = FirebaseFirestore.instance
+          .collection('events')
+          .doc(eventId)
+          .snapshots();
     } else if (projectId != null && projectId!.isNotEmpty) {
-      _documentStream = FirebaseFirestore.instance.collection("projects").doc(projectId).snapshots();
+      _documentStream = FirebaseFirestore.instance
+          .collection("projects")
+          .doc(projectId)
+          .snapshots();
     }
   }
 
@@ -93,12 +101,14 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
+              String donationTitle =
+                  "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               double donationCounter = 0.0;
 
               if (snapshot.hasData && snapshot.data!.exists) {
-                Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
+                Map<String, dynamic>? data =
+                    snapshot.data!.data() as Map<String, dynamic>?;
                 if (eventId != null && eventId!.isNotEmpty) {
                   if (data != null) {
                     if (data.containsKey("spendenZiel")) {
@@ -126,9 +136,12 @@ class _DonationsState extends State<Donations> {
 
               Future<void> _updateDonationValue(double newDonationValue) async {
                 try {
-                  final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
+                  final documentReference = FirebaseFirestore.instance
+                      .collection('events')
+                      .doc(eventId);
 
-                  await documentReference.update({'currentDonationValue': newDonationValue});
+                  await documentReference
+                      .update({'currentDonationValue': newDonationValue});
                 } catch (e) {
                   return null;
                 }
@@ -140,31 +153,42 @@ class _DonationsState extends State<Donations> {
                       padding: const EdgeInsets.all(16),
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
-                              minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height - 32),
+                              minHeight: MediaQuery.of(context).size.height -
+                                  AppBar().preferredSize.height -
+                                  32),
                           child: Form(
                               key: _formKey,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(children: [
                                     SizedBox(
                                         width: double.infinity,
                                         child: Text(donationTitle,
-                                            textAlign: TextAlign.center, style: CustomTextSize.large)),
+                                            textAlign: TextAlign.center,
+                                            style: CustomTextSize.large)),
                                     if (donationTarget != null)
                                       Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 32),
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                          Text(
-                                              "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * 100).toString())} / $donationTarget",
-                                              style: CustomTextSize.large),
-                                          DualLinearProgressIndicator(
-                                            maxValue: _parseEuroStringToDouble(donationTarget),
-                                            progressValue: donationCounter.toDouble(),
-                                            addValue: _donationInput,
-                                          )
-                                        ]),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 32),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * 100).toString())} / $donationTarget",
+                                                  style: CustomTextSize.large),
+                                              DualLinearProgressIndicator(
+                                                maxValue:
+                                                    _parseEuroStringToDouble(
+                                                        donationTarget),
+                                                progressValue:
+                                                    donationCounter.toDouble(),
+                                                addValue: _donationInput,
+                                              )
+                                            ]),
                                       )
                                     else
                                       const SizedBox(height: 64),
@@ -174,56 +198,85 @@ class _DonationsState extends State<Donations> {
                                       onChanged: _handleInputChange,
                                       inputFormatters: [formatter],
                                       keyboardType: TextInputType.number,
-                                      decoration:
-                                          const InputDecoration(border: OutlineInputBorder(), hintText: "Betrag"),
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "Betrag"),
                                     ),
                                     Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
                                         child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
                                             children: [5, 10, 25, 50, 100]
-                                                .map((int amount) => FilledButton(
-                                                    onPressed: () => _handleAdd(amount),
-                                                    child: Text("+ $amount€", style: CustomTextSize.small)))
+                                                .map((int amount) =>
+                                                    FilledButton(
+                                                        onPressed: () =>
+                                                            _handleAdd(amount),
+                                                        child: Text(
+                                                            "+ $amount€",
+                                                            style:
+                                                                CustomTextSize
+                                                                    .small)))
                                                 .toList())),
-
                                     const SizedBox(height: 16),
                                     SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
-                                              double currentValue = _getCurrentValue();
-                                              double newDonationValue = donationCounter + currentValue;
+                                              double currentValue =
+                                                  _getCurrentValue();
+                                              double newDonationValue =
+                                                  donationCounter +
+                                                      currentValue;
                                               if (currentValue > 0.0) {
                                                 await _updateDonationValue(
                                                     newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
+                                                eventId ??= '00000';
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                                if (FirebaseAuth.instance.currentUser != null) {
-                                                  Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
-                                                      arguments: {'eventId': eventId});
+                                                if (FirebaseAuth
+                                                        .instance.currentUser !=
+                                                    null) {
+                                                  Navigator.pushNamed(context,
+                                                      '/Donations/UserType/PayMethode',
+                                                      arguments: {
+                                                        'eventId': eventId
+                                                      });
                                                 } else {
-                                                  Navigator.pushNamed(context, '/Donations/UserType',
-                                                      arguments: {'eventId': eventId});
+                                                  Navigator.pushNamed(context,
+                                                      '/Donations/UserType',
+                                                      arguments: {
+                                                        'eventId': eventId
+                                                      });
                                                 }
                                               }
                                             },
                                             child: Container(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text("Spenden", style: CustomTextSize.large)))),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text("Spenden",
+                                                    style: CustomTextSize
+                                                        .large)))),
                                   ]),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      if (sponsor != null && sponsor.isNotEmpty) const SizedBox(height: 64),
                                       if (sponsor != null && sponsor.isNotEmpty)
-                                        Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
-                                      if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
+                                        const SizedBox(height: 64),
+                                      if (sponsor != null && sponsor.isNotEmpty)
+                                        Text("Gesponsort von $sponsor",
+                                            style: CustomTextSize.medium),
+                                      if (sponsorImgUrl != null &&
+                                          sponsorImgUrl.isNotEmpty)
                                         Image.network(sponsorImgUrl,
-                                            height: 128, width: double.infinity, fit: BoxFit.contain)
+                                            height: 128,
+                                            width: double.infinity,
+                                            fit: BoxFit.contain)
                                     ],
                                   )
                                 ],
@@ -245,7 +298,8 @@ class _DonationsState extends State<Donations> {
   }
 
   void _handleAdd(int value) {
-    final String updatedText = formatter.format((_getCurrentValue() * 100 + value * 100).toString());
+    final String updatedText =
+        formatter.format((_getCurrentValue() * 100 + value * 100).toString());
     _inputController.text = updatedText;
     setState(() {
       _donationInput = _parseEuroStringToDouble(updatedText);
