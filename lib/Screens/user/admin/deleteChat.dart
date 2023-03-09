@@ -76,8 +76,11 @@ class _ChatRoomListState extends State<ChatRoomList> {
                 itemCount: groupChats.length,
                 itemBuilder: (context, index) {
                   final room = groupChats.elementAt(index);
-                  return ListTile(
-                    title: Text("${room["name"]}"),
+                  return InkWell(
+                    child: ListTile(
+                      title: Text("${room["name"]}"),
+                      onTap: () => showMyDialog(room.id, room['name']),
+                    ),
                   );
                 },
               );
@@ -85,6 +88,51 @@ class _ChatRoomListState extends State<ChatRoomList> {
           ),
         )
       ],
+    );
+  }
+
+  Future<void> deleteRoom(String? roomID) async {
+    await FirebaseFirestore.instance.collection('rooms').doc(roomID).delete();
+    await FirebaseAuth.instance.currentUser!.delete();
+  }
+
+  Future<void> showMyDialog(String roomID, String roomName) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Wollen Sie den Chat $roomName wirklich löschen?', style: CustomTextSize.small),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Abbrechen', style: CustomTextSize.small),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text('Bestätigen', style: CustomTextSize.small),
+              onPressed: () {
+                deleteRoom(roomID);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Chat wurde gelöscht',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

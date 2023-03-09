@@ -98,12 +98,6 @@ class _UserRoleListState extends State<UserRoleList> {
                     child: ListTile(
                       title: Text("${user["firstname"]} ${user["lastname"]}"),
                       subtitle: Text(user["email"]),
-                      /* trailing: MaterialButton(
-                        onPressed: () {
-                          deleteAcc(user.id);
-                        },
-                        child: Text('löschen'),
-                      ), */
                       onTap: () => showMyDialog(user.id, user['firstname'], user['lastname']),
                     ),
                   );
@@ -138,10 +132,11 @@ class _UserRoleListState extends State<UserRoleList> {
               child: Text('Bestätigen', style: CustomTextSize.small),
               onPressed: () {
                 deleteAcc(id);
+                Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      'Ihr Account wurde gelöscht',
+                      'Der Account von wurde gelöscht',
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.green,
