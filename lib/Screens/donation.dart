@@ -142,6 +142,8 @@ class _DonationsState extends State<Donations> {
               }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
+
+
               return SingleChildScrollView(
                   child: Container(
                       padding: const EdgeInsets.all(16),
