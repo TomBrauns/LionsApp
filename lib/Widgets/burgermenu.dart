@@ -3,7 +3,7 @@ import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
 import 'package:lionsapp/Screens/meetings/meeting_editor.dart';
 import 'package:lionsapp/Screens/newPassword.dart';
-import 'package:lionsapp/Screens/user/callAdmin.dart';
+import 'package:lionsapp/Screens/user/admin/callAdmin.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
@@ -58,8 +58,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
-                child: Image.asset("assets/appicon/lions_white.png",
-                    fit: BoxFit.contain),
+                child: Image.asset("assets/appicon/lions_white.png", fit: BoxFit.contain),
               ),
             ),
           ),
@@ -100,9 +99,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               Navigator.pushNamed(context, '/Donations');
             },
           ),
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member ||
-                  Privileges.privilege == Privilege.friend
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member || Privileges.privilege == Privilege.friend
               ? ListTile(
                   leading: const Icon(Icons.badge),
                   title: Text('Benutzer', style: CustomTextSize.small),
@@ -119,9 +116,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member ||
-                  Privileges.privilege == Privilege.friend
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member || Privileges.privilege == Privilege.friend
               ? ListTile(
                   leading: const Icon(Icons.calendar_month_rounded),
                   title: Text('Kalender', style: CustomTextSize.small),
@@ -170,8 +165,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
 
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member
               ? ListTile(
                   leading: const Icon(Icons.chat),
                   title: Text('Chat', style: CustomTextSize.small),
@@ -190,8 +184,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
               : Container(),
 
           const ListTile(
-            title: Text('Info Seiten',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Info Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
           ListTile(
@@ -240,9 +233,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
             },
           ),
 
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member ||
-                  Privileges.privilege == Privilege.friend
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member || Privileges.privilege == Privilege.friend
               ? const ListTile(
                   title: Text(
                     'Member Seiten',
@@ -252,12 +243,10 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
 
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
-                  title:
-                      Text('Aktivität erstellen', style: CustomTextSize.small),
+                  title: Text('Aktivität erstellen', style: CustomTextSize.small),
                   selected: isMenuSelected(10),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -269,14 +258,12 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const EventEditor()),
+                      MaterialPageRoute(builder: (context) => const EventEditor()),
                     );
                   },
                 )
               : Container(),
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member
               ? ListTile(
                   leading: const Icon(Icons.add_circle),
                   title: Text('Meeting erstellen', style: CustomTextSize.small),
@@ -291,8 +278,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Push to Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const MeetingEditor()),
+                      MaterialPageRoute(builder: (context) => const MeetingEditor()),
                     );
                   },
                 )
@@ -326,8 +312,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
           const ListTile(
-            title: Text('Konto Seiten',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('Konto Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
           ),
 
@@ -367,9 +352,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                 )
               : Container(),
 
-          Privileges.privilege == Privilege.admin ||
-                  Privileges.privilege == Privilege.member ||
-                  Privileges.privilege == Privilege.friend
+          Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member || Privileges.privilege == Privilege.friend
               ? ListTile(
                   leading: const Icon(Icons.logout),
                   title: Text('Ausloggen', style: CustomTextSize.small),
