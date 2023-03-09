@@ -26,19 +26,17 @@ class User extends StatefulWidget {
 }
 
 class _UserState extends State<User> {
-
   bool _permissionGranted = false;
 
-  Future<void> _checkPermission() async{
+  Future<void> _checkPermission() async {
     final status = await Permission.photos.request();
     setState(() {
       _permissionGranted = status == PermissionStatus.granted;
     });
   }
 
-
-
   @override
+  bool test = true;
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
@@ -65,7 +63,6 @@ class _UserState extends State<User> {
                       textStyle: TextStyle(fontSize: 10),
                     ),
                     onPressed: () async {
-
                       if (defaultTargetPlatform == TargetPlatform.iOS) {
                         await _checkPermission();
                       }
@@ -74,20 +71,11 @@ class _UserState extends State<User> {
                       if (user != null) {
                         final XFile? file = await ImageUpload.selectImage();
                         if (file != null) {
-                          final String uniqueFilename =
-                              DateTime.now().millisecondsSinceEpoch.toString();
-                          final String? imageUrl =
-                              await ImageUpload.uploadImage(file, "user_images",
-                                  user.uid, uniqueFilename);
+                          final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+                          final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
                           if (imageUrl != null) {
-                            await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(user.uid)
-                                .update({"image_url": imageUrl});
-                            await FirebaseFirestore.instance
-                                .collection('user_chat')
-                                .doc(user.uid)
-                                .update({"imageUrl": imageUrl});
+                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                            await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"imageUrl": imageUrl});
                           }
                         }
                       } else {
@@ -111,6 +99,24 @@ class _UserState extends State<User> {
                       'Sie müssen sich zuerst anmelden!',
                       style: TextStyle(color: Colors.red),
                     ),
+                  Switch.adaptive(
+                    value: test,
+                    onChanged: (newValue) {
+                      setState(
+                        () {
+                          test = newValue;
+                          final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+                          docRef.update(
+                            {
+                              'receiveNotification': newValue,
+                            },
+                          );
+                        },
+                      );
+                    },
+                    activeColor: Colors.blue,
+                  ),
+                  Text('App Benachrichtigungen ausschalten', style: TextStyle(fontSize: 12)),
                 ],
               ),
               Container(
@@ -210,13 +216,11 @@ class _UserState extends State<User> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const Accessibility()),
+                      MaterialPageRoute(builder: (context) => const Accessibility()),
                     );
                   },
                 ),
               ),
-
               Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
@@ -230,19 +234,18 @@ class _UserState extends State<User> {
                   ),
                   onPressed: () {
                     signOut();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text("Sie sind nun ausgeloggt"),
-                          duration: Duration(seconds: 3),
-                        ),
-                      );
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Donations()),
-                      );
-                    },
-
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Sie sind nun ausgeloggt"),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Donations()),
+                    );
+                  },
                 ),
               ),
               Container(
@@ -288,7 +291,7 @@ class _UserState extends State<User> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Abbrechen',style: CustomTextSize.small),
+              child: Text('Abbrechen', style: CustomTextSize.small),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -297,7 +300,7 @@ class _UserState extends State<User> {
               },
             ),
             TextButton(
-              child: Text('Bestätigen',style: CustomTextSize.small),
+              child: Text('Bestätigen', style: CustomTextSize.small),
               onPressed: () {
                 deleteAcc();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -325,12 +328,8 @@ class _UserState extends State<User> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .snapshots(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
@@ -364,10 +363,7 @@ class _UserState extends State<User> {
 
 Future<void> deleteAcc() async {
   Privileges.privilege = Privilege.guest;
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .delete();
+  await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).delete();
   await FirebaseAuth.instance.currentUser!.delete();
 }
 
@@ -394,13 +390,7 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>[
-  'keins',
-  'Protanopie',
-  'Deuteranopie',
-  'Tritanopie',
-  'Achromatopsie'
-];
+const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -414,75 +404,85 @@ class _AccessibilityState extends State<Accessibility> {
   double _currentSliderValue = 20;
   double _textSize = 20.0; // store the current text size here
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Bedienungshilfe"),
-        ),
-        body: Builder(
+      appBar: AppBar(
+        title: Text("Bedienungshilfe"),
+      ),
+      body: Builder(
         builder: (context) => DefaultTextStyle(
-        style: TextStyle(fontSize: _textSize),
-        child:Center(
+          style: TextStyle(fontSize: _textSize),
+          child: Center(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Text("Fontgröße: ${_currentSliderValue.round()}"),
-              Slider(
-                value: _currentSliderValue,
-                min: 14,
-                max: 30,
-                divisions: 16,
-                label: _currentSliderValue.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                },
-              ),
-              Text("Farbenblindheitsmodus"),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
-                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                underline: Container(
-                  height: 2,
-                  color: const Color.fromARGB(255, 0, 0, 0),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Fontgröße: ${_currentSliderValue.round()}"),
+                Slider(
+                  value: _currentSliderValue,
+                  min: 14,
+                  max: 30,
+                  divisions: 16,
+                  label: _currentSliderValue.round().toString(),
+                  onChanged: (double value) {
+                    setState(
+                      () {
+                        _currentSliderValue = value;
+                      },
+                    );
+                  },
                 ),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              Container(
-                margin: const EdgeInsets.all(25),
-                child: ElevatedButton(
-                  child: Text("Bestätigen"),
-                  style: ElevatedButton.styleFrom(
-                    primary: ColorUtils.primaryColor,
-                    elevation: 0,
+                Text("Farbenblindheitsmodus"),
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                  underline: Container(
+                    height: 2,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                   ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(
+                      () {
+                        dropdownValue = value!;
+                      },
+                    );
+                  },
+                  items: list.map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(25),
+                  child: ElevatedButton(
+                    child: Text("Bestätigen"),
+                    style: ElevatedButton.styleFrom(
+                      primary: ColorUtils.primaryColor,
+                      elevation: 0,
+                    ),
                     onPressed: () {
                       // update the text size when the button is pressed
-                      setState(() {
-                        _textSize = _currentSliderValue;
-                      });
+                      setState(
+                        () {
+                          _textSize = _currentSliderValue;
+                        },
+                      );
                     },
-
+                  ),
                 ),
-              ),
-            ]))),
-    ));
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -495,28 +495,17 @@ class UserDataWidget extends StatelessWidget {
       return const Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (userData['firstname'] != null &&
-                    userData['lastname'] != null)
-                  Text(
-                      'Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null)
-                  Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null &&
-                    userData['streetnumber'] != null &&
-                    userData['postalcode'] != null &&
-                    userData['cityname'] != null)
-                  Text(
-                      'Address: ${userData['streetname']} ${userData['streetnumber']}, ${userData['postalcode']} ${userData['cityname']}'),
+                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
+                if (userData['email'] != null) Text('Email: ${userData['email']}'),
+                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}') else (Text('')),
               ],
             );
           } else if (snapshot.hasError) {
