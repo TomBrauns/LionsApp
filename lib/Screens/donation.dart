@@ -131,15 +131,6 @@ class _DonationsState extends State<Donations> {
                 }
               }
 
-              Future<void> _updateDonationValue(double newDonationValue) async {
-                try {
-                  final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
-
-                  await documentReference.update({'currentDonationValue': newDonationValue});
-                } catch (e) {
-                  return null;
-                }
-              }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return SingleChildScrollView(
@@ -227,10 +218,7 @@ class _DonationsState extends State<Donations> {
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
                                               double currentValue = _getCurrentValue();
-                                              double newDonationValue = donationCounter + currentValue;
                                               if (currentValue > 0.0) {
-                                                await _updateDonationValue(
-                                                    newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
 

@@ -65,6 +65,26 @@ class DonationReceived extends StatelessWidget {
     }
   }
 
+  Future<void> _updateEventDonation(String eventId) async {
+      final documentRef = FirebaseFirestore.instance.collection('events').doc(eventId);
+      final event = await documentRef.get();
+      final double currentValue = event.get("currentDonationValue");
+      return await documentRef.update({'currentDonationValue': currentValue + amount});
+  }
+
+  Future<void> _updateDonationHistory(String eventId, String eventName) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance.collection("donations").add({
+      "user": currentUser != null ? currentUser.uid : "guest",
+      "amount": amount,
+      "event_name": eventName,
+      "event_id": eventId
+    });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +115,10 @@ class DonationReceived extends StatelessWidget {
             if (FirebaseAuth.instance.currentUser != null) {
               sendMailWithReceipt(eventName);
             }
+
+            _updateEventDonation(eventId);
+            _updateDonationHistory(eventId, eventName);
+
             return Column(
               children: <Widget>[
                 Container(
