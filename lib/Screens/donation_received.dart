@@ -159,7 +159,7 @@ class DonationReceived extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(20)),
                       child: Text(
-                          'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Sachzuwendung an den Lions Club Kaiserslautern',
+                          'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
                           style: CustomTextSize.small),
                     ),
                     Container(
