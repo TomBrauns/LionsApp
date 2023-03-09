@@ -79,6 +79,10 @@ class _DonationsState extends State<Donations> {
     }
   }
 
+  void _handleClearButton(){
+    _inputController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,14 +184,35 @@ class _DonationsState extends State<Donations> {
                                     else
                                       const SizedBox(height: 64),
                                     const SizedBox(height: 8),
-                                    TextFormField(
-                                      controller: _inputController,
-                                      onChanged: _handleInputChange,
-                                      inputFormatters: [formatter],
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: "Betrag"),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: _inputController,
+                                            onChanged: _handleInputChange,
+                                            inputFormatters: [formatter],
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: "Betrag",
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 50,
+                                          child: ElevatedButton(
+                                            onPressed: _handleClearButton,
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.red,
+                                              shape: CircleBorder(),
+                                            ),
+                                            child: Icon(
+                                              Icons.clear,
+                                              color: Colors.white
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Container(
                                         padding: const EdgeInsets.symmetric(
