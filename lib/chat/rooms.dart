@@ -13,6 +13,7 @@ import 'package:lionsapp/chat/createRoom.dart';
 import '../Widgets/bottomNavigationView.dart';
 import '../Widgets/privileges.dart';
 import '../firebase_options.dart';
+import '../util/color.dart';
 import 'chat.dart';
 import '../login/login.dart';
 import 'users.dart';
@@ -55,6 +56,12 @@ class _RoomsPageState extends State<RoomsPage> {
       }
     } catch (e) {}
   }
+  void _handleCreateChat() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RoomCreator()),
+    );
+  }
 
   @override
   void initState() {
@@ -62,6 +69,21 @@ class _RoomsPageState extends State<RoomsPage> {
     super.initState();
     signUpForChatUser();
   }
+  // FAB with Priviledge
+  //Copy that
+  Widget? _getFAB() {
+    if (Privileges.privilege == Privilege.admin) {
+      return FloatingActionButton(
+        mini: true,
+        backgroundColor: ColorUtils.secondaryColor,
+        onPressed: () => _handleCreateChat(),
+        child: const Icon(Icons.add),
+      );
+    } else {
+      return null;
+    }
+  }
+  // and use Function for Fab in Scaffold
   Widget? _getBAB() {
     if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
       return BottomNavigation();
@@ -81,22 +103,11 @@ class _RoomsPageState extends State<RoomsPage> {
     }
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _getFAB(),
       bottomNavigationBar: _getBAB(),
       appBar: AppBar(
         actions: [
-          IconButton(
-            icon: const Icon(Icons.group_add),
-            onPressed: _user == null
-                ? null
-                : () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) => RoomCreator(),
-                      ),
-                    );
-                  },
-          ),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: _user == null
