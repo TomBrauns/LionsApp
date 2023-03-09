@@ -30,12 +30,14 @@ class _ContactState extends State<Contact> {
       "to": "teamlions@web.de",
       "message": {"subject": _subjectController.text, "text": text}
     });
+    Navigator.pushNamed(context, '/Donations');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Ihre Kontaktanfrage wurde versendet!'),
-        backgroundColor: ColorUtils.secondaryColor,
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.only(top: 64),
+
       ),
     );
   }
