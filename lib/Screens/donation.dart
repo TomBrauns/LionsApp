@@ -107,6 +107,8 @@ class _DonationsState extends State<Donations> {
               String? sponsor, sponsorImgUrl, donationTarget;
               double donationCounter = 0.0;
 
+
+
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data =
                     snapshot.data!.data() as Map<String, dynamic>?;
@@ -201,7 +203,12 @@ class _DonationsState extends State<Donations> {
                                         SizedBox(
                                           width: 50,
                                           child: RawMaterialButton(
-                                              onPressed: _handleClearButton,
+                                            onPressed: (){
+                                              _inputController.clear();
+                                              setState(() {
+                                                _donationInput = 0.0;
+                                              });
+                                            },
                                               elevation: 2.0,
                                               fillColor: Colors.red,
                                               child: Icon(
