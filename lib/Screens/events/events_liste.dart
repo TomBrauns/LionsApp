@@ -9,6 +9,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
+import 'package:lionsapp/Screens/generateQR/generateqreventlist.dart';
 import '../../Widgets/appbar.dart';
 import '../../util/color.dart';
 
@@ -67,7 +68,40 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Aktivitäten"),
+      appBar: AppBar(
+        title: Text("Aktivitäten"),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.qr_code),
+            onPressed: (){
+              print("Link aufrufen");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      QrCodeEventList(link: 'www.marc-wieland.de/#/Events'),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            padding: const EdgeInsets.only(right: 20),
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.pop(context);
+              if (Privileges.privilege == Privilege.admin ||
+                  Privileges.privilege == Privilege.member ||
+                  Privileges.privilege == Privilege.friend) {
+                Navigator.pushNamed(context, '/User');
+              } else {
+                Navigator.pushNamed(context, '/Login');
+              }
+            },
+          ),
+        ],
+      ),
+      //appBar: const MyAppBar(title: "Aktivitäten"),
       drawer: const BurgerMenu(),
       body: const EventList(),
       bottomNavigationBar: _getBAB(),

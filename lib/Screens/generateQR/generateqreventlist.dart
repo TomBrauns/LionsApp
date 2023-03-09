@@ -14,33 +14,30 @@ import 'package:share/share.dart';
 
 import 'package:universal_html/html.dart' as html;
 
+import '../../Widgets/appbar.dart';
 import '../../Widgets/textSize.dart';
 
-class QrCodeWithImage extends StatefulWidget {
+class QrCodeEventList extends StatefulWidget {
   final String link;
-  final String documentId;
 
-  QrCodeWithImage({required this.link, required this.documentId});
+  QrCodeEventList({required this.link});
 
   @override
-  _QrCodeWithImageState createState() => _QrCodeWithImageState();
+  _QrCodeEventListState createState() => _QrCodeEventListState();
 }
 
-class _QrCodeWithImageState extends State<QrCodeWithImage> {
+class _QrCodeEventListState extends State<QrCodeEventList> {
   final GlobalKey _repaintBoundaryKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    String data = "${widget.link}?interneId=${widget.documentId}";
+    String data = "${widget.link}";
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
-    const String imagePath = 'assets/projects/Umweltschutz.png';
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('QR Code with Image'),
-      ),
+      appBar: MyAppBar(title: 'QR Code'),
       body: Center(
         child: Container(
           color: Colors.white,
@@ -57,10 +54,6 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
                   padding: EdgeInsets.zero,
-                  embeddedImage: const AssetImage(imagePath),
-                  embeddedImageStyle: QrEmbeddedImageStyle(
-                    size: const Size(60, 60),
-                  ),
                 ),
               ],
             ),
