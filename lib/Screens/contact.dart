@@ -63,12 +63,7 @@ class _ContactState extends State<Contact> {
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Mit diesem Namen werden wir Sie zukünftig ansprechen.';
-                    }
-                    return null;
-                  },
+
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -80,7 +75,7 @@ class _ContactState extends State<Contact> {
                     labelText: 'E-Mail-Adresse',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
+                /*  validator: (value) {
                     if (value!.length == 0) {
                       return "Email darf nicht leer sein";
                     }
@@ -89,7 +84,7 @@ class _ContactState extends State<Contact> {
                     } else {
                       return null;
                     }
-                  },
+                  },*/
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
