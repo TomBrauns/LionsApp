@@ -104,6 +104,12 @@ class _RegisterState extends State<Register> {
                                 ),
                                 onChanged: (value) {},
                                 keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihren Vornamen ein.';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -130,7 +136,14 @@ class _RegisterState extends State<Register> {
                               ),
                               onChanged: (value) {},
                               keyboardType: TextInputType.name,
-                            )),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte geben Sie Ihren Nachnamen ein.';
+                                    }
+                                    return null;
+                                  },
+                                )
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -269,7 +282,7 @@ class _RegisterState extends State<Register> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: '* Postleizahl',
+                                  hintText: 'Postleizahl',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
@@ -286,7 +299,13 @@ class _RegisterState extends State<Register> {
                                 ),
                                 onChanged: (value) {},
                                 keyboardType: TextInputType.number,
-                              ),
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihre Postleizahl ein.';
+                                  }
+                                  return null;
+                                },),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -295,7 +314,7 @@ class _RegisterState extends State<Register> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: '* Stadtname',
+                                hintText: 'Stadtname',
                                 enabled: true,
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
@@ -312,6 +331,12 @@ class _RegisterState extends State<Register> {
                               ),
                               onChanged: (value) {},
                               keyboardType: TextInputType.name,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte geben Sie Ihre Stadt ein.';
+                                    }
+                                    return null;
+                                  },
                             )),
                           ],
                         ),
@@ -327,7 +352,7 @@ class _RegisterState extends State<Register> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: '* Straßenname',
+                                  hintText: 'Straßenname',
                                   enabled: true,
                                   contentPadding: const EdgeInsets.only(
                                       left: 14.0, bottom: 8.0, top: 8.0),
@@ -344,6 +369,13 @@ class _RegisterState extends State<Register> {
                                 ),
                                 onChanged: (value) {},
                                 keyboardType: TextInputType.number,
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihren Straßennamen ein.';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -353,7 +385,7 @@ class _RegisterState extends State<Register> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: '* Hausnummer und Adresszusatz',
+                                hintText: 'Hausnummer und Adresszusatz',
                                 enabled: true,
                                 contentPadding: const EdgeInsets.only(
                                     left: 14.0, bottom: 8.0, top: 8.0),
@@ -370,7 +402,13 @@ class _RegisterState extends State<Register> {
                               ),
                               onChanged: (value) {},
                               keyboardType: TextInputType.name,
-                            )),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte geben Sie Ihre Hausnummer (und den Addresszusatz) ein.';
+                                    }
+                                    return null;
+                                  },
+                                )),
                           ],
                         ),
 
@@ -386,7 +424,7 @@ class _RegisterState extends State<Register> {
                               ),
                               InkWell(
                                   child: const Text(
-                                    "ABG's akzeptieren",
+                                    "* ABG's akzeptieren",
                                     style: TextStyle(
                                       color: Colors.white,
                                       decoration: TextDecoration.underline,
@@ -397,47 +435,6 @@ class _RegisterState extends State<Register> {
                                         context, '/AGB?onRegister=true');
                                   }),
                             ]),
-
-                        /*  Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(RRR
-                              "Rolle : ",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            DropdownButton<String>(
-                              dropdownColor: Colors.blue[900],
-                              isDense: true,
-                              isExpanded: false,
-                              iconEnabledColor: Colors.white,
-                              focusColor: Colors.white,
-                              items: options.map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(
-                                    dropDownStringItem,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (newValueSelected) {
-                                setState(() {
-                                  _currentItemSelected = newValueSelected!;
-                                  rool = newValueSelected;
-                                });
-                              },
-                              value: _currentItemSelected,
-                            ),
-                          ],
-                        ), */
                         const SizedBox(
                           height: 20,
                         ),
@@ -509,7 +506,17 @@ class _RegisterState extends State<Register> {
                                               builder: (context) => LoginPage(
                                                   prefilledEmail:
                                                       emailController.text),
-                                            ));
+                                            )
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Registrierung erfolgreich. Bitte loggen Sie sich ein.'),
+                                            backgroundColor: Colors.green,
+                                            behavior: SnackBarBehavior.floating,
+                                            margin: EdgeInsets.only(top: 64),
+
+                                          ),
+                                        );
                                       } else {
                                         // TODO: Show error message
                                         ScaffoldMessenger.of(context)

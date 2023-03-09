@@ -142,10 +142,10 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             RegExp regex = RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
-                              return "Password cannot be empty";
+                              return "Das Passwort-Feld darf nicht leer sein.";
                             }
                             if (!regex.hasMatch(value)) {
-                              return ("please enter valid password min. 6 character");
+                              return ("Bitte geben Sie ein gültiges Passwort ein (mindestens 6 Zeichen).");
                             } else {
                               return null;
                             }
