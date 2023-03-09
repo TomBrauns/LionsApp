@@ -29,7 +29,7 @@ class HistoryList extends StatefulWidget {
   State<HistoryList> createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> {
+class _HistoryListState extends State<HistoryList> with SingleTickerProviderStateMixin{
   final dateFormat = DateFormat("dd. MMM yyyy HH:mm");
   final _historyStream = FirebaseFirestore.instance
       .collection('donations')
@@ -38,6 +38,35 @@ class _HistoryListState extends State<HistoryList> {
       .map((snapshot) => snapshot.docs);
 
   String _searchQuery = "";
+
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState(){
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..forward();
+
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +92,25 @@ class _HistoryListState extends State<HistoryList> {
 
         final double sum = history.map((d) => d["amount"] as double).reduce((value, element) => value + element);
 
+
+
         return Column(children: [
-          Padding(
+          /*Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Gespendeter Gesamtbetrag: $sum€", style: CustomTextSize.medium)),
+              child: Text("Gespendeter Gesamtbetrag: $sum€", style: CustomTextSize.medium)),*/
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: sum),
+              duration: const Duration(seconds: 2),
+              builder: (context, double value, child){
+                return Text(
+                  "Gespendeter Gesamtbetrag: ${value.toStringAsFixed(2)}€",
+                  style: CustomTextSize.small,
+                );
+              },
+            )
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -84,8 +128,8 @@ class _HistoryListState extends State<HistoryList> {
           ),
           Expanded(
               child: ListView.builder(
-            itemCount: history.length,
-            itemBuilder: (context, index) {
+              itemCount: history.length,
+              itemBuilder: (context, index) {
               final donation = history.elementAt(index);
               final double amount = donation["amount"];
               final String eventName = donation["event_name"];
