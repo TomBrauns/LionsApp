@@ -325,6 +325,5 @@ class _DonationsState extends State<Donations> {
     setState(() {
       _donationInput = _getCurrentValue();
     });
-
   }
 }
