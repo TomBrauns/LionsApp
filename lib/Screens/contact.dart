@@ -92,8 +92,8 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _subjectController,
                   decoration: const InputDecoration(
-                    labelText: 'Betreff',
-                    helperText: 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    labelText: '* Betreff',
+                    helperText: 'Pflichtfeld: Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
@@ -112,7 +112,8 @@ class _ContactState extends State<Contact> {
                   textAlign: TextAlign.start,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
-                    labelText: 'Ihre Nachricht',
+                    labelText: '* Ihre Nachricht',
+                    helperText: 'Pflichtfeld: Bitte schreiben Sie uns hier, worum es geht.',
                     border: OutlineInputBorder(),
                     helperMaxLines: 10,
                     errorMaxLines: 10,
