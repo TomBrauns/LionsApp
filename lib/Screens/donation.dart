@@ -133,12 +133,9 @@ class _DonationsState extends State<Donations> {
 
               Future<void> _updateDonationValue(double newDonationValue) async {
                 try {
-                  final documentReference = FirebaseFirestore.instance
-                      .collection('events')
-                      .doc(eventId);
+                  final documentReference = FirebaseFirestore.instance.collection('events').doc(eventId);
 
-                  await documentReference
-                      .update({'currentDonationValue': newDonationValue});
+                  await documentReference.update({'currentDonationValue': newDonationValue});
                 } catch (e) {
                   return null;
                 }
@@ -229,11 +226,8 @@ class _DonationsState extends State<Donations> {
                                         child: ElevatedButton(
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
-                                              double currentValue =
-                                                  _getCurrentValue();
-                                              double newDonationValue =
-                                                  donationCounter +
-                                                      currentValue;
+                                              double currentValue = _getCurrentValue();
+                                              double newDonationValue = donationCounter + currentValue;
                                               if (currentValue > 0.0) {
                                                 await _updateDonationValue(
                                                     newDonationValue); // TODO move this to the end of donation process
@@ -246,9 +240,7 @@ class _DonationsState extends State<Donations> {
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                                if (FirebaseAuth
-                                                        .instance.currentUser !=
-                                                    null) {
+                                                if (FirebaseAuth.instance.currentUser != null) {
                                                   print(
                                                       "Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context,
