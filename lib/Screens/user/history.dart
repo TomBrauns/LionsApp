@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class History extends StatefulWidget {
   History({Key? key}) : super(key: key);
@@ -90,9 +92,17 @@ class _HistoryListState extends State<HistoryList> {
               final double amount = donation["amount"];
               final String eventName = donation["event_name"];
               final String date = dateFormat.format((donation["date"] as Timestamp).toDate());
+              final String pdfUrl = donation["receipt_url"];
               return ListTile(
                 title: Text("$amount€ Spende an $eventName"),
                 subtitle: Text("Spendendatum: $date"),
+                trailing: IconButton(
+                    icon: const Icon(Icons.download),
+                    onPressed: () async {
+                      if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+                        await launchUrl(Uri.parse(pdfUrl));
+                      }
+                    }),
               );
             },
           ))
