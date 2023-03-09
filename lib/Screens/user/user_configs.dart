@@ -141,6 +141,22 @@ class _UserState extends State<User> {
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
                   icon: const Icon(
+                    Icons.history,
+                    size: 24.0,
+                  ),
+                  label: Text('Verlauf anzeigen', style: CustomTextSize.medium),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/History');
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
                     Icons.badge,
                     size: 24.0,
                   ),
@@ -221,7 +237,9 @@ class _UserState extends State<User> {
                   },
                 ),
               ),
-              Container(
+             /*
+             /// Commented out "Bedienungshilfe" as it is not doing what its supposed to for the time being...
+             Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
                   icon: const Icon(
@@ -240,7 +258,7 @@ class _UserState extends State<User> {
                     );
                   },
                 ),
-              ),
+              ),*/
               Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
@@ -544,15 +562,15 @@ class UserDataWidget extends StatelessWidget {
                 if (userData['firstname'] != null &&
                     userData['lastname'] != null)
                   Text(
-                      'Name: ${userData['firstname']} ${userData['lastname']}'),
+                      'Name: ${userData['firstname']} ${userData['lastname']}', style: CustomTextSize.small),
                 if (userData['email'] != null)
-                  Text('Email: ${userData['email']}'),
+                  Text('Email: ${userData['email']}', style: CustomTextSize.small),
                 if (userData['streetname'] != null &&
                     userData['streetnumber'] != null &&
                     userData['postalcode'] != null &&
                     userData['cityname'] != null)
                   Text(
-                      'Address: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}')
+                      'Addresse: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}', style: CustomTextSize.small)
                 else
                   (Text('')),
               ],
