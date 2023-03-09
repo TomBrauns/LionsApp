@@ -29,15 +29,13 @@ class DonationReceived extends StatelessWidget {
 
   DonationReceived({super.key, this.token, this.paymentId, this.PayerID, required this.amount, required this.eventId});
 
-  Future<void> sendMailWithReceipt(String eventName) async {
+  Future<void> sendMailWithReceipt(String eventName, String pdf) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
     final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final userData = docSnapshot.data() as Map<String, dynamic>;
     String firstName = userData['firstname'] as String;
     String lastName = userData['lastname'] as String;
     String eMail = userData['email'] as String;
-
-    var pdf = await _ReceiptState()._handlePdfUpload();
 
     var data = {
       'mailOptions': {
@@ -64,6 +62,28 @@ class DonationReceived extends StatelessWidget {
       print('Error sending email: $e');
     }
   }
+
+  Future<void> _updateEventDonation(String eventId) async {
+      final documentRef = FirebaseFirestore.instance.collection('events').doc(eventId);
+      final event = await documentRef.get();
+      final double currentValue = event.get("currentDonationValue");
+      return await documentRef.update({'currentDonationValue': currentValue + amount});
+  }
+
+  Future<void> _updateDonationHistory(String eventId, String eventName, String url) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance.collection("donations").add({
+      "user": currentUser != null ? currentUser.uid : "guest",
+      "amount": amount,
+      "event_name": eventName,
+      "event_id": eventId,
+      "date": DateTime.now(),
+      "receipt_url": url,
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +112,14 @@ class DonationReceived extends StatelessWidget {
 
             final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
-            if (FirebaseAuth.instance.currentUser != null) {
-              sendMailWithReceipt(eventName);
-            }
+            _ReceiptState()._handlePdfUpload().then((pdfUrl) {
+              if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
+                sendMailWithReceipt(eventName, pdfUrl);
+              }
+              _updateEventDonation(eventId);
+              _updateDonationHistory(eventId, eventName, pdfUrl ?? "");
+            });
+
             return Column(
               children: <Widget>[
                 Container(
@@ -338,7 +363,7 @@ class _ReceiptState extends State<Receipt> {
 
   Future<String?> _handlePdfUpload() async {
     if (kIsWeb) {
-      final uniqueId = UniqueKey().toString();
+      final uniqueId = "Quittung_${DateTime.now().millisecondsSinceEpoch}.pdf";
       final reference = FirebaseStorage.instance.ref('donator_receipts').child(FirebaseAuth.instance.currentUser!.uid).child(uniqueId);
       //Web
 

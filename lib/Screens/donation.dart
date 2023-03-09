@@ -79,6 +79,10 @@ class _DonationsState extends State<Donations> {
     }
   }
 
+  void _handleClearButton(){
+    _inputController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +106,8 @@ class _DonationsState extends State<Donations> {
                   "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               double donationCounter = 0.0;
+
+
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data =
@@ -131,18 +137,6 @@ class _DonationsState extends State<Donations> {
                 }
               }
 
-              Future<void> _updateDonationValue(double newDonationValue) async {
-                try {
-                  final documentReference = FirebaseFirestore.instance
-                      .collection('events')
-                      .doc(eventId);
-
-                  await documentReference
-                      .update({'currentDonationValue': newDonationValue});
-                } catch (e) {
-                  return null;
-                }
-              }
               //String donationTitle = snapshot.data?.get('eventName') ?? "";
 
               return SingleChildScrollView(
@@ -192,14 +186,39 @@ class _DonationsState extends State<Donations> {
                                     else
                                       const SizedBox(height: 64),
                                     const SizedBox(height: 8),
-                                    TextFormField(
-                                      controller: _inputController,
-                                      onChanged: _handleInputChange,
-                                      inputFormatters: [formatter],
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: "Betrag"),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: _inputController,
+                                            onChanged: _handleInputChange,
+                                            inputFormatters: [formatter],
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: "Betrag",
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 50,
+                                          child: RawMaterialButton(
+                                            onPressed: (){
+                                              _inputController.clear();
+                                              setState(() {
+                                                _donationInput = 0.0;
+                                              });
+                                            },
+                                              elevation: 2.0,
+                                              fillColor: Colors.red,
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: Colors.white
+                                              ),
+                                              shape: CircleBorder(),
+                                              )
+                                        ),
+                                      ],
                                     ),
                                     Container(
                                         padding: const EdgeInsets.symmetric(
@@ -229,14 +248,8 @@ class _DonationsState extends State<Donations> {
                                         child: ElevatedButton(
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
-                                              double currentValue =
-                                                  _getCurrentValue();
-                                              double newDonationValue =
-                                                  donationCounter +
-                                                      currentValue;
+                                              double currentValue = _getCurrentValue();
                                               if (currentValue > 0.0) {
-                                                await _updateDonationValue(
-                                                    newDonationValue); // TODO move this to the end of donation process
                                                 _inputController.text = "";
                                                 _handleAdd(0);
 
@@ -246,9 +259,7 @@ class _DonationsState extends State<Donations> {
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                                if (FirebaseAuth
-                                                        .instance.currentUser !=
-                                                    null) {
+                                                if (FirebaseAuth.instance.currentUser != null) {
                                                   print(
                                                       "Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context,
@@ -325,6 +336,5 @@ class _DonationsState extends State<Donations> {
     setState(() {
       _donationInput = _getCurrentValue();
     });
-
   }
 }

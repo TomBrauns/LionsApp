@@ -30,12 +30,14 @@ class _ContactState extends State<Contact> {
       "to": "teamlions@web.de",
       "message": {"subject": _subjectController.text, "text": text}
     });
+    Navigator.pushNamed(context, '/Donations');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Ihre Kontaktanfrage wurde versendet!'),
-        backgroundColor: ColorUtils.secondaryColor,
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.only(top: 64),
+
       ),
     );
   }
@@ -63,12 +65,7 @@ class _ContactState extends State<Contact> {
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Mit diesem Namen werden wir Sie zukünftig ansprechen.';
-                    }
-                    return null;
-                  },
+
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -80,7 +77,7 @@ class _ContactState extends State<Contact> {
                     labelText: 'E-Mail-Adresse',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
+                /*  validator: (value) {
                     if (value!.length == 0) {
                       return "Email darf nicht leer sein";
                     }
@@ -89,14 +86,14 @@ class _ContactState extends State<Contact> {
                     } else {
                       return null;
                     }
-                  },
+                  },*/
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _subjectController,
                   decoration: const InputDecoration(
-                    labelText: 'Betreff',
-                    helperText: 'Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    labelText: '* Betreff',
+                    helperText: 'Pflichtfeld: Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
@@ -115,7 +112,8 @@ class _ContactState extends State<Contact> {
                   textAlign: TextAlign.start,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
-                    labelText: 'Ihre Nachricht',
+                    labelText: '* Ihre Nachricht',
+                    helperText: 'Pflichtfeld: Bitte schreiben Sie uns hier, worum es geht.',
                     border: OutlineInputBorder(),
                     helperMaxLines: 10,
                     errorMaxLines: 10,

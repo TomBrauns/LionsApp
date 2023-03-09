@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Screens/user/callAdmin.dart';
+import 'package:lionsapp/Screens/user/admin/callAdmin.dart';
 import 'package:lionsapp/Screens/user/changePassword.dart';
 import 'package:lionsapp/Screens/user/userUpdate.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
@@ -37,6 +37,7 @@ class _UserState extends State<User> {
 
   @override
   bool test = true;
+
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
@@ -99,25 +100,43 @@ class _UserState extends State<User> {
                       'Sie müssen sich zuerst anmelden!',
                       style: TextStyle(color: Colors.red),
                     ),
-                  Switch.adaptive(
-                    value: test,
-                    onChanged: (newValue) {
-                      setState(
-                        () {
-                          test = newValue;
-                          final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
-                          docRef.update(
-                            {
-                              'receiveNotification': newValue,
-                            },
-                          );
-                        },
-                      );
-                    },
-                    activeColor: Colors.blue,
-                  ),
-                  Text('App Benachrichtigungen ausschalten', style: TextStyle(fontSize: 12)),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Text('App Benachrichtigungen:', style: CustomTextSize.small),
+                    Switch.adaptive(
+                      value: test,
+                      onChanged: (newValue) {
+                        setState(
+                          () {
+                            test = newValue;
+                            final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+                            docRef.update(
+                              {
+                                'receiveNotification': newValue,
+                              },
+                            );
+                          },
+                        );
+                      },
+                      activeColor: ColorUtils.primaryColor,
+                    ),
+                  ]),
                 ],
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.history,
+                    size: 24.0,
+                  ),
+                  label: Text('Verlauf anzeigen', style: CustomTextSize.medium),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/History');
+                  },
+                ),
               ),
               Container(
                 margin: const EdgeInsets.all(25),
@@ -202,7 +221,9 @@ class _UserState extends State<User> {
                   },
                 ),
               ),
-              Container(
+              /*
+             /// Commented out "Bedienungshilfe" as it is not doing what its supposed to for the time being...
+             Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
                   icon: const Icon(
@@ -216,11 +237,12 @@ class _UserState extends State<User> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Accessibility()),
+                      MaterialPageRoute(
+                          builder: (context) => const Accessibility()),
                     );
                   },
                 ),
-              ),
+              ),*/
               Container(
                 margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
@@ -503,9 +525,9 @@ class UserDataWidget extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}'),
-                if (userData['email'] != null) Text('Email: ${userData['email']}'),
-                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Address: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}') else (Text('')),
+                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}', style: CustomTextSize.small),
+                if (userData['email'] != null) Text('Email: ${userData['email']}', style: CustomTextSize.small),
+                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Addresse: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}', style: CustomTextSize.small) else (Text('')),
               ],
             );
           } else if (snapshot.hasError) {

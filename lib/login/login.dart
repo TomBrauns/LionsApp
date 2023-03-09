@@ -12,7 +12,6 @@ import 'package:lionsapp/login/google/authentication.dart';
 import 'package:lionsapp/login/google/google_sign_in_button.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
-
 class LoginPage extends StatefulWidget {
   final String? prefilledEmail;
   const LoginPage({super.key, this.prefilledEmail});
@@ -33,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
-
 
   @override
   void initState() {
@@ -100,11 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                             if (value!.length == 0) {
                               return "Email cannot be empty";
                             }
-                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-                              return ("Please enter a valid email");
-                            } else {
-                              return null;
-                            }
                           },
                           onSaved: (value) {
                             emailController.text = value!;
@@ -119,12 +112,15 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
-                                onPressed: () {
-                                  setState(() {
+                              icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
+                              onPressed: () {
+                                setState(
+                                  () {
                                     _isObscure3 = !_isObscure3;
-                                  });
-                                }),
+                                  },
+                                );
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Password',
@@ -142,18 +138,13 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             RegExp regex = RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
-                              return "Password cannot be empty";
-                            }
-                            if (!regex.hasMatch(value)) {
-                              return ("please enter valid password min. 6 character");
-                            } else {
-                              return null;
+                              return "Das Passwort-Feld darf nicht leer sein.";
                             }
                           },
                           onSaved: (value) {
                             passwordController.text = value!;
                           },
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                         ),
                         SizedBox(
                           height: 10,
@@ -207,16 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            visible: _isLoading,
-                            child: Container(
-                                child: const CircularProgressIndicator(
-                              color: Colors.white,
-                            ))),
-                        //TEST
+
                         FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),
                           builder: (context, snapshot) {
@@ -233,22 +215,22 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         // Apple testing
-                        if(defaultTargetPlatform == TargetPlatform.iOS)
-                        FutureBuilder(
-                          future: Authentication.initializeFirebase(context: context),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return const Text('Error initializing Firebase');
-                            } else if (snapshot.connectionState == ConnectionState.done) {
-                              return AppleSignInButton();
-                            }
-                            return const CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.orange,
-                              ),
-                            );
-                          },
-                        ),
+                        if (defaultTargetPlatform == TargetPlatform.iOS)
+                          FutureBuilder(
+                            future: Authentication.initializeFirebase(context: context),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text('Error initializing Firebase');
+                              } else if (snapshot.connectionState == ConnectionState.done) {
+                                return AppleSignInButton();
+                              }
+                              return const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.orange,
+                                ),
+                              );
+                            },
+                          ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -267,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           color: Colors.blue[900],
                           child: const Text(
-                            "Register Now",
+                            "Jetzt Registrieren",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -316,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
         checkRool().then((_) {
           if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
             Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
-          }else {
+          } else {
             Navigator.pushNamed(context, '/Donations');
             setState(() {
               _isLoading = false;
@@ -342,16 +324,18 @@ Future<void> checkRool() async {
   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
   String rolle = documentSnapshot.get('rool').toString();
 
-
-
   switch (rolle) {
-    case 'Friend':  Privileges.privilege = Privilege.friend;
+    case 'Friend':
+      Privileges.privilege = Privilege.friend;
       break;
-    case 'Member':Privileges.privilege = Privilege.member;
+    case 'Member':
+      Privileges.privilege = Privilege.member;
       break;
-    case 'Admin': Privileges.privilege = Privilege.admin;
+    case 'Admin':
+      Privileges.privilege = Privilege.admin;
       break;
-    default: Privileges.privilege = Privilege.guest;
+    default:
+      Privileges.privilege = Privilege.guest;
       break;
   }
   print(Privileges.privilege);
