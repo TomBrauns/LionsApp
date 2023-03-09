@@ -30,6 +30,7 @@ class ChatPage extends StatefulWidget {
 
   final types.Room room;
   final String? name;
+
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
@@ -41,7 +42,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: Text(widget.room.type == types.RoomType.direct ? widget.name! : widget.room.name!),
+          title: Text(widget.room.type == types.RoomType.direct
+              ? widget.name!
+              : widget.room.name!),
           actions: [
             if (widget.room.type == types.RoomType.group)
               IconButton(
@@ -87,35 +90,51 @@ class _ChatPageState extends State<ChatPage> {
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: SizedBox(
-          height: 144,
+          height: 150,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleImageSelection();
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Foto', style: CustomTextSize.medium),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _handleImageSelection();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.camera_alt, size: 48),
+                          SizedBox(height: 8),
+                          Text('Foto', style: CustomTextSize.small),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _handleFileSelection();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.attach_file, size: 48),
+                          SizedBox(height: 8),
+                          Text('Datei', style: CustomTextSize.small),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleFileSelection();
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Datei', style: CustomTextSize.medium),
-                ),
-              ),
+              SizedBox(height: 16),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Abbrechen', style: CustomTextSize.medium),
+                  alignment: Alignment.center,
+                  child: Text('Abbrechen', style: CustomTextSize.small),
                 ),
               ),
             ],
@@ -134,7 +153,10 @@ class _ChatPageState extends State<ChatPage> {
 
     final file = result.files.single;
     final name = file.name;
-    final reference = FirebaseStorage.instance.ref('files_sent_in_rooms').child(widget.room.id).child(name);
+    final reference = FirebaseStorage.instance
+        .ref('files_sent_in_rooms')
+        .child(widget.room.id)
+        .child(name);
 
     // Web
     final bytes = file.bytes;
@@ -171,10 +193,15 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _handleImageSelection() async {
     if (kIsWeb) {
-      final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final XFile? file =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       final name = file!.name;
       final uniqueId = UniqueKey().toString();
-      final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(uniqueId).child(name);
+      final reference = FirebaseStorage.instance
+          .ref('images_sent_in_rooms')
+          .child(widget.room.id)
+          .child(uniqueId)
+          .child(name);
       //Web
       final bytes = await file!.readAsBytes();
       await reference.putData(bytes);
@@ -221,7 +248,10 @@ class _ChatPageState extends State<ChatPage> {
         final name = result.name;
 
         try {
-          final reference = FirebaseStorage.instance.ref('images_sent_in_rooms').child(widget.room.id).child(name);
+          final reference = FirebaseStorage.instance
+              .ref('images_sent_in_rooms')
+              .child(widget.room.id)
+              .child(name);
           await reference.putFile(file);
           final uri = await reference.getDownloadURL();
 
