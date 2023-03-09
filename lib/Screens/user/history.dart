@@ -106,7 +106,7 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
               builder: (context, double value, child){
                 return Text(
                   "Gespendeter Gesamtbetrag: ${value.toStringAsFixed(2)}€",
-                  style: CustomTextSize.small,
+                  style: CustomTextSize.smamedium,
                 );
               },
             )
