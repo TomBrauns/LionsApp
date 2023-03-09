@@ -200,7 +200,9 @@ class _DonationsState extends State<Donations> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        Visibility(
+                                          visible: _donationInput != 0.0,
+                                          child: SizedBox(
                                           width: 50,
                                           child: RawMaterialButton(
                                             onPressed: (){
@@ -217,6 +219,7 @@ class _DonationsState extends State<Donations> {
                                               ),
                                               shape: CircleBorder(),
                                               )
+                                        ),
                                         ),
                                       ],
                                     ),
