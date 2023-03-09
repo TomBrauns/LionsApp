@@ -66,7 +66,7 @@ class _CatalogueState extends State<Catalogue> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const BurgerMenu(),
-      appBar: MyAppBar(title: "Katalog"),
+      appBar: MyAppBar(title: "Projekte"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _getFAB(),
       bottomNavigationBar: _getBAB(),

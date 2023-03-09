@@ -151,7 +151,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
 
           ListTile(
             leading: const Icon(Icons.book),
-            title: Text('Katalog', style: CustomTextSize.small),
+            title: Text('Projekte', style: CustomTextSize.small),
             selected: isMenuSelected(5),
             selectedTileColor: selectedColor,
             onTap: () {

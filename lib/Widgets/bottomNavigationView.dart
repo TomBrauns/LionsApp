@@ -73,7 +73,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 ),
               ),
             Tooltip(
-              message: "Katalog",
+              message: "Projekte",
               decoration: const BoxDecoration(color: ColorUtils.primaryColor),
               child: IconButton(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
