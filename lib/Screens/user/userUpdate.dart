@@ -331,7 +331,8 @@ class UpdateState extends State<Update> {
                                   streetnrController.text,
                                 );
                               },
-                              child: Text("Bestätigen", style: CustomTextSize.medium),
+                              child: Text("Bestätigen",
+                                  style: CustomTextSize.medium),
                               color: Colors.white,
                             ),
                           ],
@@ -382,9 +383,10 @@ class UpdateState extends State<Update> {
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           backgroundColor: Colors.green,
-          content: Text('Nutzerdaten erfolgreich aktualisiert!',style: CustomTextSize.small),
+          content: Text('Nutzerdaten erfolgreich aktualisiert!',
+              style: CustomTextSize.small),
         ),
       );
       Navigator.pushNamed(context, '/User');

@@ -30,8 +30,8 @@ class _AuthCodeScreenState extends State<AuthCodeScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Fehler'),
-            content:
-                const Text('Der eingegebene Authentifizierungscode ist ungültig.'),
+            content: const Text(
+                'Der eingegebene Authentifizierungscode ist ungültig.'),
             actions: [
               TextButton(
                 child: const Text('OK'),

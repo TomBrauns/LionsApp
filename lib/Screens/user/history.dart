@@ -31,7 +31,8 @@ class HistoryList extends StatefulWidget {
   State<HistoryList> createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> with SingleTickerProviderStateMixin{
+class _HistoryListState extends State<HistoryList>
+    with SingleTickerProviderStateMixin {
   final dateFormat = DateFormat("dd. MMM yyyy HH:mm");
   final _historyStream = FirebaseFirestore.instance
       .collection('donations')
@@ -45,7 +46,7 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
   late final Animation<double> _animation;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -62,13 +63,10 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,33 +86,36 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
           );
         }
 
-        final history =
-            snapshot.data!.where((d) => (d["event_name"]).toLowerCase().contains(_searchQuery.toLowerCase())).toList();
-        history.sort((d1, d2) => (d2["date"] as Timestamp).compareTo(d1["date"] as Timestamp));
+        final history = snapshot.data!
+            .where((d) => (d["event_name"])
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase()))
+            .toList();
+        history.sort((d1, d2) =>
+            (d2["date"] as Timestamp).compareTo(d1["date"] as Timestamp));
 
         final double sum = history.isNotEmpty
-            ? history.map((d) => d["amount"] as double).reduce((value, element) => value + element)
+            ? history
+                .map((d) => d["amount"] as double)
+                .reduce((value, element) => value + element)
             : 0;
-
-
 
         return Column(children: [
           /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text("Gespendeter Gesamtbetrag: $sum€", style: CustomTextSize.medium)),*/
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: sum),
-              duration: const Duration(seconds: 2),
-              builder: (context, double value, child){
-                return Text(
-                  "Gespendeter Gesamtbetrag: ${value.toStringAsFixed(2)}€",
-                  style: CustomTextSize.smamedium,
-                );
-              },
-            )
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: TweenAnimationBuilder(
+                tween: Tween<double>(begin: 0, end: sum),
+                duration: const Duration(seconds: 2),
+                builder: (context, double value, child) {
+                  return Text(
+                    "Gespendeter Gesamtbetrag: ${value.toStringAsFixed(2)}€",
+                    style: CustomTextSize.smamedium,
+                  );
+                },
+              )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -132,15 +133,17 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
           ),
           Expanded(
               child: ListView.builder(
-              itemCount: history.length,
-              itemBuilder: (context, index) {
+            itemCount: history.length,
+            itemBuilder: (context, index) {
               final donation = history.elementAt(index);
               final double amount = donation["amount"];
               final String eventName = donation["event_name"];
-              final String date = dateFormat.format((donation["date"] as Timestamp).toDate());
+              final String date =
+                  dateFormat.format((donation["date"] as Timestamp).toDate());
               final String pdfUrl = donation["receipt_url"];
               return ListTile(
-                title: Text("${amount.toStringAsFixed(2)}€ Spende an $eventName"),
+                title:
+                    Text("${amount.toStringAsFixed(2)}€ Spende an $eventName"),
                 subtitle: Text("Spendendatum: $date"),
                 trailing: IconButton(
                     icon: const Icon(Icons.download),

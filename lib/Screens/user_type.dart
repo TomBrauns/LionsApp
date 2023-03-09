@@ -19,7 +19,8 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
   }
 
   double get amount {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
   }
 

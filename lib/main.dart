@@ -31,6 +31,7 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   String? documentId;
+
   MyApp({super.key, this.documentId});
 
   @override
@@ -51,7 +52,8 @@ class _MyAppState extends State<MyApp> {
         primaryColor: ColorUtils.primaryColor,
         primarySwatch: ColorUtils.primarySwatch,
       ),
-      initialRoute: '/Donations?interneId=$interneId', // Route mit Parameter
+      initialRoute: '/Donations?interneId=$interneId',
+      // Route mit Parameter
       routes: routes,
       onGenerateRoute: (RouteSettings settings) {
         final uri = Uri.parse(settings.name!);
@@ -73,7 +75,8 @@ class _MyAppState extends State<MyApp> {
                 amount: Paymethodereturn[0] as double,
                 eventId: Paymethodereturn[1]),
           );
-        } /*else if (uri.path == '/Donations/UserType/PayMethode/success') {
+        }
+        /*else if (uri.path == '/Donations/UserType/PayMethode/success') {
           final List<String> Paymethodereturn = [
             uri.queryParameters['amount'] ?? '',
             uri.queryParameters['eventId'] ?? '',
