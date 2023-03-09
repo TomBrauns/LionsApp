@@ -12,7 +12,8 @@ import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:open_filex/open_filex.dart';
 import 'dart:io';
@@ -27,11 +28,18 @@ class DonationReceived extends StatelessWidget {
   final double amount;
   final String eventId;
 
-  DonationReceived({super.key, this.token, this.paymentId, this.PayerID, required this.amount, required this.eventId});
+  DonationReceived(
+      {super.key,
+      this.token,
+      this.paymentId,
+      this.PayerID,
+      required this.amount,
+      required this.eventId});
 
   Future<void> sendMailWithReceipt(String eventName, String pdf) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final docSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final userData = docSnapshot.data() as Map<String, dynamic>;
     String firstName = userData['firstname'] as String;
     String lastName = userData['lastname'] as String;
@@ -42,11 +50,12 @@ class DonationReceived extends StatelessWidget {
         'from': 'Team Lions',
         'to': eMail,
         'subject': 'Danke für Ihre Spende! Ihre Spendenquittung',
-        'text': 'Hallo $firstName $lastName \nWir bedanken uns recht herzlich für Ihre Spende an $eventName in Höhe von $amount!.\n'
-            'Damit tust etwas gutes usw.\n'
-            'Im Anhang finden Sie Ihre Spendenquittung!\n'
-            'Mit freundlichen Grüßen\n'
-            'Deine Lions Team\n',
+        'text':
+            'Hallo $firstName $lastName \nWir bedanken uns recht herzlich für Ihre Spende an $eventName in Höhe von $amount!.\n'
+                'Damit tust etwas gutes usw.\n'
+                'Im Anhang finden Sie Ihre Spendenquittung!\n'
+                'Mit freundlichen Grüßen\n'
+                'Deine Lions Team\n',
         'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': 'Spenden_Quittung.pdf', 'path': pdf},
@@ -54,7 +63,8 @@ class DonationReceived extends StatelessWidget {
       }
     };
 
-    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
+    final HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
     try {
       await callable(data);
       print('Email sent successfully');
@@ -64,13 +74,16 @@ class DonationReceived extends StatelessWidget {
   }
 
   Future<void> _updateEventDonation(String eventId) async {
-      final documentRef = FirebaseFirestore.instance.collection('events').doc(eventId);
-      final event = await documentRef.get();
-      final double currentValue = event.get("currentDonationValue");
-      return await documentRef.update({'currentDonationValue': currentValue + amount});
+    final documentRef =
+        FirebaseFirestore.instance.collection('events').doc(eventId);
+    final event = await documentRef.get();
+    final double currentValue = event.get("currentDonationValue");
+    return await documentRef
+        .update({'currentDonationValue': currentValue + amount});
   }
 
-  Future<void> _updateDonationHistory(String eventId, String eventName, String url) async {
+  Future<void> _updateDonationHistory(
+      String eventId, String eventName, String url) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance.collection("donations").add({
       "user": currentUser != null ? currentUser.uid : "guest",
@@ -82,16 +95,16 @@ class DonationReceived extends StatelessWidget {
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(title: "Danke für ihre Spende"),
         drawer: const BurgerMenu(),
         body: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('events').doc(eventId).get(),
+          future: FirebaseFirestore.instance
+              .collection('events')
+              .doc(eventId)
+              .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -110,7 +123,8 @@ class DonationReceived extends StatelessWidget {
               eventName = snapshot.data!.get('eventName');
             }
 
-            final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+            final message =
+                "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
             _ReceiptState()._handlePdfUpload().then((pdfUrl) {
               if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
@@ -120,7 +134,7 @@ class DonationReceived extends StatelessWidget {
               _updateDonationHistory(eventId, eventName, pdfUrl ?? "");
             });
 
-            return Column(
+            return ListView(
               children: <Widget>[
                 Container(
                   margin: const EdgeInsets.all(40),
@@ -144,13 +158,16 @@ class DonationReceived extends StatelessWidget {
                             color: Colors.amber,
                           ),
                           borderRadius: BorderRadius.circular(20)),
-                      child: Text('Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Sachzuwendung an den Lions Club Kaiserslautern', style: CustomTextSize.small),
+                      child: Text(
+                          'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Sachzuwendung an den Lions Club Kaiserslautern',
+                          style: CustomTextSize.small),
                     ),
                     Container(
                       padding: const EdgeInsets.all(20.0),
                       width: 400,
                       child: ElevatedButton(
-                        child: Text('zur Zuwendungsbestätigung', style: CustomTextSize.medium),
+                        child: Text('zur Zuwendungsbestätigung',
+                            style: CustomTextSize.medium),
                         onPressed: () {
                           // Update State of App
                           Navigator.pop(context);
@@ -175,7 +192,8 @@ class DonationReceived extends StatelessWidget {
                       Icons.contact_support,
                       size: 24.0,
                     ),
-                    label: Text('Kontaktformular', style: CustomTextSize.medium),
+                    label:
+                        Text('Kontaktformular', style: CustomTextSize.medium),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: ColorUtils.primaryColor,
                         elevation: 0,
@@ -227,7 +245,8 @@ class DonationReceived extends StatelessWidget {
                         )),
                     onPressed: () {
                       print("Rufe Share Button mit eventId auf: $eventId");
-                      Navigator.pushNamed(context, '/ThankYou/ShareDonation', arguments: {'eventId': eventId});
+                      Navigator.pushNamed(context, '/ThankYou/ShareDonation',
+                          arguments: {'eventId': eventId});
                     },
                   ),
                 ),
@@ -235,7 +254,8 @@ class DonationReceived extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   width: 400,
                   child: ElevatedButton(
-                    child: Text('Zurück zum Spenden', style: CustomTextSize.medium),
+                    child: Text('Zurück zum Spenden',
+                        style: CustomTextSize.medium),
                     onPressed: () {
                       // Push to Screen
                       Navigator.pushNamed(context, '/Donations');
@@ -343,7 +363,9 @@ class _ReceiptState extends State<Receipt> {
           Container(
             margin: const EdgeInsets.all(40),
             height: 50,
-            child: Text("Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail", style: CustomTextSize.small),
+            child: Text(
+                "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",
+                style: CustomTextSize.small),
           ),
         ])));
   }
@@ -352,8 +374,12 @@ class _ReceiptState extends State<Receipt> {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawImage(PdfBitmap(await _readImageData()), Rect.fromLTWH(0, 0, page.getClientSize().width, page.getClientSize().height));
-    page.graphics.drawString("Test", PdfStandardFont(PdfFontFamily.helvetica, 10));
+    page.graphics.drawImage(
+        PdfBitmap(await _readImageData()),
+        Rect.fromLTWH(
+            0, 0, page.getClientSize().width, page.getClientSize().height));
+    page.graphics
+        .drawString("Test", PdfStandardFont(PdfFontFamily.helvetica, 10));
 
     List<int> bytes = await document.save();
     document.dispose();
@@ -364,7 +390,10 @@ class _ReceiptState extends State<Receipt> {
   Future<String?> _handlePdfUpload() async {
     if (kIsWeb) {
       final uniqueId = "Quittung_${DateTime.now().millisecondsSinceEpoch}.pdf";
-      final reference = FirebaseStorage.instance.ref('donator_receipts').child(FirebaseAuth.instance.currentUser!.uid).child(uniqueId);
+      final reference = FirebaseStorage.instance
+          .ref('donator_receipts')
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .child(uniqueId);
       //Web
 
       final bytes = await _createPDF();
@@ -399,7 +428,9 @@ class _ReceiptState extends State<Receipt> {
   void _handleWebDownloadButtonPressed() async {
     List<int> bytes = await _createPDF();
 
-    html.AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    html.AnchorElement(
+        href:
+            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
       ..setAttribute("download", "spendenquittung.pdf")
       ..click();
   }
@@ -414,14 +445,18 @@ class ShareDonation extends StatefulWidget {
 
 Future<void> shareToFacebook(String url) async {
   if (GetPlatform.currentPlatform == GetPlatform.web) {
-    if (await canLaunchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
-      await launchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    if (await canLaunchUrl(
+        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(
+          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
       //print("Could not launch URL");
     }
   } else {
-    if (await canLaunchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
-      await launchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    if (await canLaunchUrl(
+        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(
+          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
       //print("Could not launch URL");
     }
@@ -438,7 +473,8 @@ Future<void> shareToTwitter(String url) async {
       //print("Could not launch URL");
     }
   } else {
-    if (await canLaunchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
+    if (await canLaunchUrl(
+        Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
       //print("Could not launch URL");
@@ -448,7 +484,8 @@ Future<void> shareToTwitter(String url) async {
 
 class _ShareDonationState extends State<ShareDonation> {
   String? get eventId {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
@@ -469,7 +506,8 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToFacebook('https://marc-wieland.de/#/Donations?interneId=$eventId');
+                    await shareToFacebook(
+                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Facebook: $e");
                   }
@@ -486,7 +524,8 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToTwitter('https://marc-wieland.de/#/Donations?interneId=$eventId');
+                    await shareToTwitter(
+                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Twitter: $e");
                   }
