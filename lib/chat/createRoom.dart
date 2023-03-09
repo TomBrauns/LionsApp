@@ -116,7 +116,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(Icons.upload, size: 48),
-                            Text("Bild auswählen",style: CustomTextSize.small),
+                            Text("Bild auswählen", style: CustomTextSize.small),
                           ],
                         ),
                 ),
@@ -183,14 +183,16 @@ class _RoomCreatorState extends State<RoomCreator> {
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${user.firstName} ${user.lastName}',style: CustomTextSize.small),
+                        Text('${user.firstName} ${user.lastName}', style: CustomTextSize.small),
                       ],
                     ),
                     value: user.isSelected,
                     onChanged: (bool? value) {
-                      setState(() {
-                        user.isSelected = value!;
-                      });
+                      setState(
+                        () {
+                          user.isSelected = value!;
+                        },
+                      );
                     },
                   );
                 },
@@ -228,9 +230,9 @@ class _RoomCreatorState extends State<RoomCreator> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(
+              SnackBar(
                 backgroundColor: Colors.red,
-                content: Text('Gruppename angeben',style: CustomTextSize.small),
+                content: Text('Gruppename angeben', style: CustomTextSize.small),
               ),
             );
           }

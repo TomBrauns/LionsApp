@@ -6,16 +6,15 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
 import '../../../Widgets/privileges.dart';
-import '../../../Widgets/textSize.dart';
 
-class deleteUser extends StatefulWidget {
-  deleteUser({Key? key}) : super(key: key);
+class deleteChat extends StatefulWidget {
+  deleteChat({Key? key}) : super(key: key);
 
   @override
-  State<deleteUser> createState() => _deleteUserState();
+  State<deleteChat> createState() => _deleteChatState();
 }
 
-class _deleteUserState extends State<deleteUser> {
+class _deleteChatState extends State<deleteChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,17 +94,14 @@ class _UserRoleListState extends State<UserRoleList> {
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users.elementAt(index);
-                  return InkWell(
-                    child: ListTile(
-                      title: Text("${user["firstname"]} ${user["lastname"]}"),
-                      subtitle: Text(user["email"]),
-                      /* trailing: MaterialButton(
-                        onPressed: () {
-                          deleteAcc(user.id);
-                        },
-                        child: Text('löschen'),
-                      ), */
-                      onTap: () => showMyDialog(user.id, user['firstname'], user['lastname']),
+                  return ListTile(
+                    title: Text("${user["firstname"]} ${user["lastname"]}"),
+                    subtitle: Text(user["email"]),
+                    trailing: MaterialButton(
+                      onPressed: () {
+                        deleteAcc(user.id);
+                      },
+                      child: Text('löschen'),
                     ),
                   );
                 },
@@ -114,45 +110,6 @@ class _UserRoleListState extends State<UserRoleList> {
           ),
         )
       ],
-    );
-  }
-
-  Future<void> showMyDialog(String id, String firstName, String lastName) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Wollen Sie den Account von $firstName $lastName wirklich löschen?', style: CustomTextSize.small),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Abbrechen', style: CustomTextSize.small),
-              onPressed: () => Navigator.pop(context),
-            ),
-            TextButton(
-              child: Text('Bestätigen', style: CustomTextSize.small),
-              onPressed: () {
-                deleteAcc(id);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Ihr Account wurde gelöscht',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
