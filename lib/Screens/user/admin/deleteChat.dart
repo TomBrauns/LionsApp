@@ -5,6 +5,8 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
+import '../../../Widgets/textSize.dart';
+
 class deleteChat extends StatefulWidget {
   deleteChat({Key? key}) : super(key: key);
 
@@ -32,53 +34,57 @@ class _ChatRoomListState extends State<ChatRoomList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-          decoration: const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            decoration: const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+          ),
         ),
-      ),
-      Expanded(
+        Expanded(
           child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-              stream: _chatRoomStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                final rooms = snapshot.data;
-                if (rooms == null || rooms.isEmpty) {
-                  return const Center(
-                    child: Text('No Chats found.'),
-                  );
-                }
-
-                final groupChats = rooms.where((room) => (room.get("name") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
-
-                return ListView.builder(
-                  itemCount: groupChats.length,
-                  itemBuilder: (context, index) {
-                    final room = groupChats.elementAt(index);
-                    return ListTile(
-                      title: Text("${room["name"]}"),
-                    );
-                  },
+            stream: _chatRoomStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
                 );
-              }))
-    ]);
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final rooms = snapshot.data;
+              if (rooms == null || rooms.isEmpty) {
+                return const Center(
+                  child: Text('No Chats found.'),
+                );
+              }
+
+              final groupChats = rooms.where((room) => (room.get("name") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+
+              return ListView.builder(
+                itemCount: groupChats.length,
+                itemBuilder: (context, index) {
+                  final room = groupChats.elementAt(index);
+                  return ListTile(
+                    title: Text("${room["name"]}"),
+                  );
+                },
+              );
+            },
+          ),
+        )
+      ],
+    );
   }
 }
