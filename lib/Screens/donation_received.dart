@@ -78,7 +78,8 @@ class DonationReceived extends StatelessWidget {
       "user": currentUser != null ? currentUser.uid : "guest",
       "amount": amount,
       "event_name": eventName,
-      "event_id": eventId
+      "event_id": eventId,
+      "date": DateTime.now(),
     });
   }
 
