@@ -200,17 +200,16 @@ class _DonationsState extends State<Donations> {
                                         ),
                                         SizedBox(
                                           width: 50,
-                                          child: ElevatedButton(
-                                            onPressed: _handleClearButton,
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.red,
+                                          child: RawMaterialButton(
+                                              onPressed: _handleClearButton,
+                                              elevation: 2.0,
+                                              fillColor: Colors.red,
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: Colors.white
+                                              ),
                                               shape: CircleBorder(),
-                                            ),
-                                            child: Icon(
-                                              Icons.clear,
-                                              color: Colors.white
-                                            ),
-                                          ),
+                                              )
                                         ),
                                       ],
                                     ),
