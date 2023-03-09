@@ -63,7 +63,9 @@ class _HistoryListState extends State<HistoryList> {
             snapshot.data!.where((d) => (d["event_name"]).toLowerCase().contains(_searchQuery.toLowerCase())).toList();
         history.sort((d1, d2) => (d2["date"] as Timestamp).compareTo(d1["date"] as Timestamp));
 
-        final double sum = history.map((d) => d["amount"] as double).reduce((value, element) => value + element);
+        final double sum = history.isNotEmpty
+            ? history.map((d) => d["amount"] as double).reduce((value, element) => value + element)
+            : 0;
 
         return Column(children: [
           Padding(
