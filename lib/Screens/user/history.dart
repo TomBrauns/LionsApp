@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class History extends StatefulWidget {
   History({Key? key}) : super(key: key);
@@ -29,7 +31,7 @@ class HistoryList extends StatefulWidget {
   State<HistoryList> createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> {
+class _HistoryListState extends State<HistoryList> with SingleTickerProviderStateMixin{
   final dateFormat = DateFormat("dd. MMM yyyy HH:mm");
   final _historyStream = FirebaseFirestore.instance
       .collection('donations')
@@ -38,6 +40,35 @@ class _HistoryListState extends State<HistoryList> {
       .map((snapshot) => snapshot.docs);
 
   String _searchQuery = "";
+
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState(){
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..forward();
+
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +92,29 @@ class _HistoryListState extends State<HistoryList> {
             snapshot.data!.where((d) => (d["event_name"]).toLowerCase().contains(_searchQuery.toLowerCase())).toList();
         history.sort((d1, d2) => (d2["date"] as Timestamp).compareTo(d1["date"] as Timestamp));
 
-        final double sum = history.map((d) => d["amount"] as double).reduce((value, element) => value + element);
+        final double sum = history.isNotEmpty
+            ? history.map((d) => d["amount"] as double).reduce((value, element) => value + element)
+            : 0;
+
+
 
         return Column(children: [
-          Padding(
+          /*Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Gespendeter Gesamtbetrag: $sum€", style: CustomTextSize.medium)),
+              child: Text("Gespendeter Gesamtbetrag: $sum€", style: CustomTextSize.medium)),*/
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: sum),
+              duration: const Duration(seconds: 2),
+              builder: (context, double value, child){
+                return Text(
+                  "Gespendeter Gesamtbetrag: ${value.toStringAsFixed(2)}€",
+                  style: CustomTextSize.smamedium,
+                );
+              },
+            )
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -84,15 +132,23 @@ class _HistoryListState extends State<HistoryList> {
           ),
           Expanded(
               child: ListView.builder(
-            itemCount: history.length,
-            itemBuilder: (context, index) {
+              itemCount: history.length,
+              itemBuilder: (context, index) {
               final donation = history.elementAt(index);
               final double amount = donation["amount"];
               final String eventName = donation["event_name"];
               final String date = dateFormat.format((donation["date"] as Timestamp).toDate());
+              final String pdfUrl = donation["receipt_url"];
               return ListTile(
-                title: Text("$amount€ Spende an $eventName"),
+                title: Text("${amount.toStringAsFixed(2)}€ Spende an $eventName"),
                 subtitle: Text("Spendendatum: $date"),
+                trailing: IconButton(
+                    icon: const Icon(Icons.download),
+                    onPressed: () async {
+                      if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+                        await launchUrl(Uri.parse(pdfUrl));
+                      }
+                    }),
               );
             },
           ))

@@ -297,7 +297,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == Privilege.admin
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
-                  title: Text('Nutzerverwaltung', style: CustomTextSize.small),
+                  title: Text('Rollen verwalten', style: CustomTextSize.small),
                   selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -311,6 +311,40 @@ class _BurgerMenuState extends State<BurgerMenu> {
                   },
                 )
               : Container(),
+          Privileges.privilege == Privilege.admin
+              ? ListTile(
+                  leading: const Icon(Icons.manage_accounts),
+                  title: Text('Nutzer löschen', style: CustomTextSize.small),
+                  selected: isMenuSelected(13),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 13;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/deleteUser');
+                  },
+                )
+              : Container(),
+          Privileges.privilege == Privilege.admin
+              ? ListTile(
+                  leading: const Icon(Icons.manage_accounts),
+                  title: Text('Chats löschen', style: CustomTextSize.small),
+                  selected: isMenuSelected(14),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 14;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/deleteChat');
+                  },
+                )
+              : Container(),
           const ListTile(
             title: Text('Konto Seiten', style: TextStyle(fontWeight: FontWeight.bold)),
             tileColor: Color.fromARGB(255, 211, 211, 211),
@@ -320,11 +354,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.app_registration),
                   title: Text('Registrierung', style: CustomTextSize.small),
-                  selected: isMenuSelected(13),
+                  selected: isMenuSelected(15),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 13;
+                      AppData.selected = 15;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -338,11 +372,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.login),
                   title: Text('Login', style: CustomTextSize.small),
-                  selected: isMenuSelected(14),
+                  selected: isMenuSelected(16),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 14;
+                      AppData.selected = 16;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -356,11 +390,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.logout),
                   title: Text('Ausloggen', style: CustomTextSize.small),
-                  selected: isMenuSelected(15),
+                  selected: isMenuSelected(17),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 15;
+                      AppData.selected = 17;
                     });
                     // Update State of App
                     Navigator.pop(context);

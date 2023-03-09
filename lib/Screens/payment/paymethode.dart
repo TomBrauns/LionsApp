@@ -19,7 +19,7 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-String Endpoint = "http://l4c.projekte.it.hs-worms.de:5000";
+String Endpoint = "http://ec2-54-226-194-20.compute-1.amazonaws.com/";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -54,7 +54,8 @@ class _PaymethodeState extends State<Paymethode> {
   }
 
   double get amount {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
   }
 

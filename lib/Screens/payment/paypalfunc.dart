@@ -37,9 +37,10 @@ Future<List<String>> makePaypalPayment(double amount, eventId, Endpoint) async {
     'authToken': token,
     'amount': amount.toString(),
     'eventId': eventId.toString(),
-    'success_url': '/ThankYou?amount=$amount&eventId=$eventId',
+    'success_url':
+        'https://marc-wieland.de/#/ThankYou?amount=$amount&eventId=$eventId',
     'cancel_url':
-        '/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId',
+        'https://marc-wieland.de/#/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId',
     'currency': "EUR",
   };
 

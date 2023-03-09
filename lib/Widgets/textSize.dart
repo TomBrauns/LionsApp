@@ -6,6 +6,7 @@ class CustomTextSize {
   static TextStyle large = TextStyle(fontSize: 30);
   static TextStyle medium = TextStyle(fontSize: 24);
   static TextStyle small = TextStyle(fontSize: 16);
+  static TextStyle smamedium = TextStyle(fontSize: 20);
 }
 
 class CustomTextWidget extends StatelessWidget {
