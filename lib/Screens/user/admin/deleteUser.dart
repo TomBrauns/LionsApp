@@ -41,7 +41,6 @@ class _UserRoleListState extends State<UserRoleList> {
   String _searchQuery = "";
 
   Future<void> deleteAcc(String? uid) async {
-    Privileges.privilege = Privilege.guest;
     await FirebaseFirestore.instance.collection('users').doc(uid).delete();
     await FirebaseAuth.instance.currentUser!.delete();
   }

@@ -5,8 +5,6 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
-import '../../../Widgets/privileges.dart';
-
 class deleteChat extends StatefulWidget {
   deleteChat({Key? key}) : super(key: key);
 
@@ -17,99 +15,70 @@ class deleteChat extends StatefulWidget {
 class _deleteChatState extends State<deleteChat> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const BurgerMenu(),
-      appBar: const MyAppBar(title: "Nutzer löschen"),
-      bottomNavigationBar: BottomNavigation(),
-      body: const UserRoleList(),
-    );
+    return Scaffold(drawer: const BurgerMenu(), appBar: const MyAppBar(title: "Chats löschen"), bottomNavigationBar: BottomNavigation(), body: const ChatRoomList());
   }
 }
 
-class UserRoleList extends StatefulWidget {
-  const UserRoleList({Key? key}) : super(key: key);
+class ChatRoomList extends StatefulWidget {
+  const ChatRoomList({Key? key}) : super(key: key);
 
   @override
-  State<UserRoleList> createState() => _UserRoleListState();
+  State<ChatRoomList> createState() => _ChatRoomListState();
 }
 
-class _UserRoleListState extends State<UserRoleList> {
-  final _userStream = FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) => snapshot.docs);
-  final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
-
+class _ChatRoomListState extends State<ChatRoomList> {
+  final _chatRoomStream = FirebaseFirestore.instance.collection('rooms').where("type", isEqualTo: 'group').snapshots().map((snapshot) => snapshot.docs);
   String _searchQuery = "";
-
-  Future<void> deleteAcc(String? uid) async {
-    Privileges.privilege = Privilege.guest;
-    await FirebaseFirestore.instance.collection('users').doc(uid).delete();
-    await FirebaseAuth.instance.currentUser!.delete();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            onChanged: (value) {
-              setState(() {
-                _searchQuery = value;
-              });
-            },
-            decoration: const InputDecoration(
-              hintText: 'Suchen',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.search),
-            ),
-          ),
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          onChanged: (value) {
+            setState(() {
+              _searchQuery = value;
+            });
+          },
+          decoration: const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
         ),
-        Expanded(
+      ),
+      Expanded(
           child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-            stream: _userStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
-
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              final users = snapshot.data!.where(
-                (user) =>
-                    user.id != currentUserUid &&
-                    ((user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                        (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                        (user.get("lastname") as String).toLowerCase().contains(
-                              _searchQuery.toLowerCase(),
-                            )),
-              );
-
-              return ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final user = users.elementAt(index);
-                  return ListTile(
-                    title: Text("${user["firstname"]} ${user["lastname"]}"),
-                    subtitle: Text(user["email"]),
-                    trailing: MaterialButton(
-                      onPressed: () {
-                        deleteAcc(user.id);
-                      },
-                      child: Text('löschen'),
-                    ),
+              stream: _chatRoomStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
                   );
-                },
-              );
-            },
-          ),
-        )
-      ],
-    );
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final rooms = snapshot.data;
+                if (rooms == null || rooms.isEmpty) {
+                  return const Center(
+                    child: Text('No Chats found.'),
+                  );
+                }
+
+                final groupChats = rooms.where((room) => (room.get("name") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+
+                return ListView.builder(
+                  itemCount: groupChats.length,
+                  itemBuilder: (context, index) {
+                    final room = groupChats.elementAt(index);
+                    return ListTile(
+                      title: Text("${room["name"]}"),
+                    );
+                  },
+                );
+              }))
+    ]);
   }
 }

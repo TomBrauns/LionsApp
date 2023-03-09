@@ -60,12 +60,7 @@ dependencies:
   path_provider: ^2.0.12
   platform: ^3.1.0
 
-  #Löst bei Miku Dependancy Error aus 
-  #Resolving dependencies...
-  #Because no versions of pay match >1.1.0 <2.0.0 and pay 1.1.0 depends on flutter_localizations from sdk, pay ^1.1.0 requires flutter_localizations from sdk.
-  #And because every version of flutter_localizations from sdk depends on intl 0.18.0, pay ^1.1.0 requires intl 0.18.0.
-  #So, because lionsapp depends on both intl ^0.17.0 and pay ^1.1.0, version solving failed.
-  #pay: ^1.1.0
+
   share: ^2.0.4
   file_picker: ^5.2.5
   flutter_chat_types: ^3.6.0
