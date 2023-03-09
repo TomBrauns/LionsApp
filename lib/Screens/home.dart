@@ -28,7 +28,8 @@ class HomePage extends StatelessWidget {
       drawer: const BurgerMenu(),
       bottomNavigationBar: _getBAB(),
       body: Center(
-        child: Text("Servus beinand, mir frein uns narrisch, dass's auf unserer Homepage vom Lions Club vorbeischaut. Der Lions Club is a Vereinigung vo engagierte Leid, de wo se für a guade Sacha einsetzen und ehrenamtlich was in ihrer Gemeinschaft bewegen woin. Mir hamma a groaßes Herz für unsara bayrische Heimat und legn vui Werta auf Tradition und soziale Verantwortung. Unser Motto is 'we serve' und des is a Grundphilosophie, de wo uns imma antreibt. Mir woin de Wält a bissal besser mocha, oans Projekt nachm andern. Wenn's an Liawand braucht oder wenn's selba wos Gutes tun woin, dann is da Lions Club da richtige Ansprechpartner. Schaut's eich gern um auf unserer Homepage und bei Fragen oder Anregungen san mir immer gern für eich do. Pfiad eich und bis bald beim Lions Club!",style: CustomTextSize.small
+        child: Text("Servus beinand, mia g'frein uns narrisch, dass's auf unsara Homepage vom Lions Club vorbeischaugts. Da Lions Club is a Vereinigung vo engagierte Leit, de wo si für a guade Sacha einsetzen und ehrenamtlich was in ihrer Gemeinschaft bewegen woin. Mia ham a großes Herz für unsara bayerische Heimat und legn vui Wert auf Tradition und soziale Verantwortung. Unser Motto is 'we serve' und des is a Grundphilosophie, de wo uns imma antreibt. Mia woin die Wölt a bissl besser mochn, oans Projekt nochm andan. Wenn's an Liawand braucht oder wenn's selber wos Guads tun woin, dann is da Lions Club da richtige Ansprechpartner. Schauts eich gern um auf unserer Homepage und bei Fragen oder Anregungen san mia immer gern für eich do. Pfiat eich und bis bald beim Lions Club!"
+            ,style: CustomTextSize.small
         )
         ),
       );
