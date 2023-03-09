@@ -79,7 +79,7 @@ class _DonationsState extends State<Donations> {
     }
   }
 
-  void _handleClearButton(){
+  void _handleClearButton() {
     _inputController.clear();
   }
 
@@ -106,8 +106,6 @@ class _DonationsState extends State<Donations> {
                   "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
               String? sponsor, sponsorImgUrl, donationTarget;
               double donationCounter = 0.0;
-
-
 
               if (snapshot.hasData && snapshot.data!.exists) {
                 Map<String, dynamic>? data =
@@ -170,7 +168,7 @@ class _DonationsState extends State<Donations> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                //Im Web wird mit 100cent = 1€ gerechnet, auf Mobile sind 10ct = 1€
+                                                  //Im Web wird mit 100cent = 1€ gerechnet, auf Mobile sind 10ct = 1€
                                                   "Spendenziel: ${formatter.format((double.parse(donationCounter.toStringAsFixed(2)) * (kIsWeb ? 100 : 10)).toString())} / $donationTarget",
                                                   style: CustomTextSize.large),
                                               DualLinearProgressIndicator(
@@ -203,23 +201,20 @@ class _DonationsState extends State<Donations> {
                                         Visibility(
                                           visible: _donationInput != 0.0,
                                           child: SizedBox(
-                                          width: 50,
-                                          child: RawMaterialButton(
-                                            onPressed: (){
-                                              _inputController.clear();
-                                              setState(() {
-                                                _donationInput = 0.0;
-                                              });
-                                            },
-                                              elevation: 2.0,
-                                              fillColor: Colors.red,
-                                              child: Icon(
-                                                Icons.clear,
-                                                color: Colors.white
-                                              ),
-                                              shape: CircleBorder(),
-                                              )
-                                        ),
+                                              width: 50,
+                                              child: RawMaterialButton(
+                                                onPressed: () {
+                                                  _inputController.clear();
+                                                  setState(() {
+                                                    _donationInput = 0.0;
+                                                  });
+                                                },
+                                                elevation: 2.0,
+                                                fillColor: Colors.red,
+                                                shape: const CircleBorder(),
+                                                child: const Icon(Icons.clear,
+                                                    color: Colors.white),
+                                              )),
                                         ),
                                       ],
                                     ),
@@ -251,7 +246,8 @@ class _DonationsState extends State<Donations> {
                                         child: ElevatedButton(
                                             // onPressed: _handleSubmit,
                                             onPressed: () async {
-                                              double currentValue = _getCurrentValue();
+                                              double currentValue =
+                                                  _getCurrentValue();
                                               if (currentValue > 0.0) {
                                                 _inputController.text = "";
                                                 _handleAdd(0);
@@ -262,7 +258,9 @@ class _DonationsState extends State<Donations> {
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
-                                                if (FirebaseAuth.instance.currentUser != null) {
+                                                if (FirebaseAuth
+                                                        .instance.currentUser !=
+                                                    null) {
                                                   print(
                                                       "Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context,
@@ -281,6 +279,11 @@ class _DonationsState extends State<Donations> {
                                                 }
                                               }
                                             },
+                                            style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            )),
                                             child: Container(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
