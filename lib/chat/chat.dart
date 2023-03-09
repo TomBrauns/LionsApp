@@ -21,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:universal_html/html.dart' as html;
 
+
 class ChatPage extends StatefulWidget {
   const ChatPage({
     super.key,
@@ -87,35 +88,51 @@ class _ChatPageState extends State<ChatPage> {
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: SizedBox(
-          height: 144,
+          height: 150,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleImageSelection();
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Foto', style: CustomTextSize.medium),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _handleImageSelection();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.camera_alt, size: 48),
+                          SizedBox(height: 8),
+                          Text('Foto', style: CustomTextSize.small),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _handleFileSelection();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.attach_file, size: 48),
+                          SizedBox(height: 8),
+                          Text('Datei', style: CustomTextSize.small),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleFileSelection();
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Datei', style: CustomTextSize.medium),
-                ),
-              ),
+              SizedBox(height: 16),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Abbrechen', style: CustomTextSize.medium),
+                  alignment: Alignment.center,
+                  child: Text('Abbrechen',style: CustomTextSize.small),
                 ),
               ),
             ],
@@ -124,6 +141,9 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+
+
+
 
   void _handleFileSelection() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);
