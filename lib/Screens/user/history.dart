@@ -135,7 +135,7 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
               final String eventName = donation["event_name"];
               final String date = dateFormat.format((donation["date"] as Timestamp).toDate());
               return ListTile(
-                title: Text("$amount€ Spende an $eventName"),
+                title: Text("${amount.toStringAsFixed(2)}€ Spende an $eventName"),
                 subtitle: Text("Spendendatum: $date"),
               );
             },
