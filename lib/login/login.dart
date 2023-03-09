@@ -98,11 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                             if (value!.length == 0) {
                               return "Email cannot be empty";
                             }
-                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-                              return ("Please enter a valid email");
-                            } else {
-                              return null;
-                            }
                           },
                           onSaved: (value) {
                             emailController.text = value!;
@@ -117,12 +112,15 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
-                                onPressed: () {
-                                  setState(() {
+                              icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
+                              onPressed: () {
+                                setState(
+                                  () {
                                     _isObscure3 = !_isObscure3;
-                                  });
-                                }),
+                                  },
+                                );
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Password',
@@ -142,19 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                             if (value!.isEmpty) {
                               return "Das Passwort-Feld darf nicht leer sein.";
                             }
-<<<<<<< HEAD
-                            if (!regex.hasMatch(value)) {
-                              return ("Bitte geben Sie ein gültiges Passwort ein (mindestens 6 Zeichen).");
-                            } else {
-                              return null;
-                            }
-=======
->>>>>>> 52ea8a2 (small fixes)
                           },
                           onSaved: (value) {
                             passwordController.text = value!;
                           },
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                         ),
                         SizedBox(
                           height: 10,
@@ -259,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           color: Colors.blue[900],
                           child: const Text(
-                            "Register Now",
+                            "Jetzt Registrieren",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
