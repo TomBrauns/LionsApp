@@ -8,10 +8,9 @@ import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
-  // BAB with Priviledge
-  //Copy that
+  // BAB with Privilege
   Widget? _getBAB() {
     if (Privileges.privilege == Privilege.admin ||
         Privileges.privilege == Privilege.member ||
@@ -21,6 +20,7 @@ class HomePage extends StatelessWidget {
       return null;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +28,17 @@ class HomePage extends StatelessWidget {
       drawer: const BurgerMenu(),
       bottomNavigationBar: _getBAB(),
       body: Center(
-        child: Text("Servus beinand, mia g'frein uns narrisch, dass's auf unsara Homepage vom Lions Club vorbeischaugts. Da Lions Club is a Vereinigung vo engagierte Leit, de wo si für a guade Sacha einsetzen und ehrenamtlich was in ihrer Gemeinschaft bewegen woin. Mia ham a großes Herz für unsara bayerische Heimat und legn vui Wert auf Tradition und soziale Verantwortung. Unser Motto is 'we serve' und des is a Grundphilosophie, de wo uns imma antreibt. Mia woin die Wölt a bissl besser mochn, oans Projekt nochm andan. Wenn's an Liawand braucht oder wenn's selber wos Guads tun woin, dann is da Lions Club da richtige Ansprechpartner. Schauts eich gern um auf unserer Homepage und bei Fragen oder Anregungen san mia immer gern für eich do. Pfiat eich und bis bald beim Lions Club!"
-            ,style: CustomTextSize.small
-        )
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Servus beinand, mia g'frein uns narrisch, dass's auf unsara Homepage vom Lions Club vorbeischaugts. Da Lions Club is a Vereinigung vo engagierte Leit, de wo si für a guade Sacha einsetzen und ehrenamtlich was in ihrer Gemeinschaft bewegen woin. Mia ham a großes Herz für unsara bayerische Heimat und legn vui Wert auf Tradition und soziale Verantwortung. Unser Motto is 'we serve' und des is a Grundphilosophie, de wo uns imma antreibt. Mia woin die Wölt a bissl besser mochn, oans Projekt nochm andan. Wenn's an Liawand braucht oder wenn's selber wos Guads tun woin, dann is da Lions Club da richtige Ansprechpartner. Schauts eich gern um auf unserer Homepage und bei Fragen oder Anregungen san mia immer gern für eich do. Pfiat eich und bis bald beim Lions Club!",
+              style: CustomTextSize.small,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
-      );
-
+      ),
+    );
   }
 }
