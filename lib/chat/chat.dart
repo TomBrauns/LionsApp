@@ -21,7 +21,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:universal_html/html.dart' as html;
 
-
 class ChatPage extends StatefulWidget {
   const ChatPage({
     super.key,
@@ -99,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Foto',style: CustomTextSize.medium),
+                  child: Text('Foto', style: CustomTextSize.medium),
                 ),
               ),
               TextButton(
@@ -109,14 +108,14 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Datei',style: CustomTextSize.medium),
+                  child: Text('Datei', style: CustomTextSize.medium),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Abbrechen',style: CustomTextSize.medium),
+                  child: Text('Abbrechen', style: CustomTextSize.medium),
                 ),
               ),
             ],
@@ -127,19 +126,25 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleFileSelection() async {
-    final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
-    final name = file!.name;
+    final result = await FilePicker.platform.pickFiles(type: FileType.any);
+    if (result == null || result.files.isEmpty) {
+      // User canceled the picker
+      return;
+    }
+
+    final file = result.files.single;
+    final name = file.name;
     final reference = FirebaseStorage.instance.ref('files_sent_in_rooms').child(widget.room.id).child(name);
-    //Web
-    final bytes = await file!.readAsBytes();
-    await reference.putData(bytes);
+
+    // Web
+    final bytes = file.bytes;
+    await reference.putData(bytes!);
 
     final uri = await reference.getDownloadURL();
-    /* Size */
-    final size = await file.length();
+    final size = file.size;
     final userId = FirebaseAuth.instance.currentUser!.uid;
     final author = types.User(id: userId);
-    //MSG SENDING
+
     final message = types.PartialFile(
       name: name,
       size: size,
