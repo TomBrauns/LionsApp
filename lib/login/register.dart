@@ -44,7 +44,7 @@ class _RegisterState extends State<Register> {
 
   bool _isObscure = true;
   bool _isObscure2 = true;
-  var rool = "Admin";
+  var rool = "Friend";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

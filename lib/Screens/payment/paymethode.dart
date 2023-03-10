@@ -62,8 +62,6 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
-
-    urlPaymentValidate(context);
   }
 
   void onApplePayResult(paymentResult) {
@@ -80,7 +78,8 @@ class _PaymethodeState extends State<Paymethode> {
         await payProcessing(tokenId, amount, eventId, Endpoint);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
-      Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
+      Navigator.pushNamed(context,
+          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId');
     } else {
       showErrorSnackbar(context);
     }
@@ -110,12 +109,13 @@ class _PaymethodeState extends State<Paymethode> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('$amount€ Spende', style: CustomTextSize.large),
+            SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(20.0),
-              margin: const EdgeInsets.symmetric(horizontal: 100),
+              margin: const EdgeInsets.symmetric(horizontal: 90),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorUtils.primaryColor,
+                    backgroundColor: Color.fromARGB(255, 255, 196, 57),
                     elevation: 0,
                     padding: const EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
@@ -132,16 +132,22 @@ class _PaymethodeState extends State<Paymethode> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.paypal),
+                    Icon(
+                      Icons.paypal,
+                      color: Colors.blue,
+                    ),
                     SizedBox(width: 8),
-                    Text("Paypal", style: CustomTextSize.large),
+                    Text(
+                      "Paypal",
+                      style: CustomTextSize.large,
+                    ),
                   ],
                 ),
               ),
             ),
             Container(
               padding: const EdgeInsets.all(20.0),
-              margin: const EdgeInsets.symmetric(horizontal: 100),
+              margin: const EdgeInsets.symmetric(horizontal: 90),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorUtils.primaryColor,
@@ -160,8 +166,8 @@ class _PaymethodeState extends State<Paymethode> {
                     } else if (paymentSuccess == true) {
                       print(eventId);
                       Navigator.pop(context);
-                      Navigator.pushNamed(
-                          context, '/ThankYou?amount=$amount&eventId=$eventId');
+                      Navigator.pushNamed(context,
+                          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId');
                     }
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     stripeOnPressWeb(
@@ -196,20 +202,24 @@ class _PaymethodeState extends State<Paymethode> {
                       : const SizedBox.shrink()),
 
             if (GetPlatform.currentPlatform != GetPlatform.web)
-              FutureBuilder<PaymentConfiguration>(
-                  future: _googlePayConfigFuture,
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? GooglePayButton(
-                          paymentConfiguration: snapshot.data!,
-                          paymentItems: paymentItems,
-                          type: GooglePayButtonType.donate,
-                          margin: const EdgeInsets.only(top: 15.0),
-                          onPaymentResult: onGooglePayResult,
-                          loadingIndicator: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink()),
+              Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 90),
+                  height: 100,
+                  width: 500,
+                  child: FutureBuilder<PaymentConfiguration>(
+                      future: _googlePayConfigFuture,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? GooglePayButton(
+                              paymentConfiguration: snapshot.data!,
+                              paymentItems: paymentItems,
+                              type: GooglePayButtonType.donate,
+                              onPaymentResult: onGooglePayResult,
+                              loadingIndicator: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : const SizedBox.shrink())),
           ],
         ),
       ),
@@ -242,23 +252,74 @@ void showSuccessSnackbar(BuildContext context) {
       ),
     );
   }
+}
 
-  /*
-  final List<String> Paypalreturn = [
-            uri.queryParameters['paymentId'] ?? '',
-            uri.queryParameters['token'] ?? '',
-            uri.queryParameters['PayerID'] ?? ''
-  */
-  void urlPaymentValidate(context) async {
-    print("current URL:");
-    print(Uri.base);
-    final uri = Uri.base;
-    final url = uri.toString();
-    if (await url.contains('cancel') == true) {
-      showErrorSnackbar(context);
-    } else if (url.contains('cancel') == false) {
-      print('default Page');
-    }
+class Paymethodecancel extends StatelessWidget {
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
+  final double amount;
+  final String eventId;
+
+  const Paymethodecancel({
+    Key? key,
+    this.token,
+    this.paymentId,
+    this.PayerID,
+    required this.amount,
+    required this.eventId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Zahlung abgebrochen'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+
+      Navigator.pushNamed(
+        context,
+        '/Donations/UserType/PayMethode',
+        arguments: {'eventId': eventId, 'amount': amount},
+      );
+    });
+
+    return Container();
+  }
+}
+
+//TODO: Token generation for payment to donation recieved and usage of token
+class Paymethodesuccess extends StatelessWidget {
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
+  final double amount;
+  final String eventId;
+
+  const Paymethodesuccess({
+    Key? key,
+    this.token,
+    this.paymentId,
+    this.PayerID,
+    required this.amount,
+    required this.eventId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      Navigator.pushNamed(
+        context,
+        '/ThankYou',
+        arguments: {'eventId': eventId, 'amount': amount},
+      );
+    });
+
+    return Container();
   }
 }
 

@@ -32,9 +32,11 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   _isSigningIn = true;
                 });
                 User? user = await Authentication.signInWithGoogle(context: context);
-                setState(() {
-                  _isSigningIn = false;
-                });
+                setState(
+                  () {
+                    _isSigningIn = false;
+                  },
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

@@ -12,7 +12,7 @@ Future<void> paypalOnPressWeb(
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
-    await launchUrl(Uri.parse(PaypalObject[0]));
+    await launchUrl(Uri.parse(PaypalObject[0]), webOnlyWindowName: '_self');
   } else {
     //print("Could not launch URL");
   }
@@ -39,7 +39,8 @@ Future<List<String>> makePaypalPayment(
     'authToken': token,
     'amount': amount.toString(),
     'eventId': eventId.toString(),
-    'success_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
+    'success_url':
+        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId',
     'cancel_url':
         '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId',
     'currency': "EUR",

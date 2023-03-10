@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
@@ -19,10 +20,10 @@ class _CalendarState extends State<PwReset> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const BurgerMenu(),
-        appBar: const MyAppBar(title: "Passwort zurücksetzen"),
-        body: SingleChildScrollView(
-            child: Column(
+      drawer: const BurgerMenu(),
+      appBar: const MyAppBar(title: "Passwort zurücksetzen"),
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
             const SizedBox(
               height: 40,
@@ -33,9 +34,7 @@ class _CalendarState extends State<PwReset> {
                 controller: emailController,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.mail_outline),
-                  hintText:
-                      'An diese Adresse wird die Passwort zurücksetzen Mail geschickt',
-                  labelText: 'Email Adresse *',
+                  labelText: 'An diese Adresse wird die Passwort zurücksetzen Mail geschickt',
                 ),
               ),
             ),
@@ -43,19 +42,11 @@ class _CalendarState extends State<PwReset> {
               height: 20,
             ),
             MaterialButton(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
               elevation: 5.0,
               height: 40,
               onPressed: () {
                 resetPassword(email: emailController.text);
-                const CircularProgressIndicator();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
               },
               color: Colors.white,
               child: const Text(
@@ -66,11 +57,35 @@ class _CalendarState extends State<PwReset> {
               ),
             ),
           ],
-        )));
+        ),
+      ),
+    );
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    final userExists = await doesUserExistWithEmail(email);
+    if (userExists) {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bitte prüfen Sie Ihr Email Postfach'), backgroundColor: Colors.green),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Die Email Adresse ist bei uns nicht registriert'), backgroundColor: Colors.redAccent),
+      );
+    }
   }
 }
 
-//TODO: Anpassen, dass man wenn man auf den Link klickt das PW wenigstens 2x eingeben muss und nicht nur 1x wie es gerade ist
-Future<void> resetPassword({required String email}) async {
-  await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+Future<bool> doesUserExistWithEmail(String email) async {
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  final QuerySnapshot result = await usersCollection.where('email', isEqualTo: email).get();
+  final List<DocumentSnapshot> documents = result.docs;
+  return documents.isNotEmpty;
 }
