@@ -147,10 +147,9 @@ class _ContactState extends State<Contact> {
   Future<void> sendMail(String? name, String? eMail, String subject, String msg) async {
     var data = {
       'mailOptions': {
-        'from': eMail,
         'to': 'info@serviceclub-app.de',
         'subject': subject,
-        'text': 'Neue Mitteilung von $name\n$msg',
+        'text': 'Neue Mitteilung von $name mit der Email Adresse: $eMail\n$msg',
         /* 'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': '', 'path': pdf},
@@ -170,19 +169,21 @@ class _ContactState extends State<Contact> {
           margin: EdgeInsets.only(top: 64),
         ),
       );
+      sendCopyMailToCreator(name, eMail, subject, msg);
+      print("mail sent");
     } catch (e) {
       print('Error sending email: $e');
     }
   }
 
-  Future<void> sendCopyMailToCreatpr(String? name, String? eMail, String subject, String msg) async {
+  Future<void> sendCopyMailToCreator(String? name, String? eMail, String subject, String msg) async {
     if (eMail!.isNotEmpty) {
       var data = {
         'mailOptions': {
           'from': 'info@serviceclub-app.de',
           'to': eMail,
           'subject': 'Ihre Nachricht an Service Club "$subject"',
-          'text': 'Hallo $name,\n Vielen Dank für deine Nachricht!\n\n Deine Nachricht lautete:\n$msg\n\n Wir versuchen die so schnell wie möglich zu antworten!\n Deine Service Club Team!',
+          'text': 'Hallo $name,\nVielen Dank für deine Nachricht!\n\nDeine Nachricht lautete:\n$msg\n\n Wir versuchen dir so schnell wie möglich zu antworten!\n Deine Service Club Team!',
           /* 'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': '', 'path': pdf},

@@ -51,8 +51,8 @@ exports.sendNotification = functions.https.onCall(async (data, context) => {
 exports.sendEmailWithAttachments = functions.https.onCall(async (data, context) => {
   
   const transporter = nodemailer.createTransport({
-    host: "sslout.de",
-    port: "465",
+    host: "sslout.df.eu",
+    port: "25",
     secure: true,
     auth: {
       user: "info@serviceclub-app.de",
