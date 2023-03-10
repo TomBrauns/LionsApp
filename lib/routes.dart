@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/admin/callAdmin.dart';
 import 'package:lionsapp/Screens/user/admin/deleteChat.dart';
 import 'package:lionsapp/Screens/user/admin/deleteUser.dart';
+import 'package:lionsapp/Screens/user/changePassword.dart';
 import 'package:lionsapp/Screens/user/history.dart';
 import 'package:lionsapp/chat/chat.dart';
 import 'package:lionsapp/chat/rooms.dart';
@@ -29,6 +30,7 @@ var routes = <String, WidgetBuilder>{
   '/User/Data': (context) => Update(),
   '/User/Accessibility': (context) => const Accessibility(),
   '/User/Subs': (context) => const Subs(),
+  '/User/ChangePW': (context) => changePw(),
   '/ChangeRole': (context) => callAdmin(),
   '/deleteChat': (context) => deleteChat(),
   '/deleteUser': (context) => deleteUser(),

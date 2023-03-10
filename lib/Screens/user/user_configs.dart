@@ -175,10 +175,8 @@ class _UserState extends State<User> {
                   onPressed: () {
                     final user = FirebaseAuth.instance.currentUser;
                     if (user != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Update()),
-                      );
+                      Navigator.pushNamed(
+                        context,'/User/Data');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -207,10 +205,8 @@ class _UserState extends State<User> {
                   onPressed: () {
                     final user = FirebaseAuth.instance.currentUser;
                     if (user != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => changePw()),
-                      );
+                      Navigator.pushNamed(
+                        context,'/User/ChangePW');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -237,10 +233,8 @@ class _UserState extends State<User> {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Subs()),
-                    );
+                    Navigator.pushNamed(
+                      context,'/User/Subs');
                   },
                 ),
               ),
@@ -286,10 +280,7 @@ class _UserState extends State<User> {
                         duration: Duration(seconds: 3),
                       ),
                     );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Donations()),
-                    );
+                    Navigator.pushNamed(context, '/');
                   },
                 ),
               ),
@@ -338,10 +329,7 @@ class _UserState extends State<User> {
             TextButton(
               child: Text('Abbrechen', style: CustomTextSize.small),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const User()),
-                );
+                Navigator.pushNamed(context, '/User');
               },
             ),
             TextButton(
@@ -357,10 +345,8 @@ class _UserState extends State<User> {
                     backgroundColor: Colors.green,
                   ),
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Donations()),
-                );
+                Navigator.pushNamed(
+                  context,'/');
               },
             ),
           ],
