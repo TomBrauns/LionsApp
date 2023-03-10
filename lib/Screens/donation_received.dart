@@ -148,42 +148,41 @@ class DonationReceived extends StatelessWidget {
                   child: Text(message, style: CustomTextSize.small),
                 ),
                 if (amount >= 300)
-                  Column(children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.all(40),
-                      padding: const EdgeInsets.all(40.0),
-                      decoration: BoxDecoration(
+                  Container(
+                    margin: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40.0),
+                    decoration: BoxDecoration(
+                        color: Colors.amber,
+                        border: Border.all(
                           color: Colors.amber,
-                          border: Border.all(
-                            color: Colors.amber,
-                          ),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Text(
-                          'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
-                          style: CustomTextSize.small),
+                        ),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Text(
+                        'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
+                        style: CustomTextSize.small),
+                  ),
+                if (amount >= 300)
+                  Container(
+                    padding: const EdgeInsets.all(20.0),
+                    width: 400,
+                    child: ElevatedButton(
+                      child: Text('zur Zuwendungsbestätigung',
+                          style: CustomTextSize.medium),
+                      onPressed: () {
+                        // Update State of App
+                        Navigator.pop(context);
+                        // Push to Screen
+                        Navigator.pushNamed(context, '/ThankYou/Receipt');
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                          elevation: 0,
+                          padding: const EdgeInsets.all(10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(20.0),
-                      width: 400,
-                      child: ElevatedButton(
-                        child: Text('zur Zuwendungsbestätigung',
-                            style: CustomTextSize.medium),
-                        onPressed: () {
-                          // Update State of App
-                          Navigator.pop(context);
-                          // Push to Screen
-                          Navigator.pushNamed(context, '/ThankYou/Receipt');
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber,
-                            elevation: 0,
-                            padding: const EdgeInsets.all(10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )),
-                      ),
-                    ),
-                  ]),
+                  ),
                 Container(
                   padding: const EdgeInsets.all(20.0),
                   width: 400,
