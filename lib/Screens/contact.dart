@@ -121,7 +121,7 @@ class _ContactState extends State<Contact> {
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          sendMailWithReceipt(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
+                          sendMail(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -144,7 +144,7 @@ class _ContactState extends State<Contact> {
     );
   }
 
-  Future<void> sendMailWithReceipt(String name, String eMail, String subject, String msg) async {
+  Future<void> sendMail(String? name, String? eMail, String subject, String msg) async {
     var data = {
       'mailOptions': {
         'from': eMail,
@@ -172,6 +172,39 @@ class _ContactState extends State<Contact> {
       );
     } catch (e) {
       print('Error sending email: $e');
+    }
+  }
+
+  Future<void> sendCopyMailToCreatpr(String? name, String? eMail, String subject, String msg) async {
+    if (eMail!.isNotEmpty) {
+      var data = {
+        'mailOptions': {
+          'from': 'info@serviceclub-app.de',
+          'to': eMail,
+          'subject': 'Ihre Nachricht an Service Club "$subject"',
+          'text': 'Hallo $name,\n Vielen Dank für deine Nachricht!\n\n Deine Nachricht lautete:\n$msg\n\n Wir versuchen die so schnell wie möglich zu antworten!\n Deine Service Club Team!',
+          /* 'attachments': [
+          //TODO: Pfad der späteren Quittung und Text bisschen anpassen
+          {'filename': '', 'path': pdf},
+        ], */
+        }
+      };
+
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
+      try {
+        await callable(data);
+        Navigator.pushNamed(context, '/Donations');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Ihre Kontaktanfrage wurde versendet!'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(top: 64),
+          ),
+        );
+      } catch (e) {
+        print('Error sending email: $e');
+      }
     }
   }
 }
