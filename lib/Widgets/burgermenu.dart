@@ -407,7 +407,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                         duration: Duration(seconds: 3),
                       ),
                     );
-                    Navigator.pushNamed(context, '/Donations');
+                    Navigator.pushNamed(context, '/');
                     signOut();
                   },
                 )
