@@ -80,7 +80,8 @@ class _PaymethodeState extends State<Paymethode> {
         await payProcessing(tokenId, amount, eventId, Endpoint);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
-      Navigator.pushNamed(context, '/ThankYou?amount=$amount&eventId=$eventId');
+      Navigator.pushNamed(context,
+          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId');
     } else {
       showErrorSnackbar(context);
     }
@@ -161,8 +162,8 @@ class _PaymethodeState extends State<Paymethode> {
                     } else if (paymentSuccess == true) {
                       print(eventId);
                       Navigator.pop(context);
-                      Navigator.pushNamed(
-                          context, '/ThankYou?amount=$amount&eventId=$eventId');
+                      Navigator.pushNamed(context,
+                          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId');
                     }
                   } else if (GetPlatform.currentPlatform == GetPlatform.web) {
                     stripeOnPressWeb(
@@ -293,6 +294,37 @@ class Paymethodecancel extends StatelessWidget {
       Navigator.pushReplacementNamed(
         context,
         '/Donations/UserType/PayMethode',
+        arguments: {'eventId': eventId, 'amount': amount},
+      );
+    });
+
+    return Container();
+  }
+}
+
+//TODO: Token generation for payment to donation recieved and usage of token
+class Paymethodesuccess extends StatelessWidget {
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
+  final double amount;
+  final String eventId;
+
+  const Paymethodesuccess({
+    Key? key,
+    this.token,
+    this.paymentId,
+    this.PayerID,
+    required this.amount,
+    required this.eventId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      Navigator.pushReplacementNamed(
+        context,
+        '/ThankYou',
         arguments: {'eventId': eventId, 'amount': amount},
       );
     });

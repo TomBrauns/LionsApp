@@ -92,7 +92,8 @@ Future<List<String>> stripeWebCheckout(
     'mode': "payment",
     'price': priceId,
     'quantity': '1',
-    'success_url': '$baseUrl/ThankYou?amount=$amount&eventId=$eventId',
+    'success_url':
+        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId',
     'cancel_url':
         '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId'
   };

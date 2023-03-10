@@ -42,7 +42,8 @@ var routes = <String, WidgetBuilder>{
         amount: 0,
         eventId: "",
       ),
-  '/Donations/UserType/PayMethode/success': (context) => const Paymethode(
+  '/Donations/UserType/PayMethode/success': (context) =>
+      const Paymethodesuccess(
         amount: 0,
         eventId: "",
       ),
