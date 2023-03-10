@@ -12,7 +12,7 @@ Future<void> paypalOnPressWeb(
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
-    await launchUrl(Uri.parse(PaypalObject[0]));
+    await launchUrl(Uri.parse(PaypalObject[0]), webOnlyWindowName: '_self');
   } else {
     //print("Could not launch URL");
   }

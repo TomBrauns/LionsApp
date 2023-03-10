@@ -262,6 +262,44 @@ void showSuccessSnackbar(BuildContext context) {
   }
 }
 
+class Paymethodecancel extends StatelessWidget {
+  final String? token;
+  final String? paymentId;
+  final String? PayerID;
+  final double amount;
+  final String eventId;
+
+  const Paymethodecancel({
+    Key? key,
+    this.token,
+    this.paymentId,
+    this.PayerID,
+    required this.amount,
+    required this.eventId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Zahlung abgebrochen'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/Donations/UserType/PayMethode',
+        arguments: {'eventId': eventId, 'amount': amount},
+      );
+    });
+
+    return Container();
+  }
+}
+
 String? getBaseUrl() {
   final url = Uri.base.toString();
   final regex = RegExp(r'^.+?\/\/[^\/#]+(?:[\/#]|$)#');

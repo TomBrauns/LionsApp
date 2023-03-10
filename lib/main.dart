@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
             uri.queryParameters['token'] ?? ''
           ];
           return MaterialPageRoute(
-            builder: (_) => Paymethode(
+            builder: (_) => Paymethodecancel(
                 amount: Paymethodereturn[0] as double,
                 eventId: Paymethodereturn[1],
                 token: Paymethodereturn[2]),

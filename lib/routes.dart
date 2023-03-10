@@ -44,7 +44,7 @@ var routes = <String, WidgetBuilder>{
         amount: 0,
         eventId: "",
       ),
-  '/Donations/UserType/PayMethode/cancel': (context) => const Paymethode(
+  '/Donations/UserType/PayMethode/cancel': (context) => const Paymethodecancel(
         amount: 0,
         eventId: "",
       ),
