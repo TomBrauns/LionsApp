@@ -114,9 +114,11 @@ class changePwState extends State<changePw> {
                                   suffixIcon: IconButton(
                                     icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
                                     onPressed: () {
-                                      setState(() {
-                                        _isObscure = !_isObscure;
-                                      });
+                                      setState(
+                                        () {
+                                          _isObscure = !_isObscure;
+                                        },
+                                      );
                                     },
                                   ),
                                   filled: true,
@@ -161,10 +163,7 @@ class changePwState extends State<changePw> {
                                   },
                                 );
                               },
-                              child: Text(
-                                "Bestätigen",
-                                  style: CustomTextSize.medium
-                              ),
+                              child: Text("Bestätigen", style: CustomTextSize.medium),
                               color: Colors.white,
                             ),
                           ],
