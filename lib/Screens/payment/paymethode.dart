@@ -295,7 +295,7 @@ class Paymethodecancel extends StatelessWidget {
         ),
       );
 
-      Navigator.pushReplacementNamed(
+      Navigator.restorablePushNamed(
         context,
         '/Donations/UserType/PayMethode',
         arguments: {'eventId': eventId, 'amount': amount},
@@ -326,7 +326,7 @@ class Paymethodesuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
-      Navigator.pushReplacementNamed(
+      Navigator.restorablePushNamed(
         context,
         '/ThankYou',
         arguments: {'eventId': eventId, 'amount': amount},

@@ -263,14 +263,16 @@ class _DonationsState extends State<Donations> {
                                                     null) {
                                                   print(
                                                       "Die EventID auf dem Zahl Screen: $eventId");
-                                                  Navigator.pushNamed(context,
+                                                  Navigator.restorablePushNamed(
+                                                      context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
                                                         'eventId': eventId,
                                                         'amount': currentValue
                                                       });
                                                 } else {
-                                                  Navigator.pushNamed(context,
+                                                  Navigator.restorablePushNamed(
+                                                      context,
                                                       '/Donations/UserType',
                                                       arguments: {
                                                         'eventId': eventId,

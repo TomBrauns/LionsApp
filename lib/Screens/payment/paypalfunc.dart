@@ -31,6 +31,7 @@ Future<String> paypalAuth() async {
   }
 }
 
+//TODO: Deeplink needs to be implemented, so users can continue in app
 Future<List<String>> makePaypalPayment(double amount, eventId, Endpoint) async {
   String token = await paypalAuth();
   final body = {
