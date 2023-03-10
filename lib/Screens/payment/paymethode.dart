@@ -134,7 +134,7 @@ class _PaymethodeState extends State<Paymethode> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.paypal), 
+                    Icon(Icons.paypal),
                     SizedBox(width: 8),
                     Text("Paypal", style: CustomTextSize.large),
                   ],
@@ -198,20 +198,24 @@ class _PaymethodeState extends State<Paymethode> {
                       : const SizedBox.shrink()),
 
             if (GetPlatform.currentPlatform != GetPlatform.web)
-              FutureBuilder<PaymentConfiguration>(
-                  future: _googlePayConfigFuture,
-                  builder: (context, snapshot) => snapshot.hasData
-                      ? GooglePayButton(
-                          paymentConfiguration: snapshot.data!,
-                          paymentItems: paymentItems,
-                          type: GooglePayButtonType.donate,
-                          margin: const EdgeInsets.only(top: 15.0),
-                          onPaymentResult: onGooglePayResult,
-                          loadingIndicator: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink()),
+              Container(
+                  padding: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 90),
+                  height: 100,
+                  width: 500,
+                  child: FutureBuilder<PaymentConfiguration>(
+                      future: _googlePayConfigFuture,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? GooglePayButton(
+                              paymentConfiguration: snapshot.data!,
+                              paymentItems: paymentItems,
+                              type: GooglePayButtonType.donate,
+                              onPaymentResult: onGooglePayResult,
+                              loadingIndicator: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : const SizedBox.shrink())),
           ],
         ),
       ),
