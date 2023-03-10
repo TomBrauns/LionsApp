@@ -43,7 +43,6 @@ class _RegisterState extends State<Register> {
 
   bool _isObscure = true;
   bool _isObscure2 = true;
-  var rool = "Friend";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,32 +109,33 @@ class _RegisterState extends State<Register> {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: TextFormField(
-                              controller: lastnameController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Nachname',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
+                              child: TextFormField(
+                                controller: lastnameController,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Nachname',
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihren Nachnamen ein.';
+                                  }
+                                  return null;
+                                },
                               ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte geben Sie Ihren Nachnamen ein.';
-                                }
-                                return null;
-                              },
-                            )),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -221,12 +221,15 @@ class _RegisterState extends State<Register> {
                           controller: confirmpassController,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
+                              icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
+                              onPressed: () {
+                                setState(
+                                  () {
                                     _isObscure2 = !_isObscure2;
-                                  });
-                                }),
+                                  },
+                                );
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Passwort bestätigen',
@@ -288,32 +291,33 @@ class _RegisterState extends State<Register> {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: TextFormField(
-                              controller: cityController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Stadtname',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
+                              child: TextFormField(
+                                controller: cityController,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Stadtname',
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihre Stadt ein.';
+                                  }
+                                  return null;
+                                },
                               ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte geben Sie Ihre Stadt ein.';
-                                }
-                                return null;
-                              },
-                            )),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -352,55 +356,61 @@ class _RegisterState extends State<Register> {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                                child: TextFormField(
-                              controller: streetnrController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Hausnummer und Adresszusatz',
-                                enabled: true,
-                                contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
+                              child: TextFormField(
+                                controller: streetnrController,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Hausnummer und Adresszusatz',
+                                  enabled: true,
+                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                                onChanged: (value) {},
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Bitte geben Sie Ihre Hausnummer (und den Addresszusatz) ein.';
+                                  }
+                                  return null;
+                                },
                               ),
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte geben Sie Ihre Hausnummer (und den Addresszusatz) ein.';
-                                }
-                                return null;
-                              },
-                            )),
+                            ),
                           ],
                         ),
 
                         const SizedBox(height: 24),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (checked) => setState(() {
-                              isChecked = checked ?? false;
-                            }),
-                          ),
-                          InkWell(
-                              child: const Text(
-                                "* ABG's akzeptieren",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                              value: isChecked,
+                              onChanged: (checked) => setState(
+                                () {
+                                  isChecked = checked ?? false;
+                                },
                               ),
-                              onTap: () {
-                                Navigator.pushNamed(context, '/AGB?onRegister=true');
-                              }),
-                        ]),
+                            ),
+                            InkWell(
+                                child: const Text(
+                                  "* ABG's akzeptieren",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/AGB?onRegister=true');
+                                }),
+                          ],
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -434,9 +444,11 @@ class _RegisterState extends State<Register> {
                               elevation: 5.0,
                               height: 40,
                               onPressed: () async {
-                                setState(() {
-                                  showProgress = true;
-                                });
+                                setState(
+                                  () {
+                                    showProgress = true;
+                                  },
+                                );
 
                                 if (isChecked == false) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -459,35 +471,36 @@ class _RegisterState extends State<Register> {
                                       cityController.text,
                                       streetController.text,
                                       streetnrController.text,
-                                      rool,
-                                    ).then((success) {
-                                      if (success) {
-                                        Navigator.pushReplacement(
+                                    ).then(
+                                      (success) {
+                                        if (success) {
+                                          Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => LoginPage(prefilledEmail: emailController.text),
-                                            ));
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Registrierung erfolgreich. Bitte loggen Sie sich ein.'),
-                                            backgroundColor: Colors.green,
-                                            behavior: SnackBarBehavior.floating,
-                                            margin: EdgeInsets.only(top: 64),
-                                          ),
-                                        );
-                                      } else {
-                                        // TODO: Show error message
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Nochmal versuchen!',
-                                              style: TextStyle(color: Colors.white),
                                             ),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                      }
-                                    });
+                                          );
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Registrierung erfolgreich. Bitte loggen Sie sich ein.'),
+                                              backgroundColor: Colors.green,
+                                              behavior: SnackBarBehavior.floating,
+                                              margin: EdgeInsets.only(top: 64),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Es existiert bereits ein Account mit der Email!',
+                                                style: TextStyle(color: Colors.white),
+                                              ),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
                                   } else {
                                     // TODO: Show validation error message
                                   }
@@ -515,11 +528,11 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
+  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber) async {
     return _auth.createUserWithEmailAndPassword(email: email, password: password).then(
       (result) async {
         await result.user!.sendEmailVerification();
-        await postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber, rool);
+        await postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber);
         return true;
       },
     ).catchError(
@@ -531,7 +544,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<void> postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber, String rool) async {
+  Future<void> postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber) async {
     var user = _auth.currentUser;
     String? deviceToken;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
