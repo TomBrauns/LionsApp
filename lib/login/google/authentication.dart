@@ -25,40 +25,38 @@ class Authentication {
     required BuildContext context,
   }) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
-
     User? user = FirebaseAuth.instance.currentUser;
-
     return firebaseApp;
   }
 
+  //Einloggen und User in Firebase Collection users erstellen, falls er noch nicht existiert
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-
+    //wenn WEB
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
-
       try {
+        //einloggen
         final UserCredential userCredential = await auth.signInWithPopup(authProvider);
-
+        //User in Firebase anlegen
         user = userCredential.user!;
-
         String vorName = user.displayName!.split(' ')[0];
         String nachName = user.displayName!.split(' ')[1];
         String Email = user.email!;
-
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
         CollectionReference ref = FirebaseFirestore.instance.collection('users');
-
         if (!(await ref.doc(user.uid).get()).exists) {
-          ref.doc(user.uid).set({
-            'firstname': vorName,
-            'lastname': nachName,
-            'email': Email,
-            'rool': 'Friend',
-          });
+          ref.doc(user.uid).set(
+            {
+              'firstname': vorName,
+              'lastname': nachName,
+              'email': Email,
+              'rool': 'Friend',
+            },
+          );
         }
-
+        //Rolle checken und weiterleiten
         FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
           (DocumentSnapshot documentSnapshot) {
             if (documentSnapshot.exists) {
@@ -77,14 +75,12 @@ class Authentication {
       } catch (e) {
         print(e);
       }
+      //wenn NICHT WEB
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
-
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
@@ -92,31 +88,41 @@ class Authentication {
 
         try {
           final UserCredential userCredential = await auth.signInWithCredential(credential);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Donations(),
-            ),
-          );
-          user = userCredential.user;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
-                content: 'The account already exists with a different credential',
-              ),
-            );
-          } else if (e.code == 'invalid-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
-                content: 'Error occurred while accessing credentials. Try again.',
-              ),
+          user = userCredential.user!;
+          String vorName = user.displayName!.split(' ')[0];
+          String nachName = user.displayName!.split(' ')[1];
+          String Email = user.email!;
+          FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+          CollectionReference ref = FirebaseFirestore.instance.collection('users');
+          if (!(await ref.doc(user.uid).get()).exists) {
+            ref.doc(user.uid).set(
+              {
+                'firstname': vorName,
+                'lastname': nachName,
+                'email': Email,
+                'rool': 'Friend',
+              },
             );
           }
+          FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
+            (DocumentSnapshot documentSnapshot) {
+              if (documentSnapshot.exists) {
+                checkRool();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Donations(),
+                  ),
+                );
+              } else {
+                print('Document does not exist on the database');
+              }
+            },
+          );
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             Authentication.customSnackBar(
-              content: 'Error occurred using Google Sign In. Try again.',
+              content: 'Error beim Einloggen mit Google.',
             ),
           );
         }
