@@ -110,9 +110,10 @@ class _PaymethodeState extends State<Paymethode> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('$amount€ Spende', style: CustomTextSize.large),
+            SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(20.0),
-              margin: const EdgeInsets.symmetric(horizontal: 100),
+              margin: const EdgeInsets.symmetric(horizontal: 90),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: ColorUtils.primaryColor,
@@ -141,7 +142,7 @@ class _PaymethodeState extends State<Paymethode> {
             ),
             Container(
               padding: const EdgeInsets.all(20.0),
-              margin: const EdgeInsets.symmetric(horizontal: 100),
+              margin: const EdgeInsets.symmetric(horizontal: 90),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorUtils.primaryColor,

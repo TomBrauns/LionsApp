@@ -72,7 +72,7 @@ class _RoomsPageState extends State<RoomsPage> {
   // FAB with Priviledge
   //Copy that
   Widget? _getFAB() {
-    if (Privileges.privilege == Privilege.admin) {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
       return FloatingActionButton(
         mini: true,
         backgroundColor: ColorUtils.secondaryColor,
