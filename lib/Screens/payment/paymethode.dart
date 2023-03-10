@@ -134,7 +134,7 @@ class _PaymethodeState extends State<Paymethode> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.paypal),
+                    Icon(Icons.paypal), 
                     SizedBox(width: 8),
                     Text("Paypal", style: CustomTextSize.large),
                   ],
