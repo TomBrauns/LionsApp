@@ -95,7 +95,7 @@ class _RoomCreatorState extends State<RoomCreator> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: SizedBox(
-              height: 50,
+              height: 60,
               width: double.infinity,
               child: GestureDetector(
                 onTap: _handleEventImageUpload,
@@ -106,7 +106,7 @@ class _RoomCreatorState extends State<RoomCreator> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.upload, size: 30),
+                            Icon(Icons.upload, size: 40),
                             Text("Bild auswählen", style: CustomTextSize.small),
                           ],
                         ),
@@ -198,42 +198,47 @@ class _RoomCreatorState extends State<RoomCreator> {
           const SizedBox(height: 77),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          List<UserInList> selectedUsers = getSelectedUsers();
-          List<User> userList = selectedUsers
-              .map(
-                (user) => User(
-                  id: user.documentId,
-                  firstName: user.firstName,
-                  lastName: user.lastName,
-                ),
-              )
-              .toList();
-          final name = roomNameController.text.trim();
-          if (name.isNotEmpty) {
-            await FirebaseChatCore.instance.createGroupRoom(
-              imageUrl: roomImg,
-              name: name,
-              users: userList,
-              metadata: {"Beschreibung": descriptionController.text},
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const RoomsPage(),
-              ),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('Gruppename angeben', style: CustomTextSize.small),
-              ),
-            );
-          }
-        },
-        child: const Icon(Icons.check),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              List<UserInList> selectedUsers = getSelectedUsers();
+              List<User> userList = selectedUsers
+                  .map(
+                    (user) => User(
+                      id: user.documentId,
+                      firstName: user.firstName,
+                      lastName: user.lastName,
+                    ),
+                  )
+                  .toList();
+              final name = roomNameController.text.trim();
+              if (name.isNotEmpty) {
+                await FirebaseChatCore.instance.createGroupRoom(
+                  imageUrl: roomImg,
+                  name: name,
+                  users: userList,
+                  metadata: {"Beschreibung": descriptionController.text},
+                );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoomsPage(),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('Gruppename angeben', style: CustomTextSize.small),
+                  ),
+                );
+              }
+            },
+            child: const Icon(Icons.check),
+          ),
+        ],
       ),
     );
   }
