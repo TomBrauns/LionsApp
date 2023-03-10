@@ -62,8 +62,6 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
-
-    urlPaymentValidate(context);
   }
 
   void onApplePayResult(paymentResult) {
@@ -248,24 +246,6 @@ void showSuccessSnackbar(BuildContext context) {
       ),
     );
   }
-
-  /*
-  final List<String> Paypalreturn = [
-            uri.queryParameters['paymentId'] ?? '',
-            uri.queryParameters['token'] ?? '',
-            uri.queryParameters['PayerID'] ?? ''
-  */
-  void urlPaymentValidate(context) async {
-    print("current URL:");
-    print(Uri.base);
-    final uri = Uri.base;
-    final url = uri.toString();
-    if (await url.contains('cancel') == true) {
-      showErrorSnackbar(context);
-    } else if (url.contains('cancel') == false) {
-      print('default Page');
-    }
-  }
 }
 
 class Paymethodecancel extends StatelessWidget {
@@ -295,7 +275,7 @@ class Paymethodecancel extends StatelessWidget {
         ),
       );
 
-      Navigator.restorablePushNamed(
+      Navigator.pushNamed(
         context,
         '/Donations/UserType/PayMethode',
         arguments: {'eventId': eventId, 'amount': amount},
@@ -326,7 +306,7 @@ class Paymethodesuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
-      Navigator.restorablePushNamed(
+      Navigator.pushNamed(
         context,
         '/ThankYou',
         arguments: {'eventId': eventId, 'amount': amount},

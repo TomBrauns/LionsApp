@@ -36,8 +36,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.restorablePushNamed(
-                    context, '/Donations/UserType/Login');
+                Navigator.pushNamed(context, '/Donations/UserType/Login');
               },
               child: Text('Anmelden', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
@@ -54,8 +53,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
-                Navigator.restorablePushNamed(
-                    context, '/Donations/UserType/PayMethode',
+                Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
                     arguments: {'eventId': eventId, 'amount': amount});
               },
               child: Text('Als Gast fortfahren', style: CustomTextSize.medium),
