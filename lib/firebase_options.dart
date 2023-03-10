@@ -44,44 +44,44 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDznnn9dxs0mb-i9JRrFicLuO9LEvSFx-I',
-    appId: '1:923321843822:web:274fba517a3a2a2680e67f',
-    messagingSenderId: '923321843822',
-    projectId: 'lionsapp-973b3',
-    authDomain: 'lionsapp-973b3.firebaseapp.com',
-    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'lionsapp-973b3.appspot.com',
-    measurementId: 'G-97Q64ZFCE8',
+    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
+    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    messagingSenderId: '1059713907643',
+    projectId: 'serviceclub-app',
+    authDomain: 'serviceclub-app.firebaseapp.com',
+    databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'serviceclub-app.appspot.com',
+    measurementId: 'G-PSPRWVVBK7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw',
-    appId: '1:923321843822:android:e238895b700aaf2180e67f',
-    messagingSenderId: '923321843822',
-    projectId: 'lionsapp-973b3',
-    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'lionsapp-973b3.appspot.com',
+    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
+    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    messagingSenderId: '1059713907643',
+    projectId: 'serviceclub-app',
+    databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'serviceclub-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBq1OuwtkjBsxRXCj99X21QcMSQoGL86Ko',
-    appId: '1:923321843822:ios:d14efb69a86721d980e67f',
-    messagingSenderId: '923321843822',
-    projectId: 'lionsapp-973b3',
-    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'lionsapp-973b3.appspot.com',
-    iosClientId: '923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com',
-    iosBundleId: 'com.teamlion.lionsapp',
+    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
+    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    messagingSenderId: '1059713907643',
+    projectId: 'serviceclub-app',
+    databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'serviceclub-app.appspot.com',
+    iosClientId: '1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com',
+    iosBundleId: 'de.serviceclub-app.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBq1OuwtkjBsxRXCj99X21QcMSQoGL86Ko',
-    appId: '1:923321843822:ios:d14efb69a86721d980e67f',
-    messagingSenderId: '923321843822',
-    projectId: 'lionsapp-973b3',
-    databaseURL: 'https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'lionsapp-973b3.appspot.com',
-    iosClientId: '923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com',
-    iosBundleId: 'com.teamlion.lionsapp',
+    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
+    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    messagingSenderId: '1059713907643',
+    projectId: 'serviceclub-app',
+    databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'serviceclub-app.appspot.com',
+    iosClientId: '1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com',
+    iosBundleId: 'de.serviceclub-app.app',
   );
 }
