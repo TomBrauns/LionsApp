@@ -92,30 +92,21 @@ class _RoomCreatorState extends State<RoomCreator> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top: 8),
             child: SizedBox(
-              height: 100,
+              height: 60,
               width: double.infinity,
               child: GestureDetector(
                 onTap: _handleEventImageUpload,
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
                   child: roomImg.isNotEmpty
                       ? Image.network(roomImg)
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.upload, size: 48),
+                            Icon(Icons.upload, size: 40),
                             Text("Bild auswählen", style: CustomTextSize.small),
                           ],
                         ),
@@ -123,7 +114,6 @@ class _RoomCreatorState extends State<RoomCreator> {
               ),
             ),
           ),
-          const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
@@ -143,8 +133,8 @@ class _RoomCreatorState extends State<RoomCreator> {
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
               controller: descriptionController,
-              minLines: 5,
-              maxLines: 5,
+              minLines: 2,
+              maxLines: 2,
               decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -156,19 +146,25 @@ class _RoomCreatorState extends State<RoomCreator> {
               keyboardType: TextInputType.text,
             ),
           ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-              decoration: const InputDecoration(
-                hintText: 'Lions suchen',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+          //SizedBox(height: 10),
+          Container(
+            height: 70,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _searchQuery = value;
+                    },
+                  );
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Lions suchen',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.only(top: 3),
+                  prefixIcon: Icon(Icons.search),
+                ),
               ),
             ),
           ),
@@ -199,45 +195,50 @@ class _RoomCreatorState extends State<RoomCreator> {
               ),
             ),
           ),
-          const SizedBox(height: 90),
+          const SizedBox(height: 77),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          List<UserInList> selectedUsers = getSelectedUsers();
-          List<User> userList = selectedUsers
-              .map(
-                (user) => User(
-                  id: user.documentId,
-                  firstName: user.firstName,
-                  lastName: user.lastName,
-                ),
-              )
-              .toList();
-          final name = roomNameController.text.trim();
-          if (name.isNotEmpty) {
-            await FirebaseChatCore.instance.createGroupRoom(
-              imageUrl: roomImg,
-              name: name,
-              users: userList,
-              metadata: {"Beschreibung": descriptionController.text},
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const RoomsPage(),
-              ),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('Gruppename angeben', style: CustomTextSize.small),
-              ),
-            );
-          }
-        },
-        child: const Icon(Icons.check),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              List<UserInList> selectedUsers = getSelectedUsers();
+              List<User> userList = selectedUsers
+                  .map(
+                    (user) => User(
+                      id: user.documentId,
+                      firstName: user.firstName,
+                      lastName: user.lastName,
+                    ),
+                  )
+                  .toList();
+              final name = roomNameController.text.trim();
+              if (name.isNotEmpty) {
+                await FirebaseChatCore.instance.createGroupRoom(
+                  imageUrl: roomImg,
+                  name: name,
+                  users: userList,
+                  metadata: {"Beschreibung": descriptionController.text},
+                );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoomsPage(),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('Gruppename angeben', style: CustomTextSize.small),
+                  ),
+                );
+              }
+            },
+            child: const Icon(Icons.check),
+          ),
+        ],
       ),
     );
   }
