@@ -115,7 +115,7 @@ class _PaymethodeState extends State<Paymethode> {
               margin: const EdgeInsets.symmetric(horizontal: 90),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorUtils.primaryColor,
+                    backgroundColor: Color.fromARGB(255, 255, 196, 57),
                     elevation: 0,
                     padding: const EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
@@ -132,9 +132,15 @@ class _PaymethodeState extends State<Paymethode> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.paypal),
+                    Icon(
+                      Icons.paypal,
+                      color: Colors.blue,
+                    ),
                     SizedBox(width: 8),
-                    Text("Paypal", style: CustomTextSize.large),
+                    Text(
+                      "Paypal",
+                      style: CustomTextSize.large,
+                    ),
                   ],
                 ),
               ),
