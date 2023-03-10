@@ -75,20 +75,19 @@ class _MyAppState extends State<MyApp> {
                 amount: Paymethodereturn[0] as double,
                 eventId: Paymethodereturn[1]),
           );
-        }
-        /*else if (uri.path == '/Donations/UserType/PayMethode/success') {
-          final List<String> Paymethodereturn = [
-            uri.queryParameters['amount'] ?? '',
+        } else if (uri.path == '/Donations/UserType/PayMethode/success') {
+          final List<dynamic> Paymethodereturn = [
+            double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
             uri.queryParameters['eventId'] ?? '',
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? ''
           ];
           return MaterialPageRoute(
-            builder: (_) => Paymethode(),
-          )/ // there for testing purposes
-        }*/
-        else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
+            builder: (_) => Paymethodesuccess(
+                amount: Paymethodereturn[0], eventId: Paymethodereturn[1]),
+          );
+        } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
             uri.queryParameters['eventId'] ?? '',

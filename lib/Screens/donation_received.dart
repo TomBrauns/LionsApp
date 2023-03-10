@@ -21,7 +21,7 @@ import 'package:universal_html/html.dart' as html;
 
 import '../Widgets/textSize.dart';
 
-class DonationReceived extends StatelessWidget {
+class DonationReceived extends StatefulWidget {
   final String? token;
   final String? paymentId;
   final String? PayerID;
@@ -35,6 +35,23 @@ class DonationReceived extends StatelessWidget {
       this.PayerID,
       required this.amount,
       required this.eventId});
+
+  @override
+  State<DonationReceived> createState() => _DonationReceivedState();
+}
+
+class _DonationReceivedState extends State<DonationReceived> {
+  String get eventId {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['eventId'];
+  }
+
+  double get amount {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['amount'];
+  }
 
   Future<void> sendMailWithReceipt(String eventName, String pdf) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
