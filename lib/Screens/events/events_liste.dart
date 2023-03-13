@@ -80,7 +80,7 @@ class _EventsState extends State<Events> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      QrCodeEventList(link: 'www.marc-wieland.de/#/Events'),
+                      QrCodeEventList(link: 'serviceclub-app.de/#/Events'),
                 ),
               );
             },
@@ -185,7 +185,7 @@ class _EventListState extends State<EventList> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    QrCodeWithImage(link: 'www.marc-wieland.de/#/Donations', documentId: eventId),
+                                    QrCodeWithImage(link: 'serviceclub-app.de/#/Donations', documentId: eventId),
                               ),
                             );
                           },

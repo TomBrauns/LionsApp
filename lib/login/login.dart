@@ -288,32 +288,42 @@ class _LoginPageState extends State<LoginPage> {
 
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((cred) {
-        //if (!cred.user!.emailVerified) {
-        //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-        //ScaffoldMessenger.of(context).showSnackBar(
-        //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
-        //);
-        //} else {
-        checkRool().then((_) {
-          if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
-            Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
-          } else {
-            Navigator.pushNamed(context, '/Donations');
-            setState(() {
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then(
+        (cred) {
+          //if (!cred.user!.emailVerified) {
+          //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
+          //ScaffoldMessenger.of(context).showSnackBar(
+          //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+          //);
+          //} else {
+          checkRool().then(
+            (_) {
+              if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
+                Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+              } else {
+                Navigator.pushNamed(context, '/Donations');
+                setState(
+                  () {
+                    _isLoading = false;
+                  },
+                );
+              }
+            },
+          );
+          //}
+        },
+      ).catchError(
+        (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
+          );
+          setState(
+            () {
               _isLoading = false;
-            });
-          }
-        });
-        //}
-      }).catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
-        );
-        setState(() {
-          _isLoading = false;
-        });
-      });
+            },
+          );
+        },
+      );
     }
   }
 }

@@ -48,28 +48,18 @@ exports.sendNotification = functions.https.onCall(async (data, context) => {
   }
 });
 
-
-//NODEMAILER
-//TODO: Credentials in Firebase Config
-const gmailEmail = 'qimuweb2023@gmail.com';
-const gmailPassword = 'ojsggwapxmckvusi';
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: gmailEmail,
-    pass: gmailPassword,
-  },
-});
-
-  
-
 exports.sendEmailWithAttachments = functions.https.onCall(async (data, context) => {
   
-const mailOptions = {data}; 
+  const transporter = nodemailer.createTransport({
+    host: "sslout.df.eu",
+    port: "25",
+    secure: true,
+    auth: {
+      user: "info@serviceclub-app.de",
+      pass: "T#k2lcJYnmK6",
+    },
+  });
 
-  console.log(JSON.stringify(mailOptions));
-  
   try {
     await transporter.sendMail(data.mailOptions);
     return { success: true };

@@ -19,7 +19,7 @@ import 'package:flutter/foundation.dart'
 
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
-String Endpoint = "http://ec2-54-226-194-20.compute-1.amazonaws.com/";
+String Endpoint = "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend/";
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();

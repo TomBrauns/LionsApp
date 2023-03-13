@@ -52,7 +52,7 @@ class Authentication {
               'firstname': vorName,
               'lastname': nachName,
               'email': Email,
-              'rool': 'Admin',
+              'rool': 'Friend',
             },
           );
         }
@@ -100,7 +100,7 @@ class Authentication {
                 'firstname': vorName,
                 'lastname': nachName,
                 'email': Email,
-                'rool': 'Admin',
+                'rool': 'Friend',
               },
             );
           }

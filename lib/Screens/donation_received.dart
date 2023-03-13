@@ -12,8 +12,7 @@ import '../../Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
-import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:open_filex/open_filex.dart';
 import 'dart:io';
@@ -28,13 +27,7 @@ class DonationReceived extends StatefulWidget {
   final double amount;
   final String eventId;
 
-  DonationReceived(
-      {super.key,
-      this.token,
-      this.paymentId,
-      this.PayerID,
-      required this.amount,
-      required this.eventId});
+  DonationReceived({super.key, this.token, this.paymentId, this.PayerID, required this.amount, required this.eventId});
 
   @override
   State<DonationReceived> createState() => _DonationReceivedState();
@@ -42,21 +35,18 @@ class DonationReceived extends StatefulWidget {
 
 class _DonationReceivedState extends State<DonationReceived> {
   String get eventId {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
   double get amount {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
   }
 
   Future<void> sendMailWithReceipt(String eventName, String pdf) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final docSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final userData = docSnapshot.data() as Map<String, dynamic>;
     String firstName = userData['firstname'] as String;
     String lastName = userData['lastname'] as String;
@@ -67,12 +57,11 @@ class _DonationReceivedState extends State<DonationReceived> {
         'from': 'Team Lions',
         'to': eMail,
         'subject': 'Danke für Ihre Spende! Ihre Spendenquittung',
-        'text':
-            'Hallo $firstName $lastName \nWir bedanken uns recht herzlich für Ihre Spende an $eventName in Höhe von $amount!.\n'
-                'Damit tust etwas gutes usw.\n'
-                'Im Anhang finden Sie Ihre Spendenquittung!\n'
-                'Mit freundlichen Grüßen\n'
-                'Deine Lions Team\n',
+        'text': 'Hallo $firstName $lastName \nWir bedanken uns recht herzlich für Ihre Spende an $eventName in Höhe von $amount!.\n'
+            'Damit tust etwas gutes usw.\n'
+            'Im Anhang finden Sie Ihre Spendenquittung!\n'
+            'Mit freundlichen Grüßen\n'
+            'Deine Lions Team\n',
         'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': 'Spenden_Quittung.pdf', 'path': pdf},
@@ -80,8 +69,7 @@ class _DonationReceivedState extends State<DonationReceived> {
       }
     };
 
-    final HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
+    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
     try {
       await callable(data);
       print('Email sent successfully');
@@ -91,213 +79,102 @@ class _DonationReceivedState extends State<DonationReceived> {
   }
 
   Future<void> _updateEventDonation(String eventId) async {
-    final documentRef =
-        FirebaseFirestore.instance.collection('events').doc(eventId);
+    final documentRef = FirebaseFirestore.instance.collection('events').doc(eventId);
     final event = await documentRef.get();
     final double currentValue = event.get("currentDonationValue");
-    return await documentRef
-        .update({'currentDonationValue': currentValue + amount});
+    return await documentRef.update({'currentDonationValue': currentValue + amount});
   }
 
-  Future<void> _updateDonationHistory(
-      String eventId, String eventName, String url) async {
+  Future<void> _updateDonationHistory(String eventId, String eventName, String url) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
-    await FirebaseFirestore.instance.collection("donations").add({
-      "user": currentUser != null ? currentUser.uid : "guest",
-      "amount": amount,
-      "event_name": eventName,
-      "event_id": eventId,
-      "date": DateTime.now(),
-      "receipt_url": url,
-    });
+    await FirebaseFirestore.instance.collection("donations").add(
+      {
+        "user": currentUser != null ? currentUser.uid : "guest",
+        "amount": amount,
+        "event_name": eventName,
+        "event_id": eventId,
+        "date": DateTime.now(),
+        "receipt_url": url,
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const MyAppBar(title: "Danke für ihre Spende"),
-        drawer: const BurgerMenu(),
-        body: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance
-              .collection('events')
-              .doc(eventId)
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      appBar: const MyAppBar(title: "Danke für ihre Spende"),
+      drawer: const BurgerMenu(),
+      body: FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('events').doc(eventId).get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            /*if (!snapshot.hasData || !snapshot.data!.exists) {
+          /*if (!snapshot.hasData || !snapshot.data!.exists) {
               return const Center(child: Text('Event nicht gefunden'));
             }*/
 
-            final eventName;
+          final eventName;
 
-            if (eventId == '0000000000000000') {
-              print(amount.runtimeType);
-              eventName = 'Wichtigstes Event';
-            } else {
-              eventName = snapshot.data!.get('eventName');
-            }
+          if (eventId == '0000000000000000') {
+            print(amount.runtimeType);
+            eventName = 'Wichtigstes Event';
+          } else {
+            eventName = snapshot.data!.get('eventName');
+          }
 
-            final message =
-                "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+          final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
-            _ReceiptState()._handlePdfUpload().then((pdfUrl) {
+          _ReceiptState()._handlePdfUpload().then(
+            (pdfUrl) {
               if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
                 sendMailWithReceipt(eventName, pdfUrl);
               }
               _updateEventDonation(eventId);
               _updateDonationHistory(eventId, eventName, pdfUrl ?? "");
-            });
+            },
+          );
 
-            return ListView(
-              children: <Widget>[
+          return ListView(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(40.0),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(156, 141, 196, 241),
+                    border: Border.all(
+                      color: ColorUtils.primaryColor,
+                    ),
+                    borderRadius: BorderRadius.circular(20)),
+                child: Text(message, style: CustomTextSize.small),
+              ),
+              if (amount >= 300)
                 Container(
                   margin: const EdgeInsets.all(40),
                   padding: const EdgeInsets.all(40.0),
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(156, 141, 196, 241),
+                      color: Colors.amber,
                       border: Border.all(
-                        color: ColorUtils.primaryColor,
+                        color: Colors.amber,
                       ),
                       borderRadius: BorderRadius.circular(20)),
-                  child: Text(message, style: CustomTextSize.small),
+                  child: Text('Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern', style: CustomTextSize.small),
                 ),
-                if (amount >= 300)
-                  Container(
-                    margin: const EdgeInsets.all(40),
-                    padding: const EdgeInsets.all(40.0),
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        border: Border.all(
-                          color: Colors.amber,
-                        ),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                        'Sie haben mehr als 299.99€ gespendet, Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
-                        style: CustomTextSize.small),
-                  ),
-                if (amount >= 300)
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    width: 400,
-                    child: ElevatedButton(
-                      child: Text('zur Zuwendungsbestätigung',
-                          style: CustomTextSize.medium),
-                      onPressed: () {
-                        // Update State of App
-                        Navigator.pop(context);
-                        // Push to Screen
-                        Navigator.pushNamed(context, '/ThankYou/Receipt');
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          elevation: 0,
-                          padding: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
-                    ),
-                  ),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  width: 400,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.contact_support,
-                      size: 24.0,
-                    ),
-                    label:
-                        Text('Kontaktformular', style: CustomTextSize.medium),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/Contact');
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  width: 400,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.receipt,
-                      size: 24.0,
-                    ),
-                    label: Text('Quittung', style: CustomTextSize.medium),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/ThankYou/Receipt');
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  width: 400,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.share,
-                      size: 24.0,
-                    ),
-                    label: Text('Teilen', style: CustomTextSize.medium),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    onPressed: () {
-                      print("Rufe Share Button mit eventId auf: $eventId");
-                      Navigator.pushNamed(context, '/ThankYou/ShareDonation',
-                          arguments: {'eventId': eventId});
-                    },
-                  ),
-                ),
+              if (amount >= 300)
                 Container(
                   padding: const EdgeInsets.all(20.0),
                   width: 400,
                   child: ElevatedButton(
-                    child: Text('Zurück zum Spenden',
-                        style: CustomTextSize.medium),
-                    onPressed: () {
-                      // Push to Screen
-                      Navigator.pushNamed(context, '/Donations');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  width: 400,
-                  child: ElevatedButton(
-                    child: Text('Weitere Events', style: CustomTextSize.medium),
+                    child: Text('zur Zuwendungsbestätigung', style: CustomTextSize.medium),
                     onPressed: () {
                       // Update State of App
                       Navigator.pop(context);
                       // Push to Screen
-                      Navigator.pushNamed(context, '/Events');
+                      Navigator.pushNamed(context, '/ThankYou/Receipt');
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
+                        backgroundColor: Colors.amber,
                         elevation: 0,
                         padding: const EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
@@ -305,10 +182,114 @@ class _DonationReceivedState extends State<DonationReceived> {
                         )),
                   ),
                 ),
-              ],
-            );
-          },
-        ));
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                width: 400,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.contact_support,
+                    size: 24.0,
+                  ),
+                  label: Text('Kontaktformular', style: CustomTextSize.medium),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorUtils.primaryColor,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/Contact');
+                  },
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                width: 400,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.receipt,
+                    size: 24.0,
+                  ),
+                  label: Text('Quittung', style: CustomTextSize.medium),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorUtils.primaryColor,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/ThankYou/Receipt');
+                  },
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                width: 400,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.share,
+                    size: 24.0,
+                  ),
+                  label: Text('Teilen', style: CustomTextSize.medium),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorUtils.primaryColor,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: () {
+                    print("Rufe Share Button mit eventId auf: $eventId");
+                    Navigator.pushNamed(context, '/ThankYou/ShareDonation', arguments: {'eventId': eventId});
+                  },
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                width: 400,
+                child: ElevatedButton(
+                  child: Text('Zurück zum Spenden', style: CustomTextSize.medium),
+                  onPressed: () {
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Donations');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorUtils.primaryColor,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                width: 400,
+                child: ElevatedButton(
+                  child: Text('Weitere Events', style: CustomTextSize.medium),
+                  onPressed: () {
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/Events');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.primaryColor,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -325,77 +306,75 @@ class _ReceiptState extends State<Receipt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Spendenquittung", style: CustomTextSize.large),
+      appBar: AppBar(
+        title: Text("Spendenquittung", style: CustomTextSize.large),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(40),
+              height: 50,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.download,
+                  size: 24.0,
+                ),
+                label: Text('PDF herunterladen', style: CustomTextSize.large),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorUtils.primaryColor,
+                  elevation: 0,
+                ),
+                onPressed: () async {
+                  if (kIsWeb) {
+                    _handleWebDownloadButtonPressed();
+                  } else {
+                    _handleDownloadButtonPressed();
+                  }
+                },
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(40),
+              height: 50,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.cloud_upload,
+                  size: 24.0,
+                ),
+                label: Text('Cloud hochladen', style: CustomTextSize.large),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorUtils.primaryColor,
+                  elevation: 0,
+                ),
+                onPressed: () async {
+                  print("Button gedrückt");
+                  if (kIsWeb) {
+                    _handleWebDownloadButtonPressed();
+                    print("Web erkannt");
+                  } else {
+                    _handleDownloadButtonPressed();
+                  }
+                },
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(40),
+              height: 50,
+              child: Text("Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail", style: CustomTextSize.small),
+            ),
+          ],
         ),
-        body: Center(
-            child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.download,
-                size: 24.0,
-              ),
-              label: Text('PDF herunterladen', style: CustomTextSize.large),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.primaryColor,
-                elevation: 0,
-              ),
-              onPressed: () async {
-                if (kIsWeb) {
-                  _handleWebDownloadButtonPressed();
-                } else {
-                  _handleDownloadButtonPressed();
-                }
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.cloud_upload,
-                size: 24.0,
-              ),
-              label: Text('Cloud hochladen', style: CustomTextSize.large),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.primaryColor,
-                elevation: 0,
-              ),
-              onPressed: () async {
-                print("Button gedrückt");
-                if (kIsWeb) {
-                  _handleWebDownloadButtonPressed();
-                  print("Web erkannt");
-                } else {
-                  _handleDownloadButtonPressed();
-                }
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            height: 50,
-            child: Text(
-                "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",
-                style: CustomTextSize.small),
-          ),
-        ])));
+      ),
+    );
   }
 
   Future<List<int>> _createPDF() async {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawImage(
-        PdfBitmap(await _readImageData()),
-        Rect.fromLTWH(
-            0, 0, page.getClientSize().width, page.getClientSize().height));
-    page.graphics
-        .drawString("Test", PdfStandardFont(PdfFontFamily.helvetica, 10));
+    page.graphics.drawImage(PdfBitmap(await _readImageData()), Rect.fromLTWH(0, 0, page.getClientSize().width, page.getClientSize().height));
+    page.graphics.drawString("Test", PdfStandardFont(PdfFontFamily.helvetica, 10));
 
     List<int> bytes = await document.save();
     document.dispose();
@@ -406,10 +385,7 @@ class _ReceiptState extends State<Receipt> {
   Future<String?> _handlePdfUpload() async {
     if (kIsWeb) {
       final uniqueId = "Quittung_${DateTime.now().millisecondsSinceEpoch}.pdf";
-      final reference = FirebaseStorage.instance
-          .ref('donator_receipts')
-          .child(FirebaseAuth.instance.currentUser!.uid)
-          .child(uniqueId);
+      final reference = FirebaseStorage.instance.ref('donator_receipts').child(FirebaseAuth.instance.currentUser!.uid).child(uniqueId);
       //Web
 
       final bytes = await _createPDF();
@@ -444,9 +420,7 @@ class _ReceiptState extends State<Receipt> {
   void _handleWebDownloadButtonPressed() async {
     List<int> bytes = await _createPDF();
 
-    html.AnchorElement(
-        href:
-            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    html.AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
       ..setAttribute("download", "spendenquittung.pdf")
       ..click();
   }
@@ -461,18 +435,14 @@ class ShareDonation extends StatefulWidget {
 
 Future<void> shareToFacebook(String url) async {
   if (GetPlatform.currentPlatform == GetPlatform.web) {
-    if (await canLaunchUrl(
-        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
-      await launchUrl(
-          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    if (await canLaunchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
       //print("Could not launch URL");
     }
   } else {
-    if (await canLaunchUrl(
-        Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
-      await launchUrl(
-          Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
+    if (await canLaunchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"))) {
+      await launchUrl(Uri.parse("https://www.facebook.com/sharer/sharer.php?u=$url"));
     } else {
       //print("Could not launch URL");
     }
@@ -489,8 +459,7 @@ Future<void> shareToTwitter(String url) async {
       //print("Could not launch URL");
     }
   } else {
-    if (await canLaunchUrl(
-        Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
+    if (await canLaunchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"))) {
       await launchUrl(Uri.parse("https://twitter.com/intent/tweet?url=$url"));
     } else {
       //print("Could not launch URL");
@@ -500,8 +469,7 @@ Future<void> shareToTwitter(String url) async {
 
 class _ShareDonationState extends State<ShareDonation> {
   String? get eventId {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['eventId'];
   }
 
@@ -522,8 +490,7 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToFacebook(
-                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
+                    await shareToFacebook('https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Facebook: $e");
                   }
@@ -540,8 +507,7 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToTwitter(
-                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
+                    await shareToTwitter('https://marc-wieland.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Twitter: $e");
                   }
@@ -575,82 +541,87 @@ class _ReceiptdataState extends State<Receiptdata> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Spendenquittung"),
+      appBar: AppBar(
+        title: const Text("Spendenquittung"),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: 250,
+          height: 500,
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(15),
+              ),
+              TextField(
+                controller: myController,
+                decoration: const InputDecoration(
+                  labelText: 'Vor-/Nachname',
+                ),
+                obscureText: false,
+                onSubmitted: (value) {},
+              ),
+              Container(
+                margin: const EdgeInsets.all(15),
+              ),
+              TextField(
+                controller: myController,
+                decoration: const InputDecoration(
+                  labelText: 'Postleitzahl u. Ort',
+                ),
+                obscureText: false,
+                onSubmitted: (value) {},
+              ),
+              Container(
+                margin: const EdgeInsets.all(15),
+              ),
+              TextField(
+                controller: myController,
+                decoration: const InputDecoration(
+                  labelText: 'Straße u. Hausnummer',
+                ),
+                obscureText: false,
+                onSubmitted: (value) {},
+              ),
+              Container(
+                margin: const EdgeInsets.all(15),
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
+                  ),
+                  const Text(
+                    "Daten speichern?",
+                  ),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.all(25),
+                child: ElevatedButton(
+                  child: const Text("Weiter"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.primaryColor,
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    //
+                    // Submit missing
+                    //
+                    Navigator.pushNamed(context, '/ThankYou');
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-        body: Center(
-            child: SizedBox(
-                width: 250,
-                height: 500,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.all(15),
-                    ),
-                    TextField(
-                      controller: myController,
-                      decoration: const InputDecoration(
-                        labelText: 'Vor-/Nachname',
-                      ),
-                      obscureText: false,
-                      onSubmitted: (value) {},
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(15),
-                    ),
-                    TextField(
-                      controller: myController,
-                      decoration: const InputDecoration(
-                        labelText: 'Postleitzahl u. Ort',
-                      ),
-                      obscureText: false,
-                      onSubmitted: (value) {},
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(15),
-                    ),
-                    TextField(
-                      controller: myController,
-                      decoration: const InputDecoration(
-                        labelText: 'Straße u. Hausnummer',
-                      ),
-                      obscureText: false,
-                      onSubmitted: (value) {},
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(15),
-                    ),
-                    Row(children: <Widget>[
-                      Checkbox(
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                          });
-                        },
-                      ),
-                      const Text(
-                        "Daten speichern?",
-                      ),
-                    ]),
-                    Container(
-                      margin: const EdgeInsets.all(25),
-                      child: ElevatedButton(
-                        child: const Text("Weiter"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorUtils.primaryColor,
-                          elevation: 0,
-                        ),
-                        onPressed: () {
-                          //
-                          // Submit missing
-                          //
-                          Navigator.pushNamed(context, '/ThankYou');
-                        },
-                      ),
-                    ),
-                  ],
-                ))));
+      ),
+    );
   }
 }
 
