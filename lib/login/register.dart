@@ -181,9 +181,11 @@ class _RegisterState extends State<Register> {
                             suffixIcon: IconButton(
                               icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
                               onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
+                                setState(
+                                  () {
+                                    _isObscure = !_isObscure;
+                                  },
+                                );
                               },
                             ),
                             filled: true,
@@ -219,6 +221,7 @@ class _RegisterState extends State<Register> {
                         TextFormField(
                           obscureText: _isObscure2,
                           controller: confirmpassController,
+                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
@@ -399,16 +402,17 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             InkWell(
-                                child: const Text(
-                                  "* ABG's akzeptieren",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                              child: const Text(
+                                "* ABG's akzeptieren",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
                                 ),
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/AGB?onRegister=true');
-                                }),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(context, '/AGB?onRegister=true');
+                              },
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -419,7 +423,11 @@ class _RegisterState extends State<Register> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             MaterialButton(
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20.0),
+                                ),
+                              ),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
