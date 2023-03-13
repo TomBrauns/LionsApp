@@ -345,7 +345,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 onChanged: (value) {},
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.name,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Bitte geben Sie Ihren Straßennamen ein.';
@@ -374,7 +374,7 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                                 onChanged: (value) {},
-                                keyboardType: TextInputType.name,
+                                keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Bitte geben Sie Ihre Hausnummer (und den Addresszusatz) ein.';
