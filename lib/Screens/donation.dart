@@ -83,7 +83,7 @@ class _DonationsState extends State<Donations> {
     _inputController.clear();
   }
 
-  String selectedSubscription = 'Nein';
+  String selectedSubscription = 'keins';
 
   @override
   Widget build(BuildContext context) {
@@ -242,42 +242,45 @@ class _DonationsState extends State<Donations> {
                                                                 CustomTextSize
                                                                     .small)))
                                                 .toList())),
-                                    const SizedBox(height: 16),
-                                    /* TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
-                                    // ( if (eventId == null ||
-                                    //      eventId == "") {
-                                    //eventId = '0000000000000000';
-                                    //  }
-                                        Text(
-                                          "Regelmäßig für die Lions spenden?",
-                                          style: CustomTextSize.small,
-                                        ),
-                                        SizedBox(height: 16),
-                                        DropdownButton<String>(
-                                          value: selectedSubscription,
-                                          items: <String>[
-                                            'Nein',
-                                            'Monatlich',
-                                            'Alle 6 Monate',
-                                            'Jährlich'
-                                          ].map<DropdownMenuItem<String>>((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedSubscription = value ?? 'keins';
-                                            });
-                                          },
-                                          hint: const Text('Spenden Abo'),
-                                        ),
+                                    if (Privileges.privilege != Privilege.guest)
+                                      const SizedBox(height: 16),
+                                    // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
+                                    /*( if (eventId == null ||
+                                          eventId == "") {
+                                    eventId = '0000000000000000';
+                                      }*/
+                                    if (Privileges.privilege != Privilege.guest)
+                                      Text(
+                                        "Ein Spendenabonnement abschließen?",
+                                        style: CustomTextSize.small,
+                                      ),
+                                    if (Privileges.privilege != Privilege.guest)
+                                      SizedBox(height: 16),
+                                    if (Privileges.privilege != Privilege.guest)
+                                      DropdownButton<String>(
+                                        value: selectedSubscription,
+                                        items: <String>[
+                                          'keins',
+                                          'Monatlich',
+                                          'Jährlich'
+                                        ].map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedSubscription =
+                                                value ?? 'keins';
+                                          });
+                                        },
+                                        hint: const Text('Spenden Abo'),
+                                      ),
+                                    if (Privileges.privilege != Privilege.guest)
+                                      SizedBox(height: 16),
 
-
-                                    SizedBox(height: 16),
-
-                                     */
                                     SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
