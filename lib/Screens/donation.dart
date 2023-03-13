@@ -242,21 +242,29 @@ class _DonationsState extends State<Donations> {
                                                                 CustomTextSize
                                                                     .small)))
                                                 .toList())),
-                                    if (Privileges.privilege != Privilege.guest)
+                                    if (Privileges.privilege ==
+                                            Privilege.friend ||
+                                        Privileges.privilege == Privilege.admin)
                                       const SizedBox(height: 16),
                                     // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
                                     /*( if (eventId == null ||
                                           eventId == "") {
                                     eventId = '0000000000000000';
                                       }*/
-                                    if (Privileges.privilege != Privilege.guest)
+                                    if (Privileges.privilege ==
+                                            Privilege.friend ||
+                                        Privileges.privilege == Privilege.admin)
                                       Text(
                                         "Ein Spendenabonnement abschließen?",
                                         style: CustomTextSize.small,
                                       ),
-                                    if (Privileges.privilege != Privilege.guest)
+                                    if (Privileges.privilege ==
+                                            Privilege.friend ||
+                                        Privileges.privilege == Privilege.admin)
                                       SizedBox(height: 16),
-                                    if (Privileges.privilege != Privilege.guest)
+                                    if (Privileges.privilege ==
+                                            Privilege.friend ||
+                                        Privileges.privilege == Privilege.admin)
                                       DropdownButton<String>(
                                         value: selectedSubscription,
                                         items: <String>[
@@ -278,7 +286,9 @@ class _DonationsState extends State<Donations> {
                                         },
                                         hint: const Text('Spenden Abo'),
                                       ),
-                                    if (Privileges.privilege != Privilege.guest)
+                                    if (Privileges.privilege ==
+                                            Privilege.friend ||
+                                        Privileges.privilege == Privilege.admin)
                                       SizedBox(height: 16),
 
                                     SizedBox(
