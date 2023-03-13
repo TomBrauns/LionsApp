@@ -240,12 +240,8 @@ class _LoginPageState extends State<LoginPage> {
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Register(),
-                              ),
-                            );
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/Register');
                           },
                           color: Colors.blue[900],
                           child: const Text(
