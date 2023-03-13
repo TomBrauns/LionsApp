@@ -17,6 +17,16 @@ class Catalogue extends StatefulWidget {
 }
 
 class _CatalogueState extends State<Catalogue> {
+  late Stream<QuerySnapshot> _projectsStream;
+  late String _searchQuery;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchQuery = '';
+    _projectsStream = FirebaseFirestore.instance.collection('projects').snapshots();
+  }
+
   void _handleAddProject() {
     Navigator.push(
       context,
@@ -38,6 +48,7 @@ class _CatalogueState extends State<Catalogue> {
       return null;
     }
   }
+
   // and use Function for Fab in Scaffold
 
   // BAB with Privilege
@@ -51,100 +62,97 @@ class _CatalogueState extends State<Catalogue> {
       return null;
     }
   }
-  // and use Function for Fab in Scaffold
 
-  /*void _handleProjectClicked() {
-
-
+  void _handleProjectClicked(String projectId) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Project()),
+      MaterialPageRoute(builder: (context) => Project(documentId: projectId)),
     );
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BurgerMenu(),
-      appBar: MyAppBar(title: "Projekte"),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _getFAB(),
-      bottomNavigationBar: _getBAB(),
-      body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('projects')
-              .orderBy('category')
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            }
+        drawer: const BurgerMenu(),
+        appBar: const MyAppBar(title: "Projekte"),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: _getFAB(),
+        bottomNavigationBar: _getBAB(),
+        body: Column(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: const InputDecoration(
+                  hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+                stream: _projectsStream,
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-            final Map<String, List<DocumentSnapshot>> groupedData = {};
-            snapshot.data!.docs.forEach((DocumentSnapshot document) {
-              final String category = document.get('category') ?? 'Other';
-              if (groupedData.containsKey(category)) {
-                groupedData[category]!.add(document);
-              } else {
-                groupedData[category] = [document];
-              }
-            });
+                  final Map<String, List<DocumentSnapshot>> groupedData = {};
+                  for (final document in snapshot.data!.docs) {
+                    if (document.get("name").toString().toLowerCase().contains(_searchQuery.toLowerCase())) {
+                      final String category = document.get('category') ?? 'Other';
+                      if (groupedData.containsKey(category)) {
+                        groupedData[category]!.add(document);
+                      } else {
+                        groupedData[category] = [document];
+                      }
+                    }
+                  }
 
-            final List<Widget> categoryWidgets = groupedData.entries
-                .map((MapEntry<String, List<DocumentSnapshot>> entry) {
-              final String category = entry.key;
-              final List<DocumentSnapshot> documents = entry.value;
+                  final List<Widget> categoryWidgets =
+                      groupedData.entries.map((MapEntry<String, List<DocumentSnapshot>> entry) {
+                    final String category = entry.key;
+                    final List<DocumentSnapshot> documents = entry.value;
 
-              final List<Widget> documentWidgets =
-                  documents.map((DocumentSnapshot document) {
-                //print(document.id);
-                return ListTile(
-                    leading: const SizedBox(),
-                    title: Text(document.get('name')),
-                    subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
-                    onTap: () {
-                      String documentId = document.id;
-                      print(documentId);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Project(documentId: documentId)));
+                    final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
+                      return ListTile(
+                          leading: const SizedBox(),
+                          title: Text(document.get('name')),
+                          subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
+                          onTap: () => _handleProjectClicked(document.id));
+                    }).toList();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
+                          title: Text(category),
+                        ),
+                        ListView(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: documentWidgets,
+                        ),
+                        const Divider(indent: 68),
+                      ],
+                    );
+                  }).toList();
 
-                      //_handleProjectClicked;
-                    });
-              }).toList();
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ListTile(
-                    leading: Image.asset('assets/projects/$category.png',
-                        width: 32, height: 32),
-                    title: Text(category),
-                  ),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: documentWidgets,
-                  ),
-                  const Divider(indent: 68),
-                ],
-              );
-            }).toList();
-
-            return ListView(
-              children: categoryWidgets,
-            );
-          }),
-    );
+                  return ListView(
+                    children: categoryWidgets,
+                  );
+                }),
+          )
+        ]));
   }
 }
