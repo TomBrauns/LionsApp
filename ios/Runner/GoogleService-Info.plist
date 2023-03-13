@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks.apps.googleusercontent.com</string>
+	<string>1059713907643-er5mbrgdt1ilheqgf3qlslkb9t7mau9m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.923321843822-umugp2ao5slagojhm06hc7ig1iteg8ks</string>
+	<string>com.googleusercontent.apps.1059713907643-er5mbrgdt1ilheqgf3qlslkb9t7mau9m</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1059713907643-2dkp8pkilvd3piv8n3m13f3mj9ms12jh.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBq1OuwtkjBsxRXCj99X21QcMSQoGL86Ko</string>
+	<string>AIzaSyD7dYP92wsByiIvKl5P-i4whLPomc_Zdrw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>923321843822</string>
+	<string>1059713907643</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.teamlion.lionsapp</string>
+	<string>com.serviceclub-app.lionsapp</string>
 	<key>PROJECT_ID</key>
-	<string>lionsapp-973b3</string>
+	<string>serviceclub-app</string>
 	<key>STORAGE_BUCKET</key>
-	<string>lionsapp-973b3.appspot.com</string>
+	<string>serviceclub-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:923321843822:ios:d14efb69a86721d980e67f</string>
+	<string>1:1059713907643:ios:0e24b289b78af12912e29e</string>
 	<key>DATABASE_URL</key>
-	<string>https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app</string>
+	<string>https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

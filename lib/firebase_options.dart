@@ -55,8 +55,8 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
-    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    apiKey: 'AIzaSyDrFwt_jb2GjnN8cT_Hhj5T_QMjdjY47p4',
+    appId: '1:1059713907643:android:585c721d6a68fd2d12e29e',
     messagingSenderId: '1059713907643',
     projectId: 'serviceclub-app',
     databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
@@ -64,24 +64,26 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
-    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    apiKey: 'AIzaSyD7dYP92wsByiIvKl5P-i4whLPomc_Zdrw',
+    appId: '1:1059713907643:ios:0e24b289b78af12912e29e',
     messagingSenderId: '1059713907643',
     projectId: 'serviceclub-app',
     databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'serviceclub-app.appspot.com',
-    iosClientId: '1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com',
-    iosBundleId: 'de.serviceclub-app.app',
+    androidClientId: '1059713907643-2dkp8pkilvd3piv8n3m13f3mj9ms12jh.apps.googleusercontent.com',
+    iosClientId: '1059713907643-er5mbrgdt1ilheqgf3qlslkb9t7mau9m.apps.googleusercontent.com',
+    iosBundleId: 'com.serviceclub-app.lionsapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCsO3xPQO2mtUDiMmlji5rJNaK6CaRzUfM',
-    appId: '1:1059713907643:web:ce4f7a47365ca05912e29e',
+    apiKey: 'AIzaSyD7dYP92wsByiIvKl5P-i4whLPomc_Zdrw',
+    appId: '1:1059713907643:ios:77e120ca9948dab712e29e',
     messagingSenderId: '1059713907643',
     projectId: 'serviceclub-app',
     databaseURL: 'https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'serviceclub-app.appspot.com',
-    iosClientId: '1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com',
-    iosBundleId: 'de.serviceclub-app.app',
+    androidClientId: '1059713907643-2dkp8pkilvd3piv8n3m13f3mj9ms12jh.apps.googleusercontent.com',
+    iosClientId: '1059713907643-02eu7n5sdqsc2h2eov2skfmf1va38mqv.apps.googleusercontent.com',
+    iosBundleId: 'com.teamlion.lionsapp',
   );
 }

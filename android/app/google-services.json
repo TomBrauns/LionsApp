@@ -1,41 +1,121 @@
 {
   "project_info": {
-    "project_number": "923321843822",
-    "firebase_url": "https://lionsapp-973b3-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "lionsapp-973b3",
-    "storage_bucket": "lionsapp-973b3.appspot.com"
+    "project_number": "1059713907643",
+    "firebase_url": "https://serviceclub-app-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "serviceclub-app",
+    "storage_bucket": "serviceclub-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:923321843822:android:e238895b700aaf2180e67f",
+        "mobilesdk_app_id": "1:1059713907643:android:585c721d6a68fd2d12e29e",
         "android_client_info": {
           "package_name": "com.teamlion.lionsapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "923321843822-2j1sifakhk42odonlc6tfuk8o4e3d0v2.apps.googleusercontent.com",
+          "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDK3jiaInoOq5NqipMNVujttL0VJr7DcKw"
+          "current_key": "AIzaSyDrFwt_jb2GjnN8cT_Hhj5T_QMjdjY47p4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "923321843822-2j1sifakhk42odonlc6tfuk8o4e3d0v2.apps.googleusercontent.com",
+              "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "923321843822-5nja1bbhpi2u2be2oi3vbhbei7c62rdh.apps.googleusercontent.com",
+              "client_id": "1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.lionclub.lionsapp"
+                "bundle_id": "de.serviceclub-app.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059713907643:android:07431c148194d59512e29e",
+        "android_client_info": {
+          "package_name": "com.teamlion.serviceclubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059713907643-2dkp8pkilvd3piv8n3m13f3mj9ms12jh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamlion.serviceclubapp",
+            "certificate_hash": "1b926686896fbda2de31570b3358cc9f5a43cbde"
+          }
+        },
+        {
+          "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrFwt_jb2GjnN8cT_Hhj5T_QMjdjY47p4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.serviceclub-app.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059713907643:android:4b47071ab51f859a12e29e",
+        "android_client_info": {
+          "package_name": "de.serviceclub_app.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrFwt_jb2GjnN8cT_Hhj5T_QMjdjY47p4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059713907643-m1l24c1ptist76pjhkd0tmnan24f0ufn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1059713907643-kaaru3jfq7geaqce3sh55nlme6f4ggg9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.serviceclub-app.app"
               }
             }
           ]
