@@ -53,6 +53,7 @@ class Authentication {
               'lastname': nachName,
               'email': Email,
               'rool': 'Friend',
+              'receiveNotification': true,
             },
           );
         }

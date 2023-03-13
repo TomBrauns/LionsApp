@@ -6,6 +6,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/chat/rooms.dart';
 
+import '../Widgets/textSize.dart';
 import '../util/image_upload.dart';
 
 class UserInList {
@@ -115,34 +116,25 @@ class _roomDetailsState extends State<roomDetails> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SizedBox(
-              height: 100,
+              height: 60,
               width: double.infinity,
               child: GestureDetector(
                 onTap: _handleEventImageUpload,
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
                   child: roomImg.isNotEmpty
                       ? Image.network(roomImg)
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.upload, size: 48),
-                            Text("Bild auswählen"),
+                            Icon(Icons.upload, size: 40),
+                            Text("Bild auswählen", style: CustomTextSize.small),
                           ],
                         ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
@@ -162,8 +154,8 @@ class _roomDetailsState extends State<roomDetails> {
             padding: const EdgeInsets.all(15.0),
             child: TextFormField(
               controller: roomDescriptionController,
-              minLines: 5,
-              maxLines: 5,
+              minLines: 2,
+              maxLines: 2,
               decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -175,19 +167,24 @@ class _roomDetailsState extends State<roomDetails> {
               keyboardType: TextInputType.text,
             ),
           ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-              decoration: const InputDecoration(
-                hintText: 'Lions suchen',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+          Container(
+            height: 70,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (value) {
+                  setState(
+                    () {
+                      _searchQuery = value;
+                    },
+                  );
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Lions suchen',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.only(top: 3),
+                  prefixIcon: Icon(Icons.search),
+                ),
               ),
             ),
           ),
@@ -205,7 +202,7 @@ class _roomDetailsState extends State<roomDetails> {
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${user.firstName} ${user.lastName}'),
+                        Text('${user.firstName} ${user.lastName}', style: CustomTextSize.small),
                       ],
                     ),
                     onChanged: (newValue) {
@@ -220,7 +217,7 @@ class _roomDetailsState extends State<roomDetails> {
               ),
             ),
           ),
-          const SizedBox(height: 90),
+          const SizedBox(height: 77),
         ],
       ),
       floatingActionButton: FloatingActionButton(
