@@ -355,7 +355,7 @@ class _EventEditorState extends State<EventEditor> {
                     controller: _donationTargetController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Spendenziel',
+                        labelText: 'Ziel',
                         floatingLabelBehavior: FloatingLabelBehavior.always),
                   ),
                   const SizedBox(height: 16),
