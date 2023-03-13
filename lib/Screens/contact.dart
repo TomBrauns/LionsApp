@@ -122,6 +122,12 @@ class _ContactState extends State<Contact> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           sendMail(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
+                          const SnackBar(
+                            content: Text('Vielen Dank für Ihre Nachricht!'),
+                            backgroundColor: Colors.green,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(top: 64),
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

@@ -500,7 +500,7 @@ class _RegisterState extends State<Register> {
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             const SnackBar(
                                               content: Text(
-                                                'Es existiert bereits ein Account mit der Email!',
+                                                'Es existiert bereits ein Account mit dieser Email!',
                                                 style: TextStyle(color: Colors.white),
                                               ),
                                               backgroundColor: Colors.red,

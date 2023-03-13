@@ -297,12 +297,29 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == Privilege.admin
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
-                  title: Text('Rollen verwalten', style: CustomTextSize.small),
+                  title: Text('Admin History', style: CustomTextSize.small),
                   selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
                       AppData.selected = 12;
+                    });
+                    // Update State of App
+                    Navigator.pop(context);
+                    // Push to Screen
+                    Navigator.pushNamed(context, '/AdminHistory');
+                  },
+                )
+              : Container(),
+          Privileges.privilege == Privilege.admin
+              ? ListTile(
+                  leading: const Icon(Icons.manage_accounts),
+                  title: Text('Rollen verwalten', style: CustomTextSize.small),
+                  selected: isMenuSelected(13),
+                  selectedTileColor: selectedColor,
+                  onTap: () {
+                    setState(() {
+                      AppData.selected = 13;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -315,11 +332,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
                   title: Text('Nutzer löschen', style: CustomTextSize.small),
-                  selected: isMenuSelected(13),
+                  selected: isMenuSelected(14),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 13;
+                      AppData.selected = 14;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -332,11 +349,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
                   title: Text('Chats löschen', style: CustomTextSize.small),
-                  selected: isMenuSelected(14),
+                  selected: isMenuSelected(15),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 14;
+                      AppData.selected = 15;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -354,11 +371,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.app_registration),
                   title: Text('Registrierung', style: CustomTextSize.small),
-                  selected: isMenuSelected(15),
+                  selected: isMenuSelected(16),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 15;
+                      AppData.selected = 16;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -372,11 +389,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.login),
                   title: Text('Login', style: CustomTextSize.small),
-                  selected: isMenuSelected(16),
+                  selected: isMenuSelected(17),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 16;
+                      AppData.selected = 17;
                     });
                     // Update State of App
                     Navigator.pop(context);
@@ -390,11 +407,11 @@ class _BurgerMenuState extends State<BurgerMenu> {
               ? ListTile(
                   leading: const Icon(Icons.logout),
                   title: Text('Ausloggen', style: CustomTextSize.small),
-                  selected: isMenuSelected(17),
+                  selected: isMenuSelected(18),
                   selectedTileColor: selectedColor,
                   onTap: () {
                     setState(() {
-                      AppData.selected = 17;
+                      AppData.selected = 18;
                     });
                     // Update State of App
                     Navigator.pop(context);
