@@ -5,6 +5,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import 'package:lionsapp/Widgets/appbar.dart';
 
+import '../../Widgets/textSize.dart';
 import '../../login/login.dart';
 
 class PwReset extends StatefulWidget {
@@ -28,18 +29,22 @@ class _CalendarState extends State<PwReset> {
             const SizedBox(
               height: 40,
             ),
+            Padding(
+              padding: EdgeInsets.all(25.0),
+              child: Text('Geben Sie Ihre Email Adresse ein, anschließend erhalten Sie einen Link von uns mit dem Sie Ihr Passwort zurücksetzen können!', style: CustomTextSize.medium),
+            ),
             Container(
-              margin: const EdgeInsets.only(left: 80, right: 80),
+              margin: const EdgeInsets.only(left: 40, right: 40),
               child: TextFormField(
                 controller: emailController,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.mail_outline),
-                  labelText: 'An diese Adresse wird die Passwort zurücksetzen Mail geschickt',
+                  labelText: 'Email Adresse',
                 ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             MaterialButton(
               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -50,7 +55,7 @@ class _CalendarState extends State<PwReset> {
               },
               color: Colors.white,
               child: const Text(
-                "Bestätigen",
+                "Passwort zurücksetzen",
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -73,7 +78,7 @@ class _CalendarState extends State<PwReset> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bitte prüfen Sie Ihr Email Postfach'), backgroundColor: Colors.green),
+        const SnackBar(content: Text('Bitte prüfen Sie jetzt Ihr Email Postfach'), backgroundColor: Colors.green),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

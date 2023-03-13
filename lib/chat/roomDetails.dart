@@ -99,6 +99,7 @@ class _roomDetailsState extends State<roomDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("${roomNameController.text} bearbeiten"),
         actions: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lionsapp/Screens/admin_history.dart';
 import 'package:lionsapp/Screens/user/admin/callAdmin.dart';
 import 'package:lionsapp/Screens/user/admin/deleteChat.dart';
 import 'package:lionsapp/Screens/user/admin/deleteUser.dart';
@@ -35,6 +36,7 @@ var routes = <String, WidgetBuilder>{
   '/deleteChat': (context) => deleteChat(),
   '/deleteUser': (context) => deleteUser(),
   '/History': (context) => History(),
+  '/AdminHistory': (context) => AdminHistory(),
   '/Donations': (context) => const Donations(),
   '/Donations/UserType': (context) => UserTypeScreen(),
   '/Donations/UserType/Login': (context) => const LoginPage(),
