@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: ColorUtils.primaryColor,
         primarySwatch: ColorUtils.primarySwatch,
       ),
-      initialRoute: '/Donations?interneId=$interneId',
+      initialRoute: '/',
       // Route mit Parameter
       routes: routes,
       onGenerateRoute: (RouteSettings settings) {
