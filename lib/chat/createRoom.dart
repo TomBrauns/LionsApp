@@ -87,6 +87,7 @@ class _RoomCreatorState extends State<RoomCreator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Chatgruppe erstellen'),
       ),
@@ -146,7 +147,6 @@ class _RoomCreatorState extends State<RoomCreator> {
               keyboardType: TextInputType.text,
             ),
           ),
-          //SizedBox(height: 10),
           Container(
             height: 70,
             child: Padding(
