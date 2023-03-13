@@ -22,6 +22,8 @@ class _ContactState extends State<Contact> {
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
 
+  // Old Submission function
+
   void _handleSubmit() {
     String text = "Sie haben eine neue Nachricht von:\n";
     text += "Name: ${_nameController.text}\n";
@@ -32,6 +34,15 @@ class _ContactState extends State<Contact> {
       "to": "teamlions@web.de",
       "message": {"subject": _subjectController.text, "text": text}
     });
+    Navigator.pushNamed(context, '/Donations');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Ihre Kontaktanfrage wurde versendet!'),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(top: 64),
+      ),
+    );
   }
 
   @override
@@ -122,6 +133,7 @@ class _ContactState extends State<Contact> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           sendMail(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
+                         // _handleSubmit();
                           const SnackBar(
                             content: Text('Vielen Dank für Ihre Nachricht!'),
                             backgroundColor: Colors.green,
