@@ -8,6 +8,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/chat/createRoom.dart';
 
 import '../Widgets/bottomNavigationView.dart';
@@ -62,6 +63,12 @@ class _RoomsPageState extends State<RoomsPage> {
       MaterialPageRoute(builder: (context) => RoomCreator()),
     );
   }
+  void _createTwoPersonChat() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UsersPage()),
+    );
+  }
 
   @override
   void initState() {
@@ -107,94 +114,96 @@ class _RoomsPageState extends State<RoomsPage> {
       floatingActionButton: _getFAB(),
       bottomNavigationBar: _getBAB(),
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _user == null
-                ? null
-                : () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) => const UsersPage(),
-                      ),
-                    );
-                  },
-          ),
-        ],
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text('Chats'),
       ),
       drawer: const BurgerMenu(),
       body: _user == null
           ? Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(
-                bottom: 200,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Nicht angemeldet!'),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          fullscreenDialog: true,
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
-                    },
-                    child: const Text('Login'),
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(
+          bottom: 200,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Nicht angemeldet!'),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    fullscreenDialog: true,
+                    builder: (context) => LoginPage(),
                   ),
-                ],
-              ),
-            )
-          : StreamBuilder<List<types.Room>>(
-              stream: FirebaseChatCore.instance.rooms(),
-              initialData: const [],
-              builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(
-                      bottom: 200,
-                    ),
-                    child: const Text('Keine Chats vorhanden'),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final room = snapshot.data![index];
-                    return StreamBuilder<List<types.Message>>(
-                      initialData: const [],
-                      stream: FirebaseChatCore.instance.messages(room, limit: 1),
-                      builder: (context, msg) => InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                room: room,
-                                name: room.name,
-                              ),
-                            ),
-                          );
-                        },
-                        child: ListTile(
-                          title: Text(room.name ?? ''),
-                          subtitle: Text(getLastMessageText(msg)),
-                          leading: _buildAvatar(room),
-                        ),
-                      ),
-                    );
-                  },
                 );
               },
+              child: const Text('Login'),
             ),
+          ],
+        ),
+      )
+          : Stack(
+        children: [
+          StreamBuilder<List<types.Room>>(
+            stream: FirebaseChatCore.instance.rooms(),
+            initialData: const [],
+            builder: (context, snapshot) {
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(
+                    bottom: 200,
+                  ),
+                  child: Text('Keine Chats vorhanden',style: CustomTextSize.small),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final room = snapshot.data![index];
+                  return StreamBuilder<List<types.Message>>(
+                    initialData: const [],
+                    stream: FirebaseChatCore.instance.messages(room, limit: 1),
+                    builder: (context, msg) => InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              room: room,
+                              name: room.name,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(room.name ?? ''),
+                        subtitle: Text(getLastMessageText(msg)),
+                        leading: _buildAvatar(room),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+
+          // FAB for the "Two Person Chat"
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              mini: true,
+              backgroundColor: ColorUtils.secondaryColor,
+              onPressed: () => _createTwoPersonChat(),
+              child: const Icon(Icons.chat),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
 
   String getLastMessageText(AsyncSnapshot<List<Message>> msg) {
     if (msg.hasData && msg.data!.length == 1 && msg.data!.first != null) {
