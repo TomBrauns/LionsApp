@@ -6,8 +6,6 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/chat/util.dart';
-import 'package:universal_html/html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Widgets/textSize.dart';
