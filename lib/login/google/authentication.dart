@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -44,6 +45,10 @@ class Authentication {
         String vorName = user.displayName!.split(' ')[0];
         String nachName = user.displayName!.split(' ')[1];
         String Email = user.email!;
+        String? deviceToken;
+        if (!kIsWeb) {
+          deviceToken = await FirebaseMessaging.instance.getToken();
+        }
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
         CollectionReference ref = FirebaseFirestore.instance.collection('users');
         if (!(await ref.doc(user.uid).get()).exists) {
@@ -53,6 +58,7 @@ class Authentication {
               'lastname': nachName,
               'email': Email,
               'rool': 'Friend',
+              'device': deviceToken,
               'receiveNotification': true,
             },
           );
