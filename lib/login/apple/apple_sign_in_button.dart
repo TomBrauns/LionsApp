@@ -23,8 +23,6 @@ class _AppleSignInButtonState extends State<AppleSignInButton> {
       final String? email = credential.email;
       final String fullName = '${credential.givenName} ${credential.familyName}';
 
-
-
     }catch (error){
       print("Sign in ist fehlgeschlagen");
     }
