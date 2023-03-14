@@ -278,7 +278,6 @@ class _RegisterState extends State<Register> {
                         ),
 
                         // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(
@@ -349,7 +348,9 @@ class _RegisterState extends State<Register> {
                         const SizedBox(
                           height: 20,
                         ),
-                        // TODO: Add attribute to make them optional
+
+                        // the Following TextFormField has the Street Name in it.
+
                         Row(
                           children: [
                             Expanded(

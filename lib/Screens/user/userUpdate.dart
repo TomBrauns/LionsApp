@@ -189,7 +189,6 @@ class UpdateState extends State<Update> {
                         ),
 
                         // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(
@@ -248,7 +247,6 @@ class UpdateState extends State<Update> {
                         const SizedBox(
                           height: 20,
                         ),
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(

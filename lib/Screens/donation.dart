@@ -250,11 +250,8 @@ class _DonationsState extends State<Donations> {
                                             GetPlatform.currentPlatform ==
                                                 GetPlatform.web)
                                       const SizedBox(height: 16),
-                                    // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
-                                    /*( if (eventId == null ||
-                                          eventId == "") {
-                                    eventId = '0000000000000000';
-                                      }*/
+                                    // The Subscription Button and the Drop down menu is only appearing when the User has the Role Friend
+                                    // or Admin AND is logged in on a web Platform
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
                                         Privileges.privilege ==
