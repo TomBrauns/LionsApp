@@ -7,9 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 
 Future<void> paypalOnPressApp(
-    double amount, Id, context, Endpoint, sub, Idtype) async {
+    double amount, Id, context, Endpoint, sub, Idtype, eventName) async {
   List<dynamic> PaypalObject =
-      await makePaypalPayment(amount, Id, Endpoint, sub, Idtype);
+      await makePaypalPayment(amount, Id, Endpoint, sub, Idtype, eventName);
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
@@ -35,12 +35,12 @@ Future<String> paypalAuth() async {
 
 //TODO: Deeplink needs to be implemented, so users can continue in app
 Future<List<String>> makePaypalPayment(
-    double amount, Id, Endpoint, sub, Idtype) async {
+    double amount, Id, Endpoint, sub, Idtype, eventName) async {
   String token = await paypalAuth();
   final body = {
     'authToken': token,
     'amount': amount.toString(),
-    'eventId': Id.toString(),
+    'description': "Name: $eventName,Id: $Id",
     'success_url':
         'https://serviceclub-app.de/#/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':

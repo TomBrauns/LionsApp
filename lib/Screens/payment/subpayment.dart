@@ -7,14 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<void> stripeSubOnPress(
-    amount, Id, context, baseUrl, Endpoint, sub, customerId, Idtype) async {
+Future<void> stripeSubOnPress(amount, Id, context, baseUrl, Endpoint, sub,
+    customerId, Idtype, eventName) async {
   String? subdate = subtodate(sub);
   List<String> ProductObject =
-      await createProduct(Id, amount, Endpoint, subdate);
+      await createProduct(Id, amount, Endpoint, subdate, eventName);
   //String subId = await createSubscription(Endpoint, customerId, ProductObject[1], eventId);
   List<String> CheckoutObject = await stripeWebCheckout(ProductObject[1],
-      baseUrl, amount, Id, Endpoint, subdate, customerId, Idtype);
+      baseUrl, amount, Id, Endpoint, subdate, customerId, Idtype, eventName);
   var _url = CheckoutObject[2];
   if (await canLaunchUrl(Uri.parse(_url))) {
     await launchUrl(Uri.parse(_url), webOnlyWindowName: '_self');
@@ -34,10 +34,11 @@ String? subtodate(String sub) {
 
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<List<String>> createProduct(eventId, amount, Endpoint, subdate) async {
+Future<List<String>> createProduct(
+    Id, amount, Endpoint, subdate, eventName) async {
   final body = {
     'name': 'Lions Club Spende',
-    'description': eventId,
+    'description': "Name: $eventName,Id: $Id",
   };
 
   // Make post request to Stripe
@@ -102,9 +103,10 @@ void updateProduct(priceId, productId, Endpoint) async {
   //print(response.body);
 }
 
-Future<String> createSubscription(Endpoint, customerId, price, eventId) async {
+Future<String> createSubscription(
+    Endpoint, customerId, price, Id, eventName) async {
   final body = {
-    "description": eventId,
+    "description": "Name: $eventName,Id: $Id",
     "customerId": customerId,
     "priceId": price,
     "anchor": "now"
@@ -126,8 +128,8 @@ Future<String> createSubscription(Endpoint, customerId, price, eventId) async {
   return subId;
 }
 
-Future<List<String>> stripeWebCheckout(
-    priceId, baseUrl, amount, Id, Endpoint, sub, customerId, Idtype) async {
+Future<List<String>> stripeWebCheckout(priceId, baseUrl, amount, Id, Endpoint,
+    sub, customerId, Idtype, eventName) async {
   final body = {
     'mode': "subscription",
     'price': priceId,

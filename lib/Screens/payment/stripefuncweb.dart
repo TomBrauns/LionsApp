@@ -8,10 +8,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<void> stripeOnPressWeb(
-    amount, Id, context, baseUrl, Endpoint, sub, Idtype) async {
-  List<String> ProductObject = await createProduct(Id, amount, Endpoint);
+    amount, Id, context, baseUrl, Endpoint, sub, Idtype, eventName) async {
+  List<String> ProductObject =
+      await createProduct(Id, amount, Endpoint, eventName);
   List<String> CheckoutObject = await stripeWebCheckout(
-      ProductObject[1], baseUrl, amount, Id, Endpoint, sub, Idtype);
+      ProductObject[1], baseUrl, amount, Id, Endpoint, sub, Idtype, eventName);
   var _url = CheckoutObject[2];
   if (await canLaunchUrl(Uri.parse(_url))) {
     await launchUrl(Uri.parse(_url), webOnlyWindowName: '_self');
@@ -22,10 +23,10 @@ Future<void> stripeOnPressWeb(
 
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<List<String>> createProduct(Id, amount, Endpoint) async {
+Future<List<String>> createProduct(Id, amount, Endpoint, eventName) async {
   final body = {
     'name': 'Lions Club Spende',
-    'description': Id,
+    'description': "Name: $eventName,Id: $Id",
   };
 
   // Make post request to Stripe
@@ -88,7 +89,7 @@ void updateProduct(priceId, productId, Endpoint) async {
 }
 
 Future<List<String>> stripeWebCheckout(
-    priceId, baseUrl, amount, Id, Endpoint, sub, Idtype) async {
+    priceId, baseUrl, amount, Id, Endpoint, sub, Idtype, eventName) async {
   final body = {
     'mode': "payment",
     'price': priceId,

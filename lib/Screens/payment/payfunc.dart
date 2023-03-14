@@ -4,21 +4,21 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<Map<String, dynamic>?> payProcessing(
-    token, amount, eventId, Endpoint) async {
+    token, amount, Id, Endpoint, eventName) async {
   Map<String, dynamic> result =
-      await payprocessPostRequest(token, amount, eventId, Endpoint);
+      await payprocessPostRequest(token, amount, Id, Endpoint, eventName);
   return result;
 }
 
 int calculateAmount(double amount) => (amount * 100).toInt();
 
 Future<Map<String, dynamic>> payprocessPostRequest(
-    token, amount, eventId, Endpoint) async {
+    token, amount, Id, Endpoint, eventName) async {
   final body = {
     'amount': calculateAmount(amount).toString(),
     'currency': 'eur',
     'source': token,
-    'description': eventId
+    'description': "Name: $eventName,Id: $Id"
   };
 
   // Make post request to Stripe

@@ -23,15 +23,16 @@ void stripeSettings() {
 // Calculate amount in cents
 int calculateAmount(double amount) => (amount * 100).toInt();
 
-Future<bool?> stripeOnPressApp(double amount, Id, context, Endpoint) async {
+Future<bool?> stripeOnPressApp(
+    double amount, Id, context, Endpoint, eventName) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
 
-    Map<String, dynamic> result =
-        paymentIntent = await createPaymentIntent(amount, 'EUR', Id, Endpoint);
+    Map<String, dynamic> result = paymentIntent =
+        await createPaymentIntent(amount, 'EUR', Id, Endpoint, eventName);
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -62,14 +63,14 @@ Future<bool?> stripeOnPressApp(double amount, Id, context, Endpoint) async {
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
-    amount, String currency, Id, Endpoint) async {
+    amount, String currency, Id, Endpoint, eventName) async {
   final amountInCents = calculateAmount(amount);
   try {
     // Request body
     final body = {
       'amount': amountInCents.toString(),
       'currency': currency,
-      'description': Id,
+      'description': "Name: $eventName,Id: $Id",
     };
 
     // Make post request to Stripe
