@@ -17,7 +17,7 @@ class _AppleSignInButtonState extends State<AppleSignInButton> {
           ]
       );
 
-      //print(credential);
+      print(credential);
 
       final String? userIdentifier = credential.userIdentifier;
       final String? email = credential.email;
