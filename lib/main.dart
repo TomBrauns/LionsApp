@@ -69,11 +69,13 @@ class _MyAppState extends State<MyApp> {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
             uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['sub'] ?? ''
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethode(
                 amount: Paymethodereturn[0] as double,
-                eventId: Paymethodereturn[1]),
+                eventId: Paymethodereturn[1],
+                sub: Paymethodereturn[2]),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/success') {
           final List<dynamic> Paymethodereturn = [
@@ -81,39 +83,46 @@ class _MyAppState extends State<MyApp> {
             uri.queryParameters['eventId'] ?? '',
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
-            uri.queryParameters['PayerID'] ?? ''
+            uri.queryParameters['PayerID'] ?? '',
+            uri.queryParameters['sub'] ?? ''
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethodesuccess(
-                amount: Paymethodereturn[0], eventId: Paymethodereturn[1]),
+                amount: Paymethodereturn[0],
+                eventId: Paymethodereturn[1],
+                sub: Paymethodereturn[5]),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
             uri.queryParameters['eventId'] ?? '',
-            uri.queryParameters['token'] ?? ''
+            uri.queryParameters['token'] ?? '',
+            uri.queryParameters['sub'] ?? ''
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethodecancel(
                 amount: Paymethodereturn[0] as double,
                 eventId: Paymethodereturn[1],
-                token: Paymethodereturn[2]),
+                token: Paymethodereturn[2],
+                sub: Paymethodereturn[3]),
           );
         } else if (uri.path == '/ThankYou') {
-          final List<dynamic> Paypalreturn = [
+          final List<dynamic> Paymethodereturn = [
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? '',
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
             uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['sub'] ?? ''
           ];
           return MaterialPageRoute(
             builder: (_) => DonationReceived(
-                paymentId: Paypalreturn[0],
-                token: Paypalreturn[1],
-                PayerID: Paypalreturn[2],
-                amount: Paypalreturn[3] as double,
-                eventId: Paypalreturn[4]),
+                paymentId: Paymethodereturn[0],
+                token: Paymethodereturn[1],
+                PayerID: Paymethodereturn[2],
+                amount: Paymethodereturn[3] as double,
+                eventId: Paymethodereturn[4],
+                sub: Paymethodereturn[5]),
           );
         } else if (uri.path == '/AGB') {
           var onRegister = uri.queryParameters['onRegister'];

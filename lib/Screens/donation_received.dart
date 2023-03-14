@@ -27,6 +27,7 @@ class DonationReceived extends StatefulWidget {
   final String? PayerID;
   final double amount;
   final String eventId;
+  final String sub;
 
   DonationReceived(
       {super.key,
@@ -34,7 +35,8 @@ class DonationReceived extends StatefulWidget {
       this.paymentId,
       this.PayerID,
       required this.amount,
-      required this.eventId});
+      required this.eventId,
+      required this.sub});
 
   @override
   State<DonationReceived> createState() => _DonationReceivedState();
@@ -51,6 +53,12 @@ class _DonationReceivedState extends State<DonationReceived> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
+  }
+
+  String get sub {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['sub'];
   }
 
   Future<void> sendMailWithReceipt(String eventName, String pdf) async {
@@ -179,7 +187,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                     children: [
                       Text(
                         'Sie haben mehr als 299.99€ gespendet,'
-                            ' Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
+                        ' Sie sind legitimiert für eine Bestätigung einer Geldzuwendung an den Lions Club Kaiserslautern',
                         style: CustomTextSize.small,
                       ),
                       SizedBox(height: 10),

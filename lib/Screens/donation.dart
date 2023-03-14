@@ -244,7 +244,10 @@ class _DonationsState extends State<Donations> {
                                                 .toList())),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       const SizedBox(height: 16),
                                     // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
                                     /*( if (eventId == null ||
@@ -253,18 +256,27 @@ class _DonationsState extends State<Donations> {
                                       }*/
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       Text(
                                         "Ein Spendenabonnement abschließen?",
                                         style: CustomTextSize.small,
                                       ),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       SizedBox(height: 16),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       DropdownButton<String>(
                                         value: selectedSubscription,
                                         items: <String>[
@@ -288,7 +300,10 @@ class _DonationsState extends State<Donations> {
                                       ),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       SizedBox(height: 16),
 
                                     SizedBox(
@@ -317,7 +332,9 @@ class _DonationsState extends State<Donations> {
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
                                                         'eventId': eventId,
-                                                        'amount': currentValue
+                                                        'amount': currentValue,
+                                                        'sub':
+                                                            selectedSubscription
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context,
@@ -393,4 +410,42 @@ class _DonationsState extends State<Donations> {
       _donationInput = _getCurrentValue();
     });
   }
+}
+
+class GetPlatform {
+  static String get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'GetPlatform are not supported for this platform.',
+        );
+    }
+  }
+
+  static const String web = "web";
+
+  static const String android = "android";
+
+  static const String ios = "ios";
+
+  static const String macos = "macos";
 }

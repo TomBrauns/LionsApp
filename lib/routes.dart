@@ -43,21 +43,25 @@ var routes = <String, WidgetBuilder>{
   '/Donations/UserType/PayMethode': (context) => const Paymethode(
         amount: 0,
         eventId: "",
+        sub: "",
       ),
   '/Donations/UserType/PayMethode/success': (context) =>
       const Paymethodesuccess(
         amount: 0,
         eventId: "",
+        sub: "",
       ),
   '/Donations/UserType/PayMethode/cancel': (context) => const Paymethodecancel(
         amount: 0,
         eventId: "",
+        sub: "",
       ),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(
         amount: 0,
         eventId: "",
+        sub: "",
       ),
   '/ThankYou/ShareDonation': (context) => const ShareDonation(),
   '/ThankYou/Receipt': (context) => const Receipt(),
