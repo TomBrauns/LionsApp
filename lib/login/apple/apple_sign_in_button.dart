@@ -26,7 +26,7 @@ class _AppleSignInButtonState extends State<AppleSignInButton> {
 
 
     }catch (error){
-      print("Sign in fehlgeschlagen");
+      print("Sign in ist fehlgeschlagen");
     }
   }
 
