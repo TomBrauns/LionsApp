@@ -8,14 +8,14 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import '../../../Widgets/privileges.dart';
 import '../../../Widgets/textSize.dart';
 
-class deleteUser extends StatefulWidget {
-  deleteUser({Key? key}) : super(key: key);
+class DeleteUser extends StatefulWidget {
+  DeleteUser({Key? key}) : super(key: key);
 
   @override
-  State<deleteUser> createState() => _deleteUserState();
+  State<DeleteUser> createState() => _DeleteUserState();
 }
 
-class _deleteUserState extends State<deleteUser> {
+class _DeleteUserState extends State<DeleteUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
