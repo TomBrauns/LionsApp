@@ -92,7 +92,7 @@ class _PaymethodeState extends State<Paymethode> {
   }
 
   void onGooglePayResult(paymentResult) async {
-    final eventName = await getEventName(Id);
+    final eventName = await getEventName(Id, Idtype);
     String tokenString =
         paymentResult['paymentMethodData']['tokenizationData']['token'];
     Map<String, dynamic> tokenData = json.decode(tokenString);
@@ -119,7 +119,7 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-        future: getEventName(Id),
+        future: getEventName(Id, Idtype),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -346,11 +346,33 @@ void showSuccessSnackbar(BuildContext context) {
     );
   }
 
-  Future<String> getEventName(String Id) async {
-    final docSnapshot =
-        await FirebaseFirestore.instance.collection('events').doc(Id).get();
-    if (docSnapshot.exists) {
-      return docSnapshot.get('eventName');
+  //TODO: check if neccessary and change if needed
+  //TODO: check Type Naming Convention
+  String? typetoGrep(String sub) {
+    switch (sub) {
+      case "Event":
+        return 'event';
+      case "Project":
+        return 'project';
+    }
+  }
+
+  Future<String> getEventName(String Id, String Idtype) async {
+    String? type = typetoGrep(Idtype);
+    if (type == 'event') {
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('events').doc(Id).get();
+      if (docSnapshot.exists) {
+        return docSnapshot.get('eventName');
+      }
+      // Fallback event name if event is not found
+      return 'Wichtigstes Event';
+    } else if (type == 'project') {
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('projects').doc(Id).get();
+      if (docSnapshot.exists) {
+        return docSnapshot.get('eventName');
+      }
     }
     // Fallback event name if event is not found
     return 'Wichtigstes Event';
