@@ -22,6 +22,9 @@ import 'package:flutter/foundation.dart'
 
 String Endpoint =
     "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
+//String Endpoint = "http://127.0.0.1:5000";
+
+String customerId = 'cus_NQuDfnRv0Gky79';
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -250,8 +253,8 @@ class _PaymethodeState extends State<Paymethode> {
                         ),
                       ),
                       onPressed: () async {
-                        stripeSubOnPress(
-                            amount, eventId, context, baseUrl, Endpoint, sub);
+                        stripeSubOnPress(amount, eventId, context, baseUrl,
+                            Endpoint, sub, customerId);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
