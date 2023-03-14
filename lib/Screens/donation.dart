@@ -320,6 +320,7 @@ class _DonationsState extends State<Donations> {
                                                 if (eventId == null ||
                                                     eventId == "") {
                                                   eventId = '0000000000000000';
+                                                  String Idtype = "Event";
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
@@ -331,10 +332,12 @@ class _DonationsState extends State<Donations> {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
-                                                        'eventId': eventId,
+                                                        'Id': eventId,
                                                         'amount': currentValue,
                                                         'sub':
-                                                            selectedSubscription
+                                                            selectedSubscription,
+                                                        //TODO: richtigen Typ übergeben
+                                                        'Idtype': 'Event',
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context,

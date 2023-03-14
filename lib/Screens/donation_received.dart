@@ -26,27 +26,30 @@ class DonationReceived extends StatefulWidget {
   final String? paymentId;
   final String? PayerID;
   final double amount;
-  final String eventId;
+  final String Id;
   final String sub;
+  final String Idtype;
 
-  DonationReceived(
-      {super.key,
-      this.token,
-      this.paymentId,
-      this.PayerID,
-      required this.amount,
-      required this.eventId,
-      required this.sub});
+  DonationReceived({
+    super.key,
+    this.token,
+    this.paymentId,
+    this.PayerID,
+    required this.amount,
+    required this.Id,
+    required this.sub,
+    required this.Idtype,
+  });
 
   @override
   State<DonationReceived> createState() => _DonationReceivedState();
 }
 
 class _DonationReceivedState extends State<DonationReceived> {
-  String get eventId {
+  String get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    return args?['eventId'];
+    return args?['Id'];
   }
 
   double get amount {
@@ -59,6 +62,12 @@ class _DonationReceivedState extends State<DonationReceived> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['sub'];
+  }
+
+  String get Idtype {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Idtype'];
   }
 
   Future<void> sendMailWithReceipt(String eventName, String pdf) async {
@@ -128,8 +137,7 @@ class _DonationReceivedState extends State<DonationReceived> {
       appBar: const MyAppBar(title: "Danke für ihre Spende"),
       drawer: const BurgerMenu(),
       body: FutureBuilder<DocumentSnapshot>(
-        future:
-            FirebaseFirestore.instance.collection('events').doc(eventId).get(),
+        future: FirebaseFirestore.instance.collection('events').doc(Id).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -141,7 +149,7 @@ class _DonationReceivedState extends State<DonationReceived> {
 
           final eventName;
 
-          if (eventId == '0000000000000000') {
+          if (Id == '0000000000000000') {
             print(amount.runtimeType);
             eventName = 'Wichtigstes Event';
           } else {
@@ -156,8 +164,8 @@ class _DonationReceivedState extends State<DonationReceived> {
               if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
                 sendMailWithReceipt(eventName, pdfUrl);
               }
-              _updateEventDonation(eventId);
-              _updateDonationHistory(eventId, eventName, pdfUrl ?? "");
+              _updateEventDonation(Id);
+              _updateDonationHistory(Id, eventName, pdfUrl ?? "");
             },
           );
 
@@ -269,9 +277,9 @@ class _DonationReceivedState extends State<DonationReceived> {
                         borderRadius: BorderRadius.circular(20),
                       )),
                   onPressed: () {
-                    print("Rufe Share Button mit eventId auf: $eventId");
+                    print("Rufe Share Button mit eventId auf: $Id");
                     Navigator.pushNamed(context, '/ThankYou/ShareDonation',
-                        arguments: {'eventId': eventId});
+                        arguments: {'eventId': Id});
                   },
                 ),
               ),

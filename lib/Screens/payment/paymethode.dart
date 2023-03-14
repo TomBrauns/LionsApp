@@ -36,7 +36,8 @@ class Paymethode extends StatefulWidget {
   final String? paymentId;
   final String? PayerID;
   final double amount;
-  final String eventId;
+  final String Id;
+  final String Idtype;
   final String sub;
 
   const Paymethode(
@@ -45,7 +46,8 @@ class Paymethode extends StatefulWidget {
       this.paymentId,
       this.PayerID,
       required this.amount,
-      required this.eventId,
+      required this.Id,
+      required this.Idtype,
       required this.sub})
       : super(key: key);
 
@@ -54,10 +56,10 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-  String? get eventId {
+  String? get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    return args?['eventId'];
+    return args?['Id'];
   }
 
   double get amount {
@@ -70,6 +72,12 @@ class _PaymethodeState extends State<Paymethode> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['sub'];
+  }
+
+  String get Idtype {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Idtype'];
   }
 
   @override
@@ -88,11 +96,11 @@ class _PaymethodeState extends State<Paymethode> {
     String tokenId = tokenData['id'];
     print(tokenId);
     Map<String, dynamic>? result =
-        await payProcessing(tokenId, amount, eventId, Endpoint);
+        await payProcessing(tokenId, amount, Id, Endpoint);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
       Navigator.pushNamed(context,
-          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub');
+          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
     } else {
       showErrorSnackbar(context);
     }
@@ -137,12 +145,11 @@ class _PaymethodeState extends State<Paymethode> {
                           )),
                       onPressed: () async {
                         if (GetPlatform.currentPlatform != GetPlatform.web) {
-                          paypalOnPressApp(
-                              amount, eventId, context, Endpoint, sub);
+                          paypalOnPressApp(amount, Id, context, Endpoint, sub);
                         } else if (GetPlatform.currentPlatform ==
                             GetPlatform.web) {
                           paypalOnPressWeb(
-                              amount, eventId, context, baseUrl, Endpoint, sub);
+                              amount, Id, context, baseUrl, Endpoint, sub);
                         }
                       },
                       child: Row(
@@ -176,19 +183,19 @@ class _PaymethodeState extends State<Paymethode> {
                       onPressed: () async {
                         if (GetPlatform.currentPlatform != GetPlatform.web) {
                           paymentSuccess = (await stripeOnPressApp(
-                              amount, eventId, context, Endpoint))!;
+                              amount, Id, context, Endpoint))!;
                           if (paymentSuccess == false) {
                             showErrorSnackbar(context);
                           } else if (paymentSuccess == true) {
-                            print(eventId);
+                            print(Id);
                             Navigator.pop(context);
                             Navigator.pushNamed(context,
-                                '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub');
+                                '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
                           }
                         } else if (GetPlatform.currentPlatform ==
                             GetPlatform.web) {
                           stripeOnPressWeb(
-                              amount, eventId, context, baseUrl, Endpoint, sub);
+                              amount, Id, context, baseUrl, Endpoint, sub);
                         }
                       },
                       child: Row(
@@ -253,8 +260,8 @@ class _PaymethodeState extends State<Paymethode> {
                         ),
                       ),
                       onPressed: () async {
-                        stripeSubOnPress(amount, eventId, context, baseUrl,
-                            Endpoint, sub, customerId);
+                        stripeSubOnPress(amount, Id, context, baseUrl, Endpoint,
+                            sub, customerId);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -305,7 +312,8 @@ class Paymethodecancel extends StatelessWidget {
   final String? paymentId;
   final String? PayerID;
   final double amount;
-  final String eventId;
+  final String Id;
+  final String Idtype;
   final String sub;
 
   const Paymethodecancel(
@@ -314,7 +322,8 @@ class Paymethodecancel extends StatelessWidget {
       this.paymentId,
       this.PayerID,
       required this.amount,
-      required this.eventId,
+      required this.Id,
+      required this.Idtype,
       required this.sub})
       : super(key: key);
 
@@ -332,7 +341,12 @@ class Paymethodecancel extends StatelessWidget {
       Navigator.pushNamed(
         context,
         '/Donations/UserType/PayMethode',
-        arguments: {'eventId': eventId, 'amount': amount, 'sub': sub},
+        arguments: {
+          'eventId': Id,
+          'amount': amount,
+          'sub': sub,
+          'Idtype': Idtype
+        },
       );
     });
 
@@ -346,7 +360,8 @@ class Paymethodesuccess extends StatelessWidget {
   final String? paymentId;
   final String? PayerID;
   final double amount;
-  final String eventId;
+  final String Id;
+  final String Idtype;
   final String sub;
 
   const Paymethodesuccess(
@@ -355,7 +370,8 @@ class Paymethodesuccess extends StatelessWidget {
       this.paymentId,
       this.PayerID,
       required this.amount,
-      required this.eventId,
+      required this.Id,
+      required this.Idtype,
       required this.sub})
       : super(key: key);
 
@@ -365,7 +381,7 @@ class Paymethodesuccess extends StatelessWidget {
       Navigator.pushNamed(
         context,
         '/ThankYou',
-        arguments: {'eventId': eventId, 'amount': amount, 'sub': sub},
+        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
       );
     });
 
