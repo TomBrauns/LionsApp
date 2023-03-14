@@ -546,7 +546,7 @@ class _ShareDonationState extends State<ShareDonation> {
                 onTap: () async {
                   try {
                     await shareToFacebook(
-                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
+                        'https://serviceclub-app.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Facebook: $e");
                   }
@@ -564,7 +564,7 @@ class _ShareDonationState extends State<ShareDonation> {
                 onTap: () async {
                   try {
                     await shareToTwitter(
-                        'https://marc-wieland.de/#/Donations?interneId=$eventId');
+                        'https://serviceclub-app.de/#/Donations?interneId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Twitter: $e");
                   }
