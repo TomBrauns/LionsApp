@@ -13,7 +13,7 @@ class UserTypeScreen extends StatefulWidget {
 }
 
 class _UserTypeScreenState extends State<UserTypeScreen> {
-  String get Id {
+  String? get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['Id'];
@@ -31,7 +31,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
     return args?['sub'];
   }
 
-  double get amount {
+  double? get amount {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
@@ -49,7 +49,13 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/Donations/UserType/Login');
+                Navigator.pushNamed(context, '/Donations/UserType/Login',
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      'Idtype': Idtype,
+                    });
               },
               child: Text('Anmelden', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
@@ -71,7 +77,6 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       'Id': Id,
                       'amount': amount,
                       'sub': sub,
-                      //TODO: richtigen Typ übergeben
                       'Idtype': Idtype,
                     });
               },

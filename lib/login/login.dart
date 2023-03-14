@@ -34,6 +34,30 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
 
+  String? get Id {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Id'];
+  }
+
+  String? get Idtype {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Idtype'];
+  }
+
+  String? get sub {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['sub'];
+  }
+
+  double? get amount {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['amount'];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -312,7 +336,13 @@ class _LoginPageState extends State<LoginPage> {
             (_) {
               if (ModalRoute.of(context)!.settings.name ==
                   '/Donations/UserType/Login') {
-                Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
+                Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      'Idtype': Idtype,
+                    });
               } else {
                 Navigator.pushNamed(context, '/Donations');
                 setState(
