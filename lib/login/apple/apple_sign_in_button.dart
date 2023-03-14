@@ -11,10 +11,10 @@ class _AppleSignInButtonState extends State<AppleSignInButton> {
   Future<void> _handleSignInWithApple() async{
     try{
       final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName
-        ]
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName
+          ]
       );
 
       print(credential);
@@ -41,18 +41,18 @@ class _AppleSignInButtonState extends State<AppleSignInButton> {
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       )
           : GestureDetector(
-            onTap: () async {
+        onTap: () async {
 
-              _handleSignInWithApple();
+          _handleSignInWithApple();
 
-            },
-            child: SignInWithAppleButton(
-              text: 'Mit Apple anmelden',
-              onPressed: () {
-                _handleSignInWithApple();
-              },
-            ),
+        },
+        child: SignInWithAppleButton(
+          text: 'Mit Apple anmelden',
+          onPressed: () {
+            _handleSignInWithApple();
+          },
         ),
+      ),
     );
   }
 }
