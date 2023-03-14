@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io' show File;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';

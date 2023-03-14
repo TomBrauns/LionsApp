@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -33,7 +34,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     setState(() {
       if (args.value is PickerDateRange) {
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
-        // ignore: lines_longer_than_80_chars
+            // ignore: lines_longer_than_80_chars
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       } else if (args.value is DateTime) {
         _selectedDate = args.value.toString();

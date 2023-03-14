@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ class changePwState extends State<changePw> {
   final _auth = FirebaseAuth.instance;
 
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
+  TextEditingController passwordConfirmationController =
+      TextEditingController();
 
   bool _isObscure = true;
   bool _isObscure2 = true;
@@ -70,7 +72,9 @@ class changePwState extends State<changePw> {
                                 controller: passwordController,
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
-                                    icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                                    icon: Icon(_isObscure
+                                        ? Icons.visibility_off
+                                        : Icons.visibility),
                                     onPressed: () {
                                       setState(() {
                                         _isObscure = !_isObscure;
@@ -81,13 +85,16 @@ class changePwState extends State<changePw> {
                                   fillColor: Colors.white,
                                   hintText: 'Passwort',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 15.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -112,7 +119,9 @@ class changePwState extends State<changePw> {
                                 controller: passwordConfirmationController,
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
-                                    icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                                    icon: Icon(_isObscure
+                                        ? Icons.visibility_off
+                                        : Icons.visibility),
                                     onPressed: () {
                                       setState(
                                         () {
@@ -125,13 +134,16 @@ class changePwState extends State<changePw> {
                                   fillColor: Colors.white,
                                   hintText: 'Passwort bestätigen',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 15.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -151,19 +163,23 @@ class changePwState extends State<changePw> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             MaterialButton(
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
                                 setState(
                                   () {
-                                    if (passwordController.text == passwordConfirmationController.text) {
+                                    if (passwordController.text ==
+                                        passwordConfirmationController.text) {
                                       changePW(passwordController.text);
                                     }
                                   },
                                 );
                               },
-                              child: Text("Bestätigen", style: CustomTextSize.medium),
+                              child: Text("Bestätigen",
+                                  style: CustomTextSize.medium),
                               color: Colors.white,
                             ),
                           ],

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,10 @@ class UserRoleList extends StatefulWidget {
 
 class _UserRoleListState extends State<UserRoleList> {
   final List<String> _roleOptions = ['Friend', 'Member', 'Admin'];
-  final _userStream = FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) => snapshot.docs);
+  final _userStream = FirebaseFirestore.instance
+      .collection('users')
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
   final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
 
   String _searchQuery = "";
@@ -58,7 +62,8 @@ class _UserRoleListState extends State<UserRoleList> {
           ),
         ),
         Expanded(
-          child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+          child:
+              StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
             stream: _userStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -73,19 +78,17 @@ class _UserRoleListState extends State<UserRoleList> {
                 );
               }
 
-              final users = snapshot.data!
-                  .where((user) =>
-              user.id != currentUserUid &&
+              final users = snapshot.data!.where((user) =>
+                  user.id != currentUserUid &&
                   ((user.get("email") as String)
-                      .toLowerCase()
-                      .contains(_searchQuery.toLowerCase()) ||
+                          .toLowerCase()
+                          .contains(_searchQuery.toLowerCase()) ||
                       (user.get("firstname") as String)
                           .toLowerCase()
                           .contains(_searchQuery.toLowerCase()) ||
                       (user.get("lastname") as String)
                           .toLowerCase()
                           .contains(_searchQuery.toLowerCase())));
-
 
               return ListView.builder(
                 itemCount: users.length,

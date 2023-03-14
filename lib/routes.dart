@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/admin/admin_history.dart';
 import 'package:lionsapp/Screens/user/admin/changeRole.dart';

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 

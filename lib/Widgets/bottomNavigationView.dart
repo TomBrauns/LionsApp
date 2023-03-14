@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
@@ -55,7 +56,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               ),
             ),
             if (Privileges.privilege == Privilege.admin ||
-    Privileges.privilege == Privilege.member)
+                Privileges.privilege == Privilege.member)
               Tooltip(
                 message: "Kalender",
                 decoration: const BoxDecoration(color: ColorUtils.primaryColor),
@@ -69,7 +70,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
                     Navigator.pushNamed(context, '/Calendar');
                   },
-                  icon: const Icon(Icons.calendar_month_rounded, color: Colors.white),
+                  icon: const Icon(Icons.calendar_month_rounded,
+                      color: Colors.white),
                 ),
               ),
             Tooltip(
@@ -104,9 +106,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 icon: const Icon(Icons.event, color: Colors.white),
               ),
             ),
-
           ],
-        )
-    );
+        ));
   }
 }

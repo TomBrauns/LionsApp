@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,9 @@ class _CalendarState extends State<PwReset> {
             ),
             Padding(
               padding: EdgeInsets.all(25.0),
-              child: Text('Geben Sie Ihre Email Adresse ein, anschließend erhalten Sie einen Link von uns mit dem Sie Ihr Passwort zurücksetzen können!', style: CustomTextSize.medium),
+              child: Text(
+                  'Geben Sie Ihre Email Adresse ein, anschließend erhalten Sie einen Link von uns mit dem Sie Ihr Passwort zurücksetzen können!',
+                  style: CustomTextSize.medium),
             ),
             Container(
               margin: const EdgeInsets.only(left: 40, right: 40),
@@ -47,7 +50,8 @@ class _CalendarState extends State<PwReset> {
               height: 30,
             ),
             MaterialButton(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
               elevation: 5.0,
               height: 40,
               onPressed: () {
@@ -78,19 +82,25 @@ class _CalendarState extends State<PwReset> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bitte prüfen Sie jetzt Ihr Email Postfach'), backgroundColor: Colors.green),
+        const SnackBar(
+            content: Text('Bitte prüfen Sie jetzt Ihr Email Postfach'),
+            backgroundColor: Colors.green),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Die Email Adresse ist bei uns nicht registriert'), backgroundColor: Colors.redAccent),
+        const SnackBar(
+            content: Text('Die Email Adresse ist bei uns nicht registriert'),
+            backgroundColor: Colors.redAccent),
       );
     }
   }
 }
 
 Future<bool> doesUserExistWithEmail(String email) async {
-  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-  final QuerySnapshot result = await usersCollection.where('email', isEqualTo: email).get();
+  final CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+  final QuerySnapshot result =
+      await usersCollection.where('email', isEqualTo: email).get();
   final List<DocumentSnapshot> documents = result.docs;
   return documents.isNotEmpty;
 }
