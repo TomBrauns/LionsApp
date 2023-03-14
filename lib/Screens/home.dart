@@ -234,6 +234,7 @@ class _HomePageState extends State<HomePage> {
                   style: CustomTextSize.small,
                   textAlign: TextAlign.center,
                 ),
+
               ),
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/admin_history.dart';
-import 'package:lionsapp/Screens/user/admin/callAdmin.dart';
+import 'package:lionsapp/Screens/user/admin/changeRole.dart';
 import 'package:lionsapp/Screens/user/admin/deleteChat.dart';
 import 'package:lionsapp/Screens/user/admin/deleteUser.dart';
 import 'package:lionsapp/Screens/user/changePassword.dart';
@@ -32,9 +32,9 @@ var routes = <String, WidgetBuilder>{
   '/User/Accessibility': (context) => const Accessibility(),
   '/User/Subs': (context) => const Subs(),
   '/User/ChangePW': (context) => changePw(),
-  '/ChangeRole': (context) => callAdmin(),
-  '/deleteChat': (context) => deleteChat(),
-  '/deleteUser': (context) => deleteUser(),
+  '/ChangeRole': (context) => CallAdmin(),
+  '/deleteChat': (context) => DeleteChat(),
+  '/deleteUser': (context) => DeleteUser(),
   '/History': (context) => History(),
   '/AdminHistory': (context) => AdminHistory(),
   '/Donations': (context) => const Donations(),
@@ -42,22 +42,30 @@ var routes = <String, WidgetBuilder>{
   '/Donations/UserType/Login': (context) => const LoginPage(),
   '/Donations/UserType/PayMethode': (context) => const Paymethode(
         amount: 0,
-        eventId: "",
+        Id: "",
+        sub: "",
+        Idtype: "",
       ),
   '/Donations/UserType/PayMethode/success': (context) =>
       const Paymethodesuccess(
         amount: 0,
-        eventId: "",
+        Id: "",
+        sub: "",
+        Idtype: "",
       ),
   '/Donations/UserType/PayMethode/cancel': (context) => const Paymethodecancel(
         amount: 0,
-        eventId: "",
+        Id: "",
+        sub: "",
+        Idtype: "",
       ),
   //'//Donations/UserType/PayMethode/Success':(context) => PaySuccess(),
   //'//Donations/UserType/PayMethode/Failure':(context) => PayFailure(),
   '/ThankYou': (context) => DonationReceived(
         amount: 0,
-        eventId: "",
+        Id: "",
+        sub: "",
+        Idtype: "",
       ),
   '/ThankYou/ShareDonation': (context) => const ShareDonation(),
   '/ThankYou/Receipt': (context) => const Receipt(),

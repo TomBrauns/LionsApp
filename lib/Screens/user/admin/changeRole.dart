@@ -5,14 +5,14 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
-class callAdmin extends StatefulWidget {
-  callAdmin({Key? key}) : super(key: key);
+class CallAdmin extends StatefulWidget {
+  CallAdmin({Key? key}) : super(key: key);
 
   @override
-  State<callAdmin> createState() => _callAdminState();
+  State<CallAdmin> createState() => _CallAdminState();
 }
 
-class _callAdminState extends State<callAdmin> {
+class _CallAdminState extends State<CallAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

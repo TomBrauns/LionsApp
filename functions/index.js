@@ -52,7 +52,7 @@ exports.sendEmailWithAttachments = functions.https.onCall(async (data, context) 
   
   const transporter = nodemailer.createTransport({
     host: "sslout.df.eu",
-    port: "25",
+    port: "465",
     secure: true,
     auth: {
       user: "info@serviceclub-app.de",

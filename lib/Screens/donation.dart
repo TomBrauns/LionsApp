@@ -244,7 +244,10 @@ class _DonationsState extends State<Donations> {
                                                 .toList())),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       const SizedBox(height: 16),
                                     // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
                                     /*( if (eventId == null ||
@@ -253,18 +256,27 @@ class _DonationsState extends State<Donations> {
                                       }*/
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       Text(
                                         "Ein Spendenabonnement abschließen?",
                                         style: CustomTextSize.small,
                                       ),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       SizedBox(height: 16),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       DropdownButton<String>(
                                         value: selectedSubscription,
                                         items: <String>[
@@ -288,7 +300,10 @@ class _DonationsState extends State<Donations> {
                                       ),
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin)
+                                        Privileges.privilege ==
+                                                Privilege.admin &&
+                                            GetPlatform.currentPlatform ==
+                                                GetPlatform.web)
                                       SizedBox(height: 16),
 
                                     SizedBox(
@@ -305,6 +320,7 @@ class _DonationsState extends State<Donations> {
                                                 if (eventId == null ||
                                                     eventId == "") {
                                                   eventId = '0000000000000000';
+                                                  String Idtype = "Event";
                                                 }
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
@@ -316,8 +332,12 @@ class _DonationsState extends State<Donations> {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType/PayMethode',
                                                       arguments: {
-                                                        'eventId': eventId,
-                                                        'amount': currentValue
+                                                        'Id': eventId,
+                                                        'amount': currentValue,
+                                                        'sub':
+                                                            selectedSubscription,
+                                                        //TODO: richtigen Typ übergeben
+                                                        'Idtype': 'Event',
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context,
@@ -393,4 +413,42 @@ class _DonationsState extends State<Donations> {
       _donationInput = _getCurrentValue();
     });
   }
+}
+
+class GetPlatform {
+  static String get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'GetPlatform have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'GetPlatform are not supported for this platform.',
+        );
+    }
+  }
+
+  static const String web = "web";
+
+  static const String android = "android";
+
+  static const String ios = "ios";
+
+  static const String macos = "macos";
 }
