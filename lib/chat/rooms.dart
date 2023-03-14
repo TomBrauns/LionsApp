@@ -39,19 +39,15 @@ class _RoomsPageState extends State<RoomsPage> {
     final docSnapshot = await docRef.get();
     final docExists = docSnapshot.exists;
     final user = FirebaseAuth.instance.currentUser!;
-    final documentSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-    final imageUrl = documentSnapshot.data()?['image_url'];
-    final firstname = documentSnapshot.data()?['firstname'];
-    final lastname = documentSnapshot.data()?['lastname'];
+    final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    final imageUrl = documentSnapshot.data()?['image_url'] ?? "";
+    final firstname = documentSnapshot.data()?['firstname'] ?? "";
+    final lastname = documentSnapshot.data()?['lastname'] ?? "";
     try {
       if (!docExists) {
         await FirebaseChatCore.instance.createUserInFirestore(
           types.User(
-            id: FirebaseAuth
-                .instance.currentUser!.uid, // UID from Firebase Authentication
+            id: FirebaseAuth.instance.currentUser!.uid, // UID from Firebase Authentication
             imageUrl: imageUrl,
             firstName: firstname,
             lastName: lastname,
@@ -87,8 +83,7 @@ class _RoomsPageState extends State<RoomsPage> {
   // FAB with Priviledge
   //Copy that
   Widget? _getFAB() {
-    if (Privileges.privilege == Privilege.admin ||
-        Privileges.privilege == Privilege.member) {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
       return FloatingActionButton(
         mini: true,
         backgroundColor: ColorUtils.secondaryColor,
@@ -102,8 +97,7 @@ class _RoomsPageState extends State<RoomsPage> {
 
   // and use Function for Fab in Scaffold
   Widget? _getBAB() {
-    if (Privileges.privilege == Privilege.admin ||
-        Privileges.privilege == Privilege.member) {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
       return BottomNavigation();
     } else {
       return null;
@@ -165,8 +159,7 @@ class _RoomsPageState extends State<RoomsPage> {
                         margin: const EdgeInsets.only(
                           bottom: 200,
                         ),
-                        child: Text('Keine Chats vorhanden',
-                            style: CustomTextSize.small),
+                        child: Text('Keine Chats vorhanden', style: CustomTextSize.small),
                       );
                     }
 
@@ -176,8 +169,7 @@ class _RoomsPageState extends State<RoomsPage> {
                         final room = snapshot.data![index];
                         return StreamBuilder<List<types.Message>>(
                           initialData: const [],
-                          stream: FirebaseChatCore.instance
-                              .messages(room, limit: 1),
+                          stream: FirebaseChatCore.instance.messages(room, limit: 1),
                           builder: (context, msg) => InkWell(
                             onTap: () {
                               Navigator.of(context).push(
@@ -221,8 +213,7 @@ class _RoomsPageState extends State<RoomsPage> {
     if (msg.hasData && msg.data!.length == 1 && msg.data!.first != null) {
       if (msg.data!.first.type == types.MessageType.text) {
         String text = (msg.data!.first as types.TextMessage).text;
-        String truncatedText =
-            text.length > 50 ? '${text.substring(0, 50)}...' : text;
+        String truncatedText = text.length > 50 ? '${text.substring(0, 50)}...' : text;
         return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName}: $truncatedText');
       } else if (msg.data!.first.type == types.MessageType.image) {
         return ('${msg.data!.first.author.firstName} ${msg.data!.first.author.lastName} hat ein Bild geschickt');
@@ -239,14 +230,8 @@ class _RoomsPageState extends State<RoomsPage> {
   ) async {
     final user = FirebaseAuth.instance.currentUser;
 
-    await FirebaseFirestore.instance
-        .collection('user_chat')
-        .doc(user!.uid)
-        .update({"firstName": newFirstName});
-    await FirebaseFirestore.instance
-        .collection('user_chat')
-        .doc(user.uid)
-        .update({"lastName": newLastName});
+    await FirebaseFirestore.instance.collection('user_chat').doc(user!.uid).update({"firstName": newFirstName});
+    await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"lastName": newLastName});
   }
 
   void initializeFlutterFire() async {
@@ -302,13 +287,7 @@ class _RoomsPageState extends State<RoomsPage> {
 }
 
 class ScrollToUnreadOptions {
-  const ScrollToUnreadOptions(
-      {this.lastReadMessageId,
-      this.scrollDelay = const Duration(milliseconds: 150),
-      this.scrollDuration =
-          ScrollDragController.momentumRetainStationaryDurationThreshold,
-      this.scrollOnOpen = false,
-      this.customBanner});
+  const ScrollToUnreadOptions({this.lastReadMessageId, this.scrollDelay = const Duration(milliseconds: 150), this.scrollDuration = ScrollDragController.momentumRetainStationaryDurationThreshold, this.scrollOnOpen = false, this.customBanner});
 
   /// Will show an unread messages header after this message if there are more
   /// messages to come and will scroll to this header on
