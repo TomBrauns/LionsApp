@@ -7,13 +7,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<void> stripeSubOnPress(
-    amount, eventId, context, baseUrl, Endpoint, sub, customerId) async {
+    amount, Id, context, baseUrl, Endpoint, sub, customerId, Idtype) async {
   String? subdate = subtodate(sub);
   List<String> ProductObject =
-      await createProduct(eventId, amount, Endpoint, subdate);
+      await createProduct(Id, amount, Endpoint, subdate);
   //String subId = await createSubscription(Endpoint, customerId, ProductObject[1], eventId);
   List<String> CheckoutObject = await stripeWebCheckout(ProductObject[1],
-      baseUrl, amount, eventId, Endpoint, subdate, customerId);
+      baseUrl, amount, Id, Endpoint, subdate, customerId, Idtype);
   var _url = CheckoutObject[2];
   if (await canLaunchUrl(Uri.parse(_url))) {
     await launchUrl(Uri.parse(_url), webOnlyWindowName: '_self');
@@ -126,7 +126,7 @@ Future<String> createSubscription(Endpoint, customerId, price, eventId) async {
 }
 
 Future<List<String>> stripeWebCheckout(
-    priceId, baseUrl, amount, eventId, Endpoint, sub, customerId) async {
+    priceId, baseUrl, amount, Id, Endpoint, sub, customerId, Idtype) async {
   final body = {
     'mode': "subscription",
     'price': priceId,
@@ -134,9 +134,9 @@ Future<List<String>> stripeWebCheckout(
     'customer': customerId,
     'interval': sub,
     'success_url':
-        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub',
+        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':
-        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId&sub=$sub'
+        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype'
   };
 
   // Make post request to Stripe

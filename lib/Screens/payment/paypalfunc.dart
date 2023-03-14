@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 
 Future<void> paypalOnPressApp(
-    double amount, eventId, context, Endpoint, sub) async {
+    double amount, Id, context, Endpoint, sub, Idtype) async {
   List<dynamic> PaypalObject =
-      await makePaypalPayment(amount, eventId, Endpoint, sub);
+      await makePaypalPayment(amount, Id, Endpoint, sub, Idtype);
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
@@ -34,16 +34,16 @@ Future<String> paypalAuth() async {
 
 //TODO: Deeplink needs to be implemented, so users can continue in app
 Future<List<String>> makePaypalPayment(
-    double amount, eventId, Endpoint, sub) async {
+    double amount, Id, Endpoint, sub, Idtype) async {
   String token = await paypalAuth();
   final body = {
     'authToken': token,
     'amount': amount.toString(),
-    'eventId': eventId.toString(),
+    'eventId': Id.toString(),
     'success_url':
-        'https://serviceclub-app.de/#/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub',
+        'https://serviceclub-app.de/#/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':
-        'https://serviceclub-app.de/#/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId&sub=$sub',
+        'https://serviceclub-app.de/#/Donations/UserType/PayMethode/cancel?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'currency': "EUR",
   };
 

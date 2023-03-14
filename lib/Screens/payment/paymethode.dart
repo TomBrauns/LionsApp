@@ -99,8 +99,9 @@ class _PaymethodeState extends State<Paymethode> {
         await payProcessing(tokenId, amount, Id, Endpoint);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
+
       Navigator.pushNamed(context,
-          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
+          '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
     } else {
       showErrorSnackbar(context);
     }
@@ -145,11 +146,12 @@ class _PaymethodeState extends State<Paymethode> {
                           )),
                       onPressed: () async {
                         if (GetPlatform.currentPlatform != GetPlatform.web) {
-                          paypalOnPressApp(amount, Id, context, Endpoint, sub);
+                          paypalOnPressApp(
+                              amount, Id, context, Endpoint, sub, Idtype);
                         } else if (GetPlatform.currentPlatform ==
                             GetPlatform.web) {
-                          paypalOnPressWeb(
-                              amount, Id, context, baseUrl, Endpoint, sub);
+                          paypalOnPressWeb(amount, Id, context, baseUrl,
+                              Endpoint, sub, Idtype);
                         }
                       },
                       child: Row(
@@ -190,12 +192,12 @@ class _PaymethodeState extends State<Paymethode> {
                             print(Id);
                             Navigator.pop(context);
                             Navigator.pushNamed(context,
-                                '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
+                                '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
                           }
                         } else if (GetPlatform.currentPlatform ==
                             GetPlatform.web) {
-                          stripeOnPressWeb(
-                              amount, Id, context, baseUrl, Endpoint, sub);
+                          stripeOnPressWeb(amount, Id, context, baseUrl,
+                              Endpoint, sub, Idtype);
                         }
                       },
                       child: Row(
@@ -261,7 +263,7 @@ class _PaymethodeState extends State<Paymethode> {
                       ),
                       onPressed: () async {
                         stripeSubOnPress(amount, Id, context, baseUrl, Endpoint,
-                            sub, customerId);
+                            sub, customerId, Idtype);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -341,12 +343,7 @@ class Paymethodecancel extends StatelessWidget {
       Navigator.pushNamed(
         context,
         '/Donations/UserType/PayMethode',
-        arguments: {
-          'eventId': Id,
-          'amount': amount,
-          'sub': sub,
-          'Idtype': Idtype
-        },
+        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
       );
     });
 
@@ -378,10 +375,16 @@ class Paymethodesuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
+      print('this is the Id: $Id');
       Navigator.pushNamed(
         context,
         '/ThankYou',
-        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
+        arguments: {
+          'Id': Id,
+          'amount': amount,
+          'sub': sub,
+          'Idtype': Idtype,
+        },
       );
     });
 

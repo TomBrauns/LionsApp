@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         } else if (uri.path == '/Donations/UserType/PayMethode') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['sub'] ?? '',
             uri.queryParameters['Idtype'] ?? '',
           ];
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
         } else if (uri.path == '/Donations/UserType/PayMethode/success') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? '',
@@ -95,13 +95,13 @@ class _MyAppState extends State<MyApp> {
               amount: Paymethodereturn[0],
               Id: Paymethodereturn[1],
               sub: Paymethodereturn[5],
-              Idtype: Paymethodereturn[3],
+              Idtype: Paymethodereturn[6],
             ),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['sub'] ?? '',
             uri.queryParameters['Idtype'] ?? '',
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
               Id: Paymethodereturn[1],
               token: Paymethodereturn[2],
               sub: Paymethodereturn[3],
-              Idtype: Paymethodereturn[3],
+              Idtype: Paymethodereturn[4],
             ),
           );
         } else if (uri.path == '/ThankYou') {
@@ -121,19 +121,16 @@ class _MyAppState extends State<MyApp> {
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? '',
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['sub'] ?? '',
             uri.queryParameters['Idtype'] ?? '',
           ];
           return MaterialPageRoute(
             builder: (_) => DonationReceived(
-              paymentId: Paymethodereturn[0],
-              token: Paymethodereturn[1],
-              PayerID: Paymethodereturn[2],
               amount: Paymethodereturn[3] as double,
               Id: Paymethodereturn[4],
               sub: Paymethodereturn[5],
-              Idtype: Paymethodereturn[3],
+              Idtype: Paymethodereturn[6],
             ),
           );
         } else if (uri.path == '/AGB') {

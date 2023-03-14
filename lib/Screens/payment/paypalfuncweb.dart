@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 
 Future<void> paypalOnPressWeb(
-    double amount, eventId, context, baseUrl, Endpoint, sub) async {
+    double amount, Id, context, baseUrl, Endpoint, sub, Idtype) async {
   List<dynamic> PaypalObject =
-      await makePaypalPayment(amount, eventId, baseUrl, Endpoint, sub);
+      await makePaypalPayment(amount, Id, baseUrl, Endpoint, sub, Idtype);
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
@@ -33,16 +33,16 @@ Future<String> paypalAuth() async {
 }
 
 Future<List<String>> makePaypalPayment(
-    double amount, eventId, baseUrl, Endpoint, sub) async {
+    double amount, Id, baseUrl, Endpoint, sub, Idtype) async {
   String token = await paypalAuth();
   final body = {
     'authToken': token,
     'amount': amount.toString(),
-    'eventId': eventId.toString(),
+    'eventId': Id.toString(),
     'success_url':
-        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub',
+        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':
-        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId&sub=$sub',
+        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'currency': "EUR",
   };
 
