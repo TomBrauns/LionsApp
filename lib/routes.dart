@@ -1,5 +1,6 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/admin_history.dart';
+import 'package:lionsapp/Screens/user/admin/admin_history.dart';
 import 'package:lionsapp/Screens/user/admin/changeRole.dart';
 import 'package:lionsapp/Screens/user/admin/deleteChat.dart';
 import 'package:lionsapp/Screens/user/admin/deleteUser.dart';
@@ -69,7 +70,6 @@ var routes = <String, WidgetBuilder>{
       ),
   '/ThankYou/ShareDonation': (context) => const ShareDonation(),
   '/ThankYou/Receipt': (context) => const Receipt(),
-  // TODO: Chaträume
   '/Chat': (context) => const RoomsPage(),
   //'/Chat/Chatroom' + Chatroom.roomId: (context) => Chatroom(chatroomId: chatroomId),
   //'/Chat/Chatroom' + Chatroom.roomId + "/Settings": (context) => ChatroomSettings(chatroomId: chatroomId)
@@ -78,7 +78,6 @@ var routes = <String, WidgetBuilder>{
   '/Events/EventEditor': (context) => const EventEditor(),
   //'/Events/EventDetailsPage' + EventDetailsPage.eventId: (context) => EventDetailsPage(eventId: EventDetailsPage.eventId,),
   //'/Events/EditDocumentPage' + Events.documentId: (context) => EditDocumentPage(documentId: Events.documentId),
-  // TODO: Route for Catalogue
   '/Catalogue': (context) => const Catalogue(),
   '/Catalogue/ProjectEditor': (context) => const ProjectEditor(),
   //'/Catalogue/Project' + Project.documentId: (context) => Project(documentId: documentId),

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,14 +30,18 @@ class HistoryList extends StatefulWidget {
   State<HistoryList> createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> with SingleTickerProviderStateMixin {
+class _HistoryListState extends State<HistoryList>
+    with SingleTickerProviderStateMixin {
   final dateFormat = DateFormat("dd. MMM yyyy HH:mm");
   final _donationsStream = FirebaseFirestore.instance
       .collection("donations")
       .orderBy("event_name")
       .snapshots()
       .map((snapshot) => snapshot.docs);
-  final _userStream = FirebaseFirestore.instance.collection("users").snapshots().map((snapshot) => snapshot.docs);
+  final _userStream = FirebaseFirestore.instance
+      .collection("users")
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
   String _searchQuery = "";
 
   @override
@@ -50,31 +55,40 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
               _searchQuery = value;
             });
           },
-          decoration:
-              const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+          decoration: const InputDecoration(
+              hintText: 'Suchen',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search)),
         ),
       ),
       Expanded(
-          child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+          child: StreamBuilder<
+                  List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
               stream: _donationsStream,
               builder: (context, donationsSnapshots) {
-                return StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+                return StreamBuilder<
+                        List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
                     stream: _userStream,
                     builder: (context, userSnapshots) {
-                      if (donationsSnapshots.hasError || userSnapshots.hasError) {
+                      if (donationsSnapshots.hasError ||
+                          userSnapshots.hasError) {
                         return const Center(
                           child: Text('Error'),
                         );
                       }
-                      if (donationsSnapshots.connectionState == ConnectionState.waiting ||
-                          userSnapshots.connectionState == ConnectionState.waiting) {
+                      if (donationsSnapshots.connectionState ==
+                              ConnectionState.waiting ||
+                          userSnapshots.connectionState ==
+                              ConnectionState.waiting) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
 
                       final eventIds = donationsSnapshots.data!
-                          .where((d) => (d["event_name"] as String).toLowerCase().contains(_searchQuery.toLowerCase()))
+                          .where((d) => (d["event_name"] as String)
+                              .toLowerCase()
+                              .contains(_searchQuery.toLowerCase()))
                           .map((d) => d["event_id"] as String)
                           .toSet();
 
@@ -82,15 +96,22 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
                           itemCount: eventIds.length,
                           itemBuilder: (context, index) {
                             final eventId = eventIds.elementAt(index);
-                            final donations = donationsSnapshots.data!.where((d) => d["event_id"] == eventId).toList();
-                            donations.sort((d1, d2) => (d1["date"] as Timestamp).compareTo(d2["date"] as Timestamp));
+                            final donations = donationsSnapshots.data!
+                                .where((d) => d["event_id"] == eventId)
+                                .toList();
+                            donations.sort((d1, d2) => (d1["date"] as Timestamp)
+                                .compareTo(d2["date"] as Timestamp));
                             final eventName = donations.first["event_name"];
-                            final double eventSum =
-                                donations.map((d) => d["amount"]).reduce((value, element) => value + element);
+                            final double eventSum = donations
+                                .map((d) => d["amount"])
+                                .reduce((value, element) => value + element);
                             return Column(children: [
                               ListTile(
-                                  title: Text(eventName, style: CustomTextSize.medium),
-                                  trailing: Text("${eventSum.toStringAsFixed(2)}€", style: CustomTextSize.medium)),
+                                  title: Text(eventName,
+                                      style: CustomTextSize.medium),
+                                  trailing: Text(
+                                      "${eventSum.toStringAsFixed(2)}€",
+                                      style: CustomTextSize.medium)),
                               ListView.builder(
                                   shrinkWrap: true,
                                   physics: const ClampingScrollPhysics(),
@@ -98,14 +119,24 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
                                   itemBuilder: (context, index) {
                                     final donation = donations.elementAt(index);
                                     final double amount = donation["amount"];
-                                    final String date = dateFormat.format((donation["date"] as Timestamp).toDate());
-                                    final String pdfUrl = donation["receipt_url"];
+                                    final String date = dateFormat.format(
+                                        (donation["date"] as Timestamp)
+                                            .toDate());
+                                    final String pdfUrl =
+                                        donation["receipt_url"];
                                     String? imageUrl;
                                     String userName;
                                     try {
-                                      final user = userSnapshots.data!.firstWhere((u) => u.id == donation["user"]);
-                                      imageUrl = user.data().containsKey("image_url") ? user["image_url"] : null;
-                                      userName = user["firstname"] + " " + user["lastname"];
+                                      final user = userSnapshots.data!
+                                          .firstWhere(
+                                              (u) => u.id == donation["user"]);
+                                      imageUrl =
+                                          user.data().containsKey("image_url")
+                                              ? user["image_url"]
+                                              : null;
+                                      userName = user["firstname"] +
+                                          " " +
+                                          user["lastname"];
                                     } catch (e) {
                                       imageUrl = null;
                                       userName = "Unbekannt";
@@ -120,15 +151,21 @@ class _HistoryListState extends State<HistoryList> with SingleTickerProviderStat
                                                 width: 40,
                                                 height: 40,
                                               )
-                                            : Container(color: Colors.grey, width: 40, height: 40),
+                                            : Container(
+                                                color: Colors.grey,
+                                                width: 40,
+                                                height: 40),
                                       ),
-                                      title: Text("${amount.toStringAsFixed(2)}€ von $userName"),
+                                      title: Text(
+                                          "${amount.toStringAsFixed(2)}€ von $userName"),
                                       subtitle: Text("Spendendatum: $date"),
                                       trailing: IconButton(
                                           icon: const Icon(Icons.download),
                                           onPressed: () async {
-                                            if (await canLaunchUrl(Uri.parse(pdfUrl))) {
-                                              await launchUrl(Uri.parse(pdfUrl));
+                                            if (await canLaunchUrl(
+                                                Uri.parse(pdfUrl))) {
+                                              await launchUrl(
+                                                  Uri.parse(pdfUrl));
                                             }
                                           }),
                                     );

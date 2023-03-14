@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +16,11 @@ class UserInList {
   final String documentId;
   bool isSelected;
 
-  UserInList({required this.firstName, required this.lastName, required this.documentId, this.isSelected = false});
+  UserInList(
+      {required this.firstName,
+      required this.lastName,
+      required this.documentId,
+      this.isSelected = false});
 }
 
 class RoomCreator extends StatefulWidget {
@@ -39,9 +44,11 @@ class _RoomCreatorState extends State<RoomCreator> {
     // Get the current user ID
     String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
     // Get the list of users from Firestore
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('user_chat').get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('user_chat').get();
     // Filter the list to remove the current user
-    List<UserInList> filteredUsers = snapshot.docs.where((document) => document.id != currentUserId).map(
+    List<UserInList> filteredUsers =
+        snapshot.docs.where((document) => document.id != currentUserId).map(
       (DocumentSnapshot document) {
         return UserInList(
           firstName: document.get('firstName'),
@@ -62,18 +69,27 @@ class _RoomCreatorState extends State<RoomCreator> {
   }
 
   List<UserInList> _filteredUsers() {
-    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    return _users
+        .where((user) =>
+            user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            user.lastName.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
   }
 
   String roomImg = "";
-  final _userStream = FirebaseFirestore.instance.collection('user_chat').snapshots().map((snapshot) => snapshot.docs);
+  final _userStream = FirebaseFirestore.instance
+      .collection('user_chat')
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
   String _searchQuery = "";
 
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(file, "room_images", "", uniqueFilename);
+      final String uniqueFilename =
+          DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(
+          file, "room_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(
           () {
@@ -124,7 +140,8 @@ class _RoomCreatorState extends State<RoomCreator> {
                 fillColor: Colors.white,
                 hintText: 'Name der Gruppe',
                 enabled: true,
-                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding:
+                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
@@ -141,7 +158,8 @@ class _RoomCreatorState extends State<RoomCreator> {
                 fillColor: Colors.white,
                 hintText: 'Beschreibung der Gruppe',
                 enabled: true,
-                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding:
+                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
@@ -179,7 +197,8 @@ class _RoomCreatorState extends State<RoomCreator> {
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${user.firstName} ${user.lastName}', style: CustomTextSize.small),
+                        Text('${user.firstName} ${user.lastName}',
+                            style: CustomTextSize.small),
                       ],
                     ),
                     value: user.isSelected,
@@ -231,7 +250,8 @@ class _RoomCreatorState extends State<RoomCreator> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.red,
-                    content: Text('Gruppename angeben', style: CustomTextSize.small),
+                    content:
+                        Text('Gruppename angeben', style: CustomTextSize.small),
                   ),
                 );
               }

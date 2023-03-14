@@ -1,9 +1,11 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/payment/subpayment.dart';
 import 'package:lionsapp/util/color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../Widgets/textSize.dart';
 import 'paypalfuncweb.dart';
@@ -56,7 +58,7 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-  String? get Id {
+  String get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['Id'];
@@ -90,17 +92,19 @@ class _PaymethodeState extends State<Paymethode> {
   }
 
   void onGooglePayResult(paymentResult) async {
+    final eventName = await getEventName(Id, Idtype);
     String tokenString =
         paymentResult['paymentMethodData']['tokenizationData']['token'];
     Map<String, dynamic> tokenData = json.decode(tokenString);
     String tokenId = tokenData['id'];
     print(tokenId);
     Map<String, dynamic>? result =
-        await payProcessing(tokenId, amount, Id, Endpoint);
+        await payProcessing(tokenId, amount, Id, Endpoint, eventName);
     if (result!['outcome']['seller_message'] == "Payment complete.") {
       Navigator.pop(context);
+
       Navigator.pushNamed(context,
-          '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
+          '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
     } else {
       showErrorSnackbar(context);
     }
@@ -114,170 +118,203 @@ class _PaymethodeState extends State<Paymethode> {
 
   @override
   Widget build(BuildContext context) {
-    final paymentItems = [
-      PaymentItem(
-        label: 'Spende',
-        amount: amount.toString(),
-        status: PaymentItemStatus.final_price,
-      )
-    ];
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Zahlungsmethode"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: sub == 'keins'
-              ? <Widget>[
-                  Text('$amount€ Spende', style: CustomTextSize.large),
-                  SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 90),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 255, 196, 57),
-                          elevation: 0,
-                          padding: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
-                      onPressed: () async {
-                        if (GetPlatform.currentPlatform != GetPlatform.web) {
-                          paypalOnPressApp(amount, Id, context, Endpoint, sub);
-                        } else if (GetPlatform.currentPlatform ==
-                            GetPlatform.web) {
-                          paypalOnPressWeb(
-                              amount, Id, context, baseUrl, Endpoint, sub);
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.paypal,
-                            color: Colors.blue,
+    return FutureBuilder<String>(
+        future: getEventName(Id, Idtype),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final eventName = snapshot.data!;
+            final paymentItems = [
+              PaymentItem(
+                label: 'Spende für $eventName',
+                amount: amount.toString(),
+                status: PaymentItemStatus.final_price,
+              )
+            ];
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Zahlungsmethode"),
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: sub == 'keins'
+                      ? <Widget>[
+                          //TODO: Test muss schöner
+                          Text('$amount€ Spende für $eventName',
+                              style: CustomTextSize.large),
+                          SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            margin: const EdgeInsets.symmetric(horizontal: 90),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 255, 196, 57),
+                                  elevation: 0,
+                                  padding: const EdgeInsets.all(10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  )),
+                              onPressed: () async {
+                                if (GetPlatform.currentPlatform !=
+                                    GetPlatform.web) {
+                                  paypalOnPressApp(amount, Id, context,
+                                      Endpoint, sub, Idtype, eventName);
+                                } else if (GetPlatform.currentPlatform ==
+                                    GetPlatform.web) {
+                                  paypalOnPressWeb(amount, Id, context, baseUrl,
+                                      Endpoint, sub, Idtype, eventName);
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.paypal,
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Paypal",
+                                    style: CustomTextSize.large,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          SizedBox(width: 8),
-                          Text(
-                            "Paypal",
-                            style: CustomTextSize.large,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 90),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        padding: const EdgeInsets.all(10),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (GetPlatform.currentPlatform != GetPlatform.web) {
-                          paymentSuccess = (await stripeOnPressApp(
-                              amount, Id, context, Endpoint))!;
-                          if (paymentSuccess == false) {
-                            showErrorSnackbar(context);
-                          } else if (paymentSuccess == true) {
-                            print(Id);
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context,
-                                '/Donations/UserType/PayMethode/success?amount=$amount&eventId=$Id&sub=$sub');
-                          }
-                        } else if (GetPlatform.currentPlatform ==
-                            GetPlatform.web) {
-                          stripeOnPressWeb(
-                              amount, Id, context, baseUrl, Endpoint, sub);
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.payment),
-                          SizedBox(width: 8),
-                          Text("Karte", style: CustomTextSize.large),
-                        ],
-                      ),
-                    ),
-                  ),
-                  //TODO: make it functional
-                  if (GetPlatform.currentPlatform != GetPlatform.web)
-                    FutureBuilder<PaymentConfiguration>(
-                        future: _applePayConfigFuture,
-                        builder: (context, snapshot) => snapshot.hasData
-                            ? ApplePayButton(
-                                paymentConfiguration: snapshot.data!,
-                                paymentItems: paymentItems,
-                                type: ApplePayButtonType.donate,
-                                margin: const EdgeInsets.only(top: 15.0),
-                                onPaymentResult: onApplePayResult,
-                                loadingIndicator: const Center(
-                                  child: CircularProgressIndicator(),
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            margin: const EdgeInsets.symmetric(horizontal: 90),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorUtils.primaryColor,
+                                padding: const EdgeInsets.all(10),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                              )
-                            : const SizedBox.shrink()),
+                              ),
+                              onPressed: () async {
+                                if (GetPlatform.currentPlatform !=
+                                    GetPlatform.web) {
+                                  paymentSuccess = (await stripeOnPressApp(
+                                      amount,
+                                      Id,
+                                      context,
+                                      Endpoint,
+                                      eventName))!;
+                                  if (paymentSuccess == false) {
+                                    showErrorSnackbar(context);
+                                  } else if (paymentSuccess == true) {
+                                    print(Id);
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context,
+                                        '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
+                                  }
+                                } else if (GetPlatform.currentPlatform ==
+                                    GetPlatform.web) {
+                                  stripeOnPressWeb(amount, Id, context, baseUrl,
+                                      Endpoint, sub, Idtype, eventName);
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.payment),
+                                  SizedBox(width: 8),
+                                  Text("Karte", style: CustomTextSize.large),
+                                ],
+                              ),
+                            ),
+                          ),
+                          //TODO: make it functional
+                          if (GetPlatform.currentPlatform != GetPlatform.web)
+                            FutureBuilder<PaymentConfiguration>(
+                                future: _applePayConfigFuture,
+                                builder: (context, snapshot) => snapshot.hasData
+                                    ? ApplePayButton(
+                                        paymentConfiguration: snapshot.data!,
+                                        paymentItems: paymentItems,
+                                        type: ApplePayButtonType.donate,
+                                        margin:
+                                            const EdgeInsets.only(top: 15.0),
+                                        onPaymentResult: onApplePayResult,
+                                        loadingIndicator: const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink()),
 
-                  if (GetPlatform.currentPlatform != GetPlatform.web)
-                    Container(
-                        padding: const EdgeInsets.all(20.0),
-                        margin: const EdgeInsets.symmetric(horizontal: 90),
-                        height: 100,
-                        width: 500,
-                        child: FutureBuilder<PaymentConfiguration>(
-                            future: _googlePayConfigFuture,
-                            builder: (context, snapshot) => snapshot.hasData
-                                ? GooglePayButton(
-                                    paymentConfiguration: snapshot.data!,
-                                    paymentItems: paymentItems,
-                                    type: GooglePayButtonType.donate,
-                                    onPaymentResult: onGooglePayResult,
-                                    loadingIndicator: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  )
-                                : const SizedBox.shrink())),
-                ]
-              : <Widget>[
-                  Text('$amount€ Spende $sub', style: CustomTextSize.large),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 90),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorUtils.primaryColor,
-                        padding: const EdgeInsets.all(10),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () async {
-                        stripeSubOnPress(amount, Id, context, baseUrl, Endpoint,
-                            sub, customerId);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.payment),
-                          SizedBox(width: 8),
-                          Text("Karte", style: CustomTextSize.large),
+                          if (GetPlatform.currentPlatform != GetPlatform.web)
+                            Container(
+                                padding: const EdgeInsets.all(20.0),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 90),
+                                height: 100,
+                                width: 500,
+                                child: FutureBuilder<PaymentConfiguration>(
+                                    future: _googlePayConfigFuture,
+                                    builder: (context, snapshot) => snapshot
+                                            .hasData
+                                        ? GooglePayButton(
+                                            paymentConfiguration:
+                                                snapshot.data!,
+                                            paymentItems: paymentItems,
+                                            type: GooglePayButtonType.donate,
+                                            onPaymentResult: onGooglePayResult,
+                                            loadingIndicator: const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink())),
+                        ]
+                      : <Widget>[
+                          Text('$amount€ Spende $sub',
+                              style: CustomTextSize.large),
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            margin: const EdgeInsets.symmetric(horizontal: 90),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorUtils.primaryColor,
+                                padding: const EdgeInsets.all(10),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onPressed: () async {
+                                stripeSubOnPress(
+                                    amount,
+                                    Id,
+                                    context,
+                                    baseUrl,
+                                    Endpoint,
+                                    sub,
+                                    customerId,
+                                    Idtype,
+                                    eventName);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.payment),
+                                  SizedBox(width: 8),
+                                  Text("Karte", style: CustomTextSize.large),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
-                      ),
-                    ),
-                  ),
-                ],
-        ),
-      ),
-    );
-  }
+                ),
+              ),
+            );
+          }
 
 /*
 void showSuccessSnackbar(BuildContext context) {
@@ -296,6 +333,9 @@ void showSuccessSnackbar(BuildContext context) {
   }
 
 */
+        });
+  }
+
   void showErrorSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -304,6 +344,38 @@ void showSuccessSnackbar(BuildContext context) {
         duration: Duration(seconds: 4),
       ),
     );
+  }
+
+  //TODO: check if neccessary and change if needed
+  //TODO: check Type Naming Convention
+  String? typetoGrep(String sub) {
+    switch (sub) {
+      case "Event":
+        return 'event';
+      case "Project":
+        return 'project';
+    }
+  }
+
+  Future<String> getEventName(String Id, String Idtype) async {
+    String? type = typetoGrep(Idtype);
+    if (type == 'event') {
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('events').doc(Id).get();
+      if (docSnapshot.exists) {
+        return docSnapshot.get('eventName');
+      }
+      // Fallback event name if event is not found
+      return 'Wichtigstes Event';
+    } else if (type == 'project') {
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('projects').doc(Id).get();
+      if (docSnapshot.exists) {
+        return docSnapshot.get('eventName');
+      }
+    }
+    // Fallback event name if event is not found
+    return 'Wichtigstes Event';
   }
 }
 
@@ -341,12 +413,7 @@ class Paymethodecancel extends StatelessWidget {
       Navigator.pushNamed(
         context,
         '/Donations/UserType/PayMethode',
-        arguments: {
-          'eventId': Id,
-          'amount': amount,
-          'sub': sub,
-          'Idtype': Idtype
-        },
+        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
       );
     });
 
@@ -378,10 +445,16 @@ class Paymethodesuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
+      print('this is the Id: $Id');
       Navigator.pushNamed(
         context,
         '/ThankYou',
-        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
+        arguments: {
+          'Id': Id,
+          'amount': amount,
+          'sub': sub,
+          'Idtype': Idtype,
+        },
       );
     });
 

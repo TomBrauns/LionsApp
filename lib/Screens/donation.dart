@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -249,11 +250,8 @@ class _DonationsState extends State<Donations> {
                                             GetPlatform.currentPlatform ==
                                                 GetPlatform.web)
                                       const SizedBox(height: 16),
-                                    // TODO: Folgende Buttons dürfen nur angezeigt werden werden, wenn die kein Event ausgewählt ist
-                                    /*( if (eventId == null ||
-                                          eventId == "") {
-                                    eventId = '0000000000000000';
-                                      }*/
+                                    // The Subscription Button and the Drop down menu is only appearing when the User has the Role Friend
+                                    // or Admin AND is logged in on a web Platform
                                     if (Privileges.privilege ==
                                             Privilege.friend ||
                                         Privileges.privilege ==
@@ -343,8 +341,12 @@ class _DonationsState extends State<Donations> {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType',
                                                       arguments: {
-                                                        'eventId': eventId,
-                                                        'amount': currentValue
+                                                        'Id': eventId,
+                                                        'amount': currentValue,
+                                                        'sub':
+                                                            selectedSubscription,
+                                                        //TODO: richtigen Typ übergeben
+                                                        'Idtype': 'Event',
                                                       });
                                                 }
                                               }

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -188,7 +189,6 @@ class UpdateState extends State<Update> {
                         ),
 
                         // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(
@@ -247,7 +247,6 @@ class UpdateState extends State<Update> {
                         const SizedBox(
                           height: 20,
                         ),
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(

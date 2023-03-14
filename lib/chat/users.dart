@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;

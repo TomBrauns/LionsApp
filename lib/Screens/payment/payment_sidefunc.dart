@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

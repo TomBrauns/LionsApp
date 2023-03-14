@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
@@ -17,11 +18,16 @@ class Project extends StatefulWidget {
 }
 
 class _ProjectState extends State<Project> {
-  final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+  final TextStyle _headlineStyle =
+      const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
   final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleEdit() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectEditor(documentId: widget.documentId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ProjectEditor(documentId: widget.documentId)));
   }
 
   void _handleDelete() {
@@ -30,17 +36,19 @@ class _ProjectState extends State<Project> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text('Projekt löschen',style: CustomTextSize.medium),
-          content:  Text('Sind Sie sich sicher, dass Sie dieses Projekt löschen möchten?',style: CustomTextSize.small),
+          title: Text('Projekt löschen', style: CustomTextSize.medium),
+          content: Text(
+              'Sind Sie sich sicher, dass Sie dieses Projekt löschen möchten?',
+              style: CustomTextSize.small),
           actions: <Widget>[
             TextButton(
-              child: Text('Abbrechen',style: CustomTextSize.small),
+              child: Text('Abbrechen', style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: Text('Löschen',style: CustomTextSize.small),
+                child: Text('Löschen', style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.documentId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -54,14 +62,21 @@ class _ProjectState extends State<Project> {
   }
 
   void _handleDonation() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(projectId: widget.documentId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Donations(projectId: widget.documentId)));
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('projects').doc(widget.documentId).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      stream: FirebaseFirestore.instance
+          .collection('projects')
+          .doc(widget.documentId)
+          .snapshots(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('Fehler beim Lesen der Daten');
         }
@@ -107,33 +122,38 @@ class _ProjectState extends State<Project> {
                       ])
                 : null,
             body: SingleChildScrollView(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              if (imgUri != null && imgUri.isNotEmpty)
-                Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
-              Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Hintergrund", style: _headlineStyle),
-                      const SizedBox(height: 4),
-                      Text(background, style: _textStyle),
-                      const SizedBox(height: 16),
-                      Text("Unsere Unterstützung", style: _headlineStyle),
-                      const SizedBox(height: 4),
-                      Text(support, style: _textStyle),
-                      const SizedBox(height: 32),
-                      Center(
-                          child: ElevatedButton(
-                        onPressed: _handleDonation,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-                            child: Text("Spenden",style: CustomTextSize.medium)),
-                      )),
-                      const SizedBox(height: 32),
-                    ],
-                  ))
-            ])));
+                  if (imgUri != null && imgUri.isNotEmpty)
+                    Image.network(imgUri,
+                        width: double.infinity, height: 250, fit: BoxFit.cover),
+                  Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Hintergrund", style: _headlineStyle),
+                          const SizedBox(height: 4),
+                          Text(background, style: _textStyle),
+                          const SizedBox(height: 16),
+                          Text("Unsere Unterstützung", style: _headlineStyle),
+                          const SizedBox(height: 4),
+                          Text(support, style: _textStyle),
+                          const SizedBox(height: 32),
+                          Center(
+                              child: ElevatedButton(
+                            onPressed: _handleDonation,
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 6.0, horizontal: 4.0),
+                                child: Text("Spenden",
+                                    style: CustomTextSize.medium)),
+                          )),
+                          const SizedBox(height: 32),
+                        ],
+                      ))
+                ])));
       },
     );
   }
