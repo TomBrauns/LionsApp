@@ -7,14 +7,14 @@ import 'package:lionsapp/Widgets/appbar.dart';
 
 import '../../../Widgets/textSize.dart';
 
-class deleteChat extends StatefulWidget {
-  deleteChat({Key? key}) : super(key: key);
+class DeleteChat extends StatefulWidget {
+  DeleteChat({Key? key}) : super(key: key);
 
   @override
-  State<deleteChat> createState() => _deleteChatState();
+  State<DeleteChat> createState() => _DeleteChatState();
 }
 
-class _deleteChatState extends State<deleteChat> {
+class _DeleteChatState extends State<DeleteChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(drawer: const BurgerMenu(), appBar: const MyAppBar(title: "Chats löschen"), bottomNavigationBar: BottomNavigation(), body: const ChatRoomList());
