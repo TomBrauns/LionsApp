@@ -94,7 +94,6 @@ class _DonationReceivedState extends State<DonationReceived> {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
     try {
       await callable(data);
-      print('Email sent successfully');
     } catch (e) {
       print('Error sending email: $e');
     }
@@ -150,7 +149,6 @@ class _DonationReceivedState extends State<DonationReceived> {
           final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
           void makeSurePdfUploadGetsExecutedJustOnce() {
-            print(isHandled);
             if (isHandled) {
               return;
             } else {
