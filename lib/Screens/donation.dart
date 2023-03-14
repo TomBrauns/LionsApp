@@ -341,8 +341,12 @@ class _DonationsState extends State<Donations> {
                                                   Navigator.pushNamed(context,
                                                       '/Donations/UserType',
                                                       arguments: {
-                                                        'eventId': eventId,
-                                                        'amount': currentValue
+                                                        'Id': eventId,
+                                                        'amount': currentValue,
+                                                        'sub':
+                                                            selectedSubscription,
+                                                        //TODO: richtigen Typ übergeben
+                                                        'Idtype': 'Event',
                                                       });
                                                 }
                                               }

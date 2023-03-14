@@ -13,10 +13,22 @@ class UserTypeScreen extends StatefulWidget {
 }
 
 class _UserTypeScreenState extends State<UserTypeScreen> {
-  String? get eventId {
+  String get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    return args?['eventId'];
+    return args?['Id'];
+  }
+
+  String? get Idtype {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Idtype'];
+  }
+
+  String? get sub {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['sub'];
   }
 
   double get amount {
@@ -55,7 +67,13 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
-                    arguments: {'eventId': eventId, 'amount': amount});
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      //TODO: richtigen Typ übergeben
+                      'Idtype': Idtype,
+                    });
               },
               child: Text('Als Gast fortfahren', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
