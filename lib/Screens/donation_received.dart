@@ -132,6 +132,7 @@ class _DonationReceivedState extends State<DonationReceived> {
     );
   }
 
+  bool isHandled = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,17 +161,30 @@ class _DonationReceivedState extends State<DonationReceived> {
           final message =
               "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
-          _ReceiptState()._handlePdfUpload().then(
-            (pdfUrl) {
-              print("Ich werde ausgeführt!!!");
-              if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
-                sendMailWithReceipt(eventName, pdfUrl);
-              }
-              _updateEventDonation(Id);
-              _updateDonationHistory(Id, eventName, pdfUrl ?? "");
-            },
-          );
+          void handlePdfUpload() {
+            print(isHandled);
+            if (isHandled) {
+              return;
+            } else {
+              _ReceiptState()._handlePdfUpload().then(
+                (pdfUrl) {
+                  print("Ich werde ausgeführt!!!");
+                  if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
+                    sendMailWithReceipt(eventName, pdfUrl);
+                  }
+                  _updateEventDonation(Id);
+                  _updateDonationHistory(Id, eventName, pdfUrl ?? "");
+                },
+              );
+              print("but isHandled: ");
 
+              isHandled = true;
+              print(isHandled);
+            }
+          }
+
+          //No pretty Solution but it works
+          handlePdfUpload();
           return ListView(
             children: <Widget>[
               Container(
@@ -460,8 +474,6 @@ class _ReceiptState extends State<Receipt> {
 
       return reference.getDownloadURL();
     }
-
-    return null;
   }
 
   Future<Uint8List> _readImageData() async {
