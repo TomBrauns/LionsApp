@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Screens/admin_history.dart';
+import 'package:lionsapp/Screens/user/admin/admin_history.dart';
 import 'package:lionsapp/Screens/user/admin/changeRole.dart';
 import 'package:lionsapp/Screens/user/admin/deleteChat.dart';
 import 'package:lionsapp/Screens/user/admin/deleteUser.dart';
