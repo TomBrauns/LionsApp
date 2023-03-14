@@ -149,7 +149,7 @@ class _DonationReceivedState extends State<DonationReceived> {
 
           final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
-          void handlePdfUpload() {
+          void makeSurePdfUploadGetsExecutedJustOnce() {
             print(isHandled);
             if (isHandled) {
               return;
@@ -169,7 +169,7 @@ class _DonationReceivedState extends State<DonationReceived> {
           }
 
           //No pretty Solution but it works
-          handlePdfUpload();
+          makeSurePdfUploadGetsExecutedJustOnce();
           return ListView(
             children: <Widget>[
               Container(
