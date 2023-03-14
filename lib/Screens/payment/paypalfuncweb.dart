@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';

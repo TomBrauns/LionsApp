@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
@@ -24,7 +25,8 @@ class _CatalogueState extends State<Catalogue> {
   void initState() {
     super.initState();
     _searchQuery = '';
-    _projectsStream = FirebaseFirestore.instance.collection('projects').snapshots();
+    _projectsStream =
+        FirebaseFirestore.instance.collection('projects').snapshots();
   }
 
   void _handleAddProject() {
@@ -88,13 +90,16 @@ class _CatalogueState extends State<Catalogue> {
                 });
               },
               decoration: const InputDecoration(
-                  hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+                  hintText: 'Suchen',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.search)),
             ),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
                 stream: _projectsStream,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Center(
                       child: Text('Error: ${snapshot.error}'),
@@ -109,8 +114,13 @@ class _CatalogueState extends State<Catalogue> {
 
                   final Map<String, List<DocumentSnapshot>> groupedData = {};
                   for (final document in snapshot.data!.docs) {
-                    if (document.get("name").toString().toLowerCase().contains(_searchQuery.toLowerCase())) {
-                      final String category = document.get('category') ?? 'Other';
+                    if (document
+                        .get("name")
+                        .toString()
+                        .toLowerCase()
+                        .contains(_searchQuery.toLowerCase())) {
+                      final String category =
+                          document.get('category') ?? 'Other';
                       if (groupedData.containsKey(category)) {
                         groupedData[category]!.add(document);
                       } else {
@@ -119,23 +129,26 @@ class _CatalogueState extends State<Catalogue> {
                     }
                   }
 
-                  final List<Widget> categoryWidgets =
-                      groupedData.entries.map((MapEntry<String, List<DocumentSnapshot>> entry) {
+                  final List<Widget> categoryWidgets = groupedData.entries
+                      .map((MapEntry<String, List<DocumentSnapshot>> entry) {
                     final String category = entry.key;
                     final List<DocumentSnapshot> documents = entry.value;
 
-                    final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
+                    final List<Widget> documentWidgets =
+                        documents.map((DocumentSnapshot document) {
                       return ListTile(
                           leading: const SizedBox(),
                           title: Text(document.get('name')),
-                          subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
+                          subtitle: Text(document.get('support'),
+                              maxLines: 3, overflow: TextOverflow.ellipsis),
                           onTap: () => _handleProjectClicked(document.id));
                     }).toList();
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
+                          leading: Image.asset('assets/projects/$category.png',
+                              width: 32, height: 32),
                           title: Text(category),
                         ),
                         ListView(

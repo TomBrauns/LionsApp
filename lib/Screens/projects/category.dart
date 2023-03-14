@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 class Category {
   final String name, path;
 

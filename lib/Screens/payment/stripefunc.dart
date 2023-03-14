@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
