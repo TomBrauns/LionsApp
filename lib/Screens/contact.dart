@@ -22,29 +22,6 @@ class _ContactState extends State<Contact> {
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
 
-  // Old Submission function
-
-  void _handleSubmit() {
-    String text = "Sie haben eine neue Nachricht von:\n";
-    text += "Name: ${_nameController.text}\n";
-    text += "E-Mail: ${_emailController.text}\n";
-    text += "\n";
-    text += _messageController.text;
-    FirebaseFirestore.instance.collection("mail").add({
-      "to": "teamlions@web.de",
-      "message": {"subject": _subjectController.text, "text": text}
-    });
-    Navigator.pushNamed(context, '/Donations');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Ihre Kontaktanfrage wurde versendet!'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.only(top: 64),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +39,8 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    helperText: 'Mit diesem Namen werden wir Sie zukünftig ansprechen.',
+                    helperText:
+                        'Mit diesem Namen werden wir Sie zukünftig ansprechen.',
                     labelText: 'Vor- und Nachname',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
@@ -73,7 +51,8 @@ class _ContactState extends State<Contact> {
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    helperText: 'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
+                    helperText:
+                        'Wir werden unsere Antwort auf Ihre Anfrage an diese E-Mail-Adresse senden.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     labelText: 'E-Mail-Adresse',
@@ -95,7 +74,8 @@ class _ContactState extends State<Contact> {
                   controller: _subjectController,
                   decoration: const InputDecoration(
                     labelText: '* Betreff',
-                    helperText: 'Pflichtfeld: Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
+                    helperText:
+                        'Pflichtfeld: Bitte fassen Sie Ihr Anliegen in wenigen Worten zusammen.',
                     helperMaxLines: 10,
                     errorMaxLines: 10,
                     border: OutlineInputBorder(),
@@ -115,7 +95,8 @@ class _ContactState extends State<Contact> {
                   textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
                     labelText: '* Ihre Nachricht',
-                    helperText: 'Pflichtfeld: Bitte schreiben Sie uns hier, worum es geht.',
+                    helperText:
+                        'Pflichtfeld: Bitte schreiben Sie uns hier, worum es geht.',
                     border: OutlineInputBorder(),
                     helperMaxLines: 10,
                     errorMaxLines: 10,
@@ -132,18 +113,13 @@ class _ContactState extends State<Contact> {
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          sendMail(_nameController.text, _emailController.text, _subjectController.text, _messageController.text);
-                         // _handleSubmit();
-                          const SnackBar(
-                            content: Text('Vielen Dank für Ihre Nachricht!'),
-                            backgroundColor: Colors.green,
-                            behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.only(top: 64),
-                          );
+                          sendMail(_nameController.text, _emailController.text,
+                              _subjectController.text, _messageController.text);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Bitte überprüfen Sie ihre Eingaben!'),
+                              content:
+                                  Text('Bitte überprüfen Sie ihre Eingaben!'),
                               backgroundColor: Colors.red,
                               behavior: SnackBarBehavior.floating,
                               margin: EdgeInsets.only(top: 64),
@@ -162,26 +138,24 @@ class _ContactState extends State<Contact> {
     );
   }
 
-  Future<void> sendMail(String? name, String? eMail, String subject, String msg) async {
+  Future<void> sendMail(
+      String? name, String? eMail, String subject, String msg) async {
     var data = {
       'mailOptions': {
         'to': 'info@serviceclub-app.de',
         'subject': subject,
         'text': 'Neue Mitteilung von $name mit der Email Adresse: $eMail\n$msg',
-        /* 'attachments': [
-          //TODO: Pfad der späteren Quittung und Text bisschen anpassen
-          {'filename': '', 'path': pdf},
-        ], */
       }
     };
 
-    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
+    final HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
     try {
       await callable(data);
       Navigator.pushNamed(context, '/Donations');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Ihre Kontaktanfrage wurde versendet!'),
+          content: Text('Vielen Dank für Ihre Nachricht!'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.only(top: 64),
@@ -194,14 +168,16 @@ class _ContactState extends State<Contact> {
     }
   }
 
-  Future<void> sendCopyMailToCreator(String? name, String? eMail, String subject, String msg) async {
+  Future<void> sendCopyMailToCreator(
+      String? name, String? eMail, String subject, String msg) async {
     if (eMail!.isNotEmpty) {
       var data = {
         'mailOptions': {
           'from': 'info@serviceclub-app.de',
           'to': eMail,
           'subject': 'Ihre Nachricht an Service Club "$subject"',
-          'text': 'Hallo $name,\nVielen Dank für deine Nachricht!\n\nDeine Nachricht lautete:\n$msg\n\n Wir versuchen dir so schnell wie möglich zu antworten!\n Deine Service Club Team!',
+          'text':
+              'Hallo $name,\nVielen Dank für deine Nachricht!\n\nDeine Nachricht lautete:\n$msg\n\n Wir versuchen dir so schnell wie möglich zu antworten!\n Deine Service Club Team!',
           /* 'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': '', 'path': pdf},
@@ -209,18 +185,10 @@ class _ContactState extends State<Contact> {
         }
       };
 
-      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
+      final HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('sendEmailWithAttachments');
       try {
         await callable(data);
-        Navigator.pushNamed(context, '/Donations');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Ihre Kontaktanfrage wurde versendet!'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(top: 64),
-          ),
-        );
       } catch (e) {
         print('Error sending email: $e');
       }
