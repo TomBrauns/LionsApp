@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,11 @@ class UserInList {
   bool isSelected;
 /*   List<bool> isSSelected = [true, false, false, false];
  */
-  UserInList({required this.firstName, required this.lastName, required this.documentId, this.isSelected = false});
+  UserInList(
+      {required this.firstName,
+      required this.lastName,
+      required this.documentId,
+      this.isSelected = false});
 }
 
 class roomDetails extends StatefulWidget {
@@ -31,7 +36,8 @@ class _roomDetailsState extends State<roomDetails> {
 
   Room currentRoom = const Room(id: '', type: null, users: []);
   final TextEditingController roomNameController = TextEditingController();
-  final TextEditingController roomDescriptionController = TextEditingController();
+  final TextEditingController roomDescriptionController =
+      TextEditingController();
   String imgURL = '';
 
   @override
@@ -47,15 +53,22 @@ class _roomDetailsState extends State<roomDetails> {
         // Get the current user ID
         String currentUserId = firebase.FirebaseAuth.instance.currentUser!.uid;
         // Get the list of users from Firestore
-        FirebaseFirestore.instance.collection('user_chat').get().then((snapshot) {
+        FirebaseFirestore.instance
+            .collection('user_chat')
+            .get()
+            .then((snapshot) {
           // Filter the list to remove the current user
-          List<UserInList> filteredUsers = snapshot.docs.where((document) => document.id != currentUserId).map(
+          List<UserInList> filteredUsers = snapshot.docs
+              .where((document) => document.id != currentUserId)
+              .map(
             (DocumentSnapshot document) {
               return UserInList(
                 firstName: document.get('firstName'),
                 lastName: document.get('lastName'),
                 documentId: document.id,
-                isSelected: currentRoom.users.map((user) => user.id).contains(document.id),
+                isSelected: currentRoom.users
+                    .map((user) => user.id)
+                    .contains(document.id),
               );
             },
           ).toList();
@@ -75,7 +88,11 @@ class _roomDetailsState extends State<roomDetails> {
   }
 
   List<UserInList> _filteredUsers() {
-    return _users.where((user) => user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) || user.lastName.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    return _users
+        .where((user) =>
+            user.firstName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            user.lastName.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
   }
 
   String roomImg = "";
@@ -84,8 +101,10 @@ class _roomDetailsState extends State<roomDetails> {
   void _handleEventImageUpload() async {
     final XFile? file = await ImageUpload.selectImage();
     if (file != null) {
-      final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-      final String? imgUrl = await ImageUpload.uploadImage(file, "room_images", "", uniqueFilename);
+      final String uniqueFilename =
+          DateTime.now().millisecondsSinceEpoch.toString();
+      final String? imgUrl = await ImageUpload.uploadImage(
+          file, "room_images", "", uniqueFilename);
       if (imgUrl != null) {
         setState(
           () {
@@ -145,7 +164,8 @@ class _roomDetailsState extends State<roomDetails> {
                 fillColor: Colors.white,
                 hintText: 'Name der Gruppe',
                 enabled: true,
-                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding:
+                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
@@ -162,7 +182,8 @@ class _roomDetailsState extends State<roomDetails> {
                 fillColor: Colors.white,
                 hintText: 'Beschreibung der Gruppe',
                 enabled: true,
-                contentPadding: EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                contentPadding:
+                    EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               ),
               onChanged: (value) {},
               keyboardType: TextInputType.text,
@@ -203,7 +224,8 @@ class _roomDetailsState extends State<roomDetails> {
                       children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 10),
-                        Text('${user.firstName} ${user.lastName}', style: CustomTextSize.small),
+                        Text('${user.firstName} ${user.lastName}',
+                            style: CustomTextSize.small),
                       ],
                     ),
                     onChanged: (newValue) {
@@ -242,7 +264,8 @@ class _roomDetailsState extends State<roomDetails> {
           currentRoom.users.addAll(userList);
           final name = roomNameController.text.trim();
           FirebaseChatCore.instance.updateRoom(currentRoom);
-          updateRoomName(imgURL, roomNameController.text, roomDescriptionController.text);
+          updateRoomName(
+              imgURL, roomNameController.text, roomDescriptionController.text);
         },
         child: const Icon(Icons.check),
       ),
@@ -252,8 +275,12 @@ class _roomDetailsState extends State<roomDetails> {
   Widget? buildImageFromFirebase() {
     try {
       return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('rooms').doc(currentRoom.id).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: FirebaseFirestore.instance
+            .collection('rooms')
+            .doc(currentRoom.id)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
@@ -289,7 +316,8 @@ class _roomDetailsState extends State<roomDetails> {
     String? newRoomName,
     String? newRoomDescription,
   ) async {
-    final docRef = FirebaseFirestore.instance.collection('rooms').doc(widget.roomId);
+    final docRef =
+        FirebaseFirestore.instance.collection('rooms').doc(widget.roomId);
 
     Map<String, dynamic> dataToUpdate = {};
 

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -87,13 +88,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Vorname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -116,13 +120,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Nachname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -148,7 +155,8 @@ class _RegisterState extends State<Register> {
                             fillColor: Colors.white,
                             hintText: 'Email',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(20),
@@ -162,7 +170,9 @@ class _RegisterState extends State<Register> {
                             if (value!.length == 0) {
                               return "Email darf nicht leer sein";
                             }
-                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+                            if (!RegExp(
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                .hasMatch(value)) {
                               return ("Bitte gültige Email Adresse angeben");
                             } else {
                               return null;
@@ -179,7 +189,9 @@ class _RegisterState extends State<Register> {
                           controller: passwordController,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                              icon: Icon(_isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
                               onPressed: () {
                                 setState(
                                   () {
@@ -192,7 +204,8 @@ class _RegisterState extends State<Register> {
                             fillColor: Colors.white,
                             hintText: 'Passwort',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(20),
@@ -224,7 +237,9 @@ class _RegisterState extends State<Register> {
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
+                              icon: Icon(_isObscure2
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
                               onPressed: () {
                                 setState(
                                   () {
@@ -237,7 +252,8 @@ class _RegisterState extends State<Register> {
                             fillColor: Colors.white,
                             hintText: 'Passwort bestätigen',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(20),
@@ -248,7 +264,8 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                           validator: (value) {
-                            if (confirmpassController.text != passwordController.text) {
+                            if (confirmpassController.text !=
+                                passwordController.text) {
                               return "Passwörter stimmen nicht überein";
                             } else {
                               return null;
@@ -272,13 +289,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Postleizahl',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -301,13 +321,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Stadtname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -337,13 +360,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Straßenname',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -366,13 +392,16 @@ class _RegisterState extends State<Register> {
                                   fillColor: Colors.white,
                                   hintText: 'Hausnummer und Adresszusatz',
                                   enabled: true,
-                                  contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.white),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -410,7 +439,8 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.pushNamed(context, '/AGB?onRegister=true');
+                                Navigator.pushNamed(
+                                    context, '/AGB?onRegister=true');
                               },
                             ),
                           ],
@@ -448,7 +478,9 @@ class _RegisterState extends State<Register> {
                               color: Colors.white,
                             ),
                             MaterialButton(
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () async {
@@ -485,23 +517,30 @@ class _RegisterState extends State<Register> {
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => LoginPage(prefilledEmail: emailController.text),
+                                              builder: (context) => LoginPage(
+                                                  prefilledEmail:
+                                                      emailController.text),
                                             ),
                                           );
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
-                                              content: Text('Registrierung erfolgreich. Bitte loggen Sie sich ein.'),
+                                              content: Text(
+                                                  'Registrierung erfolgreich. Bitte loggen Sie sich ein.'),
                                               backgroundColor: Colors.green,
-                                              behavior: SnackBarBehavior.floating,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
                                               margin: EdgeInsets.only(top: 64),
                                             ),
                                           );
                                         } else {
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
                                               content: Text(
                                                 'Es existiert bereits ein Account mit dieser Email!',
-                                                style: TextStyle(color: Colors.white),
+                                                style: TextStyle(
+                                                    color: Colors.white),
                                               ),
                                               backgroundColor: Colors.red,
                                             ),
@@ -536,11 +575,22 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<bool> signUp(String firstname, String lastname, String email, String password, String? postalcode, String? cityname, String? streetname, String? streetnumber) async {
-    return _auth.createUserWithEmailAndPassword(email: email, password: password).then(
+  Future<bool> signUp(
+      String firstname,
+      String lastname,
+      String email,
+      String password,
+      String? postalcode,
+      String? cityname,
+      String? streetname,
+      String? streetnumber) async {
+    return _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then(
       (result) async {
         await result.user!.sendEmailVerification();
-        await postDetailsToFirestore(firstname, lastname, email, postalcode, cityname, streetname, streetnumber);
+        await postDetailsToFirestore(firstname, lastname, email, postalcode,
+            cityname, streetname, streetnumber);
         return true;
       },
     ).catchError(
@@ -552,7 +602,14 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<void> postDetailsToFirestore(String firstname, String lastname, String email, String? postalcode, String? cityname, String? streetname, String? streetnumber) async {
+  Future<void> postDetailsToFirestore(
+      String firstname,
+      String lastname,
+      String email,
+      String? postalcode,
+      String? cityname,
+      String? streetname,
+      String? streetnumber) async {
     var user = _auth.currentUser;
     String? deviceToken;
     CollectionReference ref = FirebaseFirestore.instance.collection('users');
@@ -580,7 +637,8 @@ class _RegisterState extends State<Register> {
   Future<void> uploadFileToFirebaseStorage(File file) async {
     try {
       // Create a unique filename for the file
-      String filename = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+      String filename =
+          DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
 
       // Get a reference to the Firebase Storage location where we will upload the file
       final ref = FirebaseStorage.instance.ref().child(filename);

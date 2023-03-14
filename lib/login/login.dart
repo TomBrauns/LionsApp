@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Email',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -112,7 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
+                              icon: Icon(_isObscure3
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                               onPressed: () {
                                 setState(
                                   () {
@@ -125,7 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Password',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -176,7 +181,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 60,
                         ),
                         MaterialButton(
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
@@ -185,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                                 _isLoading = true;
                               },
                             );
-                            signIn(emailController.text, passwordController.text);
+                            signIn(
+                                emailController.text, passwordController.text);
                           },
                           child: const Text(
                             "Login",
@@ -200,11 +208,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         FutureBuilder(
-                          future: Authentication.initializeFirebase(context: context),
+                          future: Authentication.initializeFirebase(
+                              context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return const Text('Error initializing Firebase');
-                            } else if (snapshot.connectionState == ConnectionState.done) {
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
                               return GoogleSignInButton();
                             }
                             return const CircularProgressIndicator(
@@ -217,11 +227,14 @@ class _LoginPageState extends State<LoginPage> {
                         // Apple testing
                         if (defaultTargetPlatform == TargetPlatform.iOS)
                           FutureBuilder(
-                            future: Authentication.initializeFirebase(context: context),
+                            future: Authentication.initializeFirebase(
+                                context: context),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
-                                return const Text('Error initializing Firebase');
-                              } else if (snapshot.connectionState == ConnectionState.done) {
+                                return const Text(
+                                    'Error initializing Firebase');
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.done) {
                                 return AppleSignInButton();
                               }
                               return const CircularProgressIndicator(
@@ -269,7 +282,8 @@ class _LoginPageState extends State<LoginPage> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -284,7 +298,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then(
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then(
         (cred) {
           //if (!cred.user!.emailVerified) {
           //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
@@ -294,7 +310,8 @@ class _LoginPageState extends State<LoginPage> {
           //} else {
           checkRool().then(
             (_) {
-              if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
+              if (ModalRoute.of(context)!.settings.name ==
+                  '/Donations/UserType/Login') {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode');
               } else {
                 Navigator.pushNamed(context, '/Donations');
@@ -311,7 +328,9 @@ class _LoginPageState extends State<LoginPage> {
       ).catchError(
         (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
+            const SnackBar(
+                content: Text('Die E-Mail oder das Passwort ist falsch.'),
+                backgroundColor: Colors.redAccent),
           );
           setState(
             () {
@@ -327,7 +346,8 @@ class _LoginPageState extends State<LoginPage> {
 Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
 
-  DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+  DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
   String rolle = documentSnapshot.get('rool').toString();
 
   switch (rolle) {

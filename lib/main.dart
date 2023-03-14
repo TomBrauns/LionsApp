@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

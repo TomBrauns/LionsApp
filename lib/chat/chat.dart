@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';

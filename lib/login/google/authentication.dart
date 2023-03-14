@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,7 +40,8 @@ class Authentication {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
         //einloggen
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential =
+            await auth.signInWithPopup(authProvider);
         //User in Firebase anlegen
         user = userCredential.user!;
         String vorName = user.displayName!.split(' ')[0];
@@ -50,7 +52,8 @@ class Authentication {
           deviceToken = await FirebaseMessaging.instance.getToken();
         }
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-        CollectionReference ref = FirebaseFirestore.instance.collection('users');
+        CollectionReference ref =
+            FirebaseFirestore.instance.collection('users');
         if (!(await ref.doc(user.uid).get()).exists) {
           ref.doc(user.uid).set(
             {
@@ -85,22 +88,26 @@ class Authentication {
       //wenn NICHT WEB
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
       if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
         try {
-          final UserCredential userCredential = await auth.signInWithCredential(credential);
+          final UserCredential userCredential =
+              await auth.signInWithCredential(credential);
           user = userCredential.user!;
           String vorName = user.displayName!.split(' ')[0];
           String nachName = user.displayName!.split(' ')[1];
           String Email = user.email!;
           FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-          CollectionReference ref = FirebaseFirestore.instance.collection('users');
+          CollectionReference ref =
+              FirebaseFirestore.instance.collection('users');
           if (!(await ref.doc(user.uid).get()).exists) {
             ref.doc(user.uid).set(
               {
@@ -111,7 +118,11 @@ class Authentication {
               },
             );
           }
-          FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get()
+              .then(
             (DocumentSnapshot documentSnapshot) {
               if (documentSnapshot.exists) {
                 checkRool();
