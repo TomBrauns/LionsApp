@@ -49,21 +49,33 @@ class _HomePageState extends State<HomePage> {
       appBar: const MyAppBar(title: "Startseite"),
       drawer: const BurgerMenu(),
       bottomNavigationBar: _getBAB(),
-      body: SingleChildScrollView(child: Container(
-    child: Column(
+      body: ListView(
         children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 300,
+            width: 300,
+            child: TextButton(
+                onPressed: () {
+                  launchUrl(Uri.parse('https://lions-club-kl.de/'));
+                },
+                child: Image.asset("assets/appicon/lions.png",
+                    fit: BoxFit.contain)),
+          ),
           Expanded(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.all(20),
+            child: Container(
+              child: TextButton(
+                onPressed: () =>
+                    launchUrl(Uri.parse('https://lions-club-kl.de/')),
                 child: Text(
-                  "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
-                  style: CustomTextSize.small,
+                  "Weitere Informationen zum Verein hier",
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue),
                 ),
               ),
             ),
           ),
+
           // Next Event:
           Expanded(
             child: Container(
@@ -213,15 +225,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Link to the Lions Page:
           Expanded(
-            child: Container(
-              child: TextButton(
-                onPressed: () => launchUrl(Uri.parse('https://www.lions.de/')),
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.all(20),
                 child: Text(
-                  "Weitere Informationen zum Verein hier",
+                  "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
+                  style: CustomTextSize.small,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.blue),
                 ),
 
               ),
@@ -229,8 +240,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    ),
-    ),
     );
   }
 }
