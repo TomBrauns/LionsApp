@@ -35,7 +35,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
     String data = "${widget.link}?eventId=${widget.documentId}";
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
-    const String imagePath = 'assets/projects/Umweltschutz.png';
+    //const String imagePath = 'assets/projects/Umweltschutz.png';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,8 +57,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
                   gapless: false,
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
-                  padding: EdgeInsets.zero,
-                  embeddedImage: const AssetImage(imagePath),
+                  // embeddedImage: const AssetImage(imagePath),
                   embeddedImageStyle: QrEmbeddedImageStyle(
                     size: const Size(60, 60),
                   ),

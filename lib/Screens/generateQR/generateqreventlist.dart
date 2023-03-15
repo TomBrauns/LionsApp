@@ -52,8 +52,7 @@ class _QrCodeEventListState extends State<QrCodeEventList> {
                   size: 200.0,
                   gapless: false,
                   foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.white
                 ),
               ],
             ),
