@@ -518,7 +518,7 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
         return DropdownButtonFormField(
           value: _selectedProject,
           decoration: const InputDecoration(
-              labelText: "Zweck",
+              labelText: "Projekt",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               border: OutlineInputBorder()),
           onChanged: (value) {
