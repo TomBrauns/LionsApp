@@ -80,7 +80,7 @@ class _RoomsPageState extends State<RoomsPage> {
     signUpForChatUser();
   }
 
-  // FAB with Priviledge
+  // FAB with Privilege
   //Copy that
   Widget? _getFAB() {
     if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
@@ -88,6 +88,21 @@ class _RoomsPageState extends State<RoomsPage> {
         mini: true,
         backgroundColor: ColorUtils.secondaryColor,
         onPressed: () => _handleCreateChat(),
+        child: const Icon(Icons.add),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  // FAB with Privilege
+  //Copy that
+  Widget? _get2PersonFAB() {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
+      return FloatingActionButton(
+        mini: true,
+        backgroundColor: ColorUtils.secondaryColor,
+        onPressed: () => _createTwoPersonChat(),
         child: const Icon(Icons.add),
       );
     } else {
@@ -194,13 +209,14 @@ class _RoomsPageState extends State<RoomsPage> {
                 ),
 
                 // FAB for the "Two Person Chat"
+
                 Positioned(
                   bottom: 16,
                   right: 16,
                   child: FloatingActionButton(
                     mini: true,
                     backgroundColor: ColorUtils.secondaryColor,
-                    onPressed: () => _createTwoPersonChat(),
+                    onPressed: () => _get2PersonFAB(),
                     child: const Icon(Icons.chat),
                   ),
                 ),

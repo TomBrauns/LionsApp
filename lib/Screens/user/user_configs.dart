@@ -420,10 +420,12 @@ class _UserState extends State<User> {
 
 Future<void> deleteAcc() async {
   Privileges.privilege = Privilege.guest;
-  await FirebaseFirestore.instance
+  final user = FirebaseFirestore.instance
       .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .delete();
+      .doc(FirebaseAuth.instance.currentUser!.uid);
+  final String stripeCustomerId = (await user.get())["stripeCustomerId"];
+  deleteCustomer(Endpoint, stripeCustomerId);
+  user.delete();
   await FirebaseAuth.instance.currentUser!.delete();
 }
 

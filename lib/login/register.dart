@@ -625,6 +625,18 @@ class _RegisterState extends State<Register> {
       deviceToken = await FirebaseMessaging.instance.getToken();
     }
 
+    final String customerId = await createCustomer(
+        Endpoint,
+        cityname,
+        "DE",
+        streetname,
+        streetnumber,
+        postalcode,
+        email,
+        firstname,
+        lastname
+    );
+
     return ref.doc(user!.uid).set(
       {
         'firstname': firstname,
@@ -637,6 +649,7 @@ class _RegisterState extends State<Register> {
         'rool': 'Friend',
         'device': deviceToken,
         'receiveNotification': true,
+        'stripeCustomerId': customerId,
       },
     );
   }
