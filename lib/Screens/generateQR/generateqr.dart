@@ -33,6 +33,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
   @override
   Widget build(BuildContext context) {
     String data = "${widget.link}?eventId=${widget.documentId}";
+    print(data);
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
     //const String imagePath = 'assets/projects/Umweltschutz.png';
