@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import '../../Widgets/textSize.dart';
 import '../../login/login.dart';
@@ -526,4 +528,55 @@ class UpdateState extends State<Update> {
       throw Exception('Dokument-ID stimmt nicht mit User-ID überein.');
     }
   } */
+  Future<Map<String, dynamic>> retrieveCustomer(Endpoint, customerId) async {
+    final body = {
+      "customerId": customerId,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeRetrieveCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+
+    return jsonResponse;
+  }
+
+  Future<String> updateCustomer(Endpoint, cityname, country, streetname,
+      streetnumber, postalcode, email, firstname, lastname, customerId) async {
+    final body = {
+      "customerId": customerId,
+      "cityname": cityname,
+      "country": country,
+      "streetname": streetname,
+      "streetnumber": streetnumber,
+      "postalcode": postalcode,
+      "email": email,
+      "firstname": firstname,
+      "lastname": lastname,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeUpdateCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+    String Id = jsonResponse['id'];
+
+    return Id;
+  }
 }
