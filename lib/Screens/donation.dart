@@ -12,10 +12,10 @@ import 'package:lionsapp/Widgets/textSize.dart';
 import '../Widgets/dual_progress_bar.dart';
 
 class Donations extends StatefulWidget {
-  final String? interneId;
+  final String? eventId;
   final String? projectId;
 
-  const Donations({Key? key, this.interneId, this.projectId}) : super(key: key);
+  const Donations({Key? key, this.eventId, this.projectId}) : super(key: key);
 
   @override
   State<Donations> createState() => _DonationsState();
@@ -47,7 +47,7 @@ class _DonationsState extends State<Donations> {
     super.initState();
 
     //Umwandlung der aus der main.dart kommenden Document ID in eine Variable der Klasse _DonationState
-    eventId = widget.interneId;
+    eventId = widget.eventId;
     projectId = widget.projectId;
 
     if (eventId != null && eventId!.isNotEmpty) {

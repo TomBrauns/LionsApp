@@ -533,7 +533,7 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToFacebook('https://serviceclub-app.de/#/Donations?interneId=$eventId');
+                    await shareToFacebook('https://serviceclub-app.de/#/Donations?eventId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Facebook: $e");
                   }
@@ -550,7 +550,7 @@ class _ShareDonationState extends State<ShareDonation> {
               FlutterSocialButton(
                 onTap: () async {
                   try {
-                    await shareToTwitter('https://serviceclub-app.de/#/Donations?interneId=$eventId');
+                    await shareToTwitter('https://serviceclub-app.de/#/Donations?eventId=$eventId');
                   } catch (e) {
                     //print("Failed to share to Twitter: $e");
                   }

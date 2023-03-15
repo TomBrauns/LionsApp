@@ -40,7 +40,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final String interneId = ''; // Beispiel-Parameter
+  final String eventId = ''; // Beispiel-Parameter
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +60,12 @@ class _MyAppState extends State<MyApp> {
         final uri = Uri.parse(settings.name!);
         // Überprüfe, ob die Route mit "/Donations" beginnt
         if (uri.path == '/Donations') {
-          // Extrahiere den Parameter aus der Query-String-Variable "interneId"
-          var interneId = uri.queryParameters['interneId'];
+          // Extrahiere den Parameter aus der Query-String-Variable "eventId"
+          var eventId = uri.queryParameters['eventId'];
           // Erstelle die Donations-Seite mit dem Parameter
-          //interneId = 'HWWbzQyOsVSbH7rS4BHR';
+          //eventId = 'HWWbzQyOsVSbH7rS4BHR';
           return MaterialPageRoute(
-              builder: (context) => Donations(interneId: interneId));
+              builder: (context) => Donations(eventId: eventId));
         } else if (uri.path == '/Donations/UserType/PayMethode') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,

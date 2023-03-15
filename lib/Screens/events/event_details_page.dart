@@ -30,7 +30,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Donations(interneId: widget.eventId)));
+            builder: (context) => Donations(eventId: widget.eventId)));
   }
 
   void _handleEdit() {
