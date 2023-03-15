@@ -14,6 +14,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:platform/platform.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class Register extends StatefulWidget {
   @override
@@ -651,5 +653,35 @@ class _RegisterState extends State<Register> {
     } catch (e) {
       print('Error uploading file to Firebase Storage: $e');
     }
+  }
+
+  Future<String> createCustomer(Endpoint, cityname, country, streetname,
+      streetnumber, postalcode, email, firstname, lastname) async {
+    final body = {
+      "cityname": cityname,
+      "country": country,
+      "streetname": streetname,
+      "streetnumber": streetnumber,
+      "postalcode": postalcode,
+      "email": email,
+      "firstname": firstname,
+      "lastname": lastname,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeCreateSubscription'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+    String subId = jsonResponse['id'];
+
+    return subId;
   }
 }
