@@ -41,27 +41,31 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   icon: const Icon(Icons.badge, color: Colors.white),
                 ),
               ),
-              Tooltip(
-                message: "Chat",
-                decoration: const BoxDecoration(color: ColorUtils.primaryColor),
-                child: IconButton(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  onPressed: () {
-                    // Update State of App
-                    Navigator.pop(context);
-                    // Push to Screen
-                    AppData.selected = 6;
+              if (Privileges.privilege == Privilege.admin ||
+                  Privileges.privilege == Privilege.member)
+                Tooltip(
+                  message: "Chat",
+                  decoration:
+                      const BoxDecoration(color: ColorUtils.primaryColor),
+                  child: IconButton(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    onPressed: () {
+                      // Update State of App
+                      Navigator.pop(context);
+                      // Push to Screen
+                      AppData.selected = 6;
 
-                    Navigator.pushNamed(context, '/Chat');
-                  },
-                  icon: const Icon(Icons.chat, color: Colors.white),
+                      Navigator.pushNamed(context, '/Chat');
+                    },
+                    icon: const Icon(Icons.chat, color: Colors.white),
+                  ),
                 ),
-              ),
               if (Privileges.privilege == Privilege.admin ||
                   Privileges.privilege == Privilege.member)
                 Tooltip(
                   message: "Kalender",
-                  decoration: const BoxDecoration(color: ColorUtils.primaryColor),
+                  decoration:
+                      const BoxDecoration(color: ColorUtils.primaryColor),
                   child: IconButton(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     onPressed: () {
@@ -110,7 +114,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }
