@@ -16,8 +16,14 @@ import 'package:lionsapp/Widgets/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import 'package:permission_handler/permission_handler.dart';
+
+String Endpoint =
+    "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
+//String Endpoint = "http://127.0.0.1:5000";
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -421,6 +427,27 @@ Future<void> deleteAcc() async {
   await FirebaseAuth.instance.currentUser!.delete();
 }
 
+Future<String> deleteCustomer(Endpoint, customerId) async {
+  final body = {
+    "customerId": customerId,
+  };
+
+  // Make post request to Stripe
+
+  final response = await http.post(
+    Uri.parse('$Endpoint/StripeDeleteCustomer'),
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: body,
+  );
+
+  var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
+  //print(response.statusCode);
+  //print(response.body);
+  String Id = jsonResponse['id'];
+
+  return Id;
+}
+
 Future<void> signOut() async {
   Privileges.privilege = Privilege.guest;
   await FirebaseAuth.instance.signOut();
@@ -591,5 +618,57 @@ class UserDataWidget extends StatelessWidget {
         },
       );
     }
+  }
+
+  Future<Map<String, dynamic>> retrieveCustomer(Endpoint, customerId) async {
+    final body = {
+      "customerId": customerId,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeRetrieveCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+
+    return jsonResponse;
+  }
+
+  Future<String> updateCustomer(Endpoint, cityname, country, streetname,
+      streetnumber, postalcode, email, firstname, lastname, customerId) async {
+    final body = {
+      "customerId": customerId,
+      "cityname": cityname,
+      "country": country,
+      "streetname": streetname,
+      "streetnumber": streetnumber,
+      "postalcode": postalcode,
+      "email": email,
+      "firstname": firstname,
+      "lastname": lastname,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeUpdateCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+    String Id = jsonResponse['id'];
+
+    return Id;
   }
 }

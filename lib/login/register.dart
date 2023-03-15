@@ -17,6 +17,10 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+String Endpoint =
+    "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
+//String Endpoint = "http://127.0.0.1:5000";
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -671,7 +675,7 @@ class _RegisterState extends State<Register> {
     // Make post request to Stripe
 
     final response = await http.post(
-      Uri.parse('$Endpoint/StripeCreateSubscription'),
+      Uri.parse('$Endpoint/StripeCreateCustomer'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: body,
     );
@@ -680,8 +684,8 @@ class _RegisterState extends State<Register> {
         convert.jsonDecode(response.body) as Map<String, dynamic>;
     //print(response.statusCode);
     //print(response.body);
-    String subId = jsonResponse['id'];
+    String Id = jsonResponse['id'];
 
-    return subId;
+    return Id;
   }
 }
