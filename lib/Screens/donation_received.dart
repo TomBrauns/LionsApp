@@ -106,14 +106,15 @@ class _DonationReceivedState extends State<DonationReceived> {
     return await documentRef.update({'currentDonationValue': currentValue + amount});
   }
 
-  Future<void> _updateDonationHistory(String eventId, String eventName, String url) async {
+  Future<void> _updateDonationHistory(String id, String name, String type, String url) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance.collection("donations").add(
       {
         "user": currentUser != null ? currentUser.uid : "guest",
         "amount": amount,
-        "event_name": eventName,
-        "event_id": eventId,
+        "name": name,
+        "id": id,
+        "type": type,
         "date": DateTime.now(),
         "receipt_url": url,
       },
@@ -163,7 +164,7 @@ class _DonationReceivedState extends State<DonationReceived> {
                   if (Idtype == "events") {
                     _updateEventDonation(Id);
                   }
-                  _updateDonationHistory(Id, name, pdfUrl ?? "");
+                  _updateDonationHistory(Id, name, Idtype, pdfUrl ?? "");
                 },
               );
 
