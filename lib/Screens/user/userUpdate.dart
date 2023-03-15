@@ -38,17 +38,9 @@ class UpdateState extends State<Update> {
   TextEditingController streetController = TextEditingController();
   TextEditingController streetnrController = TextEditingController();
 
-  bool _isObscure = true;
-  bool _isObscure2 = true;
   File? file;
   var rool = "Friend";
-  String? _firstname;
-  String? _lastname;
-  String? _email;
-  String? _postalcode;
-  String? _cityname;
-  String? _streetname;
-  String? _streetnumber;
+  String? stripeCustomerId;
 
   @override
   void initState() {
@@ -63,6 +55,7 @@ class UpdateState extends State<Update> {
     final userData = docSnapshot.data() as Map<String, dynamic>;
     setState(
       () {
+        stripeCustomerId = userData['stripeCustomerId'] as String;
         firstnameController.text = userData['firstname'] as String;
         lastnameController.text = userData['lastname'] as String;
         emailController.text = userData['email'] as String;
@@ -387,6 +380,21 @@ class UpdateState extends State<Update> {
 
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
+
+      if(stripeCustomerId != null) {
+        await updateCustomer(
+            Endpoint,
+            newCity,
+            "DE",
+            newStreet,
+            newStreetNr,
+            newPostalCode,
+            newEmail,
+            newFirstName,
+            newLastName,
+            stripeCustomerId);
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.green,
