@@ -130,7 +130,11 @@ class _DonationsState extends State<Donations> {
                 }
               }
 
-              //String donationTitle = snapshot.data?.get('eventName') ?? "";
+              // Ein Abo abschließen kann nur, wer eingeloggt ist, im Web und wenn kein Projekt/Event ausgewählt ist.
+              final bool canSubscribe = FirebaseAuth.instance.currentUser != null &&
+                  GetPlatform.currentPlatform == GetPlatform.web &&
+                  (projectId == null || projectId!.isEmpty) &&
+                  (eventId == null || eventId!.isEmpty);
 
               return SingleChildScrollView(
                   child: Container(
@@ -211,26 +215,16 @@ class _DonationsState extends State<Donations> {
                                                     onPressed: () => _handleAdd(amount),
                                                     child: Text("+ $amount€", style: CustomTextSize.small)))
                                                 .toList())),
-                                    if (Privileges.privilege == Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin &&
-                                            GetPlatform.currentPlatform == GetPlatform.web)
+                                    if (canSubscribe)
                                       const SizedBox(height: 16),
-                                    // The Subscription Button and the Drop down menu is only appearing when the User has the Role Friend
-                                    // or Admin AND is logged in on a web Platform
-                                    if (Privileges.privilege == Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin &&
-                                            GetPlatform.currentPlatform == GetPlatform.web)
+                                    if (canSubscribe)
                                       Text(
                                         "Ein Spendenabonnement abschließen?",
                                         style: CustomTextSize.small,
                                       ),
-                                    if (Privileges.privilege == Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin &&
-                                            GetPlatform.currentPlatform == GetPlatform.web)
-                                      SizedBox(height: 16),
-                                    if (Privileges.privilege == Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin &&
-                                            GetPlatform.currentPlatform == GetPlatform.web)
+                                    if (canSubscribe)
+                                      const SizedBox(height: 16),
+                                    if (canSubscribe)
                                       DropdownButton<String>(
                                         value: selectedSubscription,
                                         items: <String>['keins', 'Monatlich', 'Jährlich']
@@ -247,11 +241,8 @@ class _DonationsState extends State<Donations> {
                                         },
                                         hint: const Text('Spenden Abo'),
                                       ),
-                                    if (Privileges.privilege == Privilege.friend ||
-                                        Privileges.privilege == Privilege.admin &&
-                                            GetPlatform.currentPlatform == GetPlatform.web)
-                                      SizedBox(height: 16),
-
+                                    if (canSubscribe)
+                                      const SizedBox(height: 16),
                                     SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
@@ -268,7 +259,7 @@ class _DonationsState extends State<Donations> {
                                                 }
 
                                                 String idType =
-                                                    (eventId != null && eventId!.isNotEmpty) ? "events" : "projects";
+                                                (eventId != null && eventId!.isNotEmpty) ? "events" : "projects";
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                                 if (FirebaseAuth.instance.currentUser != null) {
