@@ -6,6 +6,7 @@ import 'package:lionsapp/Screens/donation_received.dart';
 import 'package:lionsapp/Screens/payment/subpayment.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../Widgets/textSize.dart';
 import 'paypalfuncweb.dart';
@@ -25,8 +26,6 @@ import 'package:flutter/foundation.dart'
 String Endpoint =
     "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
 //String Endpoint = "http://127.0.0.1:5000";
-
-String customerId = 'cus_NQuDfnRv0Gky79';
 
 bool paymentSuccess = false;
 String? baseUrl = getBaseUrl();
@@ -58,6 +57,8 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
+  String? customerId;
+
   String get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
@@ -85,6 +86,20 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
+    _loadData();
+    print("Customer Id: $customerId");
+  }
+
+  void _loadData() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final docSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final userData = docSnapshot.data() as Map<String, dynamic>;
+    setState(
+      () {
+        customerId = userData['stripeCustomerId'] as String;
+      },
+    );
   }
 
   void onApplePayResult(paymentResult) {
@@ -346,20 +361,8 @@ void showSuccessSnackbar(BuildContext context) {
     );
   }
 
-  //TODO: check if neccessary and change if needed
-  //TODO: check Type Naming Convention
-  String? typetoGrep(String sub) {
-    switch (sub) {
-      case "Event":
-        return 'event';
-      case "Project":
-        return 'project';
-    }
-  }
-
   Future<String> getEventName(String Id, String Idtype) async {
-    String? type = typetoGrep(Idtype);
-    if (type == 'event') {
+    if (Idtype == 'events') {
       final docSnapshot =
           await FirebaseFirestore.instance.collection('events').doc(Id).get();
       if (docSnapshot.exists) {
@@ -367,11 +370,11 @@ void showSuccessSnackbar(BuildContext context) {
       }
       // Fallback event name if event is not found
       return 'Wichtigstes Event';
-    } else if (type == 'project') {
+    } else if (Idtype == 'projects') {
       final docSnapshot =
           await FirebaseFirestore.instance.collection('projects').doc(Id).get();
       if (docSnapshot.exists) {
-        return docSnapshot.get('eventName');
+        return docSnapshot.get('name');
       }
     }
     // Fallback event name if event is not found
