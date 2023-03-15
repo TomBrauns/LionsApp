@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fbAuth;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,9 +40,9 @@ class _RoomsPageState extends State<RoomsPage> {
     final docExists = docSnapshot.exists;
     final user = FirebaseAuth.instance.currentUser!;
     final documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-    final imageUrl = documentSnapshot.data()?['image_url'];
-    final firstname = documentSnapshot.data()?['firstname'];
-    final lastname = documentSnapshot.data()?['lastname'];
+    final imageUrl = documentSnapshot.data()?['image_url'] ?? "";
+    final firstname = documentSnapshot.data()?['firstname'] ?? "";
+    final lastname = documentSnapshot.data()?['lastname'] ?? "";
     try {
       if (!docExists) {
         await FirebaseChatCore.instance.createUserInFirestore(
@@ -57,12 +58,14 @@ class _RoomsPageState extends State<RoomsPage> {
       }
     } catch (e) {}
   }
+
   void _handleCreateChat() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => RoomCreator()),
     );
   }
+
   void _createTwoPersonChat() {
     Navigator.push(
       context,
@@ -76,7 +79,8 @@ class _RoomsPageState extends State<RoomsPage> {
     super.initState();
     signUpForChatUser();
   }
-  // FAB with Priviledge
+
+  // FAB with Privilege
   //Copy that
   Widget? _getFAB() {
     if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
@@ -90,6 +94,22 @@ class _RoomsPageState extends State<RoomsPage> {
       return null;
     }
   }
+
+  // FAB with Privilege
+  //Copy that
+  Widget? _get2PersonFAB() {
+    if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
+      return FloatingActionButton(
+        mini: true,
+        backgroundColor: ColorUtils.secondaryColor,
+        onPressed: () => _createTwoPersonChat(),
+        child: const Icon(Icons.add),
+      );
+    } else {
+      return null;
+    }
+  }
+
   // and use Function for Fab in Scaffold
   Widget? _getBAB() {
     if (Privileges.privilege == Privilege.admin || Privileges.privilege == Privilege.member) {
@@ -120,90 +140,90 @@ class _RoomsPageState extends State<RoomsPage> {
       drawer: const BurgerMenu(),
       body: _user == null
           ? Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(
-          bottom: 200,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Nicht angemeldet!'),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    fullscreenDialog: true,
-                    builder: (context) => LoginPage(),
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(
+                bottom: 200,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Nicht angemeldet!'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+                    },
+                    child: const Text('Login'),
                   ),
-                );
-              },
-              child: const Text('Login'),
-            ),
-          ],
-        ),
-      )
+                ],
+              ),
+            )
           : Stack(
-        children: [
-          StreamBuilder<List<types.Room>>(
-            stream: FirebaseChatCore.instance.rooms(),
-            initialData: const [],
-            builder: (context, snapshot) {
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.only(
-                    bottom: 200,
-                  ),
-                  child: Text('Keine Chats vorhanden',style: CustomTextSize.small),
-                );
-              }
+              children: [
+                StreamBuilder<List<types.Room>>(
+                  stream: FirebaseChatCore.instance.rooms(),
+                  initialData: const [],
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(
+                          bottom: 200,
+                        ),
+                        child: Text('Keine Chats vorhanden', style: CustomTextSize.small),
+                      );
+                    }
 
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final room = snapshot.data![index];
-                  return StreamBuilder<List<types.Message>>(
-                    initialData: const [],
-                    stream: FirebaseChatCore.instance.messages(room, limit: 1),
-                    builder: (context, msg) => InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(
-                              room: room,
-                              name: room.name,
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final room = snapshot.data![index];
+                        return StreamBuilder<List<types.Message>>(
+                          initialData: const [],
+                          stream: FirebaseChatCore.instance.messages(room, limit: 1),
+                          builder: (context, msg) => InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    room: room,
+                                    name: room.name,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: ListTile(
+                              title: Text(room.name ?? ''),
+                              subtitle: Text(getLastMessageText(msg)),
+                              leading: _buildAvatar(room),
                             ),
                           ),
                         );
                       },
-                      child: ListTile(
-                        title: Text(room.name ?? ''),
-                        subtitle: Text(getLastMessageText(msg)),
-                        leading: _buildAvatar(room),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
+                    );
+                  },
+                ),
 
-          // FAB for the "Two Person Chat"
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: FloatingActionButton(
-              mini: true,
-              backgroundColor: ColorUtils.secondaryColor,
-              onPressed: () => _createTwoPersonChat(),
-              child: const Icon(Icons.chat),
+                // FAB for the "Two Person Chat"
+
+                Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: FloatingActionButton(
+                    mini: true,
+                    backgroundColor: ColorUtils.secondaryColor,
+                    onPressed: () => _get2PersonFAB(),
+                    child: const Icon(Icons.chat),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
-
 
   String getLastMessageText(AsyncSnapshot<List<Message>> msg) {
     if (msg.hasData && msg.data!.length == 1 && msg.data!.first != null) {

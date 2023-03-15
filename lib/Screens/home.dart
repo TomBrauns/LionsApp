@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 child: Image.asset("assets/appicon/lions.png",
                     fit: BoxFit.contain)),
           ),
-          Expanded(
+          SizedBox(
             child: Container(
               child: TextButton(
                 onPressed: () =>
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           // Next Event:
-          Expanded(
+          SizedBox(
             child: Container(
               margin: EdgeInsets.all(20),
               child: Column(
@@ -225,7 +226,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
+          SizedBox(
             child: Center(
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -234,7 +235,6 @@ class _HomePageState extends State<HomePage> {
                   style: CustomTextSize.small,
                   textAlign: TextAlign.center,
                 ),
-
               ),
             ),
           ),

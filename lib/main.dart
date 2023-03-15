@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final String interneId = ''; // Beispiel-Parameter
+  final String eventId = ''; // Beispiel-Parameter
 
   @override
   Widget build(BuildContext context) {
@@ -59,52 +60,61 @@ class _MyAppState extends State<MyApp> {
         final uri = Uri.parse(settings.name!);
         // Überprüfe, ob die Route mit "/Donations" beginnt
         if (uri.path == '/Donations') {
-          // Extrahiere den Parameter aus der Query-String-Variable "interneId"
-          var interneId = uri.queryParameters['interneId'];
+          // Extrahiere den Parameter aus der Query-String-Variable "eventId"
+          var eventId = uri.queryParameters['eventId'];
           // Erstelle die Donations-Seite mit dem Parameter
-          //interneId = 'HWWbzQyOsVSbH7rS4BHR';
+          //eventId = 'HWWbzQyOsVSbH7rS4BHR';
           return MaterialPageRoute(
-              builder: (context) => Donations(interneId: interneId));
+              builder: (context) => Donations(eventId: eventId));
         } else if (uri.path == '/Donations/UserType/PayMethode') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
-            uri.queryParameters['sub'] ?? ''
+            uri.queryParameters['Id'] ?? '',
+            uri.queryParameters['sub'] ?? '',
+            uri.queryParameters['Idtype'] ?? '',
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethode(
-                amount: Paymethodereturn[0] as double,
-                eventId: Paymethodereturn[1],
-                sub: Paymethodereturn[2]),
+              amount: Paymethodereturn[0] as double,
+              Id: Paymethodereturn[1],
+              sub: Paymethodereturn[2],
+              Idtype: Paymethodereturn[3],
+            ),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/success') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['paymentId'] ?? '',
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? '',
-            uri.queryParameters['sub'] ?? ''
+            uri.queryParameters['sub'] ?? '',
+            uri.queryParameters['Idtype'] ?? '',
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethodesuccess(
-                amount: Paymethodereturn[0],
-                eventId: Paymethodereturn[1],
-                sub: Paymethodereturn[5]),
+              amount: Paymethodereturn[0],
+              Id: Paymethodereturn[1],
+              sub: Paymethodereturn[5],
+              Idtype: Paymethodereturn[6],
+            ),
           );
         } else if (uri.path == '/Donations/UserType/PayMethode/cancel') {
           final List<dynamic> Paymethodereturn = [
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
+            uri.queryParameters['Id'] ?? '',
             uri.queryParameters['token'] ?? '',
-            uri.queryParameters['sub'] ?? ''
+            uri.queryParameters['sub'] ?? '',
+            uri.queryParameters['Idtype'] ?? '',
           ];
           return MaterialPageRoute(
             builder: (_) => Paymethodecancel(
-                amount: Paymethodereturn[0] as double,
-                eventId: Paymethodereturn[1],
-                token: Paymethodereturn[2],
-                sub: Paymethodereturn[3]),
+              amount: Paymethodereturn[0] as double,
+              Id: Paymethodereturn[1],
+              token: Paymethodereturn[2],
+              sub: Paymethodereturn[3],
+              Idtype: Paymethodereturn[4],
+            ),
           );
         } else if (uri.path == '/ThankYou') {
           final List<dynamic> Paymethodereturn = [
@@ -112,17 +122,17 @@ class _MyAppState extends State<MyApp> {
             uri.queryParameters['token'] ?? '',
             uri.queryParameters['PayerID'] ?? '',
             double.tryParse(uri.queryParameters['amount'] ?? '') ?? 0.0,
-            uri.queryParameters['eventId'] ?? '',
-            uri.queryParameters['sub'] ?? ''
+            uri.queryParameters['Id'] ?? '',
+            uri.queryParameters['sub'] ?? '',
+            uri.queryParameters['Idtype'] ?? '',
           ];
           return MaterialPageRoute(
             builder: (_) => DonationReceived(
-                paymentId: Paymethodereturn[0],
-                token: Paymethodereturn[1],
-                PayerID: Paymethodereturn[2],
-                amount: Paymethodereturn[3] as double,
-                eventId: Paymethodereturn[4],
-                sub: Paymethodereturn[5]),
+              amount: Paymethodereturn[3] as double,
+              Id: Paymethodereturn[4],
+              sub: Paymethodereturn[5],
+              Idtype: Paymethodereturn[6],
+            ),
           );
         } else if (uri.path == '/AGB') {
           var onRegister = uri.queryParameters['onRegister'];

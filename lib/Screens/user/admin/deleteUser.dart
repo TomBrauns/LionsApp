@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,10 @@ class UserRoleList extends StatefulWidget {
 }
 
 class _UserRoleListState extends State<UserRoleList> {
-  final _userStream = FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) => snapshot.docs);
+  final _userStream = FirebaseFirestore.instance
+      .collection('users')
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
   final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
 
   String _searchQuery = "";
@@ -65,7 +69,8 @@ class _UserRoleListState extends State<UserRoleList> {
           ),
         ),
         Expanded(
-          child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+          child:
+              StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
             stream: _userStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -83,8 +88,12 @@ class _UserRoleListState extends State<UserRoleList> {
               final users = snapshot.data!.where(
                 (user) =>
                     user.id != currentUserUid &&
-                    ((user.get("email") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                        (user.get("firstname") as String).toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                    ((user.get("email") as String)
+                            .toLowerCase()
+                            .contains(_searchQuery.toLowerCase()) ||
+                        (user.get("firstname") as String)
+                            .toLowerCase()
+                            .contains(_searchQuery.toLowerCase()) ||
                         (user.get("lastname") as String).toLowerCase().contains(
                               _searchQuery.toLowerCase(),
                             )),
@@ -98,7 +107,8 @@ class _UserRoleListState extends State<UserRoleList> {
                     child: ListTile(
                       title: Text("${user["firstname"]} ${user["lastname"]}"),
                       subtitle: Text(user["email"]),
-                      onTap: () => showMyDialog(user.id, user['firstname'], user['lastname']),
+                      onTap: () => showMyDialog(
+                          user.id, user['firstname'], user['lastname']),
                     ),
                   );
                 },
@@ -110,7 +120,8 @@ class _UserRoleListState extends State<UserRoleList> {
     );
   }
 
-  Future<void> showMyDialog(String id, String firstName, String lastName) async {
+  Future<void> showMyDialog(
+      String id, String firstName, String lastName) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -119,7 +130,9 @@ class _UserRoleListState extends State<UserRoleList> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Wollen Sie den Account von $firstName $lastName wirklich löschen?', style: CustomTextSize.small),
+                Text(
+                    'Wollen Sie den Account von $firstName $lastName wirklich löschen?',
+                    style: CustomTextSize.small),
               ],
             ),
           ),

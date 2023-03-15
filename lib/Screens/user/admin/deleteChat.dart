@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,11 @@ class DeleteChat extends StatefulWidget {
 class _DeleteChatState extends State<DeleteChat> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: const BurgerMenu(), appBar: const MyAppBar(title: "Chats löschen"), bottomNavigationBar: BottomNavigation(), body: const ChatRoomList());
+    return Scaffold(
+        drawer: const BurgerMenu(),
+        appBar: const MyAppBar(title: "Chats löschen"),
+        bottomNavigationBar: BottomNavigation(),
+        body: const ChatRoomList());
   }
 }
 
@@ -29,7 +34,11 @@ class ChatRoomList extends StatefulWidget {
 }
 
 class _ChatRoomListState extends State<ChatRoomList> {
-  final _chatRoomStream = FirebaseFirestore.instance.collection('rooms').where("type", isEqualTo: 'group').snapshots().map((snapshot) => snapshot.docs);
+  final _chatRoomStream = FirebaseFirestore.instance
+      .collection('rooms')
+      .where("type", isEqualTo: 'group')
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
   String _searchQuery = "";
 
   @override
@@ -44,11 +53,15 @@ class _ChatRoomListState extends State<ChatRoomList> {
                 _searchQuery = value;
               });
             },
-            decoration: const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+            decoration: const InputDecoration(
+                hintText: 'Suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search)),
           ),
         ),
         Expanded(
-          child: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+          child:
+              StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
             stream: _chatRoomStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -70,7 +83,10 @@ class _ChatRoomListState extends State<ChatRoomList> {
                 );
               }
 
-              final groupChats = rooms.where((room) => (room.get("name") as String).toLowerCase().contains(_searchQuery.toLowerCase()));
+              final groupChats = rooms.where((room) =>
+                  (room.get("name") as String)
+                      .toLowerCase()
+                      .contains(_searchQuery.toLowerCase()));
 
               return ListView.builder(
                 itemCount: groupChats.length,
@@ -105,7 +121,8 @@ class _ChatRoomListState extends State<ChatRoomList> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Wollen Sie den Chat $roomName wirklich löschen?', style: CustomTextSize.small),
+                Text('Wollen Sie den Chat $roomName wirklich löschen?',
+                    style: CustomTextSize.small),
               ],
             ),
           ),

@@ -1,12 +1,19 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/user/user_configs.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import '../../Widgets/textSize.dart';
 import '../../login/login.dart';
+
+String Endpoint =
+    "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
+//String Endpoint = "http://127.0.0.1:5000";
 
 class Update extends StatefulWidget {
   @override
@@ -31,17 +38,9 @@ class UpdateState extends State<Update> {
   TextEditingController streetController = TextEditingController();
   TextEditingController streetnrController = TextEditingController();
 
-  bool _isObscure = true;
-  bool _isObscure2 = true;
   File? file;
   var rool = "Friend";
-  String? _firstname;
-  String? _lastname;
-  String? _email;
-  String? _postalcode;
-  String? _cityname;
-  String? _streetname;
-  String? _streetnumber;
+  String? stripeCustomerId;
 
   @override
   void initState() {
@@ -56,6 +55,7 @@ class UpdateState extends State<Update> {
     final userData = docSnapshot.data() as Map<String, dynamic>;
     setState(
       () {
+        stripeCustomerId = userData['stripeCustomerId'] as String;
         firstnameController.text = userData['firstname'] as String;
         lastnameController.text = userData['lastname'] as String;
         emailController.text = userData['email'] as String;
@@ -188,7 +188,6 @@ class UpdateState extends State<Update> {
                         ),
 
                         // Workspace for non required Data ( Postalcode, City, Street and Streetnr)
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(
@@ -247,7 +246,6 @@ class UpdateState extends State<Update> {
                         const SizedBox(
                           height: 20,
                         ),
-                        // TODO: Add attribute to make them optional
                         Row(
                           children: [
                             Expanded(
@@ -382,6 +380,21 @@ class UpdateState extends State<Update> {
 
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
+
+      if(stripeCustomerId != null) {
+        await updateCustomer(
+            Endpoint,
+            newCity,
+            "DE",
+            newStreet,
+            newStreetNr,
+            newPostalCode,
+            newEmail,
+            newFirstName,
+            newLastName,
+            stripeCustomerId);
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.green,
@@ -527,4 +540,55 @@ class UpdateState extends State<Update> {
       throw Exception('Dokument-ID stimmt nicht mit User-ID überein.');
     }
   } */
+  Future<Map<String, dynamic>> retrieveCustomer(Endpoint, customerId) async {
+    final body = {
+      "customerId": customerId,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeRetrieveCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+
+    return jsonResponse;
+  }
+
+  Future<String> updateCustomer(Endpoint, cityname, country, streetname,
+      streetnumber, postalcode, email, firstname, lastname, customerId) async {
+    final body = {
+      "customerId": customerId,
+      "cityname": cityname,
+      "country": country,
+      "streetname": streetname,
+      "streetnumber": streetnumber,
+      "postalcode": postalcode,
+      "email": email,
+      "firstname": firstname,
+      "lastname": lastname,
+    };
+
+    // Make post request to Stripe
+
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeUpdateCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    //print(response.statusCode);
+    //print(response.body);
+    String Id = jsonResponse['id'];
+
+    return Id;
+  }
 }

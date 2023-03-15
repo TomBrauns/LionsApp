@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart';
 import 'package:lionsapp/Screens/payment/paymethode.dart';
@@ -5,10 +6,10 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 
-Future<void> paypalOnPressWeb(
-    double amount, eventId, context, baseUrl, Endpoint, sub) async {
-  List<dynamic> PaypalObject =
-      await makePaypalPayment(amount, eventId, baseUrl, Endpoint, sub);
+Future<void> paypalOnPressWeb(double amount, Id, context, baseUrl, Endpoint,
+    sub, Idtype, eventName) async {
+  List<dynamic> PaypalObject = await makePaypalPayment(
+      amount, Id, baseUrl, Endpoint, sub, Idtype, eventName);
   print(PaypalObject);
 
   if (await canLaunchUrl(Uri.parse(PaypalObject[0]))) {
@@ -33,16 +34,16 @@ Future<String> paypalAuth() async {
 }
 
 Future<List<String>> makePaypalPayment(
-    double amount, eventId, baseUrl, Endpoint, sub) async {
+    double amount, Id, baseUrl, Endpoint, sub, Idtype, eventName) async {
   String token = await paypalAuth();
   final body = {
     'authToken': token,
     'amount': amount.toString(),
-    'eventId': eventId.toString(),
+    'description': "Name: $eventName,Id: $Id",
     'success_url':
-        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&eventId=$eventId&sub=$sub',
+        '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':
-        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&eventId=$eventId&sub=$sub',
+        '$baseUrl/Donations/UserType/PayMethode/cancel?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'currency': "EUR",
   };
 

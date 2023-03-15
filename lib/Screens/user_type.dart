@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/textSize.dart';
@@ -12,13 +13,25 @@ class UserTypeScreen extends StatefulWidget {
 }
 
 class _UserTypeScreenState extends State<UserTypeScreen> {
-  String? get eventId {
+  String? get Id {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    return args?['eventId'];
+    return args?['Id'];
   }
 
-  double get amount {
+  String? get Idtype {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['Idtype'];
+  }
+
+  String? get sub {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return args?['sub'];
+  }
+
+  double? get amount {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
@@ -36,7 +49,13 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/Donations/UserType/Login');
+                Navigator.pushNamed(context, '/Donations/UserType/Login',
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      'Idtype': Idtype,
+                    });
               },
               child: Text('Anmelden', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(
@@ -54,7 +73,12 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
-                    arguments: {'eventId': eventId, 'amount': amount});
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      'Idtype': Idtype,
+                    });
               },
               child: Text('Als Gast fortfahren', style: CustomTextSize.medium),
               style: ElevatedButton.styleFrom(

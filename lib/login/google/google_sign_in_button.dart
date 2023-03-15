@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/login/google/authentication.dart';
@@ -31,7 +32,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-                User? user = await Authentication.signInWithGoogle(context: context);
+                User? user =
+                    await Authentication.signInWithGoogle(context: context);
                 setState(
                   () {
                     _isSigningIn = false;

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -74,7 +75,7 @@ class _EventsState extends State<Events> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.qr_code),
-            onPressed: (){
+            onPressed: () {
               print("Link aufrufen");
               Navigator.push(
                 context,
@@ -127,7 +128,10 @@ class _EventListState extends State<EventList> {
   void initState() {
     super.initState();
     _searchQuery = '';
-    _eventsStream = FirebaseFirestore.instance.collection('events').orderBy("startDate").snapshots();
+    _eventsStream = FirebaseFirestore.instance
+        .collection('events')
+        .orderBy("startDate")
+        .snapshots();
   }
 
   @override
@@ -142,14 +146,17 @@ class _EventListState extends State<EventList> {
                 _searchQuery = value;
               });
             },
-            decoration:
-                const InputDecoration(hintText: 'Suchen', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search)),
+            decoration: const InputDecoration(
+                hintText: 'Suchen',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search)),
           ),
         ),
         Expanded(
             child: StreamBuilder<QuerySnapshot>(
                 stream: _eventsStream,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Center(
                       child: Text('Error: ${snapshot.error}'),
@@ -162,7 +169,10 @@ class _EventListState extends State<EventList> {
                     );
                   }
 
-                  final filteredEvents = snapshot.data!.docs.where((event) => event['eventName'].toLowerCase().contains(_searchQuery.toLowerCase()));
+                  final filteredEvents = snapshot.data!.docs.where((event) =>
+                      event['eventName']
+                          .toLowerCase()
+                          .contains(_searchQuery.toLowerCase()));
 
                   return ListView.builder(
                     itemCount: filteredEvents.length,
@@ -175,7 +185,8 @@ class _EventListState extends State<EventList> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EventDetailsPage(eventId: eventId),
+                              builder: (context) =>
+                                  EventDetailsPage(eventId: eventId),
                             ),
                           );
                         },
@@ -184,8 +195,9 @@ class _EventListState extends State<EventList> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    QrCodeWithImage(link: 'serviceclub-app.de/#/Donations', documentId: eventId),
+                                builder: (context) => QrCodeWithImage(
+                                    link: 'serviceclub-app.de/#/Donations',
+                                    documentId: eventId),
                               ),
                             );
                           },
@@ -208,12 +220,17 @@ class _EventListState extends State<EventList> {
                                       backgroundImage: NetworkImage(event["image_url"]),
                                     )
                                   else
-                                    Container(width: 128, height: 128, color: Colors.grey),
+                                    Container(
+                                        width: 128,
+                                        height: 128,
+                                        color: Colors.grey),
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
                                           child: FittedBox(

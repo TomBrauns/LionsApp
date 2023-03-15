@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +22,22 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   final dateFormat = DateFormat("dd.MM.yyyy HH:mm");
 
   // Style
-  final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+  final TextStyle _headlineStyle =
+      const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
   final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleDonation() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Donations(interneId: widget.eventId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Donations(eventId: widget.eventId)));
   }
 
   void _handleEdit() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => EventEditor(documentId: widget.eventId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EventEditor(documentId: widget.eventId)));
   }
 
   void _handleDelete() {
@@ -38,17 +46,19 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text('Aktivität löschen',style: CustomTextSize.medium),
-          content: Text('Sind Sie sich sicher, dass Sie diese Aktivität löschen möchten?',style: CustomTextSize.medium),
+          title: Text('Aktivität löschen', style: CustomTextSize.medium),
+          content: Text(
+              'Sind Sie sich sicher, dass Sie diese Aktivität löschen möchten?',
+              style: CustomTextSize.medium),
           actions: <Widget>[
             TextButton(
-              child: Text('Abbrechen',style: CustomTextSize.small),
+              child: Text('Abbrechen', style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: Text('Löschen',style: CustomTextSize.small),
+                child: Text('Löschen', style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.eventId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -64,8 +74,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('events').doc(widget.eventId).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: FirebaseFirestore.instance
+            .collection('events')
+            .doc(widget.eventId)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Fehler beim Lesen der Daten');
           }
@@ -98,34 +112,42 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
           // Condition for showing the edit button: user must be member + creator OR user must be admin
           final String? userId = FirebaseAuth.instance.currentUser?.uid;
-          final bool showEditButton = userId != null && (Privileges.privilege == Privilege.member && creatorId == userId)
-              || Privileges.privilege == Privilege.admin;
+          final bool showEditButton = userId != null &&
+                  (Privileges.privilege == Privilege.member &&
+                      creatorId == userId) ||
+              Privileges.privilege == Privilege.admin;
 
           return Scaffold(
               appBar: AppBar(
-                title: Text(title,style: CustomTextSize.medium),
+                title: Text(title, style: CustomTextSize.medium),
               ),
               floatingActionButton: showEditButton
                   ? Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: _handleDelete,
-                      backgroundColor: ColorUtils.secondaryColor,
-                      child: const Icon(Icons.delete),
-                    ),
-                    const SizedBox(height: 16),
-                    FloatingActionButton(
-                      onPressed: _handleEdit,
-                      backgroundColor: ColorUtils.secondaryColor,
-                      child: const Icon(Icons.edit),
-                    ),
-                  ])
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                          FloatingActionButton(
+                            onPressed: _handleDelete,
+                            backgroundColor: ColorUtils.secondaryColor,
+                            child: const Icon(Icons.delete),
+                          ),
+                          const SizedBox(height: 16),
+                          FloatingActionButton(
+                            onPressed: _handleEdit,
+                            backgroundColor: ColorUtils.secondaryColor,
+                            child: const Icon(Icons.edit),
+                          ),
+                        ])
                   : null,
               body: SingleChildScrollView(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if (imgUri.isNotEmpty) Image.network(imgUri, width: double.infinity, height: 250, fit: BoxFit.cover),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    if (imgUri.isNotEmpty)
+                      Image.network(imgUri,
+                          width: double.infinity,
+                          height: 250,
+                          fit: BoxFit.cover),
                     Container(
                         padding: const EdgeInsets.all(16),
                         child: Column(
@@ -135,57 +157,61 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: [
-                                          Icon(
-                                            Icons.calendar_month,
-                                            size: 16,
-                                            color: Colors.black,
-                                          ),
-                                          Text("Datum",style: CustomTextSize.medium)
-                                        ]),
-                                        subtitle: Text(date, maxLines: 1,style: CustomTextSize.medium),
-                                      ))),
+                                title: Row(children: [
+                                  Icon(
+                                    Icons.calendar_month,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Datum", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(date,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: [
-                                          Icon(
-                                            Icons.location_on,
-                                            size: 16,
-                                            color: Colors.black,
-                                          ),
-                                          Text("Ort",style: CustomTextSize.medium)
-                                        ]),
-                                        subtitle: Text(location, maxLines: 1,style: CustomTextSize.medium),
-                                      ))),
+                                title: Row(children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Ort", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(location,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
                             ]),
                             Row(children: [
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: [
-                                          Icon(
-                                            Icons.supervised_user_circle,
-                                            size: 16,
-                                            color: Colors.black,
-                                          ),
-                                          Text("Zweck",style: CustomTextSize.medium)
-                                        ]),
-                                        subtitle: Text(project, maxLines: 1,style: CustomTextSize.medium),
-                                      ))),
+                                title: Row(children: [
+                                  Icon(
+                                    Icons.supervised_user_circle,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Projekt", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(project,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
                               Expanded(
                                   child: Card(
                                       child: ListTile(
-                                        title: Row(children: [
-                                          Icon(
-                                            Icons.crisis_alert,
-                                            size: 16,
-                                            color: Colors.black,
-                                          ),
-                                          Text("Ziel",style: CustomTextSize.medium)
-                                        ]),
-                                        subtitle: Text(target, maxLines: 1,style: CustomTextSize.medium),
-                                      ))),
+                                title: Row(children: [
+                                  Icon(
+                                    Icons.crisis_alert,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Ziel", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(target,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
                             ]),
                             const SizedBox(height: 16),
                             Text("Was machen wir?", style: _headlineStyle),
@@ -194,17 +220,17 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             const SizedBox(height: 32),
                             Center(
                                 child: ElevatedButton(
-                                  onPressed: _handleDonation,
-                                  child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-                                      child: Text("Spenden",style: CustomTextSize.medium)),
-                                )),
+                              onPressed: _handleDonation,
+                              child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.0, horizontal: 4.0),
+                                  child: Text("Spenden",
+                                      style: CustomTextSize.medium)),
+                            )),
                             const SizedBox(height: 32),
                           ],
                         ))
-                  ])
-              )
-          );
+                  ])));
         });
   }
 }

@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ import 'meeting_editor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MeetingDetailsPage extends StatefulWidget {
-  const MeetingDetailsPage({Key? key, required this.meetingId}) : super(key: key);
+  const MeetingDetailsPage({Key? key, required this.meetingId})
+      : super(key: key);
 
   final String meetingId;
 
@@ -21,11 +23,15 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
   final dateFormat = DateFormat("dd.MM.yyyy HH:mm");
 
   // Style
-  final TextStyle _headlineStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+  final TextStyle _headlineStyle =
+      const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
   final TextStyle _textStyle = CustomTextSize.small;
 
   void _handleEdit() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingEditor(meetingId: widget.meetingId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MeetingEditor(meetingId: widget.meetingId)));
   }
 
   void _handleDelete() {
@@ -34,17 +40,19 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:  Text('Meeting löschen',style: CustomTextSize.medium),
-          content: Text('Sind Sie sich sicher, dass Sie dieses Meeting löschen möchten?',style: CustomTextSize.small),
+          title: Text('Meeting löschen', style: CustomTextSize.medium),
+          content: Text(
+              'Sind Sie sich sicher, dass Sie dieses Meeting löschen möchten?',
+              style: CustomTextSize.small),
           actions: <Widget>[
             TextButton(
-              child: Text('Abbrechen',style: CustomTextSize.small),
+              child: Text('Abbrechen', style: CustomTextSize.small),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-                child: Text('Löschen',style: CustomTextSize.small),
+                child: Text('Löschen', style: CustomTextSize.small),
                 onPressed: () {
                   collection.doc(widget.meetingId).delete().then((_) {
                     Navigator.of(context).pop();
@@ -60,8 +68,12 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('meetings').doc(widget.meetingId).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: FirebaseFirestore.instance
+            .collection('meetings')
+            .doc(widget.meetingId)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Fehler beim Lesen der Daten');
           }
@@ -92,7 +104,9 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
 
           // Condition for showing the edit button: user must be member + creator OR user must be admin
           final String? userId = FirebaseAuth.instance.currentUser?.uid;
-          final bool showEditButton = userId != null && (Privileges.privilege == Privilege.member && creatorId == userId) ||
+          final bool showEditButton = userId != null &&
+                  (Privileges.privilege == Privilege.member &&
+                      creatorId == userId) ||
               Privileges.privilege == Privilege.admin;
 
           return Scaffold(
@@ -118,57 +132,62 @@ class _MeetingDetailsPageState extends State<MeetingDetailsPage> {
                         ])
                   : null,
               body: SingleChildScrollView(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(children: [
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: [
-                              const Icon(
-                                Icons.calendar_month,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Datum",style: CustomTextSize.medium)
+                    Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(children: [
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                title: Row(children: [
+                                  const Icon(
+                                    Icons.calendar_month,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Datum", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(date,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
+                              Expanded(
+                                  child: Card(
+                                      child: ListTile(
+                                title: Row(children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  Text("Ort", style: CustomTextSize.medium)
+                                ]),
+                                subtitle: Text(location,
+                                    maxLines: 1, style: CustomTextSize.medium),
+                              ))),
                             ]),
-                            subtitle: Text(date, maxLines: 1,style: CustomTextSize.medium),
-                          ))),
-                          Expanded(
-                              child: Card(
-                                  child: ListTile(
-                            title: Row(children: [
-                              Icon(
-                                Icons.location_on,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              Text("Ort",style: CustomTextSize.medium)
-                            ]),
-                            subtitle: Text(location, maxLines: 1,style: CustomTextSize.medium),
-                          ))),
-                        ]),
-                        const SizedBox(height: 16),
-                        Text("Was machen wir?", style: _headlineStyle),
-                        const SizedBox(height: 4),
-                        Text(description, style: _textStyle),
-                        const SizedBox(height: 4),
-                        if (url.isNotEmpty)
-                          TextButton(
-                              onPressed: () async {
-                                if (await canLaunchUrl(Uri.parse(url))) {
-                                  await launchUrl(Uri.parse(url));
-                                }
-                              },
-                              child: Text("Link zum Online-Meeting", style: _textStyle)),
-                        const SizedBox(height: 32),
-                      ],
-                    ))
-              ])));
+                            const SizedBox(height: 16),
+                            Text("Was machen wir?", style: _headlineStyle),
+                            const SizedBox(height: 4),
+                            Text(description, style: _textStyle),
+                            const SizedBox(height: 4),
+                            if (url.isNotEmpty)
+                              TextButton(
+                                  onPressed: () async {
+                                    if (await canLaunchUrl(Uri.parse(url))) {
+                                      await launchUrl(Uri.parse(url));
+                                    }
+                                  },
+                                  child: Text("Link zum Online-Meeting",
+                                      style: _textStyle)),
+                            const SizedBox(height: 32),
+                          ],
+                        ))
+                  ])));
         });
   }
 }

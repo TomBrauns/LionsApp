@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ void stripeSettings() {
 int calculateAmount(double amount) => (amount * 100).toInt();
 
 Future<bool?> stripeOnPressApp(
-    double amount, eventId, context, Endpoint) async {
+    double amount, Id, context, Endpoint, eventName) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   bool returnvalue = false;
@@ -31,7 +32,7 @@ Future<bool?> stripeOnPressApp(
     // STEP 1: Create Payment Intent
 
     Map<String, dynamic> result = paymentIntent =
-        await createPaymentIntent(amount, 'EUR', eventId, Endpoint);
+        await createPaymentIntent(amount, 'EUR', Id, Endpoint, eventName);
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -62,14 +63,14 @@ Future<bool?> stripeOnPressApp(
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
-    amount, String currency, eventId, Endpoint) async {
+    amount, String currency, Id, Endpoint, eventName) async {
   final amountInCents = calculateAmount(amount);
   try {
     // Request body
     final body = {
       'amount': amountInCents.toString(),
       'currency': currency,
-      'description': eventId,
+      'description': "Name: $eventName,Id: $Id",
     };
 
     // Make post request to Stripe

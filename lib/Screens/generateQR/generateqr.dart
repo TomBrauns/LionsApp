@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -31,7 +32,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
 
   @override
   Widget build(BuildContext context) {
-    String data = "${widget.link}?interneId=${widget.documentId}";
+    String data = "${widget.link}?eventId=${widget.documentId}";
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
     const String imagePath = 'assets/projects/Umweltschutz.png';
@@ -76,13 +77,13 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  if(kIsWeb){
+                  if (kIsWeb) {
                     _handleWebDownloadButtonPressed();
-                  }else{
+                  } else {
                     _handleDownloadButtonPressed();
                   }
                 },
-                child: Text('Download',style: CustomTextSize.medium),
+                child: Text('Download', style: CustomTextSize.medium),
               ),
             ),
           ),
@@ -94,7 +95,8 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
   Future<Uint8List?> _captureQrCode() async {
     try {
       final pixelRatio = MediaQuery.of(context).devicePixelRatio;
-      final boundary = _repaintBoundaryKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      final boundary = _repaintBoundaryKey.currentContext!.findRenderObject()
+          as RenderRepaintBoundary;
       final image = await boundary.toImage(pixelRatio: pixelRatio);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData?.buffer.asUint8List();
@@ -114,11 +116,11 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
     }
   }
 
-  void _handleDownloadButtonPressed() async{
+  void _handleDownloadButtonPressed() async {
     final bytes = await _captureQrCode();
-    if(bytes != null){
+    if (bytes != null) {
       final filePath = await _saveQrCode(bytes);
-      if(filePath != null){
+      if (filePath != null) {
         Share.shareFiles([filePath], text: 'QR Code');
       }
     }
@@ -129,10 +131,10 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
     if (bytes != null) {
       final blob = html.Blob([bytes]);
       final dataUrl = html.Url.createObjectUrlFromBlob(blob);
-      final anchorElement = html.document.createElement('a') as html.AnchorElement
-        ..href = dataUrl
-        ..download = 'qr_code.png';
-
+      final anchorElement =
+          html.document.createElement('a') as html.AnchorElement
+            ..href = dataUrl
+            ..download = 'qr_code.png';
 
       html.document.body!.append(anchorElement);
       anchorElement.click();

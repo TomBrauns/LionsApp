@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -177,7 +178,7 @@ class _ContactState extends State<Contact> {
           'to': eMail,
           'subject': 'Ihre Nachricht an Service Club "$subject"',
           'text':
-              'Hallo $name,\nVielen Dank für deine Nachricht!\n\nDeine Nachricht lautete:\n$msg\n\n Wir versuchen dir so schnell wie möglich zu antworten!\n Deine Service Club Team!',
+              'Hallo $name,\nVielen Dank für Ihre Nachricht!\n\nIhre Nachricht lautete:\n$msg\n\n Wir versuchen Ihnen so schnell wie möglich zu antworten!\n Ihr Service Club Team!',
           /* 'attachments': [
           //TODO: Pfad der späteren Quittung und Text bisschen anpassen
           {'filename': '', 'path': pdf},

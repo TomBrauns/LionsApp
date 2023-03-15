@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'dart:ui';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -20,4 +21,5 @@ Color getUserAvatarNameColor(types.User user) {
   return colors[index];
 }
 
-String getUserName(types.User user) => '${user.firstName ?? ''} ${user.lastName ?? ''}'.trim();
+String getUserName(types.User user) =>
+    '${user.firstName ?? ''} ${user.lastName ?? ''}'.trim();

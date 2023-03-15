@@ -1,3 +1,4 @@
+//Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -25,7 +26,8 @@ class _MeetingEditorState extends State<MeetingEditor> {
   final TextEditingController _meetingNameController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _meetingDescriptionController = TextEditingController();
+  final TextEditingController _meetingDescriptionController =
+      TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
 
@@ -93,10 +95,14 @@ class _MeetingEditorState extends State<MeetingEditor> {
             firstDate: DateTime(2020),
             lastDate: DateTime(2100))
         .then((pickedDate) => {
-              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 15, minute: 0))
+              showTimePicker(
+                      context: context,
+                      initialTime:
+                          currentTime ?? const TimeOfDay(hour: 15, minute: 0))
                   .then((pickedTime) {
                 if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final Duration duration = Duration(
+                      hours: pickedTime.hour, minutes: pickedTime.minute);
                   final DateTime completeDate = pickedDate.add(duration);
                   _startDateController.text = dateFormat.format(completeDate);
                 }
@@ -125,10 +131,14 @@ class _MeetingEditorState extends State<MeetingEditor> {
             firstDate: currentStartDate ?? DateTime(2020),
             lastDate: DateTime(2100))
         .then((pickedDate) => {
-              showTimePicker(context: context, initialTime: currentTime ?? const TimeOfDay(hour: 18, minute: 0))
+              showTimePicker(
+                      context: context,
+                      initialTime:
+                          currentTime ?? const TimeOfDay(hour: 18, minute: 0))
                   .then((pickedTime) {
                 if (pickedDate != null && pickedTime != null) {
-                  final Duration duration = Duration(hours: pickedTime.hour, minutes: pickedTime.minute);
+                  final Duration duration = Duration(
+                      hours: pickedTime.hour, minutes: pickedTime.minute);
                   final DateTime completeDate = pickedDate.add(duration);
                   _endDateController.text = dateFormat.format(completeDate);
                 }
@@ -140,16 +150,22 @@ class _MeetingEditorState extends State<MeetingEditor> {
   void initState() {
     super.initState();
     if (widget.meetingId == null) return;
-    FirebaseFirestore.instance.collection("meetings").doc(widget.meetingId).get().then((project) {
+    FirebaseFirestore.instance
+        .collection("meetings")
+        .doc(widget.meetingId)
+        .get()
+        .then((project) {
       _meetingNameController.text = project.get("name");
       _meetingDescriptionController.text = project.get("description") ?? "";
       _urlController.text = project.get("url") ?? "";
       _locationController.text = project.get("location") ?? "";
       if (project.get("startDate") != null) {
-        _startDateController.text = dateFormat.format((project.get("startDate") as Timestamp).toDate());
+        _startDateController.text =
+            dateFormat.format((project.get("startDate") as Timestamp).toDate());
       }
       if (project.get("endDate") != null) {
-        _endDateController.text = dateFormat.format((project.get("endDate") as Timestamp).toDate());
+        _endDateController.text =
+            dateFormat.format((project.get("endDate") as Timestamp).toDate());
       }
     });
   }
@@ -158,7 +174,9 @@ class _MeetingEditorState extends State<MeetingEditor> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.meetingId == null ? "Meeting erstellen" : "Meeting bearbeiten"),
+          title: Text(widget.meetingId == null
+              ? "Meeting erstellen"
+              : "Meeting bearbeiten"),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -182,7 +200,8 @@ class _MeetingEditorState extends State<MeetingEditor> {
                           decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.calendar_today),
                               labelText: "Start",
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                               border: OutlineInputBorder()),
                           readOnly: false,
                           onTap: _handleStartTimeTap,
@@ -227,7 +246,8 @@ class _MeetingEditorState extends State<MeetingEditor> {
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Beschreibung',
-                            floatingLabelBehavior: FloatingLabelBehavior.always),
+                            floatingLabelBehavior:
+                                FloatingLabelBehavior.always),
                       )),
                   const SizedBox(height: 16),
                   TextField(
@@ -247,11 +267,14 @@ class _MeetingEditorState extends State<MeetingEditor> {
                           onPressed: _handleSubmit,
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Icon(Icons.save),
-                              SizedBox(width: 4),
-                              Text("Speichern",style: CustomTextSize.medium)
-                            ]),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.save),
+                                  SizedBox(width: 4),
+                                  Text("Speichern",
+                                      style: CustomTextSize.medium)
+                                ]),
                           ))),
                 ],
               )),
@@ -260,5 +283,5 @@ class _MeetingEditorState extends State<MeetingEditor> {
 }
 
 final snackBar = SnackBar(
-  content: Text("Bitte einen Name eingeben.",style: CustomTextSize.small),
+  content: Text("Bitte einen Name eingeben.", style: CustomTextSize.small),
 );
