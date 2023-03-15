@@ -7,6 +7,7 @@ import 'package:lionsapp/Screens/payment/subpayment.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 import '../../Widgets/textSize.dart';
 import 'paypalfuncweb.dart';
@@ -20,8 +21,6 @@ import 'dart:core';
 import 'package:pay/pay.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-
-//import 'package:flutter_stripe/flutter_stripe.dart';
 
 String Endpoint =
     "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
@@ -57,7 +56,8 @@ class Paymethode extends StatefulWidget {
 }
 
 class _PaymethodeState extends State<Paymethode> {
-  String? customerId;
+  final _formkey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
 
   String get Id {
     final args =
@@ -86,20 +86,6 @@ class _PaymethodeState extends State<Paymethode> {
   @override
   void initState() {
     super.initState();
-    _loadData();
-    print("Customer Id: $customerId");
-  }
-
-  void _loadData() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    final docSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    final userData = docSnapshot.data() as Map<String, dynamic>;
-    setState(
-      () {
-        customerId = userData['stripeCustomerId'] as String;
-      },
-    );
   }
 
   void onApplePayResult(paymentResult) {
@@ -133,203 +119,208 @@ class _PaymethodeState extends State<Paymethode> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: getEventName(Id, Idtype),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final eventName = snapshot.data!;
-            final paymentItems = [
-              PaymentItem(
-                label: 'Spende für $eventName',
-                amount: amount.toString(),
-                status: PaymentItemStatus.final_price,
-              )
-            ];
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("Zahlungsmethode"),
-              ),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: sub == 'keins'
-                      ? <Widget>[
-                          //TODO: Test muss schöner
-                          Text('$amount€ Spende für $eventName',
-                              style: CustomTextSize.large),
-                          SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(20.0),
-                            margin: const EdgeInsets.symmetric(horizontal: 90),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 255, 196, 57),
-                                  elevation: 0,
-                                  padding: const EdgeInsets.all(10),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  )),
-                              onPressed: () async {
-                                if (GetPlatform.currentPlatform !=
-                                    GetPlatform.web) {
-                                  paypalOnPressApp(amount, Id, context,
-                                      Endpoint, sub, Idtype, eventName);
-                                } else if (GetPlatform.currentPlatform ==
-                                    GetPlatform.web) {
-                                  paypalOnPressWeb(amount, Id, context, baseUrl,
-                                      Endpoint, sub, Idtype, eventName);
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.paypal,
-                                    color: Colors.blue,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    "Paypal",
-                                    style: CustomTextSize.large,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(20.0),
-                            margin: const EdgeInsets.symmetric(horizontal: 90),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorUtils.primaryColor,
-                                padding: const EdgeInsets.all(10),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              onPressed: () async {
-                                if (GetPlatform.currentPlatform !=
-                                    GetPlatform.web) {
-                                  paymentSuccess = (await stripeOnPressApp(
-                                      amount,
-                                      Id,
-                                      context,
-                                      Endpoint,
-                                      eventName))!;
-                                  if (paymentSuccess == false) {
-                                    showErrorSnackbar(context);
-                                  } else if (paymentSuccess == true) {
-                                    print(Id);
-                                    Navigator.pop(context);
-                                    Navigator.pushNamed(context,
-                                        '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
-                                  }
-                                } else if (GetPlatform.currentPlatform ==
-                                    GetPlatform.web) {
-                                  stripeOnPressWeb(amount, Id, context, baseUrl,
-                                      Endpoint, sub, Idtype, eventName);
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.payment),
-                                  SizedBox(width: 8),
-                                  Text("Karte", style: CustomTextSize.large),
-                                ],
-                              ),
-                            ),
-                          ),
-                          //TODO: make it functional
-                          if (GetPlatform.currentPlatform != GetPlatform.web)
-                            FutureBuilder<PaymentConfiguration>(
-                                future: _applePayConfigFuture,
-                                builder: (context, snapshot) => snapshot.hasData
-                                    ? ApplePayButton(
-                                        paymentConfiguration: snapshot.data!,
-                                        paymentItems: paymentItems,
-                                        type: ApplePayButtonType.donate,
-                                        margin:
-                                            const EdgeInsets.only(top: 15.0),
-                                        onPaymentResult: onApplePayResult,
-                                        loadingIndicator: const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      )
-                                    : const SizedBox.shrink()),
+    return FutureBuilder(
+      future: Future.wait([getEventName(Id, Idtype), getCustomerId()]),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          final eventName = snapshot.data![0] as String;
+          final customerId = snapshot.data![1] as String;
 
-                          if (GetPlatform.currentPlatform != GetPlatform.web)
-                            Container(
-                                padding: const EdgeInsets.all(20.0),
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 90),
-                                height: 100,
-                                width: 500,
-                                child: FutureBuilder<PaymentConfiguration>(
-                                    future: _googlePayConfigFuture,
-                                    builder: (context, snapshot) => snapshot
-                                            .hasData
-                                        ? GooglePayButton(
-                                            paymentConfiguration:
-                                                snapshot.data!,
-                                            paymentItems: paymentItems,
-                                            type: GooglePayButtonType.donate,
-                                            onPaymentResult: onGooglePayResult,
-                                            loadingIndicator: const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                          )
-                                        : const SizedBox.shrink())),
-                        ]
-                      : <Widget>[
-                          Text('$amount€ Spende $sub',
-                              style: CustomTextSize.large),
-                          Container(
-                            padding: const EdgeInsets.all(20.0),
-                            margin: const EdgeInsets.symmetric(horizontal: 90),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorUtils.primaryColor,
-                                padding: const EdgeInsets.all(10),
+          final paymentItems = [
+            PaymentItem(
+              label: 'Spende für $eventName',
+              amount: amount.toString(),
+              status: PaymentItemStatus.final_price,
+            )
+          ];
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Zahlungsmethode"),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: sub == 'keins'
+                    ? <Widget>[
+                        //TODO: Test muss schöner
+                        Text('$amount€ Spende für $eventName',
+                            style: CustomTextSize.large),
+                        SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 90),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 255, 196, 57),
                                 elevation: 0,
+                                padding: const EdgeInsets.all(10),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
+                                )),
+                            onPressed: () async {
+                              if (GetPlatform.currentPlatform !=
+                                  GetPlatform.web) {
+                                paypalOnPressApp(amount, Id, context, Endpoint,
+                                    sub, Idtype, eventName);
+                              } else if (GetPlatform.currentPlatform ==
+                                  GetPlatform.web) {
+                                paypalOnPressWeb(amount, Id, context, baseUrl,
+                                    Endpoint, sub, Idtype, eventName);
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.paypal,
+                                  color: Colors.blue,
                                 ),
+                                SizedBox(width: 8),
+                                Text(
+                                  "Paypal",
+                                  style: CustomTextSize.large,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 90),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorUtils.primaryColor,
+                              padding: const EdgeInsets.all(10),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              onPressed: () async {
-                                stripeSubOnPress(
+                            ),
+                            onPressed: () async {
+                              if (GetPlatform.currentPlatform !=
+                                  GetPlatform.web) {
+                                paymentSuccess = (await stripeOnPressApp(
+                                  amount,
+                                  Id,
+                                  context,
+                                  Endpoint,
+                                  eventName,
+                                  customerId,
+                                ))!;
+                                if (paymentSuccess == false) {
+                                  showErrorSnackbar(context);
+                                } else if (paymentSuccess == true) {
+                                  print(Id);
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context,
+                                      '/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype');
+                                }
+                              } else if (GetPlatform.currentPlatform ==
+                                  GetPlatform.web) {
+                                stripeOnPressWeb(
                                     amount,
                                     Id,
                                     context,
                                     baseUrl,
                                     Endpoint,
                                     sub,
-                                    customerId,
                                     Idtype,
-                                    eventName);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.payment),
-                                  SizedBox(width: 8),
-                                  Text("Karte", style: CustomTextSize.large),
-                                ],
-                              ),
+                                    eventName,
+                                    customerId);
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.payment),
+                                SizedBox(width: 8),
+                                Text("Karte", style: CustomTextSize.large),
+                              ],
                             ),
                           ),
-                        ],
-                ),
+                        ),
+                        //TODO: make it functional
+                        if (GetPlatform.currentPlatform != GetPlatform.web)
+                          FutureBuilder<PaymentConfiguration>(
+                              future: _applePayConfigFuture,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? ApplePayButton(
+                                      paymentConfiguration: snapshot.data!,
+                                      paymentItems: paymentItems,
+                                      type: ApplePayButtonType.donate,
+                                      margin: const EdgeInsets.only(top: 15.0),
+                                      onPaymentResult: onApplePayResult,
+                                      loadingIndicator: const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink()),
+
+                        if (GetPlatform.currentPlatform != GetPlatform.web)
+                          Container(
+                              padding: const EdgeInsets.all(20.0),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 90),
+                              height: 100,
+                              width: 500,
+                              child: FutureBuilder<PaymentConfiguration>(
+                                  future: _googlePayConfigFuture,
+                                  builder: (context, snapshot) => snapshot
+                                          .hasData
+                                      ? GooglePayButton(
+                                          paymentConfiguration: snapshot.data!,
+                                          paymentItems: paymentItems,
+                                          type: GooglePayButtonType.donate,
+                                          onPaymentResult: onGooglePayResult,
+                                          loadingIndicator: const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink())),
+                      ]
+                    : <Widget>[
+                        Text('$amount€ Spende $sub',
+                            style: CustomTextSize.large),
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 90),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorUtils.primaryColor,
+                              padding: const EdgeInsets.all(10),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onPressed: () async {
+                              stripeSubOnPress(amount, Id, context, baseUrl,
+                                  Endpoint, sub, customerId, Idtype, eventName);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.payment),
+                                SizedBox(width: 8),
+                                Text("Karte", style: CustomTextSize.large),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
               ),
-            );
-          }
+            ),
+          );
+        }
+      },
+    );
+  }
 
 /*
 void showSuccessSnackbar(BuildContext context) {
@@ -348,8 +339,6 @@ void showSuccessSnackbar(BuildContext context) {
   }
 
 */
-        });
-  }
 
   void showErrorSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -365,7 +354,7 @@ void showSuccessSnackbar(BuildContext context) {
     if (Idtype == 'events') {
       final docSnapshot =
           await FirebaseFirestore.instance.collection('events').doc(Id).get();
-      if (docSnapshot.exists) {
+      if (await docSnapshot.exists) {
         return docSnapshot.get('eventName');
       }
       // Fallback event name if event is not found
@@ -373,12 +362,28 @@ void showSuccessSnackbar(BuildContext context) {
     } else if (Idtype == 'projects') {
       final docSnapshot =
           await FirebaseFirestore.instance.collection('projects').doc(Id).get();
-      if (docSnapshot.exists) {
+      if (await docSnapshot.exists) {
         return docSnapshot.get('name');
       }
     }
     // Fallback event name if event is not found
     return 'Wichtigstes Event';
+  }
+
+  Future<String> getCustomerId() async {
+    String customerId = '';
+    if (Privileges.privilege != Privilege.guest) {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      final userData = await docSnapshot.data() as Map<String, dynamic>;
+
+      customerId = userData['stripeCustomerId'] as String;
+    }
+    return customerId;
   }
 }
 

@@ -8,6 +8,7 @@ import 'package:lionsapp/Screens/payment/payment_sidefunc.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:lionsapp/Screens/payment/paymethode.dart';
+import 'package:lionsapp/Widgets/privileges.dart';
 
 Map<String, dynamic>? paymentIntent;
 
@@ -24,15 +25,15 @@ void stripeSettings() {
 int calculateAmount(double amount) => (amount * 100).toInt();
 
 Future<bool?> stripeOnPressApp(
-    double amount, Id, context, Endpoint, eventName) async {
+    double amount, Id, context, Endpoint, eventName, customerId) async {
   final amountInCents = calculateAmount(amount);
   stripeSettings();
   bool returnvalue = false;
   try {
     // STEP 1: Create Payment Intent
 
-    Map<String, dynamic> result = paymentIntent =
-        await createPaymentIntent(amount, 'EUR', Id, Endpoint, eventName);
+    Map<String, dynamic> result = paymentIntent = await createPaymentIntent(
+        amount, 'EUR', Id, Endpoint, eventName, customerId);
 
     // Get the paymentintentObject
     String paymentIntentId = paymentIntent!['id'];
@@ -63,27 +64,51 @@ Future<bool?> stripeOnPressApp(
 }
 
 Future<Map<String, dynamic>> createPaymentIntent(
-    amount, String currency, Id, Endpoint, eventName) async {
+    amount, String currency, Id, Endpoint, eventName, customerId) async {
   final amountInCents = calculateAmount(amount);
-  try {
-    // Request body
-    final body = {
-      'amount': amountInCents.toString(),
-      'currency': currency,
-      'description': "Name: $eventName,Id: $Id",
-    };
 
-    // Make post request to Stripe
+  if (Privileges.privilege == Privilege.guest) {
+    try {
+      // Request body
+      final body = {
+        'amount': amountInCents.toString(),
+        'currency': currency,
+        'description': "Name: $eventName,Id: $Id",
+      };
 
-    final response = await http.post(
-      Uri.parse('$Endpoint/StripePaymentIntent'),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: body,
-    );
+      // Make post request to Stripe
 
-    return json.decode(response.body);
-  } catch (err, stackTrace) {
-    throw Exception('Failed to create payment intent: $err');
+      final response = await http.post(
+        Uri.parse('$Endpoint/StripePaymentIntent'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+      return json.decode(response.body);
+    } catch (err, stackTrace) {
+      throw Exception('Failed to create payment intent: $err');
+    }
+  } else {
+    try {
+      // Request body
+      final body = {
+        'amount': amountInCents.toString(),
+        'currency': currency,
+        'description': "Name: $eventName,Id: $Id",
+        'customer': customerId,
+      };
+
+      // Make post request to Stripe
+
+      final response = await http.post(
+        Uri.parse('$Endpoint/StripePaymentIntentwithCustomer'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+
+      return json.decode(response.body);
+    } catch (err, stackTrace) {
+      throw Exception('Failed to create payment intent: $err');
+    }
   }
 }
 

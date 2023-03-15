@@ -9,6 +9,7 @@ import 'dart:convert' as convert;
 
 Future<void> stripeSubOnPress(amount, Id, context, baseUrl, Endpoint, sub,
     customerId, Idtype, eventName) async {
+  print("CustomerId: $customerId");
   String? subdate = subtodate(sub);
   List<String> ProductObject =
       await createProduct(Id, amount, Endpoint, subdate, eventName);
@@ -132,10 +133,9 @@ Future<List<String>> stripeWebCheckout(priceId, baseUrl, amount, Id, Endpoint,
     sub, customerId, Idtype, eventName) async {
   final body = {
     'mode': "subscription",
-    'price': priceId,
+    'price': priceId.toString(),
     'quantity': '1',
-    'customer': customerId,
-    'interval': sub,
+    'customer': customerId.toString(),
     'success_url':
         '$baseUrl/Donations/UserType/PayMethode/success?amount=$amount&Id=$Id&sub=$sub&Idtype=$Idtype',
     'cancel_url':
@@ -145,7 +145,7 @@ Future<List<String>> stripeWebCheckout(priceId, baseUrl, amount, Id, Endpoint,
   // Make post request to Stripe
 
   final response = await http.post(
-    Uri.parse('$Endpoint/StripeCreateCheckoutSession'),
+    Uri.parse('$Endpoint/StripeCreateCheckoutSessionwithCustomer'),
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     body: body,
   );
