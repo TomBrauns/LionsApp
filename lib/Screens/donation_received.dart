@@ -127,26 +127,29 @@ class _DonationReceivedState extends State<DonationReceived> {
       appBar: const MyAppBar(title: "Danke für ihre Spende"),
       drawer: const BurgerMenu(),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('events').doc(Id).get(),
+        future: FirebaseFirestore.instance.collection(Idtype).doc(Id).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          /*if (!snapshot.hasData || !snapshot.data!.exists) {
+          final String name;
+
+          if (Id != '0000000000000000') {
+            if (!snapshot.hasData || !snapshot.data!.exists) {
               return const Center(child: Text('Event nicht gefunden'));
-            }*/
-
-          final eventName;
-
-          if (Id == '0000000000000000') {
-            print(amount.runtimeType);
-            eventName = 'Wichtigstes Event';
+            } else {
+              if(Idtype == "events") {
+                name = snapshot.data!.get("eventName");
+              } else {
+                name = snapshot.data!.get("name");
+              }
+            }
           } else {
-            eventName = snapshot.data!.get('eventName');
+            name = "Dort wo es benötigt wird.";
           }
 
-          final message = "Danke für Ihre Spende von $amount€ an $eventName. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
+          final message = "Danke für Ihre Spende von $amount€ an $name. Wenn Sie uns noch etwas mitteilen möchten, zögern Sie nicht, uns über das Kontaktformular zu benachrichtigen.";
 
           void makeSurePdfUploadGetsExecutedJustOnce() {
             if (isHandled) {
@@ -155,10 +158,12 @@ class _DonationReceivedState extends State<DonationReceived> {
               _ReceiptState()._handlePdfUpload().then(
                 (pdfUrl) {
                   if (FirebaseAuth.instance.currentUser != null && pdfUrl != null) {
-                    sendMailWithReceipt(eventName, pdfUrl);
+                    sendMailWithReceipt(name, pdfUrl);
                   }
-                  _updateEventDonation(Id);
-                  _updateDonationHistory(Id, eventName, pdfUrl ?? "");
+                  if (Idtype == "events") {
+                    _updateEventDonation(Id);
+                  }
+                  _updateDonationHistory(Id, name, pdfUrl ?? "");
                 },
               );
 

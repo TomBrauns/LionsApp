@@ -275,7 +275,7 @@ class _DonationsState extends State<Donations> {
                                                   print("Die EventID auf dem Zahl Screen: $eventId");
                                                   Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
                                                       arguments: {
-                                                        'Id': eventId,
+                                                        'Id': idType == "events" ? eventId : projectId,
                                                         'amount': currentValue,
                                                         'sub': selectedSubscription,
                                                         //TODO: richtigen Typ übergeben
@@ -283,7 +283,7 @@ class _DonationsState extends State<Donations> {
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context, '/Donations/UserType', arguments: {
-                                                    'Id': eventId,
+                                                    'Id': idType == "events" ? eventId : projectId,
                                                     'amount': currentValue,
                                                     'sub': selectedSubscription,
                                                     //TODO: richtigen Typ übergeben
