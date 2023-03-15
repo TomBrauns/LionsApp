@@ -158,9 +158,9 @@ class _PaymethodeState extends State<Paymethode> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: sub == 'keins'
                       ? <Widget>[
-                          //TODO: Test muss schöner
+                          //TODO: Text muss schöner
                           Text('$amount€ Spende für $eventName',
-                              style: CustomTextSize.large),
+                              style: CustomTextSize.medium),
                           SizedBox(height: 10),
                           Container(
                             padding: const EdgeInsets.all(20.0),
