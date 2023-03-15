@@ -33,7 +33,9 @@ class _QrCodeEventListState extends State<QrCodeEventList> {
   @override
   Widget build(BuildContext context) {
     String data = "${widget.link}";
+    print(data);
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -52,8 +54,7 @@ class _QrCodeEventListState extends State<QrCodeEventList> {
                   size: 200.0,
                   gapless: false,
                   foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.white
                 ),
               ],
             ),

@@ -144,11 +144,12 @@ class _CatalogueState extends State<Catalogue> {
                           onTap: () => _handleProjectClicked(document.id));
                     }).toList();
                     return Column(
+
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading: Image.asset('assets/projects/$category.png',
-                              width: 32, height: 32),
+
+                          leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
                           title: Text(category),
                         ),
                         ListView(

@@ -202,20 +202,22 @@ class _EventListState extends State<EventList> {
                             );
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
+                            clipBehavior: Clip.hardEdge,
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: ColorUtils.secondaryColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: SizedBox(
                               height: 128,
                               width: double.infinity,
                               child: Row(
                                 children: [
-                                  if (event["image_url"] != null &&
-                                      (event["image_url"] as String).isNotEmpty)
-                                    Image.network(
-                                      event["image_url"],
-                                      width: 128,
-                                      height: 128,
-                                      fit: BoxFit.cover,
+                                  if (event["image_url"] != null && (event["image_url"] as String).isNotEmpty)
+                                    CircleAvatar(
+                                      radius: 50,
+                                      backgroundImage: NetworkImage(event["image_url"]),
                                     )
                                   else
                                     Container(
@@ -230,25 +232,30 @@ class _EventListState extends State<EventList> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(event['eventName'],
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
-                                        if (event["eventInfo"] != null)
-                                          Text(event['eventInfo'],
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis),
+                                        Flexible(
+                                          child: FittedBox(
+                                            fit:BoxFit.fitWidth,
+                                              child: Text(event['eventName'],
+                                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50, color: ColorUtils.primaryColor),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              )
+
+                                          )
+
+                                        ),
+
+                                       // if (event["eventInfo"] != null)
+                                       //   Text(event['eventInfo'], maxLines: 3, overflow: TextOverflow.ellipsis),
                                         Expanded(child: Container()),
                                         if (event["ort"] != null)
                                           Row(children: [
-                                            const Icon(Icons.location_on,
-                                                size: 16),
-                                            const SizedBox(width: 4),
+                                            const Icon(Icons.location_on, size: 30, color: ColorUtils.primaryColor,),
+                                            const SizedBox(width: 6),
                                             Expanded(
                                               child: Text(
                                                 event['ort'],
+                                                style: const TextStyle(fontSize: 20, color: ColorUtils.primaryColor),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -256,32 +263,33 @@ class _EventListState extends State<EventList> {
                                           ]),
                                         if (event["startDate"] != null)
                                           Row(children: [
-                                            const Icon(Icons.calendar_month,
-                                                size: 16),
-                                            const SizedBox(width: 4),
+                                            const Icon(Icons.calendar_month, size: 30, color: ColorUtils.primaryColor),
+                                            const SizedBox(width: 6),
                                             Expanded(
                                                 child: Text(
-                                              dateFormat.format(
-                                                  (event['startDate']
-                                                          as Timestamp)
-                                                      .toDate()),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )),
+                                                  dateFormat.format((event['startDate'] as Timestamp).toDate()),
+                                                  style: const TextStyle(fontSize: 20, color: ColorUtils.primaryColor),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                )
+                                            ),
                                           ]),
                                         const SizedBox(height: 4),
+
                                       ],
                                     ),
-                                  )
+
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                         ),
+
                       );
                     },
                   );
-                }))
+                })),
       ],
     );
   }

@@ -88,7 +88,7 @@ class _HistoryListState extends State<HistoryList>
         }
 
         final history = snapshot.data!
-            .where((d) => (d["event_name"])
+            .where((d) => (d["name"])
                 .toLowerCase()
                 .contains(_searchQuery.toLowerCase()))
             .toList();
@@ -138,13 +138,14 @@ class _HistoryListState extends State<HistoryList>
             itemBuilder: (context, index) {
               final donation = history.elementAt(index);
               final double amount = donation["amount"];
-              final String eventName = donation["event_name"];
+              final String name = donation["name"];
+              final String type = donation["type"] == "events" ? "Aktivität" : "Projekt";
               final String date =
                   dateFormat.format((donation["date"] as Timestamp).toDate());
               final String pdfUrl = donation["receipt_url"];
               return ListTile(
                 title:
-                    Text("${amount.toStringAsFixed(2)}€ Spende an $eventName"),
+                    Text("${amount.toStringAsFixed(2)}€ Spende an $type '$name'"),
                 subtitle: Text("Spendendatum: $date"),
                 trailing: IconButton(
                     icon: const Icon(Icons.download),
