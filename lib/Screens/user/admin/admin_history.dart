@@ -35,7 +35,7 @@ class _HistoryListState extends State<HistoryList>
   final dateFormat = DateFormat("dd. MMM yyyy HH:mm");
   final _donationsStream = FirebaseFirestore.instance
       .collection("donations")
-      .orderBy("event_name")
+      .orderBy("name")
       .snapshots()
       .map((snapshot) => snapshot.docs);
   final _userStream = FirebaseFirestore.instance
@@ -85,33 +85,34 @@ class _HistoryListState extends State<HistoryList>
                         );
                       }
 
-                      final eventIds = donationsSnapshots.data!
-                          .where((d) => (d["event_name"] as String)
+                      final ids = donationsSnapshots.data!
+                          .where((d) => (d["name"] as String)
                               .toLowerCase()
                               .contains(_searchQuery.toLowerCase()))
-                          .map((d) => d["event_id"] as String)
+                          .map((d) => d["id"] as String)
                           .toSet();
 
                       return ListView.builder(
-                          itemCount: eventIds.length,
+                          itemCount: ids.length,
                           itemBuilder: (context, index) {
-                            final eventId = eventIds.elementAt(index);
+                            final id = ids.elementAt(index);
                             final donations = donationsSnapshots.data!
-                                .where((d) => d["event_id"] == eventId)
+                                .where((d) => d["id"] == id)
                                 .toList();
                             donations.sort((d1, d2) => (d1["date"] as Timestamp)
                                 .compareTo(d2["date"] as Timestamp));
-                            final eventName = donations.first["event_name"];
-                            final double eventSum = donations
+                            final name = donations.first["name"];
+                            final type = donations.first["type"] == "events" ? "Aktivität" : "Projekt";
+                            final double sum = donations
                                 .map((d) => d["amount"])
                                 .reduce((value, element) => value + element);
                             return Column(children: [
                               ListTile(
-                                  title: Text(eventName,
-                                      style: CustomTextSize.medium),
+                                  title: Text("$type '$name'",
+                                      style: CustomTextSize.small),
                                   trailing: Text(
-                                      "${eventSum.toStringAsFixed(2)}€",
-                                      style: CustomTextSize.medium)),
+                                      "${sum.toStringAsFixed(2)}€",
+                                      style: CustomTextSize.small)),
                               ListView.builder(
                                   shrinkWrap: true,
                                   physics: const ClampingScrollPhysics(),
