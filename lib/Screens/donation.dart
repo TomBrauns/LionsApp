@@ -262,10 +262,13 @@ class _DonationsState extends State<Donations> {
                                                 _inputController.text = "";
                                                 _handleAdd(0);
 
-                                                if (eventId == null || eventId == "") {
-                                                  eventId = '0000000000000000';
-                                                  String Idtype = "Event";
+                                                if ((eventId == null || eventId == "") &&
+                                                    (projectId == null || projectId == "")) {
+                                                  projectId = '0000000000000000';
                                                 }
+
+                                                String idType =
+                                                    (eventId != null && eventId!.isNotEmpty) ? "events" : "projects";
 
                                                 // If the User is already signed in, the User_type Screen (To log in or continue as guest) is skipped as it is not necessary.
                                                 if (FirebaseAuth.instance.currentUser != null) {
@@ -276,7 +279,7 @@ class _DonationsState extends State<Donations> {
                                                         'amount': currentValue,
                                                         'sub': selectedSubscription,
                                                         //TODO: richtigen Typ übergeben
-                                                        'Idtype': 'Event',
+                                                        'Idtype': idType,
                                                       });
                                                 } else {
                                                   Navigator.pushNamed(context, '/Donations/UserType', arguments: {
@@ -284,7 +287,7 @@ class _DonationsState extends State<Donations> {
                                                     'amount': currentValue,
                                                     'sub': selectedSubscription,
                                                     //TODO: richtigen Typ übergeben
-                                                    'Idtype': 'Event',
+                                                    'Idtype': idType,
                                                   });
                                                 }
                                               }
