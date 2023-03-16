@@ -14,6 +14,7 @@ Map<String, dynamic>? paymentIntent;
 void stripeSettings() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //TODO: change Key
   Stripe.publishableKey =
       "pk_test_51Mf6KIGgaqubfEkY4mjPoHhaJCcKIl202B51rY22iMrPKfh4mqNREIT0cBn9EmypeyJ92nC7mJpCwWHg1ZexBY8V00BAEi7S8t";
   Stripe.merchantIdentifier = 'Team Lions App';

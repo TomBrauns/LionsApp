@@ -1,0 +1,14 @@
+Payment:
+	-you need: 
+		-a Paypal developer/business account 
+		-a Stripe developer/business account
+		-a Google Pay & Wallet developer/business account	
+	-change Keys in the Python Flask Backend (file app.py at the top)
+	-change following Data in the assets/default_payment_profile_google_pay.json
+		-enviroment (if you plan on going live)
+		-stripe:publishableKey
+		-merchantId
+		-merchantName
+		-allowedCardNetworks (depending on what paymethodes you want to allow)
+	-change Stripe.publishableKey in lib/payment/stripefunc
+	
