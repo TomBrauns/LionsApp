@@ -180,7 +180,20 @@ class _UserState extends State<User> {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/History');
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Navigator.pushNamed(context, '/History');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sie müssen sich zuerst anmelden!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -255,7 +268,20 @@ class _UserState extends State<User> {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/User/Subs');
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Navigator.pushNamed(context, '/User/Subs');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sie müssen sich zuerst anmelden!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -292,16 +318,29 @@ class _UserState extends State<User> {
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
-                  onPressed: () {
-                    signOut();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Sie sind nun ausgeloggt"),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                    Navigator.pushNamed(context, '/');
+                    onPressed: () {
+                      final user = FirebaseAuth.instance.currentUser;
+                      if (user != null) {
+                        signOut();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text("Sie sind nun ausgeloggt"),
+                              duration: Duration(seconds: 3),
+                            ),
+                        );
+                        Navigator.pushNamed(context, '/');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Sie müssen sich zuerst anmelden!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                   },
                 ),
               ),

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.teamlion.lionsapp">
+    package="com.serviceclubapp.spendenapp">
    <application
         android:label="lionsapp"
         android:name="${applicationName}"
