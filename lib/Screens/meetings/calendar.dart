@@ -177,7 +177,12 @@ class _CalendarState extends State<Calendar> {
                         ]);
                       });
                 })
-            : Container(child: Text('You shall not pass!')),
+            : Column(children: [
+                Text('You shall not pass!'),
+                Image.asset(
+                  "videos/gandalf.gif",
+                ),
+              ]),
         floatingActionButton: _getFAB());
   }
 }
