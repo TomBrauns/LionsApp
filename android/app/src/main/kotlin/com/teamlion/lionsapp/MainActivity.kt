@@ -1,4 +1,4 @@
-package com.teamlion.lionsapp
+package com.serviceclubapp.spendenapp
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity
