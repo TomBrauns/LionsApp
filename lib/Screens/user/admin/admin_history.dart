@@ -190,8 +190,11 @@ class _HistoryListState extends State<HistoryList>
                           });
                     }))
           ])
-        : Container(
-            child: Text('You shall not pass!'),
-          );
+        : Column(children: [
+            Text('You shall not pass!'),
+            Image.asset(
+              "videos/gandalf.gif",
+            ),
+          ]);
   }
 }
