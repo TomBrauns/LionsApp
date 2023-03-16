@@ -9,7 +9,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/chat/createRoom.dart';
 
 import '../Widgets/bottomNavigationView.dart';
@@ -177,7 +177,8 @@ class _RoomsPageState extends State<RoomsPage> {
                         final room = snapshot.data![index];
                         return StreamBuilder<List<types.Message>>(
                           initialData: const [],
-                          stream: FirebaseChatCore.instance.messages(room, limit: 1),
+                          stream: FirebaseChatCore.instance
+                              .messages(room, limit: 1),
                           builder: (context, msg) => Dismissible(
                             key: Key(room.id),
                             background: Container(
@@ -200,7 +201,8 @@ class _RoomsPageState extends State<RoomsPage> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text('Chat löschen'),
-                                      content: Text('Sind Sie sicher, den Chat "${room.name}" zu löschen?'),
+                                      content: Text(
+                                          'Sind Sie sicher, den Chat "${room.name}" zu löschen?'),
                                       actions: [
                                         TextButton(
                                           child: const Text('Abbrechen'),
@@ -220,14 +222,16 @@ class _RoomsPageState extends State<RoomsPage> {
                                 );
                                 if (confirm != null && confirm) {
                                   // Delete chat room
-                                  await FirebaseChatCore.instance.deleteRoom(room.id);
+                                  await FirebaseChatCore.instance
+                                      .deleteRoom(room.id);
                                   return true;
                                 }
                                 return false;
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Sie haben keine Berechtigungen, den Chat zu löschen.'),
+                                    content: Text(
+                                        'Sie haben keine Berechtigungen, den Chat zu löschen.'),
                                   ),
                                 );
                                 return false;
@@ -242,7 +246,8 @@ class _RoomsPageState extends State<RoomsPage> {
                                   width: 1.0,
                                 ),
                               ),
-                              margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
                               child: InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(

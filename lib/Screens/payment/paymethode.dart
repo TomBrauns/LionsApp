@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';

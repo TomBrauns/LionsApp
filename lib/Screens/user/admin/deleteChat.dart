@@ -6,7 +6,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
-import '../../../Widgets/textSize.dart';
+import '../../../util/textSize.dart';
 
 class DeleteChat extends StatefulWidget {
   DeleteChat({Key? key}) : super(key: key);

@@ -12,7 +12,7 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
@@ -21,7 +21,8 @@ import 'dart:convert' as convert;
 
 import 'package:permission_handler/permission_handler.dart';
 
-String Endpoint = "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
+String Endpoint =
+    "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
 //String Endpoint = "http://127.0.0.1:5000";
 
 class User extends StatefulWidget {
@@ -60,7 +61,10 @@ class _UserState extends State<User> {
   }
 
   Future<bool> getReceiveNotifications() async {
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
     bool receiveNotifications = await userSnapshot.get('receiveNotification');
     return receiveNotifications;
   }
@@ -101,14 +105,23 @@ class _UserState extends State<User> {
                       if (user != null) {
                         final XFile? file = await ImageUpload.selectImage();
                         if (file != null) {
-                          final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-                          final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
+                          final String uniqueFilename =
+                              DateTime.now().millisecondsSinceEpoch.toString();
+                          final String? imageUrl =
+                              await ImageUpload.uploadImage(file, "user_images",
+                                  user.uid, uniqueFilename);
                           if (imageUrl != null) {
-                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user.uid)
+                                .update(
                               {"image_url": imageUrl},
                             );
                             try {
-                              await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update(
+                              await FirebaseFirestore.instance
+                                  .collection('user_chat')
+                                  .doc(user.uid)
+                                  .update(
                                 {"imageUrl": imageUrl},
                               );
                             } catch (e) {}
@@ -126,7 +139,8 @@ class _UserState extends State<User> {
                         );
                       }
                     },
-                    child: Text('Profilbild ändern', style: CustomTextSize.small),
+                    child:
+                        Text('Profilbild ändern', style: CustomTextSize.small),
                   ),
                   if (user != null)
                     UserDataWidget()
@@ -138,14 +152,17 @@ class _UserState extends State<User> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('App Benachrichtigungen:', style: CustomTextSize.small),
+                      Text('App Benachrichtigungen:',
+                          style: CustomTextSize.small),
                       Switch.adaptive(
                         value: receiveNotifications,
                         onChanged: (newValue) {
                           setState(
                             () {
                               receiveNotifications = newValue;
-                              final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+                              final docRef = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid);
                               docRef.update(
                                 {
                                   'receiveNotification': newValue,
@@ -196,7 +213,8 @@ class _UserState extends State<User> {
                     Icons.badge,
                     size: 24.0,
                   ),
-                  label: Text('Nutzerdaten ändern', style: CustomTextSize.medium),
+                  label:
+                      Text('Nutzerdaten ändern', style: CustomTextSize.medium),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
@@ -371,8 +389,10 @@ class _UserState extends State<User> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Wollen Sie Ihren Account wirklich löschen?', style: CustomTextSize.small),
-                Text('Der Vorgang kann nicht rückgängig gemacht werden', style: CustomTextSize.small),
+                Text('Wollen Sie Ihren Account wirklich löschen?',
+                    style: CustomTextSize.small),
+                Text('Der Vorgang kann nicht rückgängig gemacht werden',
+                    style: CustomTextSize.small),
               ],
             ),
           ),
@@ -409,8 +429,12 @@ class _UserState extends State<User> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
@@ -444,7 +468,9 @@ class _UserState extends State<User> {
 
 Future<void> deleteAcc() async {
   Privileges.privilege = Privilege.guest;
-  final user = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+  final user = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid);
   final String stripeCustomerId = (await user.get())["stripeCustomerId"];
   deleteCustomer(Endpoint, stripeCustomerId);
   user.delete();
@@ -493,7 +519,10 @@ class Subscription {
 class _SubsState extends State<Subs> {
   Future<String> _getCustomerId() async {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
-    return (await FirebaseFirestore.instance.collection("users").doc(userId).get())["stripeCustomerId"];
+    return (await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .get())["stripeCustomerId"];
   }
 
   Future<Subscription?> _getSubscription(String customerId) async {
@@ -503,13 +532,18 @@ class _SubsState extends State<Subs> {
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: body,
     );
-    final jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
+    final jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
     final String? subscriptionId = jsonResponse['data'][0]['id'];
-    final double? amount = jsonResponse['data'][0]['items']['data'][0]['plan']['amount'];
-    return subscriptionId != null && amount != null ? Subscription(subscriptionId, amount / 100.0) : null;
+    final double? amount =
+        jsonResponse['data'][0]['items']['data'][0]['plan']['amount'];
+    return subscriptionId != null && amount != null
+        ? Subscription(subscriptionId, amount / 100.0)
+        : null;
   }
 
-  void _handleCancelSubscription(BuildContext context, String subscriptionId) async {
+  void _handleCancelSubscription(
+      BuildContext context, String subscriptionId) async {
     final body = {"subscriptionId": subscriptionId};
     final response = await http.post(
       Uri.parse('$Endpoint/StripeCancelSubscription'),
@@ -550,12 +584,22 @@ class _SubsState extends State<Subs> {
                 child: Column(
                   children: [
                     const SizedBox(height: 64),
-                    Text(subscription != null ? "Sie haben ein aktives Abo über ${subscription.amount.toStringAsFixed(2)}€" : "Sie haben kein aktives Abo", style: CustomTextSize.smamedium),
+                    Text(
+                        subscription != null
+                            ? "Sie haben ein aktives Abo über ${subscription.amount.toStringAsFixed(2)}€"
+                            : "Sie haben kein aktives Abo",
+                        style: CustomTextSize.smamedium),
                     const SizedBox(height: 32),
                     FilledButton(
-                      onPressed: () => subscription != null ? _handleCancelSubscription(context, subscription.id) : _handleAddSubscription(context),
-                      style: subscription != null ? FilledButton.styleFrom(backgroundColor: Colors.red) : null,
-                      child: Text(subscription != null ? "Abo kündigen" : "Abo abschließen"),
+                      onPressed: () => subscription != null
+                          ? _handleCancelSubscription(context, subscription.id)
+                          : _handleAddSubscription(context),
+                      style: subscription != null
+                          ? FilledButton.styleFrom(backgroundColor: Colors.red)
+                          : null,
+                      child: Text(subscription != null
+                          ? "Abo kündigen"
+                          : "Abo abschließen"),
                     ),
                   ],
                 ),
@@ -568,7 +612,13 @@ class _SubsState extends State<Subs> {
   }
 }
 
-const List<String> list = <String>['keins', 'Protanopie', 'Deuteranopie', 'Tritanopie', 'Achromatopsie'];
+const List<String> list = <String>[
+  'keins',
+  'Protanopie',
+  'Deuteranopie',
+  'Tritanopie',
+  'Achromatopsie'
+];
 
 class Accessibility extends StatefulWidget {
   const Accessibility({super.key});
@@ -673,17 +723,32 @@ class UserDataWidget extends StatelessWidget {
       return const Text('gerade niemand eingeloggt');
     } else {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final userData = snapshot.data!.data()!;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (userData['firstname'] != null && userData['lastname'] != null) Text('Name: ${userData['firstname']} ${userData['lastname']}', style: CustomTextSize.small),
-                if (userData['email'] != null) Text('Email: ${userData['email']}', style: CustomTextSize.small),
-                if (userData['streetname'] != null && userData['streetnumber'] != null && userData['postalcode'] != null && userData['cityname'] != null) Text('Addresse: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}', style: CustomTextSize.small) else (Text('')),
+                if (userData['firstname'] != null &&
+                    userData['lastname'] != null)
+                  Text('Name: ${userData['firstname']} ${userData['lastname']}',
+                      style: CustomTextSize.small),
+                if (userData['email'] != null)
+                  Text('Email: ${userData['email']}',
+                      style: CustomTextSize.small),
+                if (userData['streetname'] != null &&
+                    userData['streetnumber'] != null &&
+                    userData['postalcode'] != null &&
+                    userData['cityname'] != null)
+                  Text(
+                      'Addresse: ${userData['streetname']} ${userData['streetnumber']} ${userData['postalcode']} ${userData['cityname']}',
+                      style: CustomTextSize.small)
+                else
+                  (Text('')),
               ],
             );
           } else if (snapshot.hasError) {

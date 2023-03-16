@@ -7,7 +7,7 @@ import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 
 import '../../../Widgets/privileges.dart';
-import '../../../Widgets/textSize.dart';
+import '../../../util/textSize.dart';
 
 class DeleteUser extends StatefulWidget {
   DeleteUser({Key? key}) : super(key: key);

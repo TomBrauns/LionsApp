@@ -7,7 +7,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/chat/rooms.dart';
 
-import '../Widgets/textSize.dart';
+import '../util/textSize.dart';
 import '../util/image_upload.dart';
 
 class UserInList {

@@ -6,7 +6,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 
 import 'package:lionsapp/Widgets/appbar.dart';
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../login/login.dart';
 
 class PwReset extends StatefulWidget {

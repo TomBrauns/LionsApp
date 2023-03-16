@@ -8,7 +8,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../login/login.dart';
 
 String Endpoint =
@@ -381,7 +381,7 @@ class UpdateState extends State<Update> {
     if (dataToUpdate.isNotEmpty) {
       await docRef.update(dataToUpdate);
 
-      if(stripeCustomerId != null) {
+      if (stripeCustomerId != null) {
         await updateCustomer(
             Endpoint,
             newCity,

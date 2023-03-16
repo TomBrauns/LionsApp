@@ -16,7 +16,7 @@ import 'package:share/share.dart';
 import 'package:universal_html/html.dart' as html;
 
 import '../../Widgets/appbar.dart';
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 
 class QrCodeEventList extends StatefulWidget {
   final String link;
@@ -36,7 +36,6 @@ class _QrCodeEventListState extends State<QrCodeEventList> {
     print(data);
     Uint8List qrCodeData = Uint8List.fromList(utf8.encode(data));
 
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MyAppBar(title: 'QR Code'),
@@ -49,13 +48,12 @@ class _QrCodeEventListState extends State<QrCodeEventList> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 QrImage(
-                  data: data,
-                  version: QrVersions.auto,
-                  size: 200.0,
-                  gapless: false,
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.white
-                ),
+                    data: data,
+                    version: QrVersions.auto,
+                    size: 200.0,
+                    gapless: false,
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white),
               ],
             ),
           ),

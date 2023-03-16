@@ -8,7 +8,7 @@ import 'package:lionsapp/Screens/meetings/meeting_editor.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import '../../Widgets/appbar.dart';
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../util/color.dart';
 import '../events/event_details_page.dart';
 import 'package:lionsapp/Widgets/privileges.dart';

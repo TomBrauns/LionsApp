@@ -20,7 +20,7 @@ import 'package:open_filex/open_filex.dart';
 import 'dart:io';
 import 'package:universal_html/html.dart' as html;
 
-import '../Widgets/textSize.dart';
+import '../util/textSize.dart';
 
 class DonationReceived extends StatefulWidget {
   final String? token;

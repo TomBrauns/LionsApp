@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/util/color.dart';
 import '../../Widgets/privileges.dart';
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import 'meeting_editor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
