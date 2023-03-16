@@ -126,7 +126,7 @@ class _UserRoleListState extends State<UserRoleList> {
             body: Column(children: [
               Text('You shall not pass!'),
               Image.asset(
-                "videos/gandalf.gif",
+                "images/gandalf.gif",
               ),
             ]),
           );

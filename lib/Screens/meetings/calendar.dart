@@ -180,7 +180,7 @@ class _CalendarState extends State<Calendar> {
             : Column(children: [
                 Text('You shall not pass!'),
                 Image.asset(
-                  "videos/gandalf.gif",
+                  "images/gandalf.gif",
                 ),
               ]),
         floatingActionButton: _getFAB());
