@@ -180,7 +180,7 @@ class _RoomsPageState extends State<RoomsPage> {
                           stream: FirebaseChatCore.instance.messages(room, limit: 1),
                           builder: (context, msg) => Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(4.0),
                               color: Colors.grey[200],
                               border: Border.all(
                                 color: Colors.grey[400]!,
