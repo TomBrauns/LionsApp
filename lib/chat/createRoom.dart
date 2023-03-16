@@ -234,6 +234,12 @@ class _RoomCreatorState extends State<RoomCreator> {
                   .toList();
               final name = roomNameController.text.trim();
               if (name.isNotEmpty) {
+
+                if(roomImg == ''){
+                  setState(() {
+                    roomImg = 'https://firebasestorage.googleapis.com/v0/b/serviceclub-app.appspot.com/o/room_images%2Fdefault_image.png?alt=media&token=82da7317-e09d-425c-8bf7-1d11305db1c7';
+                  });
+                }
                 await FirebaseChatCore.instance.createGroupRoom(
                   imageUrl: roomImg,
                   name: name,
