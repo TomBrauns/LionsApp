@@ -362,18 +362,28 @@ class _RoomsPageState extends State<RoomsPage> {
       }
     }
 
-    final hasImage = room.imageUrl != null;
+    bool hasImage = room.imageUrl != null;
     final name = room.name ?? '';
+    final defaultImage = Image.asset('assets/images/chat_image/default_image.png', fit: BoxFit.cover);
 
     return CircleAvatar(
       backgroundColor: hasImage ? Colors.transparent : color,
-      backgroundImage: hasImage ? NetworkImage(room.imageUrl!) : null,
+      backgroundImage: hasImage
+          ? Image.network(room.imageUrl!,
+        errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+          setState(() {
+            hasImage = false;
+          });
+          return defaultImage;
+        },
+      ).image
+          : defaultImage.image,
       radius: 20,
       child: !hasImage
           ? Text(
-              name.isEmpty ? '' : name[0].toUpperCase(),
-              style: const TextStyle(color: Colors.white),
-            )
+        name.isEmpty ? '' : name[0].toUpperCase(),
+        style: const TextStyle(color: Colors.white),
+      )
           : null,
     );
   }
