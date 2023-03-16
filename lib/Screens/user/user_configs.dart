@@ -169,7 +169,7 @@ class _UserState extends State<User> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.history,
@@ -185,7 +185,7 @@ class _UserState extends State<User> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.badge,
@@ -215,7 +215,7 @@ class _UserState extends State<User> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.lock_open_rounded,
@@ -244,7 +244,7 @@ class _UserState extends State<User> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.card_membership,
@@ -282,7 +282,7 @@ class _UserState extends State<User> {
                 ),
               ),*/
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.logout,
@@ -306,7 +306,7 @@ class _UserState extends State<User> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(25),
+                margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                 child: ElevatedButton.icon(
                   icon: const Icon(
                     Icons.delete,
