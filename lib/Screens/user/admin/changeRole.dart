@@ -122,13 +122,11 @@ class _UserRoleListState extends State<UserRoleList> {
               )
             ],
           )
-        : Scaffold(
-            body: Column(children: [
-              Text('You shall not pass!'),
-              Image.asset(
-                "images/gandalf.gif",
-              ),
-            ]),
-          );
+        : Column(children: [
+            Text('You shall not pass!'),
+            Image.asset(
+              "images/gandalf.gif",
+            ),
+          ]);
   }
 }
