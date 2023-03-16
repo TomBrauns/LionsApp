@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/events/event_details_page.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:cloud_functions/cloud_functions.dart' as functions;
 

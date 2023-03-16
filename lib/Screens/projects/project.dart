@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/projects/project_editor.dart';
 
 import '../../Widgets/privileges.dart';
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../util/color.dart';
 import '../donation.dart';
 

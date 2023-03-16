@@ -15,7 +15,7 @@ import 'package:share/share.dart';
 
 import 'package:universal_html/html.dart' as html;
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 
 class QrCodeWithImage extends StatefulWidget {
   final String link;

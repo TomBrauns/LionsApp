@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lionsapp/Screens/meetings/meeting.dart';
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../util/image_upload.dart';
 
 class MeetingEditor extends StatefulWidget {

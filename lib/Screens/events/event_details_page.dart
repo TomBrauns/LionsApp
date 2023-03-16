@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Screens/donation.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import '../../Widgets/privileges.dart';
 import 'event_editor.dart';

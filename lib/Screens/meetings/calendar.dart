@@ -8,7 +8,7 @@ import 'package:lionsapp/Screens/meetings/meeting_editor.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import '../../Widgets/appbar.dart';
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../util/color.dart';
 import '../events/event_details_page.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
@@ -77,7 +77,7 @@ class _CalendarState extends State<Calendar> {
         appBar: const MyAppBar(title: "Kalender"),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigation(),
-        body: Privileges.privilege == Privilege.admin &&
+        body: Privileges.privilege == Privilege.admin ||
                 Privileges.privilege == Privilege.member
             ? StreamBuilder<QuerySnapshot>(
                 stream:
@@ -177,7 +177,12 @@ class _CalendarState extends State<Calendar> {
                         ]);
                       });
                 })
-            : Container(child: Text('You shall not pass!')),
+            : Column(children: [
+                Text('You shall not pass!'),
+                Image.asset(
+                  "videos/gandalf.gif",
+                ),
+              ]),
         floatingActionButton: _getFAB());
   }
 }

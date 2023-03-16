@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class History extends StatefulWidget {
@@ -88,9 +88,8 @@ class _HistoryListState extends State<HistoryList>
         }
 
         final history = snapshot.data!
-            .where((d) => (d["name"])
-                .toLowerCase()
-                .contains(_searchQuery.toLowerCase()))
+            .where((d) =>
+                (d["name"]).toLowerCase().contains(_searchQuery.toLowerCase()))
             .toList();
         history.sort((d1, d2) =>
             (d2["date"] as Timestamp).compareTo(d1["date"] as Timestamp));
@@ -139,13 +138,14 @@ class _HistoryListState extends State<HistoryList>
               final donation = history.elementAt(index);
               final double amount = donation["amount"];
               final String name = donation["name"];
-              final String type = donation["type"] == "events" ? "Aktivität" : "Projekt";
+              final String type =
+                  donation["type"] == "events" ? "Aktivität" : "Projekt";
               final String date =
                   dateFormat.format((donation["date"] as Timestamp).toDate());
               final String pdfUrl = donation["receipt_url"];
               return ListTile(
-                title:
-                    Text("${amount.toStringAsFixed(2)}€ Spende an $type '$name'"),
+                title: Text(
+                    "${amount.toStringAsFixed(2)}€ Spende an $type '$name'"),
                 subtitle: Text("Spendendatum: $date"),
                 trailing: IconButton(
                     icon: const Icon(Icons.download),

@@ -118,6 +118,7 @@ flutter:
     - assets/projects/
     - assets/appicon/
     - assets/images/
+    - assets/videos/
     - assets/images/chat_image/
 
   # An image asset can refer to one or more resolution-specific "variants", see

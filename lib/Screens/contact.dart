@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 
 import '../util/color.dart';
 

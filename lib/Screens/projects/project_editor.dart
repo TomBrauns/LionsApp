@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lionsapp/Screens/projects/project.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import '../events/event_details_page.dart';
 import 'category.dart';

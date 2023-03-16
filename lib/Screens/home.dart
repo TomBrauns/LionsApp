@@ -10,7 +10,7 @@ import 'package:lionsapp/Widgets/privileges.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../Widgets/textSize.dart';
+import '../util/textSize.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -110,7 +110,8 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
 
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -152,9 +153,8 @@ class _HomePageState extends State<HomePage> {
                                             .isNotEmpty)
                                       ClipRRect(
                                         borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(16.0),
-                                          bottomLeft: Radius.circular(16.0)
-                                        ),
+                                            topLeft: Radius.circular(16.0),
+                                            bottomLeft: Radius.circular(16.0)),
                                         child: Image.network(
                                           newestEvent["image_url"],
                                           width: 128,
@@ -216,7 +216,8 @@ class _HomePageState extends State<HomePage> {
                                                 Expanded(
                                                   child: Text(
                                                     dateFormat.format(
-                                                        (newestEvent['startDate']
+                                                        (newestEvent[
+                                                                    'startDate']
                                                                 as Timestamp)
                                                             .toDate()),
                                                     maxLines: 1,

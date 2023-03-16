@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 
-import '../../Widgets/textSize.dart';
+import '../../util/textSize.dart';
 import '../../login/login.dart';
 
 class changePw extends StatefulWidget {

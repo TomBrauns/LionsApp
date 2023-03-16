@@ -1,7 +1,7 @@
 //Licensed under the EUPL v.1.2 or later
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import '../../Widgets/appbar.dart';
 

@@ -12,7 +12,7 @@ import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
-import 'package:lionsapp/Widgets/textSize.dart';
+import 'package:lionsapp/util/textSize.dart';
 import 'package:lionsapp/util/color.dart';
 import 'package:lionsapp/util/image_upload.dart';
 import 'dart:ui';
@@ -114,11 +114,17 @@ class _UserState extends State<User> {
                             await FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(user.uid)
-                                .update({"image_url": imageUrl});
-                            await FirebaseFirestore.instance
-                                .collection('user_chat')
-                                .doc(user.uid)
-                                .update({"imageUrl": imageUrl});
+                                .update(
+                              {"image_url": imageUrl},
+                            );
+                            try {
+                              await FirebaseFirestore.instance
+                                  .collection('user_chat')
+                                  .doc(user.uid)
+                                  .update(
+                                {"imageUrl": imageUrl},
+                              );
+                            } catch (e) {}
                           }
                         }
                       } else {
@@ -143,29 +149,32 @@ class _UserState extends State<User> {
                       'Sie müssen sich zuerst anmelden!',
                       style: TextStyle(color: Colors.red),
                     ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text('App Benachrichtigungen:',
-                        style: CustomTextSize.small),
-                    Switch.adaptive(
-                      value: receiveNotifications,
-                      onChanged: (newValue) {
-                        setState(
-                          () {
-                            receiveNotifications = newValue;
-                            final docRef = FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(FirebaseAuth.instance.currentUser!.uid);
-                            docRef.update(
-                              {
-                                'receiveNotification': newValue,
-                              },
-                            );
-                          },
-                        );
-                      },
-                      activeColor: ColorUtils.primaryColor,
-                    ),
-                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('App Benachrichtigungen:',
+                          style: CustomTextSize.small),
+                      Switch.adaptive(
+                        value: receiveNotifications,
+                        onChanged: (newValue) {
+                          setState(
+                            () {
+                              receiveNotifications = newValue;
+                              final docRef = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid);
+                              docRef.update(
+                                {
+                                  'receiveNotification': newValue,
+                                },
+                              );
+                            },
+                          );
+                        },
+                        activeColor: ColorUtils.primaryColor,
+                      ),
+                    ],
+                  ),
                 ],
               ),
               Container(
@@ -318,29 +327,29 @@ class _UserState extends State<User> {
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                   ),
-                    onPressed: () {
-                      final user = FirebaseAuth.instance.currentUser;
-                      if (user != null) {
-                        signOut();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text("Sie sind nun ausgeloggt"),
-                              duration: Duration(seconds: 3),
-                            ),
-                        );
-                        Navigator.pushNamed(context, '/');
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Sie müssen sich zuerst anmelden!',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red,
+                  onPressed: () {
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      signOut();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text("Sie sind nun ausgeloggt"),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                      Navigator.pushNamed(context, '/');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sie müssen sich zuerst anmelden!',
+                            style: TextStyle(color: Colors.white),
                           ),
-                        );
-                      }
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -508,10 +517,12 @@ class Subscription {
 }
 
 class _SubsState extends State<Subs> {
-
   Future<String> _getCustomerId() async {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
-    return (await FirebaseFirestore.instance.collection("users").doc(userId).get())["stripeCustomerId"];
+    return (await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .get())["stripeCustomerId"];
   }
 
   Future<Subscription?> _getSubscription(String customerId) async {
@@ -521,13 +532,18 @@ class _SubsState extends State<Subs> {
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: body,
     );
-    final jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
+    final jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
     final String? subscriptionId = jsonResponse['data'][0]['id'];
-    final double? amount = jsonResponse['data'][0]['items']['data'][0]['plan']['amount'];
-    return subscriptionId != null && amount != null ? Subscription(subscriptionId, amount / 100.0) : null;
+    final double? amount =
+        jsonResponse['data'][0]['items']['data'][0]['plan']['amount'];
+    return subscriptionId != null && amount != null
+        ? Subscription(subscriptionId, amount / 100.0)
+        : null;
   }
 
-  void _handleCancelSubscription(BuildContext context, String subscriptionId) async {
+  void _handleCancelSubscription(
+      BuildContext context, String subscriptionId) async {
     final body = {"subscriptionId": subscriptionId};
     final response = await http.post(
       Uri.parse('$Endpoint/StripeCancelSubscription'),
@@ -553,19 +569,20 @@ class _SubsState extends State<Subs> {
       body: FutureBuilder(
         future: _getCustomerId(),
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-            final String customerId = snapshot.data!;
-            return FutureBuilder(
-                future: _getSubscription(customerId),
-                builder: (context, snapshot2) {
-                  if (snapshot2.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final Subscription? subscription = snapshot2.data;
-                  return Center(
-                      child: Column(children: [
+          final String customerId = snapshot.data!;
+          return FutureBuilder(
+            future: _getSubscription(customerId),
+            builder: (context, snapshot2) {
+              if (snapshot2.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final Subscription? subscription = snapshot2.data;
+              return Center(
+                child: Column(
+                  children: [
                     const SizedBox(height: 64),
                     Text(
                         subscription != null
@@ -574,15 +591,24 @@ class _SubsState extends State<Subs> {
                         style: CustomTextSize.smamedium),
                     const SizedBox(height: 32),
                     FilledButton(
-                        onPressed: () => subscription != null
-                            ? _handleCancelSubscription(context, subscription.id)
-                            : _handleAddSubscription(context),
-                        style: subscription != null ? FilledButton.styleFrom(backgroundColor: Colors.red) : null,
-                        child: Text(subscription != null ? "Abo kündigen" : "Abo abschließen"))
-                  ]));
-                });
-          },
-        ));
+                      onPressed: () => subscription != null
+                          ? _handleCancelSubscription(context, subscription.id)
+                          : _handleAddSubscription(context),
+                      style: subscription != null
+                          ? FilledButton.styleFrom(backgroundColor: Colors.red)
+                          : null,
+                      child: Text(subscription != null
+                          ? "Abo kündigen"
+                          : "Abo abschließen"),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }
 
