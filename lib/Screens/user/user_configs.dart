@@ -462,14 +462,88 @@ class Subs extends StatefulWidget {
   State<Subs> createState() => _SubsState();
 }
 
+class Subscription {
+  final String id;
+  final double amount;
+  const Subscription(this.id, this.amount);
+}
+
 class _SubsState extends State<Subs> {
+
+  Future<String> _getCustomerId() async {
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
+    return (await FirebaseFirestore.instance.collection("users").doc(userId).get())["stripeCustomerId"];
+  }
+
+  Future<Subscription?> _getSubscription(String customerId) async {
+    final body = {"customerId": customerId};
+    final response = await http.post(
+      Uri.parse('$Endpoint/ListSubscriptionswithCustomer'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+    final jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
+    final String? subscriptionId = jsonResponse['data'][0]['id'];
+    final double? amount = jsonResponse['data'][0]['items']['data'][0]['plan']['amount'];
+    return subscriptionId != null && amount != null ? Subscription(subscriptionId, amount / 100.0) : null;
+  }
+
+  void _handleCancelSubscription(BuildContext context, String subscriptionId) async {
+    final body = {"subscriptionId": subscriptionId};
+    final response = await http.post(
+      Uri.parse('$Endpoint/StripeCancelSubscription'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+    }
+  }
+
+  void _handleAddSubscription(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.pushNamed(context, "/Donations");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: MyAppBar(
-        title: "Abo Verwaltung",
+    return Scaffold(
+      appBar: const MyAppBar(
+        title: "Meine Abonnements",
       ),
-    );
+      body: FutureBuilder(
+        future: _getCustomerId(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+            final String customerId = snapshot.data!;
+            return FutureBuilder(
+                future: _getSubscription(customerId),
+                builder: (context, snapshot2) {
+                  if (snapshot2.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final Subscription? subscription = snapshot2.data;
+                  return Center(
+                      child: Column(children: [
+                    const SizedBox(height: 64),
+                    Text(
+                        subscription != null
+                            ? "Sie haben ein aktives Abo über ${subscription.amount.toStringAsFixed(2)}€"
+                            : "Sie haben kein aktives Abo",
+                        style: CustomTextSize.smamedium),
+                    const SizedBox(height: 32),
+                    FilledButton(
+                        onPressed: () => subscription != null
+                            ? _handleCancelSubscription(context, subscription.id)
+                            : _handleAddSubscription(context),
+                        style: subscription != null ? FilledButton.styleFrom(backgroundColor: Colors.red) : null,
+                        child: Text(subscription != null ? "Abo kündigen" : "Abo abschließen"))
+                  ]));
+                });
+          },
+        ));
   }
 }
 
