@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:lionsapp/Screens/donation_received.dart';
-import 'package:lionsapp/Screens/payment/payment_sidefunc.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:lionsapp/Screens/payment/paymethode.dart';

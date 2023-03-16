@@ -14,7 +14,7 @@ import 'paypalfuncweb.dart';
 import 'paypalfunc.dart';
 import 'stripefunc.dart';
 import 'stripefuncweb.dart';
-import 'payment_sidefunc.dart';
+
 import 'payfunc.dart';
 import 'dart:core';
 
