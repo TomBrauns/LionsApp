@@ -36,8 +36,7 @@ class Authentication {
   //Einloggen und User in Firebase Collection users erstellen, falls er noch nicht existiert
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     String Endpoint = "https://europe-west3-serviceclub-app.cloudfunctions.net/flask-backend";
-//String Endpoint = "http://127.0.0.1:5000";
-    //CUSTOMER
+    //Stripe Customer Creation
     Future<String> createCustomer(Endpoint, country, email, firstname, lastname) async {
       final body = {
         "country": country,
@@ -62,7 +61,7 @@ class Authentication {
       return Id;
     }
 
-    //Fkt
+    //PostDetailsToFirestore Function
     void createUserInFirestore(UserCredential userCredential) async {
       final user = userCredential.user!;
       String vorName = user.displayName!.split(' ')[0];
@@ -86,6 +85,15 @@ class Authentication {
             'stripeCustomerId': customerId,
           },
         );
+      } else {
+        //update deviceToken at every login, when on mobile device
+        if (!kIsWeb) {
+          ref.doc(user.uid).update(
+            {
+              'device': deviceToken,
+            },
+          );
+        }
       }
       checkRool();
       Navigator.pushReplacement(
@@ -111,7 +119,6 @@ class Authentication {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-      print("before if");
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
