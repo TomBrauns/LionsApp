@@ -77,7 +77,7 @@ class _CalendarState extends State<Calendar> {
         appBar: const MyAppBar(title: "Kalender"),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigation(),
-        body: Privileges.privilege == Privilege.admin &&
+        body: Privileges.privilege == Privilege.admin ||
                 Privileges.privilege == Privilege.member
             ? StreamBuilder<QuerySnapshot>(
                 stream:
