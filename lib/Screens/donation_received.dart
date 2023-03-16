@@ -164,7 +164,9 @@ class _DonationReceivedState extends State<DonationReceived> {
                   if (Idtype == "events") {
                     _updateEventDonation(Id);
                   }
-                  _updateDonationHistory(Id, name, Idtype, pdfUrl ?? "");
+                  if(sub == "keins") {
+                    _updateDonationHistory(Id, name, Idtype, pdfUrl ?? "");
+                  }
                 },
               );
 
