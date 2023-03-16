@@ -177,23 +177,34 @@ class _RoomsPageState extends State<RoomsPage> {
                         final room = snapshot.data![index];
                         return StreamBuilder<List<types.Message>>(
                           initialData: const [],
-                          stream: FirebaseChatCore.instance
-                              .messages(room, limit: 1),
-                          builder: (context, msg) => InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ChatPage(
-                                    room: room,
-                                    name: room.name,
+                          stream: FirebaseChatCore.instance.messages(room, limit: 1),
+                          builder: (context, msg) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.grey[200],
+                              border: Border.all(
+                                color: Colors.grey[400]!,
+                                width: 1.0,
+                              ),
+                            ),
+                            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatPage(
+                                      room: room,
+                                      name: room.name,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: ListTile(
-                              title: Text(room.name ?? ''),
-                              subtitle: Text(getLastMessageText(msg)),
-                              leading: _buildAvatar(room),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(room.name ?? ''),
+                                subtitle: Text(getLastMessageText(msg)),
+                                leading: _buildAvatar(room),
+                                trailing: const Icon(Icons.arrow_forward_ios),
+                              ),
                             ),
                           ),
                         );
