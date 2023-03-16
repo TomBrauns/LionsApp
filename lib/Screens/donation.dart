@@ -99,7 +99,7 @@ class _DonationsState extends State<Donations> {
 
               //Hilfsvariable mit Null-Check, da Wert aus Datenbank auch leer sein kann bzw. init bei QR-Scan
 
-              String donationTitle = "Kein Event gefunden - Spenden Sie dorthin, wo es am meisten benötigt wird.";
+              String donationTitle = "Spenden Sie dort hin, wo es am dringendsten benötigt wird!";
               String? sponsor, sponsorImgUrl, donationTarget;
               double donationCounter = 0.0;
 
@@ -152,7 +152,7 @@ class _DonationsState extends State<Donations> {
                                     SizedBox(
                                         width: double.infinity,
                                         child: Text(donationTitle,
-                                            textAlign: TextAlign.center, style: CustomTextSize.large)),
+                                            textAlign: TextAlign.center, style: CustomTextSize.medium)),
                                     if (donationTarget != null && donationTarget.isNotEmpty)
                                       Container(
                                         padding: const EdgeInsets.symmetric(vertical: 32),
