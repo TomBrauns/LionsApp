@@ -104,9 +104,13 @@ class _UserState extends State<User> {
                           final String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
                           final String? imageUrl = await ImageUpload.uploadImage(file, "user_images", user.uid, uniqueFilename);
                           if (imageUrl != null) {
-                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update({"image_url": imageUrl});
+                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
+                              {"image_url": imageUrl},
+                            );
                             try {
-                              await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update({"imageUrl": imageUrl});
+                              await FirebaseFirestore.instance.collection('user_chat').doc(user.uid).update(
+                                {"imageUrl": imageUrl},
+                              );
                             } catch (e) {}
                           }
                         }
@@ -131,26 +135,29 @@ class _UserState extends State<User> {
                       'Sie müssen sich zuerst anmelden!',
                       style: TextStyle(color: Colors.red),
                     ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text('App Benachrichtigungen:', style: CustomTextSize.small),
-                    Switch.adaptive(
-                      value: receiveNotifications,
-                      onChanged: (newValue) {
-                        setState(
-                          () {
-                            receiveNotifications = newValue;
-                            final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
-                            docRef.update(
-                              {
-                                'receiveNotification': newValue,
-                              },
-                            );
-                          },
-                        );
-                      },
-                      activeColor: ColorUtils.primaryColor,
-                    ),
-                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('App Benachrichtigungen:', style: CustomTextSize.small),
+                      Switch.adaptive(
+                        value: receiveNotifications,
+                        onChanged: (newValue) {
+                          setState(
+                            () {
+                              receiveNotifications = newValue;
+                              final docRef = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
+                              docRef.update(
+                                {
+                                  'receiveNotification': newValue,
+                                },
+                              );
+                            },
+                          );
+                        },
+                        activeColor: ColorUtils.primaryColor,
+                      ),
+                    ],
+                  ),
                 ],
               ),
               Container(
@@ -522,27 +529,42 @@ class _SubsState extends State<Subs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const MyAppBar(
-          title: "Meine Abonnements",
-        ),
-        body: FutureBuilder(
-          future: _getCustomerId(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final String customerId = snapshot.data!;
-            return FutureBuilder(
-                future: _getSubscription(customerId),
-                builder: (context, snapshot2) {
-                  if (snapshot2.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final Subscription? subscription = snapshot2.data;
-                  return Center(child: Column(children: [const SizedBox(height: 64), Text(subscription != null ? "Sie haben ein aktives Abo über ${subscription.amount.toStringAsFixed(2)}€" : "Sie haben kein aktives Abo", style: CustomTextSize.smamedium), const SizedBox(height: 32), FilledButton(onPressed: () => subscription != null ? _handleCancelSubscription(context, subscription.id) : _handleAddSubscription(context), style: subscription != null ? FilledButton.styleFrom(backgroundColor: Colors.red) : null, child: Text(subscription != null ? "Abo kündigen" : "Abo abschließen"))]));
-                });
-          },
-        ));
+      appBar: const MyAppBar(
+        title: "Meine Abonnements",
+      ),
+      body: FutureBuilder(
+        future: _getCustomerId(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final String customerId = snapshot.data!;
+          return FutureBuilder(
+            future: _getSubscription(customerId),
+            builder: (context, snapshot2) {
+              if (snapshot2.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final Subscription? subscription = snapshot2.data;
+              return Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 64),
+                    Text(subscription != null ? "Sie haben ein aktives Abo über ${subscription.amount.toStringAsFixed(2)}€" : "Sie haben kein aktives Abo", style: CustomTextSize.smamedium),
+                    const SizedBox(height: 32),
+                    FilledButton(
+                      onPressed: () => subscription != null ? _handleCancelSubscription(context, subscription.id) : _handleAddSubscription(context),
+                      style: subscription != null ? FilledButton.styleFrom(backgroundColor: Colors.red) : null,
+                      child: Text(subscription != null ? "Abo kündigen" : "Abo abschließen"),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }
 
