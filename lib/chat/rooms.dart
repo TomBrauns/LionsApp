@@ -178,32 +178,88 @@ class _RoomsPageState extends State<RoomsPage> {
                         return StreamBuilder<List<types.Message>>(
                           initialData: const [],
                           stream: FirebaseChatCore.instance.messages(room, limit: 1),
-                          builder: (context, msg) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: Colors.grey[200],
-                              border: Border.all(
-                                color: Colors.grey[400]!,
-                                width: 1.0,
+                          builder: (context, msg) => Dismissible(
+                            key: Key(room.id),
+                            background: Container(
+                              color: Colors.red,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 16),
+                                ],
                               ),
                             ),
-                            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => ChatPage(
-                                      room: room,
-                                      name: room.name,
-                                    ),
+                            confirmDismiss: (_) async {
+                              if (Privileges.privilege == Privilege.admin) {
+                                final confirm = await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Chat löschen'),
+                                      content: Text('Sind Sie sicher, den Chat "${room.name}" zu löschen?'),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Abbrechen'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(false);
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('Löschen'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(true);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                if (confirm != null && confirm) {
+                                  // Delete chat room
+                                  await FirebaseChatCore.instance.deleteRoom(room.id);
+                                  return true;
+                                }
+                                return false;
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Sie haben keine Berechtigungen, den Chat zu löschen.'),
                                   ),
                                 );
-                              },
-                              child: ListTile(
-                                title: Text(room.name ?? ''),
-                                subtitle: Text(getLastMessageText(msg)),
-                                leading: _buildAvatar(room),
-                                trailing: const Icon(Icons.arrow_forward_ios),
+                                return false;
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.grey[200],
+                                border: Border.all(
+                                  color: Colors.grey[400]!,
+                                  width: 1.0,
+                                ),
+                              ),
+                              margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                        room: room,
+                                        name: room.name,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  title: Text(room.name ?? ''),
+                                  subtitle: Text(getLastMessageText(msg)),
+                                  leading: _buildAvatar(room),
+                                  trailing: const Icon(Icons.arrow_forward_ios),
+                                ),
                               ),
                             ),
                           ),
@@ -212,7 +268,6 @@ class _RoomsPageState extends State<RoomsPage> {
                     );
                   },
                 ),
-
                 // FAB for the "Two Person Chat"
 
                 Positioned(
