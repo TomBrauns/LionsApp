@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
     _searchQuery = '';
     _eventsStream = FirebaseFirestore.instance
         .collection('events')
-        .orderBy("startDate", descending: false)
+        .where('startDate', isGreaterThanOrEqualTo: DateTime.now())
+        .orderBy('startDate', descending: false)
         .snapshots();
   }
 
