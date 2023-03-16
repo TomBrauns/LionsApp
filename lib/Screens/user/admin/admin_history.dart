@@ -190,11 +190,19 @@ class _HistoryListState extends State<HistoryList>
                           });
                     }))
           ])
-        : Column(children: [
-            Text('You shall not pass!'),
+        : Center(
+            child: Column(children: [
+            Padding(padding: EdgeInsets.fromLTRB(0, 250, 0, 0)),
+            Text('ERROR: 500', style: CustomTextSize.large),
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
+            Text('nicht die benötigten Berechtigungen vorhanden',
+                style: CustomTextSize.medium),
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
             Image.asset(
-              "images/gandalf.gif",
+              "assets/images/gandalf.gif",
             ),
-          ]);
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
+            Text('You shall not pass!', style: CustomTextSize.large),
+          ]));
   }
 }
