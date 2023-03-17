@@ -1,4 +1,5 @@
 //Licensed under the EUPL v.1.2 or later
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lionsapp/Screens/events/event_editor.dart';
 import 'package:lionsapp/Screens/generateQR/generateqr.dart';
@@ -432,21 +433,64 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Sie sind nun ausgeloggt"),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                    Navigator.pushNamed(context, '/');
-                    signOut();
+                    LogoutDialogue();
                   },
                 )
               : Container(),
         ],
       ),
+    );
+  }
+
+  Future<void> LogoutDialogue() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Wollen Sie sich wirklich abmelden?',
+                    style: CustomTextSize.small),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Abbrechen', style: CustomTextSize.small),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('Bestätigen', style: CustomTextSize.small),
+              onPressed: () {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  signOut();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text("Sie sind nun ausgeloggt"),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                  Navigator.pushNamed(context, '/');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                      'Sie müssen sich zuerst anmelden!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.red,
+                  ));
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
