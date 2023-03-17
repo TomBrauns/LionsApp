@@ -148,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       if (newestEvent["image_url"] != null &&
-                                          (newestEvent["image_url"] as String).isNotEmpty)
+                                          (newestEvent["image_url"] as String)
+                                              .isNotEmpty)
                                         ClipRRect(
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(16.0),
@@ -170,8 +171,10 @@ class _HomePageState extends State<HomePage> {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               newestEvent['eventName'],
@@ -182,7 +185,8 @@ class _HomePageState extends State<HomePage> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            if (newestEvent["eventInfo"] != null)
+                                            if (newestEvent["eventInfo"] !=
+                                                null)
                                               Text(
                                                 newestEvent['eventInfo'],
                                                 maxLines: 3,
@@ -192,27 +196,37 @@ class _HomePageState extends State<HomePage> {
                                             if (newestEvent["ort"] != null)
                                               Row(
                                                 children: [
-                                                  const Icon(Icons.location_on, size: 16),
+                                                  const Icon(Icons.location_on,
+                                                      size: 16),
                                                   const SizedBox(width: 4),
                                                   Expanded(
                                                     child: Text(
                                                       newestEvent['ort'],
                                                       maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            if (newestEvent["startDate"] != null)
+                                            if (newestEvent["startDate"] !=
+                                                null)
                                               Row(
                                                 children: [
-                                                  const Icon(Icons.calendar_month, size: 16),
+                                                  const Icon(
+                                                      Icons.calendar_month,
+                                                      size: 16),
                                                   const SizedBox(width: 4),
                                                   Expanded(
                                                     child: Text(
-                                                      dateFormat.format((newestEvent["startDate"] as Timestamp).toDate()),
+                                                      dateFormat.format(
+                                                          (newestEvent[
+                                                                      "startDate"]
+                                                                  as Timestamp)
+                                                              .toDate()),
                                                       maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                 ],
@@ -233,7 +247,8 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => QrCodeWithImage(
-                                              link: 'serviceclub-app.de/#/Donations',
+                                              link:
+                                                  'serviceclub-app.de/#/Donations',
                                               documentId: newestEvent.id),
                                         ),
                                       );
@@ -244,7 +259,6 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-
                         );
                       },
                     ),
@@ -253,12 +267,36 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(
+          /*SizedBox(
             child: Center(
               child: Container(
                 margin: EdgeInsets.all(20),
                 child: Text(
                   "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
+                  style: CustomTextSize.small,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),*/
+          SizedBox(
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.all(20),
+                child: Text(
+                  '„We serve.“',
+                  style: CustomTextSize.large,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.all(20),
+                child: Text(
+                  'Unter diesem Motto steht all unser Handeln, alle Projekte sind diesem großen Ziel verpflichtet, ob auf internationaler, nationaler oder lokaler Ebene.',
                   style: CustomTextSize.small,
                   textAlign: TextAlign.center,
                 ),
