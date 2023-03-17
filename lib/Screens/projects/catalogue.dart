@@ -137,13 +137,20 @@ class _CatalogueState extends State<Catalogue> {
                     final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
                       return Column(
                         children: [
-                          Container(
-                            color: Colors.grey[200], // Set the background color
-                            child: ListTile(
-                              leading: const SizedBox(),
-                              title: Text(document.get('name')),
-                              subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
-                              onTap: () => _handleProjectClicked(document.id),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0), // Add some padding
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200], // Set the background color
+                                borderRadius: BorderRadius.circular(10.0), // Add rounded corners
+                              ),
+                              child: ListTile(
+                                leading: const SizedBox(),
+                                title: Text(document.get('name')),
+                                subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
+                                onTap: () => _handleProjectClicked(document.id),
+                                trailing: const Icon(Icons.arrow_forward_ios),
+                              ),
                             ),
                           ),
                           const Divider(height: 2.0), // Add a Divider between each ListTile
@@ -151,14 +158,29 @@ class _CatalogueState extends State<Catalogue> {
                       );
                     }).toList();
                     return Column(
-
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ListTile(
-
-                          leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
-                          title: Text(category),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          child: Container(
+                            // Add some padding
+                            decoration: BoxDecoration(
+                              color: ColorUtils.secondaryColor, // Set the background color
+                              borderRadius: BorderRadius.circular(10.0), // Add rounded corners
+                            ),
+                            child: ListTile(
+                              leading: Image.asset('assets/projects/$category.png', width: 32, height: 32),
+                              title: Text(
+                                category,
+                                style: const TextStyle(
+                                  color: Colors.white, // Set the text color
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
+                        const SizedBox(height: 8.0), // Add some spacing
                         ListView(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
