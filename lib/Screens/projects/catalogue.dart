@@ -134,14 +134,21 @@ class _CatalogueState extends State<Catalogue> {
                     final String category = entry.key;
                     final List<DocumentSnapshot> documents = entry.value;
 
-                    final List<Widget> documentWidgets =
-                        documents.map((DocumentSnapshot document) {
-                      return ListTile(
-                          leading: const SizedBox(),
-                          title: Text(document.get('name')),
-                          subtitle: Text(document.get('support'),
-                              maxLines: 3, overflow: TextOverflow.ellipsis),
-                          onTap: () => _handleProjectClicked(document.id));
+                    final List<Widget> documentWidgets = documents.map((DocumentSnapshot document) {
+                      return Column(
+                        children: [
+                          Container(
+                            color: Colors.grey[200], // Set the background color
+                            child: ListTile(
+                              leading: const SizedBox(),
+                              title: Text(document.get('name')),
+                              subtitle: Text(document.get('support'), maxLines: 3, overflow: TextOverflow.ellipsis),
+                              onTap: () => _handleProjectClicked(document.id),
+                            ),
+                          ),
+                          const Divider(height: 2.0), // Add a Divider between each ListTile
+                        ],
+                      );
                     }).toList();
                     return Column(
 

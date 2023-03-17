@@ -190,17 +190,6 @@ class _EventListState extends State<EventList> {
                             ),
                           );
                         },
-                        child: GestureDetector(
-                          onLongPress: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QrCodeWithImage(
-                                    link: 'serviceclub-app.de/#/Donations',
-                                    documentId: eventId),
-                              ),
-                            );
-                          },
                           child: Container(
                             clipBehavior: Clip.hardEdge,
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -212,84 +201,113 @@ class _EventListState extends State<EventList> {
                             child: SizedBox(
                               height: 128,
                               width: double.infinity,
-                              child: Row(
+                              child: Stack(
                                 children: [
-                                  if (event["image_url"] != null && (event["image_url"] as String).isNotEmpty)
-                                    CircleAvatar(
-                                      radius: 50,
-                                      backgroundImage: NetworkImage(event["image_url"]),
-                                    )
-                                  else
-                                    Container(
-                                        width: 128,
-                                        height: 128,
-                                        color: Colors.grey),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
+                                  Row(
+                                    children: [
+                                      if (event["image_url"] != null &&
+                                          (event["image_url"] as String).isNotEmpty)
+                                        CircleAvatar(
+                                          radius: 50,
+                                          backgroundImage:
+                                          NetworkImage(event["image_url"]),
+                                        )
+                                      else
+                                        Container(
+                                            width: 128, height: 128, color: Colors.grey),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                      crossAxisAlignment:
+                                          crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                          child: FittedBox(
-                                            fit:BoxFit.fitWidth,
-                                              child: Text(event['eventName'],
-                                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50, color: ColorUtils.primaryColor),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              )
-
-                                          )
-
-                                        ),
-
-                                       // if (event["eventInfo"] != null)
-                                       //   Text(event['eventInfo'], maxLines: 3, overflow: TextOverflow.ellipsis),
-                                        Expanded(child: Container()),
-                                        if (event["ort"] != null)
-                                          Row(children: [
-                                            const Icon(Icons.location_on, size: 30, color: ColorUtils.primaryColor,),
-                                            const SizedBox(width: 6),
-                                            Expanded(
-                                              child: Text(
-                                                event['ort'],
-                                                style: const TextStyle(fontSize: 20, color: ColorUtils.primaryColor),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            )
-                                          ]),
-                                        if (event["startDate"] != null)
-                                          Row(children: [
-                                            const Icon(Icons.calendar_month, size: 30, color: ColorUtils.primaryColor),
-                                            const SizedBox(width: 6),
-                                            Expanded(
-                                                child: Text(
-                                                  dateFormat.format((event['startDate'] as Timestamp).toDate()),
-                                                  style: const TextStyle(fontSize: 20, color: ColorUtils.primaryColor),
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                )
+                                          children: [
+                                            Flexible(
+                                              child: FittedBox(
+                                                  fit: BoxFit.fitWidth,
+                                                  child: Text(
+                                                    event['eventName'],
+                                                    style: const TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 50,
+                                                        color: ColorUtils.primaryColor),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  )),
                                             ),
-                                          ]),
-                                        const SizedBox(height: 4),
-
-                                      ],
+                                            Expanded(child: Container()),
+                                            if (event["ort"] != null)
+                                              Row(children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  size: 30,
+                                                  color: ColorUtils.primaryColor,
+                                                ),
+                                                const SizedBox(width: 6),
+                                                Expanded(
+                                                  child: Text(
+                                                    event['ort'],
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        color: ColorUtils.primaryColor),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                )
+                                              ]),
+                                            if (event["startDate"] != null)
+                                              Row(children: [
+                                                const Icon(
+                                                  Icons.calendar_month,
+                                                  size: 30,
+                                                  color: ColorUtils.primaryColor,
+                                                ),
+                                                const SizedBox(width: 6),
+                                                Expanded(
+                                                    child: Text(
+                                                      dateFormat.format(
+                                                          (event['startDate'] as Timestamp)
+                                                              .toDate()),
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          color: ColorUtils.primaryColor),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    )),
+                                              ]),
+                                            const SizedBox(height: 4),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      icon: Icon(Icons.qr_code),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => QrCodeWithImage(
+                                                link: 'serviceclub-app.de/#/Donations',
+                                                documentId: eventId),
+                                          ),
+                                        );
+                                      },
                                     ),
-
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                        ),
-
                       );
                     },
                   );
-                })),
+                })
+        ),
       ],
     );
   }

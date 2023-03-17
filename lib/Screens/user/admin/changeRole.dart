@@ -6,6 +6,7 @@ import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/Widgets/bottomNavigationView.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
+import 'package:lionsapp/util/textSize.dart';
 
 class CallAdmin extends StatefulWidget {
   CallAdmin({Key? key}) : super(key: key);
@@ -122,13 +123,19 @@ class _UserRoleListState extends State<UserRoleList> {
               )
             ],
           )
-        : Scaffold(
-            body: Column(children: [
-              Text('You shall not pass!'),
-              Image.asset(
-                "videos/gandalf.gif",
-              ),
-            ]),
-          );
+        : Center(
+            child: Column(children: [
+            Padding(padding: EdgeInsets.fromLTRB(0, 250, 0, 0)),
+            Text('ERROR: 500', style: CustomTextSize.large),
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
+            Text('nicht die benötigten Berechtigungen vorhanden',
+                style: CustomTextSize.medium),
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
+            Image.asset(
+              "assets/images/gandalf.gif",
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),
+            Text('You shall not pass!', style: CustomTextSize.large),
+          ]));
   }
 }
