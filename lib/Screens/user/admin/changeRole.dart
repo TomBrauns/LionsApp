@@ -40,7 +40,7 @@ class _UserRoleListState extends State<UserRoleList> {
       .collection('users')
       .snapshots()
       .map((snapshot) => snapshot.docs);
-  final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+  final currentUserUid = FirebaseAuth.instance.currentUser?.uid;
 
   String _searchQuery = "";
 
