@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -29,6 +30,22 @@ class QrCodeWithImage extends StatefulWidget {
 
 class _QrCodeWithImageState extends State<QrCodeWithImage> {
   final GlobalKey _repaintBoundaryKey = GlobalKey();
+  String _eventName = "";
+
+  Future<void> _fetchEventData() async {
+    final DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance
+        .collection("events")
+        .doc(widget.documentId)
+        .get();
+    setState(() {
+      _eventName = eventSnapshot.get("eventName") ?? "";
+    });
+  }
+
+  void initState(){
+    super.initState();
+    _fetchEventData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +58,7 @@ class _QrCodeWithImageState extends State<QrCodeWithImage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('QR Code with Image'),
+        title: Text(_eventName),
       ),
       body: Center(
         child: Container(
