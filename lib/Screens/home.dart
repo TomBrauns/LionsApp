@@ -267,42 +267,45 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          /*SizedBox(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.all(20),
-                child: Text(
-                  "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
-                  style: CustomTextSize.small,
-                  textAlign: TextAlign.center,
+          if (Privileges.privilege == Privilege.admin)
+            SizedBox(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Text(
+                    "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
+                    style: CustomTextSize.small,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
-          ),*/
-          SizedBox(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.all(20),
-                child: Text(
-                  '„We serve.“',
-                  style: CustomTextSize.large,
-                  textAlign: TextAlign.center,
+          if (Privileges.privilege != Privilege.admin)
+            SizedBox(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Text(
+                    '„We serve.“',
+                    style: CustomTextSize.large,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.all(20),
-                child: Text(
-                  'Unter diesem Motto steht all unser Handeln, alle Projekte sind diesem großen Ziel verpflichtet, ob auf internationaler, nationaler oder lokaler Ebene.',
-                  style: CustomTextSize.small,
-                  textAlign: TextAlign.center,
+          if (Privileges.privilege != Privilege.admin)
+            SizedBox(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Text(
+                    'Unter diesem Motto steht all unser Handeln, alle Projekte sind diesem großen Ziel verpflichtet, ob auf internationaler, nationaler oder lokaler Ebene.',
+                    style: CustomTextSize.small,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
