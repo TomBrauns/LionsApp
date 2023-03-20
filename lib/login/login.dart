@@ -318,12 +318,11 @@ class _LoginPageState extends State<LoginPage> {
     if (_formkey.currentState!.validate()) {
       FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then(
         (cred) {
-          //if (!cred.user!.emailVerified) {
-          //TODO: Sollte eigentlich eingeschaltet sein - aber nervt beim developen
-          //ScaffoldMessenger.of(context).showSnackBar(
-          //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
-          //);
-          //} else {
+          if (!cred.user!.emailVerified) {
+          ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+          );
+          } else {
           checkRool().then(
             (_) {
               if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
@@ -343,7 +342,7 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
           );
-          //}
+          }
         },
       ).catchError(
         (error) {
