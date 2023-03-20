@@ -422,7 +422,12 @@ class Paymethodecancel extends StatelessWidget {
       Navigator.pushNamed(
         context,
         '/Donations/UserType/PayMethode',
-        arguments: {'Id': Id, 'amount': amount, 'sub': sub, 'Idtype': Idtype},
+        arguments: {
+          'Id': Id,
+          'amount': amount,
+          'sub': sub,
+          'Idtype': Idtype,
+        },
       );
     });
 
