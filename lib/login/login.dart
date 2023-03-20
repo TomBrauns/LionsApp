@@ -15,6 +15,7 @@ import 'package:lionsapp/Widgets/privileges.dart';
 
 class LoginPage extends StatefulWidget {
   final String? prefilledEmail;
+
   const LoginPage({super.key, this.prefilledEmail});
 
   @override
@@ -35,22 +36,26 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
   String? get Id {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['Id'];
   }
 
   String? get Idtype {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['Idtype'];
   }
 
   String? get sub {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['sub'];
   }
 
   double? get amount {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return args?['amount'];
   }
 
@@ -105,7 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Email',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -133,7 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(_isObscure3 ? Icons.visibility : Icons.visibility_off),
+                              icon: Icon(_isObscure3
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                               onPressed: () {
                                 setState(
                                   () {
@@ -146,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             hintText: 'Password',
                             enabled: true,
-                            contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 15.0),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 15.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10),
@@ -197,7 +206,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 60,
                         ),
                         MaterialButton(
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
@@ -206,7 +217,8 @@ class _LoginPageState extends State<LoginPage> {
                                 _isLoading = true;
                               },
                             );
-                            signIn(emailController.text, passwordController.text);
+                            signIn(
+                                emailController.text, passwordController.text);
                           },
                           child: const Text(
                             "Login",
@@ -221,11 +233,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         FutureBuilder(
-                          future: Authentication.initializeFirebase(context: context),
+                          future: Authentication.initializeFirebase(
+                              context: context),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return const Text('Error initializing Firebase');
-                            } else if (snapshot.connectionState == ConnectionState.done) {
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
                               return GoogleSignInButton();
                             }
                             return const CircularProgressIndicator(
@@ -238,11 +252,14 @@ class _LoginPageState extends State<LoginPage> {
                         // Apple testing
                         if (defaultTargetPlatform == TargetPlatform.iOS)
                           FutureBuilder(
-                            future: Authentication.initializeFirebase(context: context),
+                            future: Authentication.initializeFirebase(
+                                context: context),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
-                                return const Text('Error initializing Firebase');
-                              } else if (snapshot.connectionState == ConnectionState.done) {
+                                return const Text(
+                                    'Error initializing Firebase');
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.done) {
                                 return AppleSignInButton();
                               }
                               return const CircularProgressIndicator(
@@ -290,7 +307,8 @@ class _LoginPageState extends State<LoginPage> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -316,38 +334,46 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
     if (_formkey.currentState!.validate()) {
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then(
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then(
         (cred) {
           if (!cred.user!.emailVerified) {
-          ScaffoldMessenger.of(context).showSnackBar(
-           const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
-          );
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content:
+                      Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
+            );
           } else {
-          checkRool().then(
-            (_) {
-              if (ModalRoute.of(context)!.settings.name == '/Donations/UserType/Login') {
-                Navigator.pushNamed(context, '/Donations/UserType/PayMethode', arguments: {
-                  'Id': Id,
-                  'amount': amount,
-                  'sub': sub,
-                  'Idtype': Idtype,
-                });
-              } else {
-                Navigator.pushNamed(context, '/Donations');
-                setState(
-                  () {
-                    _isLoading = false;
-                  },
-                );
-              }
-            },
-          );
+            checkRool().then(
+              (_) {
+                if (ModalRoute.of(context)!.settings.name ==
+                    '/Donations/UserType/Login') {
+                  Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
+                      arguments: {
+                        'Id': Id,
+                        'amount': amount,
+                        'sub': sub,
+                        'Idtype': Idtype,
+                      });
+                } else {
+                  Navigator.pushNamed(context, '/Donations');
+                  setState(
+                    () {
+                      _isLoading = false;
+                    },
+                  );
+                }
+              },
+            );
           }
         },
       ).catchError(
         (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Die E-Mail oder das Passwort ist falsch.'), backgroundColor: Colors.redAccent),
+            const SnackBar(
+                content: Text('Die E-Mail oder das Passwort ist falsch.'),
+                backgroundColor: Colors.redAccent),
           );
           setState(
             () {
@@ -363,7 +389,8 @@ class _LoginPageState extends State<LoginPage> {
 Future<void> checkRool() async {
   User? user = FirebaseAuth.instance.currentUser;
 
-  DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+  DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
   String rolle = documentSnapshot.get('rool').toString();
 
   switch (rolle) {
