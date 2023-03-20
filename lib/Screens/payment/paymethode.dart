@@ -151,45 +151,46 @@ class _PaymethodeState extends State<Paymethode> {
                         Text('$amount€ Spende für $eventName',
                             style: CustomTextSize.large),
                         SizedBox(height: 10),
-                        Container(
-                          padding: const EdgeInsets.all(20.0),
-                          margin: const EdgeInsets.symmetric(horizontal: 90),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 255, 196, 57),
-                                elevation: 0,
-                                padding: const EdgeInsets.all(10),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                )),
-                            onPressed: () async {
-                              if (GetPlatform.currentPlatform !=
-                                  GetPlatform.web) {
-                                paypalOnPressApp(amount, Id, context, Endpoint,
-                                    sub, Idtype, eventName);
-                              } else if (GetPlatform.currentPlatform ==
-                                  GetPlatform.web) {
-                                paypalOnPressWeb(amount, Id, context, baseUrl,
-                                    Endpoint, sub, Idtype, eventName);
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.paypal,
-                                  color: Colors.blue,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  "Paypal",
-                                  style: CustomTextSize.large,
-                                ),
-                              ],
+                        if (GetPlatform.currentPlatform == GetPlatform.web)
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            margin: const EdgeInsets.symmetric(horizontal: 90),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 255, 196, 57),
+                                  elevation: 0,
+                                  padding: const EdgeInsets.all(10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  )),
+                              onPressed: () async {
+                                if (GetPlatform.currentPlatform !=
+                                    GetPlatform.web) {
+                                  paypalOnPressApp(amount, Id, context,
+                                      Endpoint, sub, Idtype, eventName);
+                                } else if (GetPlatform.currentPlatform ==
+                                    GetPlatform.web) {
+                                  paypalOnPressWeb(amount, Id, context, baseUrl,
+                                      Endpoint, sub, Idtype, eventName);
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.paypal,
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Paypal",
+                                    style: CustomTextSize.large,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                         Container(
                           padding: const EdgeInsets.all(20.0),
                           margin: const EdgeInsets.symmetric(horizontal: 90),
