@@ -377,7 +377,7 @@ class _ReceiptState extends State<Receipt> {
                   Icons.download,
                   size: 24.0,
                 ),
-                label: Text('PDF herunterladen', style: CustomTextSize.large),
+                label: Text('PDF herunterladen', style: CustomTextSize.medium),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorUtils.primaryColor,
                   elevation: 0,
@@ -399,7 +399,7 @@ class _ReceiptState extends State<Receipt> {
                   Icons.cloud_upload,
                   size: 24.0,
                 ),
-                label: Text('Cloud hochladen', style: CustomTextSize.large),
+                label: Text('Cloud hochladen', style: CustomTextSize.medium),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorUtils.primaryColor,
                   elevation: 0,
@@ -419,7 +419,7 @@ class _ReceiptState extends State<Receipt> {
               margin: const EdgeInsets.all(40),
               height: 50,
               child: Text(
-                  "Als angemeldeter Nutzer erhalten Sie automatisch eine Quittung per Mail",
+                  "Als angemeldeter Nutzer erhalten Sie automatisch Ihre Quittung per Mail",
                   style: CustomTextSize.small),
             ),
           ],
