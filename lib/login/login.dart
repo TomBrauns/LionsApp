@@ -327,7 +327,8 @@ class _LoginPageState extends State<LoginPage> {
     String? deviceToken = "";
 
     if (!kIsWeb) {
-      ref.doc(FirebaseAuth.instance.currentUser!.uid).update(
+      //TODO: check null value check
+      ref.doc(FirebaseAuth.instance.currentUser?.uid).update(
         {
           'device': deviceToken,
         },
@@ -344,28 +345,28 @@ class _LoginPageState extends State<LoginPage> {
           //  const SnackBar(content: Text('Bitte bestätigen sie zu erst ihre Email Adresse')),
           //);
           //} else {
-            checkRool().then(
-              (_) {
-                if (ModalRoute.of(context)!.settings.name ==
-                    '/Donations/UserType/Login') {
-                  Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
-                      arguments: {
-                        'Id': Id,
-                        'amount': amount,
-                        'sub': sub,
-                        'Idtype': Idtype,
-                      });
-                } else {
-                  Navigator.pushNamed(context, '/Donations');
-                  setState(
-                    () {
-                      _isLoading = false;
-                    },
-                  );
-                }
-              },
-            );
-         // }
+          checkRool().then(
+            (_) {
+              if (ModalRoute.of(context)!.settings.name ==
+                  '/Donations/UserType/Login') {
+                Navigator.pushNamed(context, '/Donations/UserType/PayMethode',
+                    arguments: {
+                      'Id': Id,
+                      'amount': amount,
+                      'sub': sub,
+                      'Idtype': Idtype,
+                    });
+              } else {
+                Navigator.pushNamed(context, '/Donations');
+                setState(
+                  () {
+                    _isLoading = false;
+                  },
+                );
+              }
+            },
+          );
+          // }
         },
       ).catchError(
         (error) {
