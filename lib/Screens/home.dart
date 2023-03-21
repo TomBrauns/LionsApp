@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             width: 300,
             child: TextButton(
                 onPressed: () {
-                  launchUrl(Uri.parse('https://lions-club-kl.de/'));
+                  launchUrl(Uri.parse('https://kaiserslautern-lutra.lions.de/'));
                 },
                 child: Image.asset("assets/appicon/lions.png",
                     fit: BoxFit.contain)),
