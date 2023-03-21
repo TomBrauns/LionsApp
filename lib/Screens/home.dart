@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   margin: EdgeInsets.all(20),
                   child: Text(
-                    "Moin Moin un Herzlich Willkamen op de Homepage vun de Lions Club Luthras in Kaiserslautern! Wi sünd en Gemeinschaft vun Lüüd, de sik för de Gemeenschap un de Minschen in unsere Regioun insetten. Wi freut uns, dat du uns hier besöökst un wünscht di veel Spaß un Informatiounen op disse Siet. Meld di gern, wenn du Frogen hest oder uns gern ünnerstütten wüllt. Wi wünscht di en goden Dag!",
+                    "Herzlich Willkommen zur Spenden-App des Lions Club Kaiserslautern-Lutra! Wir sind begeistert, Ihnen diese innovative Möglichkeit zur direkten Unterstützung unserer gemeinnützigen Arbeit vorstellen zu können.\n Durch die Nutzung unserer App können Sie schnell und sicher Spenden für unsere wohltätigen Projekte und Aktivitäten tätigen. Jeder Betrag, den Sie spenden, hilft uns dabei, positive Veränderungen in der Welt um uns herum zu bewirken, sei es durch die Unterstützung von Bildungsprogrammen, die Förderung der Gesundheit oder die Unterstützung sozialer Gerechtigkeit.Wir möchten uns bei Ihnen für Ihr Interesse und Ihre Unterstützung bedanken und hoffen, dass diese App es für Sie einfacher macht, uns bei unseren Bemühungen zur Verbesserung der Lebensqualität unserer Gemeinschaft zu unterstützen. Vielen Dank für Ihre Großzügigkeit und Ihr Vertrauen in unsere Arbeit.",
                     style: CustomTextSize.small,
                     textAlign: TextAlign.center,
                   ),
