@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lionsapp/Widgets/appbar.dart';
+import 'package:lionsapp/Widgets/burgermenu.dart';
 import 'package:lionsapp/util/textSize.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lionsapp/Widgets/privileges.dart';
@@ -18,6 +19,7 @@ class _AdminHistoryState extends State<AdminHistory> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      drawer:const BurgerMenu(),
       appBar: MyAppBar(title: "Gesamter Spendenverlauf"),
       body: HistoryList(),
     );

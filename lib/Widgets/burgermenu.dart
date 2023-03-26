@@ -311,7 +311,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
           Privileges.privilege == Privilege.admin
               ? ListTile(
                   leading: const Icon(Icons.manage_accounts),
-                  title: Text('Admin History', style: CustomTextSize.small),
+                  title: Text('Spendenverlauf', style: CustomTextSize.small),
                   selected: isMenuSelected(12),
                   selectedTileColor: selectedColor,
                   onTap: () {
@@ -321,7 +321,7 @@ class _BurgerMenuState extends State<BurgerMenu> {
                     // Update State of App
                     Navigator.pop(context);
                     // Push to Screen
-                    Navigator.pushNamed(context, '/AdminHistory');
+                    Navigator.pushNamed(context, '/Spendenverlauf');
                   },
                 )
               : Container(),
