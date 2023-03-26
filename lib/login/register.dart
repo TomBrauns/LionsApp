@@ -50,6 +50,7 @@ class _RegisterState extends State<Register> {
 
   bool _isObscure = true;
   bool _isObscure2 = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -625,17 +626,8 @@ class _RegisterState extends State<Register> {
       deviceToken = await FirebaseMessaging.instance.getToken();
     }
 
-    final String customerId = await createCustomer(
-        Endpoint,
-        cityname,
-        "DE",
-        streetname,
-        streetnumber,
-        postalcode,
-        email,
-        firstname,
-        lastname
-    );
+    final String customerId = await createCustomer(Endpoint, cityname, "DE",
+        streetname, streetnumber, postalcode, email, firstname, lastname);
 
     return ref.doc(user!.uid).set(
       {
