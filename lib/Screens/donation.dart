@@ -351,24 +351,28 @@ class _DonationsState extends State<Donations> {
                                                 child: Text("Spenden",
                                                     style: CustomTextSize
                                                         .large)))),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 16),
+                                          if (sponsor != null && sponsor.isNotEmpty)
+                                            Text("Gesponsort von $sponsor", style: CustomTextSize.medium),
+                                          SizedBox(height: 8),
+                                          if (sponsorImgUrl != null && sponsorImgUrl.isNotEmpty)
+                                            Image.network(
+
+                                              sponsorImgUrl,
+                                              height: 128,
+                                              width: double.infinity,
+                                              fit: BoxFit.contain,
+                                            ),
+                                        ],
+                                      ),
+                                    )
+
                                   ]),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      if (sponsor != null && sponsor.isNotEmpty)
-                                        const SizedBox(height: 64),
-                                      if (sponsor != null && sponsor.isNotEmpty)
-                                        Text("Gesponsort von $sponsor",
-                                            style: CustomTextSize.medium),
-                                      if (sponsorImgUrl != null &&
-                                          sponsorImgUrl.isNotEmpty)
-                                        Image.network(sponsorImgUrl,
-                                            height: 128,
-                                            width: double.infinity,
-                                            fit: BoxFit.contain)
-                                    ],
-                                  )
                                 ],
                               )))));
             }));
