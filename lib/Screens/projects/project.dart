@@ -103,6 +103,11 @@ class _ProjectState extends State<Project> {
             appBar: AppBar(
               title: Text(title),
             ),
+            //actionbutton position for non super users
+            floatingActionButtonLocation:
+                Privileges.privilege == Privilege.admin
+                    ? FloatingActionButtonLocation.endFloat
+                    : FloatingActionButtonLocation.centerDocked,
             floatingActionButton: showEditButton
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -119,8 +124,19 @@ class _ProjectState extends State<Project> {
                           backgroundColor: ColorUtils.secondaryColor,
                           child: const Icon(Icons.edit),
                         ),
+                        const SizedBox(height: 16),
+                        FloatingActionButton.extended(
+                          onPressed: _handleDonation,
+                          backgroundColor: ColorUtils.secondaryColor,
+                          label: Text("Spenden", style: CustomTextSize.small),
+                        )
                       ])
-                : null,
+                //actionbutton position for normal users
+                : FloatingActionButton.extended(
+                    onPressed: _handleDonation,
+                    backgroundColor: ColorUtils.secondaryColor,
+                    label: Text("Spenden", style: CustomTextSize.small),
+                  ),
             body: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,16 +156,6 @@ class _ProjectState extends State<Project> {
                           Text("Unsere Unterstützung", style: _headlineStyle),
                           const SizedBox(height: 4),
                           Text(support, style: _textStyle),
-                          const SizedBox(height: 32),
-                          Center(
-                              child: ElevatedButton(
-                            onPressed: _handleDonation,
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6.0, horizontal: 4.0),
-                                child: Text("Spenden",
-                                    style: CustomTextSize.medium)),
-                          )),
                           const SizedBox(height: 32),
                         ],
                       ))
