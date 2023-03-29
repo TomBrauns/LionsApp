@@ -24,7 +24,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   // Style
   final TextStyle _headlineStyle =
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = CustomTextSize.small;
+  // Textsize was changed for Presentaion
+  // TODO: change Textsize if too big
+  final TextStyle _textStyle = CustomTextSize.medium;
 
   void _handleDonation() {
     Navigator.push(
@@ -234,7 +236,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             Text("Was machen wir?", style: _headlineStyle),
                             const SizedBox(height: 4),
                             Text(description, style: _textStyle),
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 50),
                           ],
                         ))
                   ])));

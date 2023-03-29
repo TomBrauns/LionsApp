@@ -20,7 +20,7 @@ class Project extends StatefulWidget {
 class _ProjectState extends State<Project> {
   final TextStyle _headlineStyle =
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
-  final TextStyle _textStyle = CustomTextSize.small;
+  final TextStyle _textStyle = CustomTextSize.medium;
 
   void _handleEdit() {
     Navigator.push(
@@ -156,7 +156,7 @@ class _ProjectState extends State<Project> {
                           Text("Unsere Unterstützung", style: _headlineStyle),
                           const SizedBox(height: 4),
                           Text(support, style: _textStyle),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 50),
                         ],
                       ))
                 ])));
