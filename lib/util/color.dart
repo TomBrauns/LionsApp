@@ -7,7 +7,8 @@ class ColorUtils {
   static const primaryColor = Color(0xFF00338D);
   static const secondaryColor = Color(0xFFEBB700);
   static final primarySwatch = _createMaterialColor(primaryColor);
-  static final secondaryBlue =  Color(0xFF94C7FE);
+  static final secondaryBlue = Color(0xFF94C7FE);
+  static final primaryback = Color(0xFFEBF5FA);
 
   // from: https://stackoverflow.com/questions/50549539/how-to-add-custom-color-to-flutter
   static MaterialColor _createMaterialColor(Color color) {

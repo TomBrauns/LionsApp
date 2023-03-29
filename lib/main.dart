@@ -50,9 +50,9 @@ class _MyAppState extends State<MyApp> {
           child: child!),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: ColorUtils.primaryColor,
-        primarySwatch: ColorUtils.primarySwatch,
-      ),
+          primaryColor: ColorUtils.primaryColor,
+          primarySwatch: ColorUtils.primarySwatch,
+          scaffoldBackgroundColor: ColorUtils.primaryback),
       initialRoute: '/',
       // Route mit Parameter
       routes: routes,
