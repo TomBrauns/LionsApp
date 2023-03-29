@@ -182,7 +182,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     size: 16,
                                     color: Colors.black,
                                   ),
-                                  Text("Datum", style: CustomTextSize.medium)
+                                  Text("  Datum", style: CustomTextSize.medium)
                                 ]),
                                 subtitle: Text(date,
                                     maxLines: 1, style: CustomTextSize.medium),
@@ -196,7 +196,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     size: 16,
                                     color: Colors.black,
                                   ),
-                                  Text("Ort", style: CustomTextSize.medium)
+                                  Text("  Ort", style: CustomTextSize.medium)
                                 ]),
                                 subtitle: Text(location,
                                     maxLines: 1, style: CustomTextSize.medium),
@@ -212,7 +212,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     size: 16,
                                     color: Colors.black,
                                   ),
-                                  Text("Projekt", style: CustomTextSize.medium)
+                                  Text("  Projekt",
+                                      style: CustomTextSize.medium)
                                 ]),
                                 subtitle: Text(project,
                                     maxLines: 1, style: CustomTextSize.medium),
@@ -226,7 +227,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     size: 16,
                                     color: Colors.black,
                                   ),
-                                  Text("Ziel", style: CustomTextSize.medium)
+                                  Text("  Ziel", style: CustomTextSize.medium)
                                 ]),
                                 subtitle: Text(target,
                                     maxLines: 1, style: CustomTextSize.medium),
