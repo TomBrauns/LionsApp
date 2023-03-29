@@ -150,11 +150,11 @@ class _ProjectState extends State<Project> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Hintergrund", style: _headlineStyle),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 10),
                           Text(background, style: _textStyle),
                           const SizedBox(height: 16),
                           Text("Unsere Unterstützung", style: _headlineStyle),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 10),
                           Text(support, style: _textStyle),
                           const SizedBox(height: 50),
                         ],

@@ -235,7 +235,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             ]),
                             const SizedBox(height: 16),
                             Text("Was machen wir?", style: _headlineStyle),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 10),
                             Text(description, style: _textStyle),
                             const SizedBox(height: 50),
                           ],
