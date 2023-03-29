@@ -126,7 +126,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                   Privileges.privilege == Privilege.admin ||
                           Privileges.privilege == Privilege.member
                       ? FloatingActionButtonLocation.endFloat
-                      : FloatingActionButtonLocation.centerDocked,
+                      : FloatingActionButtonLocation.centerFloat,
               floatingActionButton: showEditButton
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.end,

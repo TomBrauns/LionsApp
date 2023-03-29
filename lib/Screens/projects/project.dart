@@ -107,7 +107,7 @@ class _ProjectState extends State<Project> {
             floatingActionButtonLocation:
                 Privileges.privilege == Privilege.admin
                     ? FloatingActionButtonLocation.endFloat
-                    : FloatingActionButtonLocation.centerDocked,
+                    : FloatingActionButtonLocation.centerFloat,
             floatingActionButton: showEditButton
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.end,
